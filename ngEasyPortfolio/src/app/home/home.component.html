@@ -1,0 +1,72 @@
+<div class=" content_layout home">
+    <section class=" container home-content row mx-auto">
+        <div class=" home-content-create col-lg-7 pb-2"> 
+            <div>       
+                <p class="create">Créez votre portfolio en ligne</p>
+                <h1><img src="./assets/resources/easyPfl.svg" alt="logo"></h1>
+                <h3>Votre projet achevé en quelques clics.</h3>
+                <p>Créez votre presentation personnelle, partagez-la avec votre équipe et mettez votre portfolio en ligne très facilement.</p>
+            </div> 
+            <a 
+                routerLink="/user"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}"
+                type="button" 
+                class="consultation btn btn-primary btn-lg mx-auto mt-2">           
+                Démarrez la version gratuite
+            </a>
+            <!-- <a href="?action=controller_portfolios/insert">Démarrez la version gratuite</a> -->
+        </div>
+        <div class="home-content-consult col-lg-5 pb2">
+            <div class="home-content-consult-div">
+                <img src="./assets/resources/img1.jpg" alt="developpeur d'applications, dessin">
+            </div>
+            <a 
+                href="https://www.easyportfolio.hugo-machado.com/public/index.php?action=controller_portfolios/online&p_id=21"
+                type="button" 
+                class="consultation btn btn-outline-primary btn-lg mx-auto mt-2">
+                Consultez quelques exemples
+            </a>
+                <!-- <a href="https://www.easyportfolio.hugo-machado.com/public/index.php?action=controller_portfolios/online&p_id=21"
+                type="button" 
+                class="consultation btn btn-lg">
+                Consultez quelques exemples
+            </a> -->
+        </div>
+    </section><!-- end .home -->
+
+    <section class="try">
+        <div class="try-layout container">
+            <div class="try-layout-txt">
+                <h1><img src="./assets/resources/easyPfl.svg"  alt="logo"></h1>
+                <h3>Decouvrez easyPortfolio et gagnez en rapidité et visibilité.</h3>
+                <p>Accédez à toutes les fonctionnalités avancées gratuitement.<br>
+                Quid ait Aristoteles reliquique Platonis alumni? At certe gravius. Sed nimis multa. Is es profecto tu. 
+                </p>                
+            </div><!-- end .try_txt -->
+            <div class="try-layout-picture">
+                <div class="try-layout-picture-div">
+                    <img src="./assets/resources/ordinateur.png"  alt="Photo d'ordinateur">
+                </div>
+                <a  routerLink="/user"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: true}">
+                    Essayez gratuitement
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimony">
+        <h3>Ceux qui en parlent le mieux</h3>
+        <figure>
+            <img src="./assets/resources/temoignage2.jpg"  alt="Femme devant ordinateur">
+        </figure>
+        <article>
+            <h4>Catherine M.</h4>
+            <p class="testimony_p1">Etudiante à Sciences Po - Aix-en-Provence</p>
+            <p>Aliter enim nosmet ipsos nosse non possumus. Utram tandem linguam nescio? Quo studio Aristophanem putamus aetatem in litteris duxisse? Immo videri fortasse.</p>
+        </article>
+    </section>
+
+</div><!-- end .content_layout -->

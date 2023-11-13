@@ -1,0 +1,30 @@
+
+<div class="rapp-skillow">
+    <div class="col-sm-6 mx-auto">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{portfolio.title | uppercase }}</h5>
+          <p class="card-text">{{portfolio.name | titlecase }}</p>
+          <!-- <p class="card-text">{{portfolio.city | titlecase }}</p> -->
+          <small>{{portfolio.id}}</small>
+          <div class="skills">
+            <!-- <app-skill *ngFor="let skill of skills" [skill]="skills"></app-skill> -->
+          </div>
+  
+          <button class="btn btn-info"
+                    (click)="onEditClick($event)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editModal">
+                Modifier
+          </button>
+          <button class="btn btn-warning"
+                    (click)="onDeleteClick($event)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#deleteModal">
+                Supprimer
+            </button>
+        </div>
+      </div>
+    </div>
+
+</div>

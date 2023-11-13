@@ -1,0 +1,38 @@
+section{
+    min-height: 90vh;
+    padding: 5rem 0;
+}
+
+.home{
+
+    &-content{
+        &-create,&-consult{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    }
+    &-content-consult-div{
+        width: 100%;
+        img{
+            width: 100%;
+        }
+    }
+    a{
+        display: block;
+        width: 20rem;
+    }
+}
+
+.try{
+    background: #fe8e78;
+    background: linear-gradient(180deg, #fe8e78 0%, #fe6c58 43%, #f91305 100%);
+    &-layout-picture-div{
+        width: 100%;
+        img{
+            width: 100%;
+        }
+    }
+
+
+}
