@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Skill } from '../../model/skill/skill.interface';
+import { Skill } from './skill.interface';
 
 @Component({
   selector: 'app-skill',
@@ -8,11 +8,7 @@ import { Skill } from '../../model/skill/skill.interface';
 })
 export class SkillComponent {
 
-
   @Input() skill!:Skill;
-
-
-
 
 
 }

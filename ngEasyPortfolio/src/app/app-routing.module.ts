@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: "user/:id", component: UserComponent},
   { path: "connection", component: ConnectionComponent},
 
-  { path: "portfolio", loadChildren:()=>import("./portfolio/portfolio.module").then(m=>m.PortfolioModule)},
+  { path: "portfolios", loadChildren:()=>import("./portfolio/portfolio.module").then(m=>m.PortfolioModule)},
 ];
 
 @NgModule({

@@ -3,6 +3,7 @@ import { Portfolio } from '../../model/portfolio/portfolio.interface';
 import { PortfolioService } from '../../services/portfolio.service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/user/user.interface';
+import { LoginUser } from 'src/app/login/login-user.interface';
 
 @Component({
   selector: 'app-portfolio-list',
@@ -20,29 +21,35 @@ export class PortfolioListComponent {
                 email: "",
                 password: ""
               };
+  loginUser: LoginUser ={
+                id:0,
+                email:"",
+                token: ""
+              } ;
 
   constructor( private portfolioService: PortfolioService,
               private route: ActivatedRoute)// *** a enlever + tard ***
-              {}
+              {};
 
   ngOnInit(): void {
-    let anything: any = sessionStorage.getItem("currentUser");
-    console.log(anything);
+    let storage: any = sessionStorage.getItem("currentUser");
     
     // // je dois passer par une variable intermediaire pour pouvoir recup currentUser
-    // if( anything != null){
-    //   this.currentUser = JSON.parse(anything);
-    this.getPortfolios(this.table);
-    // }
+    if( storage != null){
+      // this.loginUser = JSON.parse(storage);
+      this.getPortfolios(this.table);
+    }
 
   }
 
-  getPortfolios(table: string){
+  public getPortfolios = (table: string) => {    
     this.portfolioService.getAll(table)
     .subscribe({
-      next: (response: Portfolio[]) => { this.portfolios=response },
+      next: (response: Portfolio[]) => { 
+        this.portfolios=response 
+      },
       error: (err: Error)=> {
-              alert("Authentication failed, error getting portfolios")
+              alert("Error getting portfolios")
             },
       complete: ()=> console.log(this.portfolios)
     })

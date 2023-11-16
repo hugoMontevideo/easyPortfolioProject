@@ -8,21 +8,25 @@
           <!-- <p class="card-text">{{portfolio.city | titlecase }}</p> -->
           <small>{{portfolio.id}}</small>
           <div class="skills">
-            <!-- <app-skill *ngFor="let skill of skills" [skill]="skills"></app-skill> -->
+            <app-skill *ngFor="let skill of portfolio.skills" [skill]="skill"></app-skill> 
           </div>
-  
-          <button class="btn btn-info"
-                    (click)="onEditClick($event)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editModal">
-                Modifier
-          </button>
-          <button class="btn btn-warning"
+
+          <div class="actions">
+            <!-- <button class="btn btn-info"
+                      (click)="onEditClick($event)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editModal">
+                  Modifier
+            </button>
+            <button class="btn btn-warning"
                     (click)="onDeleteClick($event)"
                     data-bs-toggle="modal"
                     data-bs-target="#deleteModal">
                 Supprimer
-            </button>
+            </button> -->
+
+          </div>
+  
         </div>
       </div>
     </div>

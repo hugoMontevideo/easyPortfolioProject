@@ -12,18 +12,25 @@
           <p class="card-text">{{portfolio.name | titlecase }}</p>
           <!-- <p class="card-text">{{portfolio.city | titlecase }}</p> -->
           <small>{{portfolio.id}}</small>
-          <!-- <button class="btn btn-info"
-                    (click)="onEditClick($event)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editModal">
-                Modifier
-          </button> -->
-          <!-- <button class="btn btn-warning"
-                    (click)="onDeleteClick($event)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteModal">
-                Supprimer
+          <div class="actions">
+            <!-- <button class="btn btn-info"
+                      (click)="onEditClick($event)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editModal">
+                  Modifier
             </button> -->
+            <!-- <button class="btn btn-warning"
+                      (click)="onDeleteClick($event)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteModal">
+                  Supprimer
+              </button> -->
+              <a [href]="'/portfolios/' + portfolio.id"
+                 class="btn btn-warning">
+                Détail
+              </a>
+
+          </div>
         </div>
       </div>
     </div>

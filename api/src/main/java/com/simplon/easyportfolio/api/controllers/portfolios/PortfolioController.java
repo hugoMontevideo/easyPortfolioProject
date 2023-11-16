@@ -44,7 +44,7 @@ public class PortfolioController {
         }
     }
 
-    @GetMapping     //  FIND ALL
+    @GetMapping     //  GET ALL
     public ArrayList<PortfolioGetDTO> findAll(){
         ArrayList<PortfolioGetDTO> portfolioGetDTOs = new ArrayList<>();
         ArrayList<PortfolioServiceResponseModel> portfolioServiceModels = portfolioService.findAll();

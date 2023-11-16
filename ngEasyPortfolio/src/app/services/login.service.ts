@@ -12,7 +12,7 @@ import { LoginUser } from '../login/login-user.interface';
 export class LoginService {
 
   ENV_BASE :string = environment.baseUrl;
-  currentUser: LoginUser ={
+  loginUser: LoginUser ={
     id:0,
     email:"",
     token: ""
@@ -24,10 +24,10 @@ export class LoginService {
     return this.httpClient.post<any>(`${this.ENV_BASE}/auth/authorize`, loginView, {responseType: "json"})
     .pipe(map(data => {
       if(data){
-        this.currentUser.id = data.user.id,
-        this.currentUser.email = data.user.login ;
-        this.currentUser.token = data.token;
-        sessionStorage.setItem('currentUser', JSON.stringify(this.currentUser)); 
+        this.loginUser.id = data.user.id,
+        this.loginUser.email = data.user.login ;
+        this.loginUser.token = data.token;
+        sessionStorage.setItem('currentUser', JSON.stringify(this.loginUser)); 
         console.log(data);
       }
       return data ;
@@ -35,7 +35,7 @@ export class LoginService {
   }
 
   public logout(){
-    this.currentUser = {
+    this.loginUser = {
       id:0,
       email:"",
       token: ""

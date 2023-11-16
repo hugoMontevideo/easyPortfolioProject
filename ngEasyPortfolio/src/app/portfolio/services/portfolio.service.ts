@@ -2,8 +2,9 @@ import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "src/environments/environment";
-import { PortfolioDTO } from "../model/portfolio/portfolioDTO.interface";
+
 import { LoginUser } from "src/app/login/login-user.interface";
+import { Portfolio } from "../model/portfolio/portfolio.interface";
 
 @Injectable()
 
@@ -15,15 +16,31 @@ export class PortfolioService {
         token: ''
       } ;
 
-    constructor ( private http: HttpClient ) {}
-
+    constructor ( private http: HttpClient ) {};
 
     // get by id
-    public getPortfolioById(table:string, id:number): Observable<PortfolioDTO>{
-        return this.http.get<PortfolioDTO>(`${this.ENV_DEV}/${table}/${id}`, {responseType: "json"});
+    public getPortfolioById(table:string, id:number): Observable<Portfolio>{
+        let headers = new HttpHeaders();
+        let storage: any = sessionStorage.getItem("currentUser");
+        if( storage != null){
+            this.loginUser = JSON.parse(storage);
+            headers = headers.set("Authorization", "Bearer " + this.loginUser.token);   
+            console.log("headers ok");  
+        }
+        return this.http.get<Portfolio>(`${this.ENV_DEV}/${table}/${id}`, {headers:headers, responseType: "json"});
     }
 
-    
+
+    getAll( table: string): Observable<any> {
+        let headers1 = new HttpHeaders();
+        let storage: any = sessionStorage.getItem("currentUser");
+        if( storage != null){
+            this.loginUser = JSON.parse(storage);
+            headers1 = headers1.set("Authorization", "Bearer " + this.loginUser.token);    
+        }
+          
+        return this.http.get<any>(`${this.ENV_DEV}/${table}`, {headers:headers1, responseType: "json"});
+    }
 
     getData( table: string, id: number ): Observable<any> {
         // let currentUser = {token: ""};
@@ -31,31 +48,6 @@ export class PortfolioService {
         // headers = headers.set("Authorization", "Bearer ");
             
         return this.http.get<any>(`${this.ENV_DEV}/${table}`, {responseType: "json"} );
-    }
-
-    getAll( table: string): Observable<any> {
-        // let currentUser = {token: ""};
-        let headers = new HttpHeaders();
-        headers = headers.set("Authorization", "Bearer ");
-        let anything: any = sessionStorage.getItem("currentUser");
-        
-        if( anything != null){
-            this.loginUser = JSON.parse(anything);
-            headers = headers.set("Authorization", "Bearer" + this.loginUser.token);
-            console.log(this.loginUser.token);
-          
-        }
-            
-        return this.http.get<any>(`${this.ENV_DEV}/${table}`, {headers:headers, responseType: "json"});
-        // .pipe(map(data => {
-        //     if(user){
-        //       console.log(user);
-              
-        //     //   sessionStorage.setItem('currentUser', JSON.stringify(user)); 
-              
-        //     }
-        //     return data ;
-        //   }));
     }
 
     
