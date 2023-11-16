@@ -23,29 +23,29 @@
             </a>
           </li>
 
-          <li class="nav-item" *ngIf="loginService.currentUserEmail != '' ">
+          <!-- <li class="nav-item" *ngIf="loginService.currentUserEmail != '' "> -->
             <a class="nav-link" routerLink="/portfolio"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact:true}">Mes Portfolios
             </a>
-          </li>
+          <!-- </li> -->
 
-          <li class="nav-item" *ngIf="loginService.currentUserEmail != '' ">
+          <!-- <li class="nav-item" *ngIf="loginService.currentUserEmail != '' "> -->
             <a class="nav-link" routerLink="/user"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact:true}"
                 >Liste de users
             </a>
-          </li>
+          <!-- </li> -->
 
-          <li class="nav-item" *ngIf="loginService.currentUserEmail != '' ">
+          <!-- <li class="nav-item" *ngIf="loginService.currentUserEmail != '' "> -->
             <a class="nav-link" routerLink="/user/5"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact:true}"
                 >
                 Mon Profil
             </a><!--[routerLinkActiveOptions]="{exact:true}"-->
-          </li>
+          <!-- </li> -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Dropdown
@@ -57,7 +57,7 @@
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </li>
-          <li class="nav-item" *ngIf="loginService.currentUserEmail != '' ">
+          <!-- <li class="nav-item" *ngIf="loginService.currentUserEmail != '' ">
             <a class="nav-link" >{{ loginService.currentUserEmail }}</a>
           </li>
           <li class="nav-item" *ngIf="loginService.currentUserEmail != '' ">
@@ -65,7 +65,7 @@
           </li>
           <li class="nav-item" *ngIf="loginService.currentUserEmail == '' ">
             <a class="btn btn-primary" routerLink="login" >Connexion</a>
-          </li>
+          </li> -->
         </ul>
 
 

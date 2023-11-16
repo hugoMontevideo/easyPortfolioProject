@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { Skill } from '../../model/skill/skill.interface';
-import { User } from 'src/app/utils/models/user.interface';
+import { User } from 'src/app/user/user.interface';
 import { PortfolioService } from '../../services/portfolio.service';
 
 @Component({

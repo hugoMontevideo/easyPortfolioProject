@@ -31,7 +31,7 @@ public class SecurityController {
     public ResponseEntity<AuthResponseDto> authorize(@RequestBody AuthRequestDto requestDto) throws UnauthorizedException {
         Authentication authentication = null;
         try {
-            System.out.println(requestDto);
+            System.out.println("hello");
             authentication = userService.authenticate(requestDto.getUsername(),
                     requestDto.getPassword());
             SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -22,6 +22,9 @@ public class SkillRepositoryModel {
     @Column(name = "description")
     private String description;
 
+    //@OneToMany(mappedBy = "skill", orphanRemoval = true)
+    //private List<DocumentSkillRepositoryModel> skills = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
     private PortfolioRepositoryModel portfolio;

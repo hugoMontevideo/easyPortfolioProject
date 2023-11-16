@@ -1,4 +1,5 @@
 export const environment = {
-    apiUrl: 'http://localhost/easyportfolio',
-    apiImg: ''
+    baseUrl: `http://localhost:80`,
+    apiUrl: 'http://localhost:80/api',
+    apiImg: 'http://localhost:80/upload' //*** have to confirm this ***
 }
