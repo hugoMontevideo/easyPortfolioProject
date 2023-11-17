@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Skill } from "../portfolio/component/skill/skill.interface";
 
 
 @Injectable({

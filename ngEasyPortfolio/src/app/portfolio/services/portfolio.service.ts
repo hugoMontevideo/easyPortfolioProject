@@ -20,26 +20,19 @@ export class PortfolioService {
 
     // get by id
     public getPortfolioById(table:string, id:number): Observable<Portfolio>{
-        let headers = new HttpHeaders();
-        let storage: any = sessionStorage.getItem("currentUser");
-        if( storage != null){
-            this.loginUser = JSON.parse(storage);
-            headers = headers.set("Authorization", "Bearer " + this.loginUser.token);   
-            console.log("headers ok");  
-        }
-        return this.http.get<Portfolio>(`${this.ENV_DEV}/${table}/${id}`, {headers:headers, responseType: "json"});
+        // let headers = new HttpHeaders();
+        // let storage: any = sessionStorage.getItem("currentUser");
+        // if( storage != null){
+        //     this.loginUser = JSON.parse(storage);
+        //     headers = headers.set("Authorization", "Bearer " + this.loginUser.token);   
+        //     console.log("headers ok");  
+        // }
+        return this.http.get<Portfolio>(`${this.ENV_DEV}/${table}/${id}`);
     }
 
 
     getAll( table: string): Observable<any> {
-        let headers1 = new HttpHeaders();
-        let storage: any = sessionStorage.getItem("currentUser");
-        if( storage != null){
-            this.loginUser = JSON.parse(storage);
-            headers1 = headers1.set("Authorization", "Bearer " + this.loginUser.token);    
-        }
-          
-        return this.http.get<any>(`${this.ENV_DEV}/${table}`, {headers:headers1, responseType: "json"});
+        return this.http.get<any>(`${this.ENV_DEV}/${table}`, { responseType: "json"});
     }
 
     getData( table: string, id: number ): Observable<any> {
