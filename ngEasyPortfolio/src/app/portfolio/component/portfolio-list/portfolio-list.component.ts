@@ -22,9 +22,9 @@ export class PortfolioListComponent {
                 password: ""
               };
   loginUser: LoginUser ={
-                id:0,
                 email:"",
-                token: ""
+                token: "",
+                conButton:"Déconnexion"
               } ;
 
   constructor( private portfolioService: PortfolioService,

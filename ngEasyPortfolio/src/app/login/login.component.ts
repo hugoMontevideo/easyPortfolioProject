@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
-import { LoginView } from './login-view.interface';
+import { LoginView } from './login-email-pwd.interface';
 import { LoginUser } from './login-user.interface';
 
 @Component({

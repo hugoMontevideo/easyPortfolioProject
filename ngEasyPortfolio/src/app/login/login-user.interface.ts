@@ -1,5 +1,5 @@
 export interface LoginUser{
-    id: number,
     email: string,
-    token: string
+    token: string,
+    conButton: string
 }

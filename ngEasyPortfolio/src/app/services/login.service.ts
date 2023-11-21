@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { User } from '../user/user.interface';
 import { environment } from 'src/environments/environment';
-import { LoginView } from '../login/login-view.interface';
+import { LoginView } from '../login/login-email-pwd.interface';
 import { LoginUser } from '../login/login-user.interface';
+import { JWTTokenService } from './JWTToken.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +13,26 @@ import { LoginUser } from '../login/login-user.interface';
 export class LoginService {
 
   ENV_BASE :string = environment.baseUrl;
+  ENV_DEV : string = environment.apiUrl;
+  
   loginUser: LoginUser ={
-    id:0,
-    email:"",
-    token: ""
-  } ;
+                          id:0,
+                          email:"",
+                          token: ""
+                        } ;
+  
+  httpClient!: HttpClient; // de cette façon on évite l'interceptor (middleware)
 
-  constructor(private httpClient: HttpClient) { };
+  constructor(
+  
+      private route : Router,
+      private httpBackend: HttpBackend
+      ) { };
 
   public login( loginView : LoginView ): Observable<any> {
+    // on fait une instance de httpClient et on empeche l'ajout de middleware
+    this.httpClient = new HttpClient(this.httpBackend);
+
     return this.httpClient.post<any>(`${this.ENV_BASE}/auth/authorize`, loginView, {responseType: "json"})
     .pipe(map(data => {
       if(data){
