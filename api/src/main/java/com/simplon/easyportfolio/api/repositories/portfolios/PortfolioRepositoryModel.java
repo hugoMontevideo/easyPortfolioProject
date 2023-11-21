@@ -1,6 +1,9 @@
 package com.simplon.easyportfolio.api.repositories.portfolios;
 
 import com.simplon.easyportfolio.api.domain.User;
+import com.simplon.easyportfolio.api.repositories.educations.EducationRepositoryModel;
+import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepositoryModel;
+import com.simplon.easyportfolio.api.repositories.projects.ProjectRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,17 +43,17 @@ public class PortfolioRepositoryModel {
     @Column(name="profile_img_path")
     private String profileImgPath;
 
-    //@OneToMany(mappedBy = "portfolio", orphanRemoval = true)
-    //private List<ProjectRepositoryModel> projects = new ArrayList<>();
-    //@OneToMany(mappedBy = "portfolio", orphanRemoval = true)
-    //private List<ExperienceRepositoryModel> experiences = new ArrayList<>();
-    //@OneToMany(mappedBy = "portfolio", orphanRemoval = true)
-    //private List<EducationRepositoryModel> educations = new ArrayList<>();
     @OneToMany(mappedBy = "portfolio", orphanRemoval = true)
-    private List<SkillRepositoryModel> skills = new ArrayList<>();
+    private List<ProjectRepositoryModel> projects ;
+    @OneToMany(mappedBy = "portfolio", orphanRemoval = true)
+    private List<ExperienceRepositoryModel> experiences ;
+    @OneToMany(mappedBy = "portfolio", orphanRemoval = true)
+    private List<EducationRepositoryModel> educations ;
+    @OneToMany(mappedBy = "portfolio", orphanRemoval = true)
+    private List<SkillRepositoryModel> skills;
 
     //@OneToMany(mappedBy = "portfolio", orphanRemoval = true)
-    //private List<SocialLinkRepositoryModel> socialLinks = new ArrayList<>();
+    //private List<SocialLinkRepositoryModel> socialLinks ;
 
     @ManyToOne
     @JoinColumn(name="user_id")

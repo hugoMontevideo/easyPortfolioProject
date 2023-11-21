@@ -31,7 +31,6 @@ public class PortfolioService {
 
     public PortfolioServiceResponseModel findById(Long id) {
         Optional<PortfolioRepositoryModel> portfolioRepositoryModel = portfolioRepository.findById(id);
-        System.out.println(portfolioRepositoryModel.get().getSkills());
         if (portfolioRepositoryModel.isEmpty()){
             return null;
         }else{

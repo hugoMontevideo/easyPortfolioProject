@@ -27,6 +27,5 @@ public class ExperienceServiceResponseModel {
     private Long endDate;
     //@OneToMany(mappedBy = "experience", orphanRemoval = true)
     //private List<DocumentExperienceRepositoryModel> skills = new ArrayList<>();
-    private Long portfolioId;
 
 }

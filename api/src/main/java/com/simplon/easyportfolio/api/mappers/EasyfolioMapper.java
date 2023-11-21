@@ -1,10 +1,13 @@
 package com.simplon.easyportfolio.api.mappers;
 
+import com.simplon.easyportfolio.api.controllers.educations.EducationGetDTO;
 import com.simplon.easyportfolio.api.controllers.portfolios.PortfolioDTO;
 import com.simplon.easyportfolio.api.controllers.portfolios.PortfolioGetDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
+import com.simplon.easyportfolio.api.repositories.educations.EducationRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
+import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceRequestModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceResponseModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
@@ -12,6 +15,8 @@ import jakarta.persistence.ManyToOne;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 @Mapper
 public interface EasyfolioMapper {
@@ -30,6 +35,9 @@ public interface EasyfolioMapper {
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //           List<Repository>  ->  List<Service>  -->  List<GetDTO>
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    //List<SkillServiceResponseModel> listSkillRepoToSvc (List<SkillRepositoryModel> skillRepositoryModels);
+
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //                Repository  ->  Service  -->  GetDTO
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -42,6 +50,13 @@ public interface EasyfolioMapper {
 
 
     SkillServiceResponseModel skillRepositoryToResponseSvc(SkillRepositoryModel skillRepositoryModel);
-
     SkillGetDTO skillSvcToGetDTO(SkillServiceResponseModel skillServiceResponseModel);
+
+    EducationServiceResponseModel educationRepositoryToResponseSvc(EducationRepositoryModel educationRepositoryModel);
+    EducationGetDTO educationSvcToGetDTO(EducationServiceResponseModel educationServiceResponseModel);
+
+
+
+
+
 }

@@ -14,5 +14,4 @@ public class ProjectServiceResponseModel {
     private String title;
     private String description;
     private Long date;
-    private Long portfolioId;
 }

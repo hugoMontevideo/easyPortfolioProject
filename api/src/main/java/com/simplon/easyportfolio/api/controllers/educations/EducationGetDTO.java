@@ -20,5 +20,4 @@ public class EducationGetDTO {
     private String description;
     //@OneToMany(mappedBy = "education", orphanRemoval = true)
     //private List<DocumentEducationRepositoryModel> skills = new ArrayList<>();
-    private Long portfolioId;
 }

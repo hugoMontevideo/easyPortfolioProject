@@ -12,5 +12,5 @@ public class ProjectGetDTO {
     private String title;
     private String description;
     private Long date;
-    private Long portfolioId;
+
 }

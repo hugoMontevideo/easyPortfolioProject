@@ -36,7 +36,7 @@ public class PortfolioController {
             System.out.println(responseModel.getSkills());
 
            PortfolioGetDTO DTO =  mapper.portfolioSvcToGetDTO( responseModel);
-            System.out.println(DTO.getSkills());
+            System.out.println(DTO.getProjects());
             // return new ResponseEntity<>( mapper.portfolioSvcToGetDTO(portfolioService.findById(id)), HttpStatus.OK);
             return new ResponseEntity<>( DTO, HttpStatus.OK);
         }catch (PortfolioNotFoundException ex){
