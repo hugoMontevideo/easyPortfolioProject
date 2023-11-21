@@ -2,25 +2,23 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, catchError, throwError } from "rxjs";
+import { SessionStorageService } from "./session-storage.service";
 
 @Injectable()
 
 export class JwtInterceptorService implements HttpInterceptor {
 
     constructor(
-        private route : Router
+        private route : Router,
+        private storageService : SessionStorageService
     ){};
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         console.log("requete intercept");
-        
-        let currentToken = "HelloToken";
-        let storage: any = sessionStorage.getItem("currentUser");
-        if( storage != null){
-            currentToken = JSON.parse(storage).token;
-        }
+        let token: string | any = this.storageService.getToken();
+       
         req = req.clone({
-            setHeaders:{ Authorization: `Bearer ${currentToken}`}
+            setHeaders:{ Authorization: `Bearer ${token}`}
         });
         return next.handle(req)
         .pipe(
@@ -28,7 +26,7 @@ export class JwtInterceptorService implements HttpInterceptor {
                 const errorCode = error.status;
                 console.log(errorCode);
                 if(errorCode == 403){
-                    this.route.navigateByUrl("login")
+                    this.route.navigateByUrl("/login")
                 }
                 return throwError(()=>error);
             }

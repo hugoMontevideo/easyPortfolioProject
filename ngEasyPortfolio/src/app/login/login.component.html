@@ -1,3 +1,6 @@
+<app-home-nav [login]="loginUser.login" [conButton]="loginUser.conButton" ></app-home-nav>
+
+
 <form>
     <div class="row">
         <div class="w-75">
@@ -11,7 +14,7 @@
                             <input type="email"
                                     name="username"
                                     id="email"
-                                    [(ngModel)]="loginView.username"
+                                    [(ngModel)]="loginEmailPwd.email"
                                     class="form-control"
                                     placeholder="email"
                                     autofocus="autofocus">
@@ -22,7 +25,7 @@
                         <div class="col-md-8">
                             <input type="password"
                                     name="password"
-                                    [(ngModel)]="loginView.password"
+                                    [(ngModel)]="loginEmailPwd.password"
                                     id="password"
                                     class="form-control"
                                     placeholder="nom"

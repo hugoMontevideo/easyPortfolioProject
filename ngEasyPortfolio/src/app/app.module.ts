@@ -10,12 +10,12 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { ProjectComponent } from './project/project.component';
-import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { PortfolioModule } from './portfolio/portfolio.module';
 import { ConnectionComponent } from './connection/connection.component';
 import { JWTTokenService } from './services/JWTToken.service';
 import { JwtInterceptorService } from './services/jwt-interceptor.service';
+import { HomeNavComponent } from './core/home-nav/home-nav.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +25,7 @@ import { JwtInterceptorService } from './services/jwt-interceptor.service';
     LoginComponent,
     ProjectComponent,
     ConnectionComponent,
+    HomeNavComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +33,6 @@ import { JwtInterceptorService } from './services/jwt-interceptor.service';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    CoreModule,
     SharedModule,
     PortfolioModule
   ],

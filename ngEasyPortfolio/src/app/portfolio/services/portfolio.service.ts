@@ -11,9 +11,9 @@ import { Portfolio } from "../model/portfolio/portfolio.interface";
 export class PortfolioService {
     ENV_DEV:string = environment.apiUrl;
     loginUser: LoginUser = {
-        id: 0,
-        email: '',
-        token: ''
+        login: '',
+        token: '',
+        conButton: 'Connexion'
       } ;
 
     constructor ( private http: HttpClient ) {};

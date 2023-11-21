@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { LoginService } from 'src/app/services/login.service';
+import { Component, Input } from '@angular/core';
+
 
 @Component({
   selector: 'app-home-nav',
@@ -8,8 +8,7 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class HomeNavComponent {
   
-  constructor(
-    protected loginService: LoginService
-  ){}
+  @Input()  conButton: String|any;
+  @Input()  login: String|any;
   
 }

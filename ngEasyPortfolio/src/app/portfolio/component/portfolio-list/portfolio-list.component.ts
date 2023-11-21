@@ -1,42 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Portfolio } from '../../model/portfolio/portfolio.interface';
 import { PortfolioService } from '../../services/portfolio.service';
-import { ActivatedRoute } from '@angular/router';
-import { User } from 'src/app/user/user.interface';
 import { LoginUser } from 'src/app/login/login-user.interface';
+import { SessionStorageService } from 'src/app/services/session-storage.service';
 
 @Component({
   selector: 'app-portfolio-list',
   templateUrl: './portfolio-list.component.html',
   styleUrls: ['./portfolio-list.component.scss']
 })
-export class PortfolioListComponent {
+export class PortfolioListComponent implements OnInit {
 
   table: string = "portfolios";
   portfolios!: Portfolio[];
-  currentUser: User =  {
-                id: 0,
-                name: "",
-                firstname: "",
-                email: "",
-                password: ""
-              };
   loginUser: LoginUser ={
-                email:"",
+                login:"",
                 token: "",
                 conButton:"Déconnexion"
-              } ;
+              } 
 
   constructor( private portfolioService: PortfolioService,
-              private route: ActivatedRoute)// *** a enlever + tard ***
+                private storageService: SessionStorageService
+              )
               {};
 
   ngOnInit(): void {
-    let storage: any = sessionStorage.getItem("currentUser");
+    this.loginUser.login = this.storageService.getLogin();
+    this.loginUser.conButton = this.storageService.getConButton();    
     
-    // // je dois passer par une variable intermediaire pour pouvoir recup currentUser
-    if( storage != null){
-      // this.loginUser = JSON.parse(storage);
+
+    if( this.loginUser.login != ""){
+
       this.getPortfolios(this.table);
     }
 
@@ -50,12 +44,10 @@ export class PortfolioListComponent {
       },
       error: (err: Error)=> {
               alert("Error getting portfolios")
-            },
-      complete: ()=> console.log(this.portfolios)
+            }
     })
   }
 
- 
     onUpdateClick(){
       // this.projectService.updateProject(this.editProject, this.table).subscribe({
       //   next: (response: Project) => {

@@ -1,12 +1,10 @@
-
-
-
 import { Injectable } from '@angular/core';
 import { LoginUser } from '../login/login-user.interface';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class SessionStorageService {
 
 
@@ -18,13 +16,12 @@ export class SessionStorageService {
   }
 
 
-  public setLogin  = (login: string) => {
+  public setLogin  = (login: string): void => {
     sessionStorage.setItem('login', login);
   }
-  public getLogin = () => {
+  public getLogin = (): string | any => {
    return sessionStorage.getItem("login");
   }
-
 
   public setToken = (token: string): void => {
     sessionStorage.setItem('token', token);
@@ -36,7 +33,7 @@ export class SessionStorageService {
   public hydrate = (loginUser : LoginUser) => {
     sessionStorage.setItem('login', loginUser.login);
     sessionStorage.setItem('token', loginUser.token);
-    sessionStorage.setItem("conButton", "Déconnexion")
+    sessionStorage.setItem("conbutton", "Déconnexion")
   }
 
   public clearStorage = ()=> {

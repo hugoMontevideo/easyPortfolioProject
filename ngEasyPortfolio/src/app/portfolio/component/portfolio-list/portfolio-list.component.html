@@ -1,9 +1,4 @@
-<!-- <div class="row">
-    <div class="col-8 mx-auto">
-        <app-portfolio-list-item *ngFor="let portfolio of portfolios" [portfolio]="portfolio"></app-portfolio-list-item>
-    </div>
-</div> -->
-
+<app-dashboard-nav [login]="loginUser.login" [conButton]="loginUser.conButton"></app-dashboard-nav>
 <div class="row">
     <div class="col-sm-6">
       <div class="card" *ngFor="let portfolio of portfolios">

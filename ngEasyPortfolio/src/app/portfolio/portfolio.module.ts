@@ -6,13 +6,15 @@ import { PortfolioService } from './services/portfolio.service';
 import { PortfolioListComponent } from './component/portfolio-list/portfolio-list.component';
 import { PortfolioListItemComponent } from './component/portfolio-list-item/portfolio-list-item.component';
 import { SkillComponent } from './component/skill/skill.component';
+import { DashboardNavComponent } from './dashboard-nav/dashboard-nav.component';
 
 
 @NgModule({
   declarations: [
     PortfolioListComponent,
     PortfolioListItemComponent,
-    SkillComponent
+    SkillComponent,
+    DashboardNavComponent
   ],
   imports: [
     CommonModule,

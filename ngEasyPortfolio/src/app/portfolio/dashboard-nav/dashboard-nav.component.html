@@ -1,5 +1,4 @@
 
-
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand"  routerLink="/"
@@ -21,7 +20,8 @@
                 routerLinkActive="active" 
                 [routerLinkActiveOptions]="{exact:true}"
                 >
-                Home <fa-icon [icon]="['fas','mug-hot']"></fa-icon>
+                Home 
+                <!-- <fa-icon [icon]="['fas','mug-hot']"></fa-icon> -->
             </a>
           </li>
 
@@ -59,22 +59,22 @@
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </li>
-          <!-- <li class="nav-item" *ngIf="loginService.currentUserEmail != '' ">
-            <a class="nav-link" >{{ loginService.currentUserEmail }}</a>
-          </li>
-          <li class="nav-item" *ngIf="loginService.currentUserEmail != '' ">
-            <a class="btn btn-primary" (click)="loginService.logout()" >Deconnexion</a>
-          </li>
-          <li class="nav-item" *ngIf="loginService.currentUserEmail == '' ">
-            <a class="btn btn-primary" routerLink="login" >Connexion</a>
-          </li> -->
+          
         </ul>
 
 
-        <form class="d-flex" role="search">
+        <!-- <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        </form> -->
+      </div>
+      <div class="login d-flex">
+        <div class="nav-item" *ngIf="login != '' ">
+          <a class="nav-link" >{{ login }}</a>
+        </div>
+        <div class="nav-item" >
+          <a href="/login" class="btn btn-outline-success" >{{ conButton }}</a>
+        </div>
       </div>
     </div>
   </nav>
