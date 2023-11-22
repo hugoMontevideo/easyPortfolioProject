@@ -1,32 +1,45 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginViewModel } from '../model/login-view-model';
 import { Observable, map } from 'rxjs';
-import { User } from '../utils/models/user.interface';
+import { User } from '../user/user.interface';
+import { environment } from 'src/environments/environment';
+import { LoginView } from '../login/login-view.interface';
+import { LoginUser } from '../login/login-user.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  currentUserEmail: string = '';
+  ENV_BASE :string = environment.baseUrl;
+  currentUser: LoginUser ={
+    id:0,
+    email:"",
+    token: ""
+  } ;
 
   constructor(private httpClient: HttpClient) { };
 
-  public login( loginViewModel : LoginViewModel ): Observable<User> {
-    return this.httpClient.post<User>(`http://localhost/angular/ngEasyPortfolio/src/app/services/api/token/login.php?action=login`, JSON.stringify(loginViewModel), {responseType: "json"})
-    .pipe(map(user => {
-      if(user){
-        this.currentUserEmail = user.email ;
-        sessionStorage.setItem('currentUser', JSON.stringify(user)); 
-        
+  public login( loginView : LoginView ): Observable<any> {
+    return this.httpClient.post<any>(`${this.ENV_BASE}/auth/authorize`, loginView, {responseType: "json"})
+    .pipe(map(data => {
+      if(data){
+        this.currentUser.id = data.user.id,
+        this.currentUser.email = data.user.login ;
+        this.currentUser.token = data.token;
+        sessionStorage.setItem('currentUser', JSON.stringify(this.currentUser)); 
+        console.log(data);
       }
-      return user ;
+      return data ;
     }))
   }
 
   public logout(){
-    this.currentUserEmail = '';
+    this.currentUser = {
+      id:0,
+      email:"",
+      token: ""
+    } ;
     sessionStorage.removeItem('currentUser');
   }
 

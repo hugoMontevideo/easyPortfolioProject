@@ -1,6 +1,6 @@
 package com.simplon.easyportfolio.api.services.impl;
 
-import com.simplon.easyportfolio.api.domain.Owner;
+import com.simplon.easyportfolio.api.domain.User;
 import com.simplon.easyportfolio.api.exceptions.AccountExistsException;
 import com.simplon.easyportfolio.api.repositories.security.OwnerRepository;
 import com.simplon.easyportfolio.api.services.jwt.JwtUserService;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,11 +35,11 @@ public class JwtUserServiceImpl implements JwtUserService {
 
      @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-         Owner owner = ownerRepository.findByLogin(username);
-         if(owner == null) {
+         User user = ownerRepository.findByLogin(username);
+         if(user == null) {
              throw new UsernameNotFoundException("The owner could not be found. HM");
          }
-         return owner;
+         return user;
      }
 
      // USED FOR REGISTRATION
@@ -56,11 +55,11 @@ public class JwtUserServiceImpl implements JwtUserService {
         if (existingUser != null) {
             throw new AccountExistsException();
         }
-        Owner owner = new Owner();
-        owner.setLogin(username);
-        owner.setPassword(passwordEncoder.encode(password));
-        ownerRepository.save(owner);
-        return owner;
+        User user = new User();
+        user.setLogin(username);
+        user.setPassword(passwordEncoder.encode(password));
+        ownerRepository.save(user);
+        return user;
     }
 
 

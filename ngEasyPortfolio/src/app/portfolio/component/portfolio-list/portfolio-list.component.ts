@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Portfolio } from '../../model/portfolio/portfolio.interface';
 import { PortfolioService } from '../../services/portfolio.service';
 import { ActivatedRoute } from '@angular/router';
-import { User } from 'src/app/utils/models/user.interface';
+import { User } from 'src/app/user/user.interface';
 
 @Component({
   selector: 'app-portfolio-list',
@@ -11,7 +11,7 @@ import { User } from 'src/app/utils/models/user.interface';
 })
 export class PortfolioListComponent {
 
-  table: string = "portfolioS";
+  table: string = "portfolios";
   portfolios!: Portfolio[];
   currentUser: User =  {
                 id: 0,
@@ -26,17 +26,20 @@ export class PortfolioListComponent {
               {}
 
   ngOnInit(): void {
-    // let anything: any = sessionStorage.getItem("currentUser");
+    let anything: any = sessionStorage.getItem("currentUser");
+    console.log(anything);
+    
     // // je dois passer par une variable intermediaire pour pouvoir recup currentUser
     // if( anything != null){
     //   this.currentUser = JSON.parse(anything);
-    //   this.getPortfolios(this.table, this.currentUser.id);
+    this.getPortfolios(this.table);
     // }
 
   }
 
-  getPortfolios(table: string, userId:number ){
-    this.portfolioService.getAll(table, userId).subscribe({
+  getPortfolios(table: string){
+    this.portfolioService.getAll(table)
+    .subscribe({
       next: (response: Portfolio[]) => { this.portfolios=response },
       error: (err: Error)=> {
               alert("Authentication failed, error getting portfolios")

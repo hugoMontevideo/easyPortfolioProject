@@ -1,9 +1,9 @@
 package com.simplon.easyportfolio.api.repositories.security;
 
-import com.simplon.easyportfolio.api.domain.Owner;
+import com.simplon.easyportfolio.api.domain.User;
 import org.springframework.data.repository.CrudRepository;
 
-public interface OwnerRepository extends CrudRepository<Owner, Integer> {
+public interface OwnerRepository extends CrudRepository<User, Integer> {
 
-    Owner findByLogin(String login);
+    User findByLogin(String login);
 }

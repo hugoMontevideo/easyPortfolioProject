@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
 
-    Authentication authenticate(String username, String password) throws Exception;
+    Authentication authenticate(String email, String password) throws Exception;
 
-    UserDetails save(String username, String password) throws AccountExistsException;
+    UserDetails save(String email, String password) throws AccountExistsException;
 
 }
