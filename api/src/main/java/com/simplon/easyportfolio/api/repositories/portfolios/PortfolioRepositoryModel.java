@@ -21,28 +21,20 @@ public class PortfolioRepositoryModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "title")
     private String title;
-
     @Column(name = "description")
     private String description;
-
     @Column(name = "name")
     private String name;
-
     @Column(name="firstname")
     private String firstname;
-
     @Column(name="email")
     private String email;
-
     @Column(name="city")
     private String city;
-
     @Column(name="profile_img_path")
     private String profileImgPath;
-
     @OneToMany(mappedBy = "portfolio", orphanRemoval = true)
     private List<ProjectRepositoryModel> projects ;
     @OneToMany(mappedBy = "portfolio", orphanRemoval = true)
@@ -51,10 +43,8 @@ public class PortfolioRepositoryModel {
     private List<EducationRepositoryModel> educations ;
     @OneToMany(mappedBy = "portfolio", orphanRemoval = true)
     private List<SkillRepositoryModel> skills;
-
     //@OneToMany(mappedBy = "portfolio", orphanRemoval = true)
     //private List<SocialLinkRepositoryModel> socialLinks ;
-
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;

@@ -17,6 +17,7 @@ export class PortfolioListComponent implements OnInit {
                 login:"",
                 token: "",
                 conButton:"Déconnexion"
+                
               } 
 
   constructor( private portfolioService: PortfolioService,
@@ -28,12 +29,9 @@ export class PortfolioListComponent implements OnInit {
     this.loginUser.login = this.storageService.getLogin();
     this.loginUser.conButton = this.storageService.getConButton();    
     
-
     if( this.loginUser.login != ""){
-
       this.getPortfolios(this.table);
     }
-
   }
 
   public getPortfolios = (table: string) => {    

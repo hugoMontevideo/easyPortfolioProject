@@ -7,6 +7,13 @@ import { PortfolioListComponent } from './component/portfolio-list/portfolio-lis
 import { PortfolioListItemComponent } from './component/portfolio-list-item/portfolio-list-item.component';
 import { SkillComponent } from './component/skill/skill.component';
 import { DashboardNavComponent } from './dashboard-nav/dashboard-nav.component';
+import { ExperienceComponent } from './component/experience/experience.component';
+import { EducationComponent } from './component/education/education.component';
+import { ProjectComponent } from './component/project/project.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SkillFormComponent } from './component/skill-form/skill-form.component';
+import { FormsModule } from '@angular/forms';
+import { SkillService } from './services/skill.service';
 
 
 @NgModule({
@@ -14,14 +21,21 @@ import { DashboardNavComponent } from './dashboard-nav/dashboard-nav.component';
     PortfolioListComponent,
     PortfolioListItemComponent,
     SkillComponent,
-    DashboardNavComponent
+    DashboardNavComponent,
+    ExperienceComponent,
+    EducationComponent,
+    ProjectComponent,
+    SkillFormComponent
   ],
   imports: [
     CommonModule,
-    PortfolioRoutingModule
+    PortfolioRoutingModule,
+    FontAwesomeModule,
+    FormsModule
   ],
   providers: [
     PortfolioService, 
+    SkillService
   ]
 })
 export class PortfolioModule { }

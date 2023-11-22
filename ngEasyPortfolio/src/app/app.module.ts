@@ -9,7 +9,6 @@ import { UserComponent } from './user/user.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
-import { ProjectComponent } from './project/project.component';
 import { SharedModule } from './shared/shared.module';
 import { PortfolioModule } from './portfolio/portfolio.module';
 import { ConnectionComponent } from './connection/connection.component';
@@ -23,7 +22,6 @@ import { HomeNavComponent } from './core/home-nav/home-nav.component';
     HomeComponent,
     UserComponent,
     LoginComponent,
-    ProjectComponent,
     ConnectionComponent,
     HomeNavComponent
   ],

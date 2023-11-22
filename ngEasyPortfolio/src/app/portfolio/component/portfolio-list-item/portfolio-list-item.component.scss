@@ -1,0 +1,15 @@
+h5{
+    padding: .4rem;
+    button{
+        border: none;
+        padding: .2rem .3rem;
+        border-radius: 5px;
+        background-color: transparent;
+    }
+    button:hover{
+        background-color: rgba(0, 255, 255, 0.137);
+    }
+}
+h5:hover{
+    background-color: rgba(255, 228, 196, 0.303);
+}
