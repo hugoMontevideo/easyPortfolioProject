@@ -1,4 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { JWTTokenService } from 'src/app/services/JWTToken.service';
+import { LoginService } from 'src/app/services/login.service';
+import { SessionStorageService } from 'src/app/services/session-storage.service';
 // import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 
 
@@ -7,9 +10,18 @@ import { Component, Input } from '@angular/core';
   templateUrl: './home-nav.component.html',
   styleUrls: ['./home-nav.component.scss']
 })
-export class HomeNavComponent {
+export class HomeNavComponent implements OnInit {
   
-  @Input()  conButton: String|any;
-  @Input()  login: String|any;
+  userEmail!: string;
+
+  constructor(
+    public jwtToken: JWTTokenService,
+  ){}
+
+  ngOnInit(): void {
+  
+  }
+
+
   
 }

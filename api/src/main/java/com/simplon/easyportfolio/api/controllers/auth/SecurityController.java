@@ -38,7 +38,7 @@ public class SecurityController {
             UserDetails user = (UserDetails) authentication.getPrincipal();
             String token = userService.generateJwtForUser(user);
             //Here, the response can be configured, user has many other properties
-            return ResponseEntity.ok(new LoginResponseDTO(user.getUsername(), token));
+            return ResponseEntity.ok(new LoginResponseDTO( token ));
         } catch(AuthenticationException e) {
             throw new UnauthorizedException();
         } catch (Exception e) {

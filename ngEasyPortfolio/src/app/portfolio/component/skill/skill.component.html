@@ -1,9 +1,9 @@
 <div class="card">
     <div class="card-body">
-        <p class="d-flex justify-content-between">
+        <p class="d-flex justify-content-between skill-title">
             {{skill.title}}
-            <button>
-                <fa-icon class="icon" [icon]="['fas', 'x']"></fa-icon>
+            <button (click)="onDelete(skill.id)">
+                <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
             </button>
         </p>
     </div>

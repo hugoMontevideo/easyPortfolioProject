@@ -3,6 +3,10 @@ package com.simplon.easyportfolio.api.services.portfolios;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepository;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
+import com.simplon.easyportfolio.api.repositories.skills.SkillRepository;
+import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
+import com.simplon.easyportfolio.api.services.skills.SkillServiceModel;
+import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +20,12 @@ public class PortfolioService {
 
     @Autowired
     PortfolioRepository portfolioRepository;
+    @Autowired
+    SkillRepository skillRepository;
 
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
 
+    // Table : PORTFOLIO   *****************
     public boolean add(PortfolioServiceRequestModel portfolioServiceModel) {
         PortfolioRepositoryModel portfolioRepositoryModel =
                 new PortfolioRepositoryModel(portfolioServiceModel.getTitle(),
@@ -61,8 +68,48 @@ public class PortfolioService {
     }
 
     public void delete(Long id) {
+
         portfolioRepository.deleteById(id);
     }
+
+
+    // Table : SKILL   *****************
+
+    public SkillRepositoryModel addSkill(SkillServiceModel skillServiceModel) {
+
+        SkillRepositoryModel repositoryModel = mapper.skillServiceToRepositoryModel(skillServiceModel);
+        // adding portfolio manually
+        Optional<PortfolioRepositoryModel> portfolioRepositoryModel =
+                portfolioRepository.findById( skillServiceModel.getPortfolio().getId() );
+
+        if( portfolioRepositoryModel.isPresent() )  {
+            repositoryModel.setPortfolio(portfolioRepositoryModel.get());
+        }
+        return skillRepository.save(repositoryModel);
+    }
+
+    public SkillServiceResponseModel findSkillById(Long id) {
+
+        Optional<SkillRepositoryModel> skillRepositoryModel = skillRepository.findById(id);
+
+        System.out.println(skillRepositoryModel.get());
+
+        if (skillRepositoryModel.isEmpty()){
+            return null;
+        }else{
+            //SkillServiceResponseModel item = mapper.skillRepositoryToResponseSvc(skillRepositoryModel.get());
+
+            //return item;
+            return new SkillServiceResponseModel();
+        }
+    }
+
+    public void deleteSkill(Long id) {
+        skillRepository.deleteById(id);
+    }
+
+
+
 }
 
 

@@ -13,8 +13,6 @@ import { ProjectComponent } from './component/project/project.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SkillFormComponent } from './component/skill-form/skill-form.component';
 import { FormsModule } from '@angular/forms';
-import { SkillService } from './services/skill.service';
-
 
 @NgModule({
   declarations: [
@@ -35,7 +33,6 @@ import { SkillService } from './services/skill.service';
   ],
   providers: [
     PortfolioService, 
-    SkillService
   ]
 })
 export class PortfolioModule { }

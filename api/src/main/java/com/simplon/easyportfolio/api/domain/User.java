@@ -28,8 +28,8 @@ public class User implements UserDetails {
     @Column(name = "password")
     private  String password;
 
-   @Column(name = "name")
-   private String name;
+    @Column(name = "name")
+    private String name;
     @Column(name = "firstname")
     private String firstname;
     @Column(name = "inscription_date")

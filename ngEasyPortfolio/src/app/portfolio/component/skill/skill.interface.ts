@@ -1,5 +1,5 @@
 export interface Skill {
-    id: number | any,
+    id: number,
     title: string,
     description: string,
     portfolioId: number,

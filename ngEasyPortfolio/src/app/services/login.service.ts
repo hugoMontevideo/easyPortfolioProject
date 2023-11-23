@@ -17,18 +17,17 @@ export class LoginService {
   ENV_DEV : string = environment.apiUrl;
   
   loginUser: LoginUser ={
-                          login:"",
-                          token: "",
-                          conButton:""
+                          email:"",
+                          token: ""
                         } ;
   
   httpClient!: HttpClient; // de cette façon on évite l'interceptor (middleware)
 
   constructor(
-  
-      private route : Router,
-      private storageService : SessionStorageService,
-      private httpBackend: HttpBackend
+        private route : Router,
+        private storageService : SessionStorageService,
+        private httpBackend: HttpBackend,
+        private jwtToken: JWTTokenService
       ) { };
 
   public login( loginEmailPwd : LoginEmailPwd ): Observable<any> {
@@ -38,9 +37,9 @@ export class LoginService {
     return this.httpClient.post<any>(`${this.ENV_BASE}/auth/authorize`, loginEmailPwd, {responseType: "json"})
     .pipe(map(data => {
       if(data){
-        this.loginUser.login = data.login ;
+        this.jwtToken.setToken(data.token);        
         this.loginUser.token = data.token;
-        this.storageService.hydrate(this.loginUser);   
+        this.storageService.setToken(data.token);   
       }
       return data ;
     }))
@@ -48,12 +47,13 @@ export class LoginService {
 
   public logout(){
     this.loginUser = {
-      login:"",
-      token: "",
-      conButton: "Connexion"
+      email:"",
+      token: ""
     } ;
-    sessionStorage.clear();
+    sessionStorage.removeItem("token");
   }
+
+  
 
 
 

@@ -3,9 +3,8 @@ import { Portfolio} from '../../model/portfolio/portfolio.interface';
 import { ActivatedRoute } from '@angular/router';
 import { PortfolioService } from '../../services/portfolio.service';
 import { LoginUser } from 'src/app/login/login-user.interface';
-import { SessionStorageService } from 'src/app/services/session-storage.service';
 import { Skill } from '../skill/skill.interface';
-import { SkillService } from '../../services/skill.service';
+import { JWTTokenService } from 'src/app/services/JWTToken.service';
 
 
 @Component({
@@ -15,8 +14,8 @@ import { SkillService } from '../../services/skill.service';
 })
 export class PortfolioListItemComponent implements OnInit {
   table: string = 'portfolios';
-  portfolioId: string|any;
-  portfolio: Portfolio ={
+  portfolioId!:number;
+  portfolio: Portfolio = {
         id: 0,
         title: "",
         description: "",
@@ -31,13 +30,13 @@ export class PortfolioListItemComponent implements OnInit {
         // u_id!: number;
     }
     loginUser: LoginUser ={
-      login:"",
+      email:"",
       token: "",
-      conButton:"Déconnexion"
+
     } 
     legend!: string;
     skillEdit: Skill = {
-      id:null,
+      id:-1,
       title: "",
       description: "",
       portfolioId: 0
@@ -48,33 +47,21 @@ export class PortfolioListItemComponent implements OnInit {
   constructor(
       private route: ActivatedRoute,
       private portfolioService: PortfolioService,
-      private skillService: SkillService,
-      private storageService: SessionStorageService
+      private jwtTokenService : JWTTokenService
     ){};
 
-  
   ngOnInit(): void {
-      this.portfolioId =  this.route.snapshot.paramMap.get('id');
-      this.loginUser.login = this.storageService.getLogin();
-      this.loginUser.conButton = this.storageService.getConButton();  
-      if( this.loginUser.login != ""){
-        if(this.portfolioId != null){ 
-          this.getPortfolioById(this.table, this.portfolioId);
-      }
-    }
-  }
+      this.portfolioId =  this.portfolioService.getId(this.route.snapshot.paramMap.get('id'));
+      this.loginUser.email = this.jwtTokenService.getUser();      
 
-  getPortfolioById = (table:string, id:number)=> {
-    this.portfolioService.getPortfolioById(table, id)
-    .subscribe({
-      next:(response:Portfolio) => { 
-        this.portfolio = response;
-       }, 
-      error: (err:Error) => console.log("Error portfolioById"),
-      complete: ()=> console.log(this.portfolio.title)
-    })
+      this.portfolioService.getPortfolioById(this.table, this.portfolioId)
+      .subscribe({
+        next:(response:Portfolio) => { this.portfolio = response }, 
+        error: (err:Error) => console.log("Error portfolioById")
+      })
+      ;
   }
-
+ 
   public onAddSkill = () => {
     this.legend = "Ajouter une compétence"
     this.skillForm = true;
@@ -84,7 +71,7 @@ export class PortfolioListItemComponent implements OnInit {
     // hide the form
     this.skillForm = false; 
     this.skillEdit.portfolioId = this.portfolioId;  
-    this.skillService.add(this.skillEdit)
+    this.portfolioService.addSkill('skills' , this.skillEdit)
     .subscribe({
       next:(data)=>{
         // Ajouter skillEdit a skills [] pour affichage
@@ -92,7 +79,6 @@ export class PortfolioListItemComponent implements OnInit {
       },
       error:(err:Error)=>{
         console.log("**error adding skill**");
-        
       }
     });
   }

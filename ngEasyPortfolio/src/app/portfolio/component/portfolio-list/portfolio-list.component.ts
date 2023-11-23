@@ -3,6 +3,7 @@ import { Portfolio } from '../../model/portfolio/portfolio.interface';
 import { PortfolioService } from '../../services/portfolio.service';
 import { LoginUser } from 'src/app/login/login-user.interface';
 import { SessionStorageService } from 'src/app/services/session-storage.service';
+import { JWTTokenService } from 'src/app/services/JWTToken.service';
 
 @Component({
   selector: 'app-portfolio-list',
@@ -14,36 +15,26 @@ export class PortfolioListComponent implements OnInit {
   table: string = "portfolios";
   portfolios!: Portfolio[];
   loginUser: LoginUser ={
-                login:"",
-                token: "",
-                conButton:"Déconnexion"
-                
+                email:"",
+                token: ""                
               } 
 
   constructor( private portfolioService: PortfolioService,
-                private storageService: SessionStorageService
+                private jwtTokenService: JWTTokenService
               )
               {};
 
   ngOnInit(): void {
-    this.loginUser.login = this.storageService.getLogin();
-    this.loginUser.conButton = this.storageService.getConButton();    
     
-    if( this.loginUser.login != ""){
-      this.getPortfolios(this.table);
+    if( this.jwtTokenService.getUser() != null){  
+      this.loginUser.email = this.jwtTokenService.getUser(); 
+      this.portfolioService.getAllPortfolios(this.table)
+      .subscribe({
+        next: (response: Portfolio[]) => {this.portfolios=response},
+        error: (err: Error)=> { alert("Error getting portfolios")} 
+      });
+      
     }
-  }
-
-  public getPortfolios = (table: string) => {    
-    this.portfolioService.getAll(table)
-    .subscribe({
-      next: (response: Portfolio[]) => { 
-        this.portfolios=response 
-      },
-      error: (err: Error)=> {
-              alert("Error getting portfolios")
-            }
-    })
   }
 
     onUpdateClick(){

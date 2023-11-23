@@ -9,9 +9,8 @@ import { SessionStorageService } from '../services/session-storage.service';
 })
 export class HomeComponent implements OnInit {
   loginUser: LoginUser ={
-    login:"",
-    token: "",
-    conButton:""
+    email:"",
+    token: ""
   } 
   constructor( 
     private storageService: SessionStorageService
@@ -19,12 +18,10 @@ export class HomeComponent implements OnInit {
   {};
 
   ngOnInit(): void {
-    this.loginUser.login = this.storageService.getLogin();
-    this.loginUser.conButton = this.storageService.getConButton();    
+    this.loginUser.email = this.storageService.getLogin();
+  
     
     // // je dois passer par une variable intermediaire pour pouvoir recup currentUser
-    if( this.loginUser.conButton == null){
-      this.loginUser.conButton = "Connexion"
-    }
+   
   }
 }

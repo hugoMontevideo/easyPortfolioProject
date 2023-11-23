@@ -22,19 +22,15 @@ import java.util.Optional;
 @RestController
 @RequestMapping("api/skills")
 public class SkillController {
-
-    @Autowired
-    SkillService skillService;
     @Autowired
     PortfolioService portfolioService;
-
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
 
     @GetMapping("/{id}")  //  GET BY ID   *****
     public ResponseEntity<SkillGetDTO> findById(@PathVariable Long id){
 
         try{
-           SkillServiceResponseModel responseModel = skillService.findById(id);
+           SkillServiceResponseModel responseModel = portfolioService.findSkillById(id);
 
            SkillGetDTO DTO = mapper.skillSvcToGetDTO(responseModel);
         // todo  ***  creer un byIddto qui a objet portfolio sans l'array de skills
@@ -43,6 +39,8 @@ public class SkillController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getReason());
         }
     }
+
+    // addSkill
     @PostMapping
     public boolean add(@RequestBody SkillDTO skillDTO){
 
@@ -54,12 +52,27 @@ public class SkillController {
             //adding portfolio manually
             skillServiceModel.setPortfolio(portfolio);
 
-            skillService.add( skillServiceModel );
+            portfolioService.addSkill( skillServiceModel );
 
             return true;
         }
         return false;
     }
+
+    // delete Skill
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id){
+        if(portfolioService.findSkillById(id) != null){
+            portfolioService.deleteSkill(id);
+            return new ResponseEntity<>("Le skill id : "+ id +" a été supprimé.", HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>("Le skill id : "+ id +" n'a pas été trouvé.", HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+
+
 }
 
 

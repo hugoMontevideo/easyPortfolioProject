@@ -14,16 +14,16 @@ import java.util.Optional;
 
 @Service
 public class SkillService {
-    @Autowired
+  /**  @Autowired
     SkillRepository skillRepository;
 
     @Autowired
     PortfolioRepository portfolioRepository;
 
 
-    private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
+    private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE; **/
 
-    public SkillServiceResponseModel findById(Long id) {
+    /**  public SkillServiceResponseModel findById(Long id) {
 
         Optional<SkillRepositoryModel> skillRepositoryModel = skillRepository.findById(id);
 
@@ -37,9 +37,9 @@ public class SkillService {
             //return item;
             return new SkillServiceResponseModel();
         }
-    }
+    } **/
 
-    public SkillRepositoryModel add(SkillServiceModel skillServiceModel) {
+    /** public SkillRepositoryModel add(SkillServiceModel skillServiceModel) {
 
         SkillRepositoryModel repositoryModel = mapper.skillServiceToRepositoryModel(skillServiceModel);
         // adding portfolio manually
@@ -53,5 +53,5 @@ public class SkillService {
 
         return skillRepository.save(repositoryModel);
 
-    }
+    } **/
 }

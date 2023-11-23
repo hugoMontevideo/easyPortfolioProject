@@ -1,4 +1,4 @@
-<app-dashboard-nav [login]="loginUser.login" [conButton]="loginUser.conButton"></app-dashboard-nav>
+
 <div class="skillForm d-flex " *ngIf="skillForm" >
   <form #form="ngForm" class="col-6 mx-auto" (ngSubmit)="onSubmit()" >
     <legend>{{ legend }}</legend>
@@ -31,24 +31,24 @@
     <div class="col-sm-6 mx-auto">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">{{portfolio.title | uppercase }}</h5>
+          <h5 class="card-title title">{{portfolio.title | uppercase }}</h5>
           <p class="card-text">{{portfolio.name | titlecase }}</p>
           <!-- <p class="card-text">{{portfolio.city | titlecase }}</p> -->
           <small>{{portfolio.id}}</small>
-          <div class="projects">
-            <h5>Projets</h5>
+          <div class="projects ">
+            <h5 class="title">Projets</h5>
             <app-project *ngFor="let project of portfolio.projects" [project]="project"></app-project> 
           </div>
-          <div class="educations">
-            <h5>Etudes et formation</h5>
+          <div class="educations ">
+            <h5 class="title">Etudes et formation</h5>
             <app-education *ngFor="let education of portfolio.educations" [education]="education"></app-education> 
           </div>
-          <div class="experiences">
-            <h5>Expériences professionnelles</h5>
+          <div class="experiences ">
+            <h5 class="title">Expériences professionnelles</h5>
             <app-experience *ngFor="let experience of portfolio.experiences" [experience]="experience"></app-experience> 
           </div>
-          <div class="skills">
-            <h5 class="d-flex justify-content-between">
+          <div class="skills ">
+            <h5 class="d-flex justify-content-between title">
               Compétences
               <button>
                 <fa-icon [icon]="['fas', 'plus']" (click)="onAddSkill()" ></fa-icon>

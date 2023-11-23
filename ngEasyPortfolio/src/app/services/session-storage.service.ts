@@ -31,13 +31,13 @@ export class SessionStorageService {
   }
 
   public hydrate = (loginUser : LoginUser) => {
-    sessionStorage.setItem('login', loginUser.login);
+    sessionStorage.setItem('login', loginUser.email);
     sessionStorage.setItem('token', loginUser.token);
     sessionStorage.setItem("conbutton", "Déconnexion")
   }
 
-  public clearStorage = ()=> {
-    sessionStorage.clear();
+  public clearStorage = (): void => {
+    sessionStorage.removeItem('token');
   }
 
 }

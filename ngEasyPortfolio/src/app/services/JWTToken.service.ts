@@ -12,12 +12,17 @@ export class JWTTokenService {
     constructor() {
     }
 
-    setToken(token: string) {
+    setToken(token: string): void {
       if (token) {
         this.jwtToken = token;
       }
     }
 
+    getToken(): string {
+      let token = sessionStorage.getItem('token');
+      let stringToken = token ?? "" ;      
+      return stringToken;
+    }
 
     decodeToken() {
       if (this.jwtToken) {
@@ -25,13 +30,12 @@ export class JWTTokenService {
       }
     }
 
-
     getDecodeToken() {
       return jwtDecode(this.jwtToken);
     }
 
 
-    getUser() {
+    getUser(): string | any {
       this.decodeToken();
       return this.decodedToken ? this.decodedToken.sub : null;
     }
@@ -57,6 +61,14 @@ export class JWTTokenService {
         return false;
       }
     }
+
+    isLogged(): boolean {
+      return this.getUser() != null;
+    }
+
+
+
+
 }
 
 

@@ -1,80 +1,83 @@
 import { Injectable } from "@angular/core";
-import { Observable, map } from "rxjs";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 
 import { LoginUser } from "src/app/login/login-user.interface";
 import { Portfolio } from "../model/portfolio/portfolio.interface";
+import { JWTTokenService } from "src/app/services/JWTToken.service";
+import { Skill } from "../component/skill/skill.interface";
 
 @Injectable()
 
 export class PortfolioService {
     ENV_DEV:string = environment.apiUrl;
     loginUser: LoginUser = {
-        login: '',
+        email: '',
         token: '',
-        conButton: 'Connexion'
       } ;
 
-    constructor ( private http: HttpClient ) {};
+
+    constructor ( private http: HttpClient,
+            private jwtTokenService : JWTTokenService
+         ) {};
 
     // get by id
-    public getPortfolioById(table:string, id:number): Observable<Portfolio>{
-        // let headers = new HttpHeaders();
-        // let storage: any = sessionStorage.getItem("currentUser");
-        // if( storage != null){
-        //     this.loginUser = JSON.parse(storage);
-        //     headers = headers.set("Authorization", "Bearer " + this.loginUser.token);   
-        //     console.log("headers ok");  
-        // }
-        return this.http.get<Portfolio>(`${this.ENV_DEV}/${table}/${id}`);
+    public getPortfolioById(table:string, id:number): Observable<Portfolio> | any{
+        // get the token
+        this.jwtTokenService.setToken(this.jwtTokenService.getToken());
+        if(this.jwtTokenService.isLogged()){
+
+            return this.http.get<Portfolio>(`${this.ENV_DEV}/${table}/${id}`);
+
+        }
+
+
     }
 
-
-    getAll( table: string): Observable<any> {
+    // get All
+    getAllPortfolios( table: string): Observable<any> {
         return this.http.get<any>(`${this.ENV_DEV}/${table}`, { responseType: "json"});
     }
 
-    getData( table: string, id: number ): Observable<any> {
-        // let currentUser = {token: ""};
-        // let headers = new HttpHeaders();
-        // headers = headers.set("Authorization", "Bearer ");
-            
-        return this.http.get<any>(`${this.ENV_DEV}/${table}`, {responseType: "json"} );
+
+    verifyToken = () => {
+
     }
 
-    
-    getById( table: string, userId: number, portfolioId: number ): Observable<any> {
-        let currentUser = {token: ""};
-        let headers = new HttpHeaders();
-        headers = headers.set("Authorization", "Bearer ");
-        let anything: any = sessionStorage.getItem("currentUser");
+    getId = (id : string | any ): number => {
+        return parseInt(id) ?? 0;
+      
+    }
 
-        
-        
-        if( anything != null){
-            currentUser = JSON.parse(anything);
-            headers = headers.set("Authorization", "Bearer" + currentUser.token);
-            console.log(currentUser.token);
-          
+    // table : SKILL *************
+
+    addSkill( table: string, skillEdit: Skill ): Observable<any> {        
+        return this.http.post(`${this.ENV_DEV}/${table}`, skillEdit ,{responseType: "json"} );
+    }
+
+    deleteSkill(table: string , skillId: number): Observable<any> | any{
+        // this.jwtTokenService.setToken(this.jwtTokenService.getToken());
+        if(this.jwtTokenService.isLogged()){
+            return this.http.delete(`${this.ENV_DEV}/${table}/${skillId}`,{responseType: "json"} );  
         }
-            
-        return this.http.get(`http://localhost/angular/ngEasyPortfolio/src/app/services/api/${table}.php?action=readById&id=${userId}&p_id=${portfolioId}`, {headers:headers, responseType: "json"});
-        // .pipe(map(data => {
-        //     if(user){
-        //       console.log(user);
-              
-        //     //   sessionStorage.setItem('currentUser', JSON.stringify(user)); 
-              
-        //     }
-        //     return data ;
-        //   }));
     }
-
-
 
 
 
 
     
 }
+
+
+
+// return this.http.get(`http://localhost/angular/ngEasyPortfolio/src/app/services/api/${table}.php?action=readById&id=${userId}&p_id=${portfolioId}`, {headers:headers, responseType: "json"});
+// .pipe(map(data => {
+//     if(user){
+//       console.log(user);
+      
+//     //   sessionStorage.setItem('currentUser', JSON.stringify(user)); 
+      
+//     }
+//     return data ;
+//   }));

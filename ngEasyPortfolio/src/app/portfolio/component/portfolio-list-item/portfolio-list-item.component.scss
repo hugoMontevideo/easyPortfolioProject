@@ -1,4 +1,4 @@
-h5{
+.title{
     padding: .4rem;
     button{
         border: none;
@@ -10,6 +10,6 @@ h5{
         background-color: rgba(0, 255, 255, 0.137);
     }
 }
-h5:hover{
+.title:hover{
     background-color: rgba(255, 228, 196, 0.303);
 }
