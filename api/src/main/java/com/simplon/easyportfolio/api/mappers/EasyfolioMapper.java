@@ -1,14 +1,17 @@
 package com.simplon.easyportfolio.api.mappers;
 
 import com.simplon.easyportfolio.api.controllers.educations.EducationGetDTO;
+import com.simplon.easyportfolio.api.controllers.experiences.ExperienceDTO;
 import com.simplon.easyportfolio.api.controllers.portfolios.PortfolioDTO;
 import com.simplon.easyportfolio.api.controllers.portfolios.PortfolioGetDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
 import com.simplon.easyportfolio.api.repositories.educations.EducationRepositoryModel;
+import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
+import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceRequestModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceResponseModel;
@@ -39,6 +42,11 @@ public interface EasyfolioMapper {
     SkillServiceModel skillDtoToServiceModel(SkillDTO skillDTO);
     @Mapping(target = "portfolio", ignore = true)
     SkillRepositoryModel skillServiceToRepositoryModel(SkillServiceModel skillServiceModel);
+
+    @Mapping(target = "portfolio", ignore = true)
+    ExperienceServiceModel experienceDtoToServiceModel(ExperienceDTO experienceDTO);
+    @Mapping(target = "portfolio", ignore = true)
+    ExperienceRepositoryModel experienceServiceToRepositoryModel(ExperienceServiceModel experienceServiceModel);
 
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

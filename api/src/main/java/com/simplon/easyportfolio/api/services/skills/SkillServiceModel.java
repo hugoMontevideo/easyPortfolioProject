@@ -1,6 +1,5 @@
 package com.simplon.easyportfolio.api.services.skills;
 
-
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

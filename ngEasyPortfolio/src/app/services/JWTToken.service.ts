@@ -15,13 +15,14 @@ export class JWTTokenService {
     setToken(token: string): void {
       if (token) {
         this.jwtToken = token;
+        sessionStorage.setItem('token', token);
       }
     }
 
     getToken(): string {
-      let token = sessionStorage.getItem('token');
-      let stringToken = token ?? "" ;      
-      return stringToken;
+      let anyToken = sessionStorage.getItem('token');
+      let token = anyToken ?? "" ;      
+      return token;
     }
 
     decodeToken() {
@@ -63,7 +64,15 @@ export class JWTTokenService {
     }
 
     isLogged(): boolean {
-      return this.getUser() != null;
+      return this.getToken() != "" 
+
+      // return this.getUser() != null;
+    }
+
+    removeToken = ():void => {
+      sessionStorage.removeItem("token");
+      this.jwtToken = "";
+
     }
 
 

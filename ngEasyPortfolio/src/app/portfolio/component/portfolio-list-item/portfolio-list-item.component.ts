@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Portfolio} from '../../model/portfolio/portfolio.interface';
 import { ActivatedRoute } from '@angular/router';
 import { PortfolioService } from '../../services/portfolio.service';
-import { LoginUser } from 'src/app/login/login-user.interface';
 import { Skill } from '../skill/skill.interface';
 import { JWTTokenService } from 'src/app/services/JWTToken.service';
+import { Experience } from '../experience/experience.interface';
 
 
 @Component({
@@ -15,6 +15,7 @@ import { JWTTokenService } from 'src/app/services/JWTToken.service';
 export class PortfolioListItemComponent implements OnInit {
   table: string = 'portfolios';
   portfolioId!:number;
+  legend!: string; // form legend
   portfolio: Portfolio = {
         id: 0,
         title: "",
@@ -29,21 +30,26 @@ export class PortfolioListItemComponent implements OnInit {
         skills: []
         // u_id!: number;
     }
-    loginUser: LoginUser ={
-      email:"",
-      token: "",
-
-    } 
-    legend!: string;
+    
+    
     skillEdit: Skill = {
       id:-1,
       title: "",
       description: "",
       portfolioId: 0
     };
+    skillForm: boolean = false; // display or hide form
 
-    skillForm: boolean = false;
-
+    experienceEdit: Experience = {
+      id: -1,
+      title: "",
+      description: "",
+      startDate: "",
+      endDate:"",
+      portfolioId:0
+    };
+    experienceForm: boolean = false; // display or hide form
+    
   constructor(
       private route: ActivatedRoute,
       private portfolioService: PortfolioService,
@@ -51,8 +57,7 @@ export class PortfolioListItemComponent implements OnInit {
     ){};
 
   ngOnInit(): void {
-      this.portfolioId =  this.portfolioService.getId(this.route.snapshot.paramMap.get('id'));
-      this.loginUser.email = this.jwtTokenService.getUser();      
+      this.portfolioId =  this.portfolioService.getId(this.route.snapshot.paramMap.get('id'));     
 
       this.portfolioService.getPortfolioById(this.table, this.portfolioId)
       .subscribe({
@@ -61,26 +66,59 @@ export class PortfolioListItemComponent implements OnInit {
       })
       ;
   }
- 
+
   public onAddSkill = () => {
     this.legend = "Ajouter une compétence"
     this.skillForm = true;
   }
+  public onAddExperience = () => {
+    this.legend = "Ajouter une expérience"
+    this.experienceForm = true;
+  }
 
-  public onSubmit = ()=>{
+    public onSubmitExperience = ()=>{
+      // hide the form
+      this.experienceForm = false; 
+      this.experienceEdit.portfolioId = this.portfolioId;  
+      this.portfolioService.addExperience('experiences' , this.experienceEdit)
+      .subscribe({
+        next:(data)=>{
+          // Ajouter skillEdit a skills [] pour affichage
+          this.portfolio.experiences.push(this.experienceEdit);
+        },
+        error:(err:Error)=>{
+          console.log("**error adding experience**");
+        }
+      });
+    }
+
+  public onSubmitSkill = ()=>{
     // hide the form
     this.skillForm = false; 
     this.skillEdit.portfolioId = this.portfolioId;  
     this.portfolioService.addSkill('skills' , this.skillEdit)
     .subscribe({
       next:(data)=>{
-        // Ajouter skillEdit a skills [] pour affichage
+        // Add skillEdit to skills [], display purpose
         this.portfolio.skills.push(this.skillEdit);
       },
       error:(err:Error)=>{
         console.log("**error adding skill**");
       }
     });
+  }
+
+
+  onDeleteSkill = (skillId : number, index: number):void => {
+    this.portfolio.skills.splice(index, 1);
+      this.portfolioService.deleteSkill("skills" , skillId)
+      .subscribe({
+      next:( )=> {
+        this.portfolio.skills.splice(index,1)
+       },
+      error:(err:Error)=>{ console.log("Error while deleting skill.");
+          }
+     }) 
   }
 
   // onEditClick(event: any) {

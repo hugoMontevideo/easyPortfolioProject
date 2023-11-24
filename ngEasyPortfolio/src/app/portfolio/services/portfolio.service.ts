@@ -7,6 +7,8 @@ import { LoginUser } from "src/app/login/login-user.interface";
 import { Portfolio } from "../model/portfolio/portfolio.interface";
 import { JWTTokenService } from "src/app/services/JWTToken.service";
 import { Skill } from "../component/skill/skill.interface";
+import { Experience } from "../component/experience/experience.interface";
+import { ExperienceDto } from "../component/experience/experience-dto.interface";
 
 @Injectable()
 
@@ -23,16 +25,13 @@ export class PortfolioService {
          ) {};
 
     // get by id
-    public getPortfolioById(table:string, id:number): Observable<Portfolio> | any{
+    public getPortfolioById(table:string, id:number): Observable<Portfolio> | any {
         // get the token
         this.jwtTokenService.setToken(this.jwtTokenService.getToken());
         if(this.jwtTokenService.isLogged()){
 
             return this.http.get<Portfolio>(`${this.ENV_DEV}/${table}/${id}`);
-
         }
-
-
     }
 
     // get All
@@ -50,13 +49,40 @@ export class PortfolioService {
       
     }
 
+    // table : EXPERIENCE *************
+
+    addExperience = ( table: string, experienceEdit: Experience ): Observable<any> => {    
+        
+        let startDate: number = this.dateToLong(experienceEdit.startDate);
+        let endDate: number = this.dateToLong(experienceEdit.endDate);
+        let experience : ExperienceDto = {
+            id: 0,
+            title: experienceEdit.title,
+            description: experienceEdit.description,
+            startDate: startDate,
+            endDate:endDate,
+            portfolioId:experienceEdit.portfolioId
+        }
+        
+
+
+        return this.http.post(`${this.ENV_DEV}/${table}`, experience ,{responseType: "json"} );
+    }
+
+    deleteExperience = (table: string , skillId: number): Observable<any> | any => {
+        // this.jwtTokenService.setToken(this.jwtTokenService.getToken());
+        // if(this.jwtTokenService.isLogged()){
+        //     return this.http.delete(`${this.ENV_DEV}/${table}/${skillId}`,{responseType: "json"} );  
+        // }
+    }
+
     // table : SKILL *************
 
-    addSkill( table: string, skillEdit: Skill ): Observable<any> {        
+    addSkill = ( table: string, skillEdit: Skill ): Observable<any> => {        
         return this.http.post(`${this.ENV_DEV}/${table}`, skillEdit ,{responseType: "json"} );
     }
 
-    deleteSkill(table: string , skillId: number): Observable<any> | any{
+    deleteSkill= (table: string , skillId: number): Observable<any> | any => {
         // this.jwtTokenService.setToken(this.jwtTokenService.getToken());
         if(this.jwtTokenService.isLogged()){
             return this.http.delete(`${this.ENV_DEV}/${table}/${skillId}`,{responseType: "json"} );  
@@ -65,6 +91,12 @@ export class PortfolioService {
 
 
 
+
+    // UTILS ****************************
+    dateToLong = (date : string ): number => {
+        let tempDate: Date = new Date(date);
+        return tempDate.getTime();
+    }
 
     
 }

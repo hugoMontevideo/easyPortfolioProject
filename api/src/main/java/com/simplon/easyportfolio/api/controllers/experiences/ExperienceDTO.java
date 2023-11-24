@@ -1,10 +1,12 @@
 package com.simplon.easyportfolio.api.controllers.experiences;
 
-import jakarta.persistence.Column;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ExperienceDTO {
-    private Long id;
-
     private String title;
 
     private String company;
@@ -15,5 +17,5 @@ public class ExperienceDTO {
 
     private Long endDate;
 
-    private Long portfolio_id;
+    private Long portfolioId;
 }

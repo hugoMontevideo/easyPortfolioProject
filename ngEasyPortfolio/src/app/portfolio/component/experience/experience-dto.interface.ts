@@ -1,8 +1,8 @@
-export interface Experience {
+export interface ExperienceDto {
     id: number,
     title: string,
     description: string,
-    startDate: string,
-    endDate:string,
+    startDate: number,
+    endDate:number,
     portfolioId:number
 }

@@ -1,10 +1,13 @@
 package com.simplon.easyportfolio.api.services.portfolios;
 
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
+import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepository;
+import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepository;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepository;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
+import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
 import jakarta.transaction.Transactional;
@@ -22,6 +25,8 @@ public class PortfolioService {
     PortfolioRepository portfolioRepository;
     @Autowired
     SkillRepository skillRepository;
+    @Autowired
+    ExperienceRepository experienceRepository;
 
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
 
@@ -71,6 +76,18 @@ public class PortfolioService {
 
         portfolioRepository.deleteById(id);
     }
+    // Table : EXPERIENCE   *****************
+    public ExperienceRepositoryModel addExperience(ExperienceServiceModel experienceServiceModel) {
+        ExperienceRepositoryModel repositoryModel = mapper.experienceServiceToRepositoryModel(experienceServiceModel);
+        // adding portfolio manually
+        Optional<PortfolioRepositoryModel> portfolioRepositoryModel =
+                portfolioRepository.findById( experienceServiceModel.getPortfolio().getId() );
+
+        if( portfolioRepositoryModel.isPresent() )  {
+            repositoryModel.setPortfolio(portfolioRepositoryModel.get());
+        }
+        return experienceRepository.save(repositoryModel);
+    }
 
 
     // Table : SKILL   *****************
@@ -107,6 +124,7 @@ public class PortfolioService {
     public void deleteSkill(Long id) {
         skillRepository.deleteById(id);
     }
+
 
 
 

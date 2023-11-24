@@ -3,10 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginEmailPwd } from '../login/login-email-pwd.interface';
-import { LoginUser } from '../login/login-user.interface';
 import { JWTTokenService } from './JWTToken.service';
 import { Router } from '@angular/router';
-import { SessionStorageService } from './session-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,16 +14,10 @@ export class LoginService {
   ENV_BASE :string = environment.baseUrl;
   ENV_DEV : string = environment.apiUrl;
   
-  loginUser: LoginUser ={
-                          email:"",
-                          token: ""
-                        } ;
-  
   httpClient!: HttpClient; // de cette façon on évite l'interceptor (middleware)
 
   constructor(
-        private route : Router,
-        private storageService : SessionStorageService,
+        private router : Router,
         private httpBackend: HttpBackend,
         private jwtToken: JWTTokenService
       ) { };
@@ -38,19 +30,22 @@ export class LoginService {
     .pipe(map(data => {
       if(data){
         this.jwtToken.setToken(data.token);        
-        this.loginUser.token = data.token;
-        this.storageService.setToken(data.token);   
+        
       }
       return data ;
     }))
   }
 
-  public logout(){
-    this.loginUser = {
-      email:"",
-      token: ""
-    } ;
-    sessionStorage.removeItem("token");
+  public logout = ():void => {
+    this.jwtToken.removeToken();
+  }
+
+  // verify if user is logged then logout
+  onLogin = ():void => {
+    if( this.jwtToken.isLogged() ){
+      this.logout();
+      this.router.navigateByUrl("/");
+    }
   }
 
   

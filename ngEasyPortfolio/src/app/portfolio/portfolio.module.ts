@@ -6,7 +6,6 @@ import { PortfolioService } from './services/portfolio.service';
 import { PortfolioListComponent } from './component/portfolio-list/portfolio-list.component';
 import { PortfolioListItemComponent } from './component/portfolio-list-item/portfolio-list-item.component';
 import { SkillComponent } from './component/skill/skill.component';
-import { DashboardNavComponent } from './dashboard-nav/dashboard-nav.component';
 import { ExperienceComponent } from './component/experience/experience.component';
 import { EducationComponent } from './component/education/education.component';
 import { ProjectComponent } from './component/project/project.component';
@@ -19,7 +18,6 @@ import { FormsModule } from '@angular/forms';
     PortfolioListComponent,
     PortfolioListItemComponent,
     SkillComponent,
-    DashboardNavComponent,
     ExperienceComponent,
     EducationComponent,
     ProjectComponent,

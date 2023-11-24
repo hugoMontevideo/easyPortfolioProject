@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, catchError, throwError } from "rxjs";
-import { SessionStorageService } from "./session-storage.service";
+import { JWTTokenService } from "./JWTToken.service";
 
 @Injectable()
 
@@ -10,12 +10,11 @@ export class JwtInterceptorService implements HttpInterceptor {
 
     constructor(
         private route : Router,
-        private storageService : SessionStorageService
+        private jwtToken : JWTTokenService
     ){};
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log("requete intercept");
-        let token: string | any = this.storageService.getToken();
+        let token: string = this.jwtToken.getToken();
        
         req = req.clone({
             setHeaders:{ Authorization: `Bearer ${token}`}
