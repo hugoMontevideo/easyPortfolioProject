@@ -28,7 +28,7 @@ public class SkillController {
 
     @GetMapping("/{id}")  //  GET BY ID   *****
     public ResponseEntity<SkillGetDTO> findById(@PathVariable Long id){
-
+        // TODO *** finish the method, not working yet ***
         try{
            SkillServiceResponseModel responseModel = portfolioService.findSkillById(id);
 
@@ -47,7 +47,7 @@ public class SkillController {
         if (portfolioService.findById(skillDTO.getPortfolioId()) != null ){
             PortfolioServiceModel portfolio = new PortfolioServiceModel( skillDTO.getPortfolioId() );
 
-            //todo *** try catch du findById
+            //todo *** try catch on findById
             SkillServiceModel skillServiceModel = mapper.skillDtoToServiceModel(skillDTO);
             //adding portfolio manually
             skillServiceModel.setPortfolio(portfolio);

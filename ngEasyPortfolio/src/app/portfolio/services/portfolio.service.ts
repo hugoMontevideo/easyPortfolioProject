@@ -9,6 +9,7 @@ import { JWTTokenService } from "src/app/services/JWTToken.service";
 import { Skill } from "../component/skill/skill.interface";
 import { Experience } from "../component/experience/experience.interface";
 import { ExperienceDto } from "../component/experience/experience-dto.interface";
+import { Education } from "../component/education/education.interface";
 
 @Injectable()
 
@@ -20,8 +21,9 @@ export class PortfolioService {
       } ;
 
 
-    constructor ( private http: HttpClient,
-            private jwtTokenService : JWTTokenService
+    constructor ( 
+                private http: HttpClient,
+                private jwtTokenService : JWTTokenService
          ) {};
 
     // get by id
@@ -48,6 +50,16 @@ export class PortfolioService {
         return parseInt(id) ?? 0;
       
     }
+    // table : EDUCATION *************
+    addEducation = ( table: string, educationEdit: Education ): Observable<any> => {  
+        console.log(educationEdit.startDate);
+        console.log(educationEdit.endDate);
+        
+          
+        // The dates are of type Date in Angular and of type LocalDate in Java 
+        return this.http.post(`${this.ENV_DEV}/${table}`, educationEdit ,{responseType: "json"} );
+    }
+
 
     // table : EXPERIENCE *************
 
@@ -56,23 +68,21 @@ export class PortfolioService {
         let startDate: number = this.dateToLong(experienceEdit.startDate);
         let endDate: number = this.dateToLong(experienceEdit.endDate);
         let experience : ExperienceDto = {
-            id: 0,
-            title: experienceEdit.title,
-            description: experienceEdit.description,
-            startDate: startDate,
-            endDate:endDate,
-            portfolioId:experienceEdit.portfolioId
-        }
-        
-
-
+                id: 0,
+                title: experienceEdit.title,
+                company: experienceEdit.company,
+                description: experienceEdit.description,
+                startDate: startDate,
+                endDate:endDate,
+                portfolioId:experienceEdit.portfolioId
+            }
         return this.http.post(`${this.ENV_DEV}/${table}`, experience ,{responseType: "json"} );
     }
 
-    deleteExperience = (table: string , skillId: number): Observable<any> | any => {
+    deleteExperience = (table: string , experienceId: number): Observable<any> | any => {
         // this.jwtTokenService.setToken(this.jwtTokenService.getToken());
         // if(this.jwtTokenService.isLogged()){
-        //     return this.http.delete(`${this.ENV_DEV}/${table}/${skillId}`,{responseType: "json"} );  
+            return this.http.delete(`${this.ENV_DEV}/${table}/${experienceId}`,{responseType: "json"} );  
         // }
     }
 

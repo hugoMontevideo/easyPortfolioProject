@@ -5,6 +5,7 @@ import { PortfolioService } from '../../services/portfolio.service';
 import { Skill } from '../skill/skill.interface';
 import { JWTTokenService } from 'src/app/services/JWTToken.service';
 import { Experience } from '../experience/experience.interface';
+import { Education } from '../education/education.interface';
 
 
 @Component({
@@ -43,12 +44,26 @@ export class PortfolioListItemComponent implements OnInit {
     experienceEdit: Experience = {
       id: -1,
       title: "",
+      company:"",
       description: "",
       startDate: "",
       endDate:"",
       portfolioId:0
     };
     experienceForm: boolean = false; // display or hide form
+
+    educationEdit: Education = {
+        id: -1,
+        training: "",
+        school: "",
+        degree: "",
+        startDate: new Date("1970-01-01"),
+        endDate: new Date,
+        description: "",
+        portfolioId: 0
+  
+    };
+    educationForm: boolean = false; // display or hide form
     
   constructor(
       private route: ActivatedRoute,
@@ -63,8 +78,8 @@ export class PortfolioListItemComponent implements OnInit {
       .subscribe({
         next:(response:Portfolio) => { this.portfolio = response }, 
         error: (err:Error) => console.log("Error portfolioById")
-      })
-      ;
+      });
+      
   }
 
   public onAddSkill = () => {
@@ -75,22 +90,58 @@ export class PortfolioListItemComponent implements OnInit {
     this.legend = "Ajouter une expérience"
     this.experienceForm = true;
   }
+  public onAddEducation = () => {
+    this.legend = "Ajouter une expérience"
+    this.educationForm = true;
+  }
 
-    public onSubmitExperience = ()=>{
-      // hide the form
-      this.experienceForm = false; 
-      this.experienceEdit.portfolioId = this.portfolioId;  
-      this.portfolioService.addExperience('experiences' , this.experienceEdit)
-      .subscribe({
-        next:(data)=>{
-          // Ajouter skillEdit a skills [] pour affichage
-          this.portfolio.experiences.push(this.experienceEdit);
-        },
-        error:(err:Error)=>{
-          console.log("**error adding experience**");
+  public onSubmitEducation = ()=>{
+    console.log(this.educationEdit.startDate);
+    let testDate = new Date();
+    console.log(testDate, "**");
+    
+    
+    // // hide the form
+    this.educationForm = false; 
+    this.educationEdit.portfolioId = this.portfolioId;  
+    this.portfolioService.addEducation('educations' , this.educationEdit)
+    .subscribe({
+      next:(data)=>{
+        // Ajouter educationEdit a educations [] pour affichage
+        this.portfolio.educations.push(this.educationEdit);
+      },
+      error:(err:Error)=>{
+        console.log("**error adding education**");
+      }
+    });
+  }
+
+  public onSubmitExperience = ()=>{
+    // hide the form
+    this.experienceForm = false; 
+    this.experienceEdit.portfolioId = this.portfolioId;  
+    this.portfolioService.addExperience('experiences' , this.experienceEdit)
+    .subscribe({
+      next:(data)=>{
+        // Ajouter skillEdit a skills [] pour affichage
+        this.portfolio.experiences.push(this.experienceEdit);
+      },
+      error:(err:Error)=>{
+        console.log("**error adding experience**");
+      }
+    });
+  }
+
+  onDeleteExperience = (experienceId : number, index: number):void => {
+    this.portfolioService.deleteExperience("experiences" , experienceId)
+    .subscribe({
+    next:( )=> {
+      this.portfolio.experiences.splice(index,1)
+      },
+    error:(err:Error)=>{ console.log("Error while deleting experience.");
         }
-      });
-    }
+    }) 
+  }
 
   public onSubmitSkill = ()=>{
     // hide the form
@@ -108,17 +159,15 @@ export class PortfolioListItemComponent implements OnInit {
     });
   }
 
-
   onDeleteSkill = (skillId : number, index: number):void => {
-    this.portfolio.skills.splice(index, 1);
-      this.portfolioService.deleteSkill("skills" , skillId)
-      .subscribe({
-      next:( )=> {
-        this.portfolio.skills.splice(index,1)
-       },
-      error:(err:Error)=>{ console.log("Error while deleting skill.");
-          }
-     }) 
+    this.portfolioService.deleteSkill("skills" , skillId)
+    .subscribe({
+    next:( )=> {
+      this.portfolio.skills.splice(index,1)
+      },
+    error:(err:Error)=>{ console.log("Error while deleting skill.");
+        }
+    }) 
   }
 
   // onEditClick(event: any) {

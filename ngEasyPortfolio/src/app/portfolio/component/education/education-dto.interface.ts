@@ -1,4 +1,4 @@
-export interface Education {
+export interface EducationDto {
     id: number,
     training: string,
     school: string,

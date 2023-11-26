@@ -1,6 +1,5 @@
 package com.simplon.easyportfolio.api.services.educations;
 
-import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceResponseModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,14 +12,12 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EducationServiceResponseModel {
-    private Long id;
+public class EducationServiceRequestModel {
     private String training;
     private String school;
     private String degree;
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
-    //@OneToMany(mappedBy = "experience", orphanRemoval = true)
-    //private List<DocumentExperienceRepositoryModel> skills = new ArrayList<>();
+    private Long portfolioId;
 }

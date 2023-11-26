@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -22,11 +25,14 @@ public class EducationRepositoryModel {
     @Column(name = "school")
     private String school;
 
+    @Column(name = "start_date")
+    private LocalDate startDate;
+
+    @Column(name = "end_date")
+    private LocalDate endDate;
+
     @Column(name = "degree")
     private String degree;
-
-    @Column(name = "training_year")
-    private Long trainingYear;
 
     @Column(name = "description")
     private String description;

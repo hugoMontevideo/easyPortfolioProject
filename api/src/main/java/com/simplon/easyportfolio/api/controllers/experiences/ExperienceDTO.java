@@ -7,15 +7,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExperienceDTO {
+
     private String title;
-
     private String company;
-
     private String description;
-
     private Long startDate;
-
     private Long endDate;
-
     private Long portfolioId;
 }

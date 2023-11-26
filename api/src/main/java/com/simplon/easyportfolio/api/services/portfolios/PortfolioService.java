@@ -1,13 +1,19 @@
 package com.simplon.easyportfolio.api.services.portfolios;
 
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
+import com.simplon.easyportfolio.api.repositories.educations.EducationRepository;
+import com.simplon.easyportfolio.api.repositories.educations.EducationRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepository;
 import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepository;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepository;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
+import com.simplon.easyportfolio.api.services.educations.EducationServiceModel;
+import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestModel;
+import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceModel;
+import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceResponseModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
 import jakarta.transaction.Transactional;
@@ -24,9 +30,11 @@ public class PortfolioService {
     @Autowired
     PortfolioRepository portfolioRepository;
     @Autowired
-    SkillRepository skillRepository;
+    EducationRepository educationRepository;
     @Autowired
     ExperienceRepository experienceRepository;
+    @Autowired
+    SkillRepository skillRepository;
 
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
 
@@ -63,7 +71,6 @@ public class PortfolioService {
         ArrayList<PortfolioServiceResponseModel> portfolioServiceModels = new ArrayList<>();
 
         ArrayList<PortfolioRepositoryModel> portfolioRepositoryModels = portfolioRepository.findAll();
-        System.out.println(portfolioRepositoryModels.get(0));
 
         portfolioRepositoryModels.forEach((PortfolioRepositoryModel item)->portfolioServiceModels.add( mapper.portfolioRepositoryToResponseSvc(item) ));
 
@@ -73,9 +80,32 @@ public class PortfolioService {
     }
 
     public void delete(Long id) {
-
         portfolioRepository.deleteById(id);
     }
+
+    // Table : EDUCATION   *****************
+    public boolean addEducation(EducationServiceRequestModel educationRequest) {
+        if (portfolioRepository.findById(educationRequest.getPortfolioId()).isPresent()) {
+            PortfolioServiceModel portfolio = new PortfolioServiceModel(educationRequest.getPortfolioId());
+            EducationServiceModel educationServiceModel = new EducationServiceModel(
+                educationRequest.getTraining(),
+                educationRequest.getSchool(),
+                educationRequest.getDegree(),
+                educationRequest.getStartDate(),
+                educationRequest.getEndDate(),
+                educationRequest.getDescription(),
+                portfolio
+            );
+
+            EducationRepositoryModel education = mapper.educationServiceToRepositoryModel(educationServiceModel);
+
+            educationRepository.save(education);
+
+            return true;
+        }
+        return false;
+    }
+
     // Table : EXPERIENCE   *****************
     public ExperienceRepositoryModel addExperience(ExperienceServiceModel experienceServiceModel) {
         ExperienceRepositoryModel repositoryModel = mapper.experienceServiceToRepositoryModel(experienceServiceModel);
@@ -87,6 +117,24 @@ public class PortfolioService {
             repositoryModel.setPortfolio(portfolioRepositoryModel.get());
         }
         return experienceRepository.save(repositoryModel);
+    }
+    public ExperienceServiceResponseModel findExperienceById(Long id) {
+        // TODO *** finish the method, not working yet ***
+        Optional<ExperienceRepositoryModel> experienceRepositoryModel = experienceRepository.findById(id);
+
+        if (experienceRepositoryModel.isEmpty()){
+            return null;
+        }else{
+            //SkillServiceResponseModel item = mapper.skillRepositoryToResponseSvc(skillRepositoryModel.get());
+
+            //return item;
+            return new ExperienceServiceResponseModel();
+        }
+
+    }
+
+    public void deleteExperience(Long id) {
+        experienceRepository.deleteById(id);
     }
 
 
@@ -124,7 +172,6 @@ public class PortfolioService {
     public void deleteSkill(Long id) {
         skillRepository.deleteById(id);
     }
-
 
 
 

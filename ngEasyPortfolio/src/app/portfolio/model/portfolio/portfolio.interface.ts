@@ -14,7 +14,7 @@ export interface Portfolio {
     email:string,
     city: string,
     projects: Project[],
-    educations: Education [],
+    educations: Education[],
     experiences: Experience[],
     skills: Skill[]
 
