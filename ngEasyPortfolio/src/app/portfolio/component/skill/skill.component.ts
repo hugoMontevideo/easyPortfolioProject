@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { Skill } from './skill.interface';
 import { PortfolioService } from '../../services/portfolio.service';
 
@@ -9,30 +9,58 @@ import { PortfolioService } from '../../services/portfolio.service';
   styleUrls: ['./skill.component.scss']
 })
 export class SkillComponent {
+  @Input() skills!:Skill[];
+  @Input() portfolioId!: number;
 
-  @Input() skill!:Skill;
-  @Input() i!: number;
-  @Output() index2Send = new EventEmitter<string>();
+  legend: string = "Ajouter";
 
-  constructor(private portfolioService: PortfolioService,
-            
+  currentSkill: Skill = {
+    id:-1,
+    title: "",
+    description: "",
+    portfolioId: this.portfolioId
+  };
+  isSkillFormShowing: boolean = false; // display or hide form
+
+  constructor(
+    private portfolioService: PortfolioService      
               ){}
 
-  onDelete = (skillId : number, index: number):void => {
-    console.log(skillId + ' ' + index);
-    
-    // this.portfolioService.deleteSkill("skills" , skillId)
-    // .subscribe({
-    //   next:( )=> { },
-    //   error:(err:Error)=>{ console.log("Error while deleting skill.");
-    //       }
-    // }) 
+    ngOnChanges(){
+      this.currentSkill.portfolioId = this.portfolioId;
+    }
+
+  onDeleteSkill = (skillId : number, index: number):void => {
+    this.portfolioService.deleteSkill("skills" , skillId)
+    .subscribe({
+    next:( )=> {
+      this.skills.splice(index,1)
+      },
+    error:(err:Error)=>{ console.log("Error while deleting skill.");
+        }
+    }) 
   }
 
-  onEmitData = () => {
-    let indexString:string = "hello";
-    this.index2Send.emit(indexString);
+  public onAddSkill = () => {
+    this.legend = "Ajouter une compétence"
+    this.isSkillFormShowing = true;
   }
 
+  public onSubmitSkill = ()=>{
+    // hide the form
+    this.isSkillFormShowing = false; 
+    // console.log(this.currentSkill);
+     
+    this.portfolioService.addSkill('skills' , this.currentSkill)
+    .subscribe({
+      next:(data)=>{
+        // Add skillEdit to skills [], display purpose
+        this.skills.push(this.currentSkill);
+      },
+      error:(err:Error)=>{
+        console.log("**error adding skill**");
+      }
+    });
+  }
 
 }

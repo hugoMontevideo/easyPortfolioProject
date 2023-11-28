@@ -1,12 +1,46 @@
-<div class="card">
-    <div class="card-body">
-        <p class="d-flex justify-content-between skill-title">
-            {{skill.title}}
-            <button (click)="onEmitData()">
-                <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
-            </button>
-        </p>
-    </div>
+<h5 class="d-flex justify-content-between title">
+    Compétences
+    <button (click)="onAddSkill()">
+      <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
+    </button>
+</h5>
+<div class="elt-form d-flex " *ngIf="isSkillFormShowing" >
+    <form #form="ngForm" class="col-6 mx-auto" (ngSubmit)="onSubmitSkill()" >
+      <legend>{{ legend }}</legend>
+      <div class="mb-3">
+        <label for="skill-title" class="form-label">Titre de la compétence</label>
+        <input type="text" 
+              class="form-control" 
+              id="skill-title" 
+              [(ngModel)]="currentSkill.title"
+              name="skill-title"
+              placeholder="Titre">
+      </div>
+      <div class="mb-3">
+        <label for="skill-description" class="form-label">Description</label>
+        <textarea class="form-control" 
+                  id="skill-description"
+                  [(ngModel)]="currentSkill.description"
+                  name="skill-description" 
+                  rows="3">Description</textarea>
+      </div>
+      <!-- <div class="mb-3">
+        <label for="skill-file" class="form-label">Chargez un fichier en rapport avec cette compétence (disabled)</label>
+        <input class="form-control" type="file" id="skill-file" disabled>
+      </div> -->
+      <input class="btn btn-primary" type="submit" value="Valider">
+    </form>
 </div>
 
-<!-- <button (click)="onDelete( skill.id, i )"> -->
+<div    *ngFor="let skill of skills; let i = index">
+    <div class="card">
+        <div class="card-body"> 
+            <p class="d-flex justify-content-between elt-title">
+                {{skill.title}}
+                 <button (click)="onDeleteSkill(skill.id, i)" class="elt-button" >
+                    <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
+                </button>  
+            </p>
+        </div>
+    </div>
+</div> 

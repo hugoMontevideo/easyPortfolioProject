@@ -7,6 +7,8 @@ import com.simplon.easyportfolio.api.repositories.experiences.ExperienceReposito
 import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepository;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
+import com.simplon.easyportfolio.api.repositories.projects.ProjectRepository;
+import com.simplon.easyportfolio.api.repositories.projects.ProjectRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepository;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceModel;
@@ -14,13 +16,15 @@ import com.simplon.easyportfolio.api.services.educations.EducationServiceRequest
 import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceResponseModel;
+import com.simplon.easyportfolio.api.services.projects.ProjectServiceModel;
+import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestModel;
+import com.simplon.easyportfolio.api.services.projects.ProjectServiceResponseModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.sound.sampled.Port;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -29,6 +33,8 @@ public class PortfolioService {
 
     @Autowired
     PortfolioRepository portfolioRepository;
+    @Autowired
+    ProjectRepository projectRepository;
     @Autowired
     EducationRepository educationRepository;
     @Autowired
@@ -54,10 +60,10 @@ public class PortfolioService {
         if (portfolioRepositoryModel.isEmpty()){
             return null;
         }else{
-            PortfolioServiceResponseModel responseModel = mapper.portfolioRepositoryToResponseSvc(portfolioRepositoryModel.get());
+
             // insertion de l'objet
 
-            return responseModel ;
+            return mapper.portfolioRepositoryToResponseSvc(portfolioRepositoryModel.get());
         }
     }
 
@@ -83,7 +89,43 @@ public class PortfolioService {
         portfolioRepository.deleteById(id);
     }
 
+
+        // Table : PROJECT   *****************
+    // add Project
+    public boolean addProject(ProjectServiceRequestModel projectServiceRequestModel) {
+        ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModel(projectServiceRequestModel);
+
+        return projectRepository.save(project) != null;
+
+    }
+
+    public ProjectServiceResponseModel findProjectById(Long id) {
+        // TODO *** finish the method, not working yet ***
+        Optional<ProjectRepositoryModel> projectRepositoryModel = projectRepository.findById(id);
+
+        if (projectRepositoryModel.isEmpty()){
+            return null;
+        }else{
+            //SkillServiceResponseModel item = mapper.skillRepositoryToResponseSvc(skillRepositoryModel.get());
+            //return item;
+            return new ProjectServiceResponseModel();
+
+        }
+    }
+
+    // delete Project
+    public boolean deleteProject(Long id) {
+        if(projectRepository.findById(id).isPresent()){
+            projectRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+
+
     // Table : EDUCATION   *****************
+    // add Education
     public boolean addEducation(EducationServiceRequestModel educationRequest) {
         if (portfolioRepository.findById(educationRequest.getPortfolioId()).isPresent()) {
             PortfolioServiceModel portfolio = new PortfolioServiceModel(educationRequest.getPortfolioId());
@@ -106,18 +148,44 @@ public class PortfolioService {
         return false;
     }
 
+    public EducationServiceResponseModel findEducationById(Long id) {
+        // TODO *** finish the method, not working yet ***
+        Optional<EducationRepositoryModel> experienceRepositoryModel = educationRepository.findById(id);
+
+        if (experienceRepositoryModel.isEmpty()){
+            return null;
+        }else{
+            //SkillServiceResponseModel item = mapper.skillRepositoryToResponseSvc(skillRepositoryModel.get());
+
+            //return item;
+            return new EducationServiceResponseModel();
+        }
+
+    }
+
+    // delete Education
+    public boolean deleteEducation(Long id) {
+
+        if(educationRepository.findById(id).isPresent()){
+            educationRepository.deleteById(id);
+            return true;
+        }
+        return false;
+
+    }
+
     // Table : EXPERIENCE   *****************
+
     public ExperienceRepositoryModel addExperience(ExperienceServiceModel experienceServiceModel) {
         ExperienceRepositoryModel repositoryModel = mapper.experienceServiceToRepositoryModel(experienceServiceModel);
         // adding portfolio manually
         Optional<PortfolioRepositoryModel> portfolioRepositoryModel =
                 portfolioRepository.findById( experienceServiceModel.getPortfolio().getId() );
 
-        if( portfolioRepositoryModel.isPresent() )  {
-            repositoryModel.setPortfolio(portfolioRepositoryModel.get());
-        }
+        portfolioRepositoryModel.ifPresent(repositoryModel::setPortfolio);
         return experienceRepository.save(repositoryModel);
     }
+
     public ExperienceServiceResponseModel findExperienceById(Long id) {
         // TODO *** finish the method, not working yet ***
         Optional<ExperienceRepositoryModel> experienceRepositoryModel = experienceRepository.findById(id);
@@ -132,7 +200,7 @@ public class PortfolioService {
         }
 
     }
-
+    // delete Education
     public void deleteExperience(Long id) {
         experienceRepository.deleteById(id);
     }

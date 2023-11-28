@@ -1,5 +1,4 @@
-export interface Project {
-    id: number,
+export interface ProjectAddDto {
     title: string,
     description: string,
     date: Date,

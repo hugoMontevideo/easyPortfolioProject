@@ -1,240 +1,50 @@
 
 <div class="rapp-skillow">
-    <div class="col-sm-6 mx-auto">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title title">{{portfolio.title | uppercase }}</h5>
-          <p class="card-text">{{portfolio.name | titlecase }}</p>
-          <!-- <p class="card-text">{{portfolio.city | titlecase }}</p> -->
-          <small>{{portfolio.id}}</small>
-          <div class="projects ">
-            <h5 class="title">Projets</h5>
-            <app-project *ngFor="let project of portfolio.projects" [project]="project"></app-project> 
-          </div>
+  <div class="col-sm-6 mx-auto">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title title">{{portfolio.title | uppercase }}</h5>
+        <p class="card-text">{{portfolio.name | titlecase }}</p>
+        <!-- <p class="card-text">{{portfolio.city | titlecase }}</p> -->
+        <small>{{portfolio.id}}</small>
+      
 
-          <div class="educations ">
-            <h5 class="d-flex justify-content-between title">
-              Etudes et formation
-              <button (click)="onAddEducation()">
-                <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
-              </button>
-            </h5>
-            <!-- <app-education *ngFor="let education of portfolio.educations" [education]="education"></app-education>  -->
-            
-            <div class="elt-form d-flex " *ngIf="educationForm" >
-              <form #form="ngForm" class="col-6 mx-auto" (ngSubmit)="onSubmitEducation()" >
-                <legend>{{ legend }}</legend>
-                <div class="mb-3">
-                  <input type="text" 
-                        class="form-control" 
-                        id="education-training" 
-                        [(ngModel)]="educationEdit.training"
-                        name="education-training"
-                        placeholder="Titre de la formation ou cursus">
-                </div>
-                <div class="mb-3">
-                  <input type="text" 
-                        class="form-control" 
-                        id="education-school" 
-                        [(ngModel)]="educationEdit.school"
-                        name="educationEdit-school"
-                        placeholder="Ecole">
-                </div>
-                <div class="mb-3">
-                  <input type="text" 
-                        class="form-control" 
-                        id="education-degree" 
-                        [(ngModel)]="educationEdit.degree"
-                        name="education-degree"
-                        placeholder="Diplôme, niveau d'études obtenu">
-                </div>
-                <div class="mb-3">
-                  <label for="education-startDate" class="form-label">Date de début</label>
-                  <input type="date" 
-                        class="form-control" 
-                        id="education-startDate" 
-                        [(ngModel)]="educationEdit.startDate"
-                        name="education-startDate">
-                </div>
-                <div class="mb-3">
-                  <label for="education-endDate" class="form-label">Date de fin</label>
-                  <input type="date" 
-                        class="form-control" 
-                        id="education-endDate" 
-                        [(ngModel)]="educationEdit.endDate"
-                        name="education-endDate">
-                </div>
-                <div class="mb-3">
-                  <label for="education-title" class="form-label">Description</label>
-                  <textarea class="form-control" 
-                            id="education-description"
-                            [(ngModel)]="educationEdit.description"
-                            name="education-description" 
-                            rows="3">Description</textarea>
-                </div>
-                <!-- <div class="mb-3">
-                  <label for="skill-file" class="form-label">Chargez un fichier en rapport avec cette compétence (disabled)</label>
-                  <input class="form-control" type="file" id="skill-file" disabled>
-                </div> -->
-                <input class="btn btn-primary" type="submit" value="Valider">
-              </form>
-            </div>
-
-            <div *ngFor="let education of portfolio.educations; let iii = index">
-              <div class="card">
-                <div class="card-body">
-                    <p class="d-flex justify-content-between elt-title">
-                        {{education.training}}
-                        <button (click)="onDeleteExperience(education.id, iii)" class="elt-button" >
-                            <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
-                        </button>
-                    </p>
-                </div>
-              </div>
-            </div> 
-          
-          
-          </div>
-          <div class="experiences ">
-            <h5 class="d-flex justify-content-between title">
-              Expériences professionnelles
-              <button (click)="onAddExperience()">
-                <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
-              </button>
-            </h5>
-            <div class="elt-form d-flex " *ngIf="experienceForm" >
-              <form #form1="ngForm" class="col-6 mx-auto" (ngSubmit)="onSubmitExperience()" >
-                <legend>{{ legend }}</legend>
-                <div class="mb-3">
-                  <input type="text" 
-                        class="form-control" 
-                        id="experience-title" 
-                        [(ngModel)]="experienceEdit.title"
-                        name="experience-title"
-                        placeholder="Titre">
-                </div>
-                <div class="mb-3">
-                  <input type="text" 
-                        class="form-control" 
-                        id="experience-company" 
-                        [(ngModel)]="experienceEdit.company"
-                        name="experience-company"
-                        placeholder="Entreprise ou entité">
-                </div>
-                <div class="mb-3">
-                  <label for="experience-title" class="form-label">Description</label>
-                  <textarea class="form-control" 
-                            id="experience-description"
-                            [(ngModel)]="experienceEdit.description"
-                            name="experience-description" 
-                            rows="3">Description</textarea>
-                </div>
-                <div class="mb-3">
-                  <label for="experience-startDate" class="form-label">Date de début</label>
-                  <input type="date" 
-                        class="form-control" 
-                        id="experience-startDate" 
-                        [(ngModel)]="experienceEdit.startDate"
-                        name="experience-startDate">
-                </div>
-                <div class="mb-3">
-                  <label for="experience-endDate" class="form-label">Date de fin</label>
-                  <input type="date" 
-                        class="form-control" 
-                        id="experience-endDate" 
-                        [(ngModel)]="experienceEdit.endDate"
-                        name="experience-endDate">
-                </div>
-                <!-- <div class="mb-3">
-                  <label for="skill-file" class="form-label">Chargez un fichier en rapport avec cette compétence (disabled)</label>
-                  <input class="form-control" type="file" id="skill-file" disabled>
-                </div> -->
-                <input class="btn btn-primary" type="submit" value="Valider">
-              </form>
-            </div>
-            
-            <div *ngFor="let experience of portfolio.experiences; let ii = index">
-              <div class="card">
-                <div class="card-body">
-                    <p class="d-flex justify-content-between elt-title">
-                        {{experience.title}}
-                        <button (click)="onDeleteExperience(experience.id, ii)" class="elt-button" >
-                            <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
-                        </button>
-                    </p>
-                </div>
-              </div>
-            </div> 
-          </div>
-
-          <div class="skills "><!-- *********  SKILLS   ********** -->
-            <h5 class="d-flex justify-content-between title">
-              Compétences
-              <button (click)="onAddSkill()">
-                <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
-              </button>
-            </h5>
-
-            <div class="elt-form d-flex " *ngIf="skillForm" >
-              <form #form="ngForm" class="col-6 mx-auto" (ngSubmit)="onSubmitSkill()" >
-                <legend>{{ legend }}</legend>
-                <div class="mb-3">
-                  <label for="skill-title" class="form-label">Titre de la compétence</label>
-                  <input type="text" 
-                        class="form-control" 
-                        id="skill-title" 
-                        [(ngModel)]="skillEdit.title"
-                        name="skill-title"
-                        placeholder="Titre">
-                </div>
-                <div class="mb-3">
-                  <label for="skill-description" class="form-label">Description</label>
-                  <textarea class="form-control" 
-                            id="skill-description"
-                            [(ngModel)]="skillEdit.description"
-                            name="skill-description" 
-                            rows="3">Description</textarea>
-                </div>
-                <!-- <div class="mb-3">
-                  <label for="skill-file" class="form-label">Chargez un fichier en rapport avec cette compétence (disabled)</label>
-                  <input class="form-control" type="file" id="skill-file" disabled>
-                </div> -->
-                <input class="btn btn-primary" type="submit" value="Valider">
-              </form>
-            </div>
-            
-            <div *ngFor="let skill of portfolio.skills; let i = index">
-              <div class="card">
-                <div class="card-body">
-                    <p class="d-flex justify-content-between elt-title">
-                        {{skill.title}}
-                        <button (click)="onDeleteSkill(skill.id, i)" class="elt-button" >
-                            <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
-                        </button>
-                    </p>
-                </div>
-              </div>
-            </div> 
-
-          </div>
-
-          <div class="actions">
-            <!-- <button class="btn btn-info"
-                      (click)="onEditClick($event)"
-                      data-bs-toggle="modal"
-                      data-bs-target="#editModal">
-                  Modifier
-            </button>
-            <button class="btn btn-warning"
-                    (click)="onDeleteClick($event)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteModal">
-                Supprimer
-            </button> -->
-          </div>
+        <div class="projects ">
+          <app-project [projects]="portfolio.projects" [portfolioId]="portfolioId"></app-project> 
         </div>
+
+        <div class="educations ">
+          <app-education [educations]="portfolio.educations" [portfolioId]="portfolioId"></app-education> 
+        </div>
+
+        <div class="experiences ">
+          <app-experience [experiences]="portfolio.experiences" [portfolioId]="portfolioId"></app-experience>
+        </div>
+          
+          
+
+        <div class="skills" ><!-- *********  SKILLS   ********** -->    
+          <app-skill [skills]="portfolio.skills" [portfolioId]="portfolioId"></app-skill>
+        </div>
+
+        <div class="actions">
+          <!-- <button class="btn btn-info"
+                    (click)="onEditClick($event)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editModal">
+                Modifier
+          </button>
+          <button class="btn btn-warning"
+                  (click)="onDeleteClick($event)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteModal">
+              Supprimer
+          </button> -->
+        </div>
+        
       </div>
     </div>
+  </div>
 
 </div>
 

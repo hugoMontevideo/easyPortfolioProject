@@ -11,6 +11,7 @@ import com.simplon.easyportfolio.api.services.skills.SkillService;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +48,7 @@ public class SkillController {
         if (portfolioService.findById(skillDTO.getPortfolioId()) != null ){
             PortfolioServiceModel portfolio = new PortfolioServiceModel( skillDTO.getPortfolioId() );
 
-            //todo *** try catch on findById
+            //TODO *** try catch on findById
             SkillServiceModel skillServiceModel = mapper.skillDtoToServiceModel(skillDTO);
             //adding portfolio manually
             skillServiceModel.setPortfolio(portfolio);
@@ -62,12 +63,17 @@ public class SkillController {
     // delete Skill
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id){
-        if(portfolioService.findSkillById(id) != null){
+
+        try {
             portfolioService.deleteSkill(id);
-            return new ResponseEntity<>("Le skill id : "+ id +" a été supprimé.", HttpStatus.NOT_FOUND);
-        }else{
-            return new ResponseEntity<>("Le skill id : "+ id +" n'a pas été trouvé.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.noContent().build(); // Statut 204 No Content
+        } catch(DataAccessException e) {
+            return ResponseEntity.status(502).build();
+        } catch(Exception e){
+            return ResponseEntity.notFound().build(); // Statut 404 No Content
         }
+
+
     }
 
 

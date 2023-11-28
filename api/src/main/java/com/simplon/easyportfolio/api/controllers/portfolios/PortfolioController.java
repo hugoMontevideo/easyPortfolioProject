@@ -70,7 +70,7 @@ public class PortfolioController {
     public ResponseEntity<String> delete(@PathVariable Long id){
         if(portfolioService.findById(id) != null){
             portfolioService.delete(id);
-            return new ResponseEntity<>("Le portfolio id : "+ id +" a été supprimé.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Le portfolio id : "+ id +" a été supprimé.", HttpStatus.OK);
         }else{
             return new ResponseEntity<>("Le portfolio id : "+ id +" n'a pas été trouvé.", HttpStatus.NOT_FOUND);
         }

@@ -15,6 +15,7 @@ import { ConnectionComponent } from './connection/connection.component';
 import { JWTTokenService } from './services/JWTToken.service';
 import { JwtInterceptorService } from './services/jwt-interceptor.service';
 import { HomeNavComponent } from './core/home-nav/home-nav.component';
+import { FooterComponent } from './core/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { HomeNavComponent } from './core/home-nav/home-nav.component';
     UserComponent,
     LoginComponent,
     ConnectionComponent,
-    HomeNavComponent
+    HomeNavComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

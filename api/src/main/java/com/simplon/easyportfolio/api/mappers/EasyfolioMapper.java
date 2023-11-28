@@ -6,11 +6,14 @@ import com.simplon.easyportfolio.api.controllers.experiences.ExperienceDTO;
 import com.simplon.easyportfolio.api.controllers.experiences.ExperienceGetDTO;
 import com.simplon.easyportfolio.api.controllers.portfolios.PortfolioDTO;
 import com.simplon.easyportfolio.api.controllers.portfolios.PortfolioGetDTO;
+import com.simplon.easyportfolio.api.controllers.projects.ProjectDTO;
+import com.simplon.easyportfolio.api.controllers.projects.ProjectGetDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
 import com.simplon.easyportfolio.api.repositories.educations.EducationRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
+import com.simplon.easyportfolio.api.repositories.projects.ProjectRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestModel;
@@ -20,6 +23,9 @@ import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceRespo
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceRequestModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceResponseModel;
+import com.simplon.easyportfolio.api.services.projects.ProjectServiceModel;
+import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestModel;
+import com.simplon.easyportfolio.api.services.projects.ProjectServiceResponseModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
@@ -35,13 +41,15 @@ public interface EasyfolioMapper {
     EasyfolioMapper INSTANCE = Mappers.getMapper(EasyfolioMapper.class);
 
 
-
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //            DTO  ->  Service  -->  Repository
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     PortfolioServiceRequestModel portfolioDtoToServiceModel (PortfolioDTO portfolioDTO);
     PortfolioRepositoryModel portfolioSvcToRepositoryModel (PortfolioServiceModel portfolioServiceModel);
+    ProjectRepositoryModel projectServiceRequestToRepositoryModel(ProjectServiceRequestModel projectServiceRequestModel);
+    @Mapping(target = "portfolio", ignore = true)
+    ProjectServiceRequestModel projectDtoToServiceRequestModel(ProjectDTO projectDTO);
 
     EducationServiceRequestModel educationDtoToServiceRequestModel(EducationDTO educationDTO);
     EducationRepositoryModel educationServiceToRepositoryModel(EducationServiceModel educationServiceModel);
@@ -82,6 +90,9 @@ public interface EasyfolioMapper {
 
     EducationServiceResponseModel educationRepositoryToResponseSvc(EducationRepositoryModel educationRepositoryModel);
     EducationGetDTO educationSvcToGetDTO(EducationServiceResponseModel educationServiceResponseModel);
+
+
+    ProjectGetDTO projectSvcToGetDTO(ProjectServiceResponseModel educationServiceResponseModel);
 
 
 

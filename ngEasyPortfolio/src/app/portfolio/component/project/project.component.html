@@ -1,5 +1,59 @@
-<div class="card">
-    <div class="card-body">
-        <h5>{{project.title}}</h5>
+<h5 class="d-flex justify-content-between title">
+    Projets
+    <button (click)="onAddProject()">
+      <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
+    </button>
+
+    <div *ngIf="isProjectFormShowing" class="gradient">Essayez gratuitement !! </div>
+</h5>
+
+<div class="elt-form d-flex " *ngIf="isProjectFormShowing" >
+    <form #form="ngForm" class="col-6 mx-auto" (ngSubmit)="onSubmitProject()" >
+      <legend>{{ legend }}</legend>
+      <div class="mb-3">
+        <input type="text" 
+              class="form-control" 
+              id="project-title" 
+              [(ngModel)]="currentProject.title"
+              name="project-title"
+              placeholder="Titre du projet">
+      </div>
+      <div class="mb-3">
+        <label for="project-description" class="form-label">Description du projet</label>
+        <textarea class="form-control" 
+                  id="project-description"
+                  [(ngModel)]="currentProject.description"
+                  name="project-description" 
+                  rows="3"></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="project-date" class="form-label">Date</label>
+        <input type="date" 
+              class="form-control" 
+              id="project-date" 
+              [(ngModel)]="currentProject.date"
+              name="project-date">
+      </div>
+     
+      <div class="mb-3">
+        <label for="skill-file" class="form-label">Illustrez votre projet avec une image</label>
+        <input class="form-control" type="file" id="skill-file" disabled>
+      </div>
+      <input class="btn btn-primary" type="submit" value="Valider">
+    </form>
+  </div>
+
+  <div *ngFor="let project of projects; let iv = index">
+    <div class="card">
+      <div class="card-body">
+          <p class="d-flex justify-content-between elt-title">
+              {{project.title}}
+              <button (click)="onDeleteProject(project.id, iv)" class="elt-button" >
+                  <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
+              </button>
+          </p>
+      </div>
     </div>
-</div>
+  </div> 
+
+

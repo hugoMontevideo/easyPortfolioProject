@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Setter
@@ -24,7 +27,7 @@ public class ProjectRepositoryModel {
     private String description;
 
     @Column(name = "date")
-    private Long date;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
