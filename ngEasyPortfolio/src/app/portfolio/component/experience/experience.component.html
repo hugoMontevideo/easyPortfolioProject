@@ -12,7 +12,7 @@
         <input type="text" 
               class="form-control" 
               id="experience-title" 
-              [(ngModel)]="currentExperience.title"
+              [(ngModel)]="newExperience.title"
               name="experience-title"
               placeholder="Titre">
       </div>
@@ -20,7 +20,7 @@
         <input type="text" 
               class="form-control" 
               id="experience-company" 
-              [(ngModel)]="currentExperience.company"
+              [(ngModel)]="newExperience.company"
               name="experience-company"
               placeholder="Entreprise ou entité">
       </div>
@@ -28,7 +28,7 @@
         <label for="experience-title" class="form-label">Description</label>
         <textarea class="form-control" 
                   id="experience-description"
-                  [(ngModel)]="currentExperience.description"
+                  [(ngModel)]="newExperience.description"
                   name="experience-description" 
                   rows="3">Description</textarea>
       </div>
@@ -37,7 +37,7 @@
         <input type="date" 
               class="form-control" 
               id="experience-startDate" 
-              [(ngModel)]="currentExperience.startDate"
+              [(ngModel)]="newExperience.startDate"
               name="experience-startDate">
       </div>
       <div class="mb-3">
@@ -45,7 +45,7 @@
         <input type="date" 
               class="form-control" 
               id="experience-endDate" 
-              [(ngModel)]="currentExperience.endDate"
+              [(ngModel)]="newExperience.endDate"
               name="experience-endDate">
       </div>
       <!-- <div class="mb-3">

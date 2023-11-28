@@ -31,6 +31,7 @@ import java.util.Optional;
 @Service
 public class PortfolioService {
 
+    
     @Autowired
     PortfolioRepository portfolioRepository;
     @Autowired
@@ -93,7 +94,16 @@ public class PortfolioService {
         // Table : PROJECT   *****************
     // add Project
     public boolean addProject(ProjectServiceRequestModel projectServiceRequestModel) {
+        
+        
+        Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
+        
+        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
+
+        projectServiceRequestModel.setPortfolio( Optional.ofNullable(portfolioServiceModel));
+
         ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModel(projectServiceRequestModel);
+
 
         return projectRepository.save(project) != null;
 
@@ -115,11 +125,14 @@ public class PortfolioService {
 
     // delete Project
     public boolean deleteProject(Long id) {
-        if(projectRepository.findById(id).isPresent()){
+
+        try{
+        //if(projectRepository.findById(id).isPresent()){
             projectRepository.deleteById(id);
             return true;
+        }catch(Exception e){
+            return false;
         }
-        return false;
     }
 
 
@@ -166,12 +179,12 @@ public class PortfolioService {
     // delete Education
     public boolean deleteEducation(Long id) {
 
-        if(educationRepository.findById(id).isPresent()){
+        try{
             educationRepository.deleteById(id);
             return true;
+        } catch (Exception e) {
+            return false;
         }
-        return false;
-
     }
 
     // Table : EXPERIENCE   *****************
@@ -200,9 +213,15 @@ public class PortfolioService {
         }
 
     }
-    // delete Education
-    public void deleteExperience(Long id) {
-        experienceRepository.deleteById(id);
+    // delete Experience
+    public boolean deleteExperience(Long id) {
+        try {
+            experienceRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 
 

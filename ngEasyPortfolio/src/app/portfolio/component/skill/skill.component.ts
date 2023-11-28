@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { Skill } from './skill.interface';
-import { PortfolioService } from '../../services/portfolio.service';
+import { SkillService } from '../../services/skill.service';
 
 
 @Component({
@@ -22,8 +22,8 @@ export class SkillComponent {
   };
   isSkillFormShowing: boolean = false; // display or hide form
 
-  constructor(
-    private portfolioService: PortfolioService      
+  constructor(  
+          private skillService: SkillService      
               ){}
 
     ngOnChanges(){
@@ -31,7 +31,7 @@ export class SkillComponent {
     }
 
   onDeleteSkill = (skillId : number, index: number):void => {
-    this.portfolioService.deleteSkill("skills" , skillId)
+    this.skillService.deleteSkill("skills" , skillId)
     .subscribe({
     next:( )=> {
       this.skills.splice(index,1)
@@ -51,7 +51,7 @@ export class SkillComponent {
     this.isSkillFormShowing = false; 
     // console.log(this.currentSkill);
      
-    this.portfolioService.addSkill('skills' , this.currentSkill)
+    this.skillService.addSkill('skills' , this.currentSkill)
     .subscribe({
       next:(data)=>{
         // Add skillEdit to skills [], display purpose

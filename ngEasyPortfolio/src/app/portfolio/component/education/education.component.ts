@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { Education } from './education.interface';
 import { PortfolioService } from '../../services/portfolio.service';
+import { EducationService } from '../../services/education.service';
 
 @Component({
   selector: 'app-education',
@@ -14,8 +15,9 @@ export class EducationComponent {
 
   legend: string = "Ajouter";
 
-  constructor( private portfolioService: PortfolioService ){}
-  currentEducation: Education = {
+  constructor( private educationService: EducationService ){}
+
+  newEducation: Education = {
     id: -1,
     training: "",
     school: "",
@@ -28,7 +30,7 @@ export class EducationComponent {
   isEducationFormShowing: boolean = false; // display or hide form
 
   ngOnChanges(){
-    this.currentEducation.portfolioId = this.portfolioId;
+    this.newEducation.portfolioId = this.portfolioId;
   }
 
   
@@ -41,12 +43,12 @@ export class EducationComponent {
   public onSubmitEducation = ()=>{
     // // hide the form
     this.isEducationFormShowing = false; 
-    this.currentEducation.portfolioId = this.portfolioId;  
-    this.portfolioService.addEducation('educations' , this.currentEducation)
+    this.newEducation.portfolioId = this.portfolioId;  
+    this.educationService.addEducation('educations' , this.newEducation)
     .subscribe({
       next:(data: Education)=>{
         // Ajouter educationEdit a educations [] pour affichage
-        this.educations.push(this.currentEducation);
+        this.educations.push(this.newEducation);
       },
       error:(err:Error)=>{
         console.log("**error adding education**");
@@ -55,7 +57,7 @@ export class EducationComponent {
   }
 
   onDeleteEducation = (educationId : number, index: number):void => {
-    this.portfolioService.deleteEducation("educations" , educationId)
+    this.educationService.deleteEducation("educations" , educationId)
     .subscribe({
     next:( )=> {
       this.educations.splice(index,1)

@@ -12,7 +12,7 @@ import { PortfolioService } from '../../services/portfolio.service';
 export class PortfolioListItemComponent implements OnInit {
 
   table: string = 'portfolios';
-  portfolioId:number = -1;
+  // portfolioId:number = -1;
   legend!: string; // form legend
   portfolio: Portfolio = {
         id: -1,
@@ -35,9 +35,9 @@ export class PortfolioListItemComponent implements OnInit {
     ){};
 
   ngOnInit(): void {
-      this.portfolioId =  this.portfolioService.getId(this.route.snapshot.paramMap.get('id'));
+      this.portfolio.id =  this.portfolioService.getId(this.route.snapshot.paramMap.get('id'));
 
-      this.portfolioService.getPortfolioById(this.table, this.portfolioId)
+      this.portfolioService.getPortfolioById(this.table, this.portfolio.id)
       .subscribe({
         next:(response:Portfolio) => { this.portfolio = response }, 
         error: (err:Error) => console.log("Error portfolioById")

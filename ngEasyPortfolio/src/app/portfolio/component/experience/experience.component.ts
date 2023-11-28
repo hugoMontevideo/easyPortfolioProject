@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { Experience } from './experience.interface';
 import { PortfolioService } from '../../services/portfolio.service';
+import { ExperienceService } from '../../services/experience.service';
 
 @Component({
   selector: 'app-experience',
@@ -14,7 +15,7 @@ export class ExperienceComponent {
 
   legend: string = "Ajouter";
 
-  currentExperience: Experience = {
+  newExperience: Experience = {
     id: -1,
     title: "",
     company:"",
@@ -25,10 +26,10 @@ export class ExperienceComponent {
   };
   isExperienceFormShowing: boolean = false; // display or hide form
 
-  constructor( private portfolioService: PortfolioService ){}
+  constructor( private experienceService: ExperienceService ){}
   
   ngOnChanges(){
-    this.currentExperience.portfolioId = this.portfolioId;
+    this.newExperience.portfolioId = this.portfolioId;
   }
 
   public onAddExperience = () => {
@@ -39,12 +40,12 @@ export class ExperienceComponent {
   public onSubmitExperience = ()=>{
     // hide the form
     this.isExperienceFormShowing = false; 
-    this.currentExperience.portfolioId = this.portfolioId;  
-    this.portfolioService.addExperience('experiences' , this.currentExperience)
+    this.newExperience.portfolioId = this.portfolioId;  
+    this.experienceService.addExperience('experiences' , this.newExperience)
     .subscribe({
       next:(data)=>{
         // Ajouter skillEdit a skills [] pour affichage
-        this.experiences.push(this.currentExperience);
+        this.experiences.push(this.newExperience);
       },
       error:(err:Error)=>{
         console.log("**error adding experience**");
@@ -53,7 +54,7 @@ export class ExperienceComponent {
   }
 
   onDeleteExperience = (experienceId : number, index: number):void => {
-    this.portfolioService.deleteExperience("experiences" , experienceId)
+    this.experienceService.deleteExperience("experiences" , experienceId)
     .subscribe({
     next:( )=> {
       this.experiences.splice(index,1)

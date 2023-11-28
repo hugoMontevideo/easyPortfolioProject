@@ -24,15 +24,13 @@ public class ProjectController {
 
     @PostMapping
     public boolean add(@RequestBody ProjectDTO projectDTO){
+
         ProjectServiceRequestModel projectServiceRequestModel =
                 mapper.projectDtoToServiceRequestModel(projectDTO);
-        PortfolioServiceModel portfolio = new PortfolioServiceModel(projectDTO.getPortfolioId());
-
-        // TODO: convertir portfolioId en Portfolio portfolio dans le requestModel
-        projectServiceRequestModel.setPortfolio( portfolio );
 
         return portfolioService.addProject( projectServiceRequestModel );
     }
+
 
     @GetMapping("/{id}")  //  GET BY ID   *****
     public ResponseEntity<ProjectGetDTO> findById(@PathVariable Long id){

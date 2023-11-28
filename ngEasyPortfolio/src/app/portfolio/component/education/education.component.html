@@ -12,7 +12,7 @@
         <input type="text" 
               class="form-control" 
               id="education-training" 
-              [(ngModel)]="currentEducation.training"
+              [(ngModel)]="newEducation.training"
               name="education-training"
               placeholder="Titre de la formation ou cursus">
       </div>
@@ -20,7 +20,7 @@
         <input type="text" 
               class="form-control" 
               id="education-school" 
-              [(ngModel)]="currentEducation.school"
+              [(ngModel)]="newEducation.school"
               name="educationEdit-school"
               placeholder="Ecole">
       </div>
@@ -28,7 +28,7 @@
         <input type="text" 
               class="form-control" 
               id="education-degree" 
-              [(ngModel)]="currentEducation.degree"
+              [(ngModel)]="newEducation.degree"
               name="education-degree"
               placeholder="Diplôme, niveau d'études obtenu">
       </div>
@@ -37,7 +37,7 @@
         <input type="date" 
               class="form-control" 
               id="education-startDate" 
-              [(ngModel)]="currentEducation.startDate"
+              [(ngModel)]="newEducation.startDate"
               name="education-startDate">
       </div>
       <div class="mb-3">
@@ -45,14 +45,14 @@
         <input type="date" 
               class="form-control" 
               id="education-endDate" 
-              [(ngModel)]="currentEducation.endDate"
+              [(ngModel)]="newEducation.endDate"
               name="education-endDate">
       </div>
       <div class="mb-3">
         <label for="education-title" class="form-label">Description</label>
         <textarea class="form-control" 
                   id="education-description"
-                  [(ngModel)]="currentEducation.description"
+                  [(ngModel)]="newEducation.description"
                   name="education-description" 
                   rows="3">Description</textarea>
       </div>

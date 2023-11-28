@@ -7,6 +7,7 @@ import com.simplon.easyportfolio.api.services.portfolios.PortfolioService;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceRequestModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -68,11 +69,15 @@ public class PortfolioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id){
-        if(portfolioService.findById(id) != null){
+
+    try {
             portfolioService.delete(id);
-            return new ResponseEntity<>("Le portfolio id : "+ id +" a été supprimé.", HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>("Le portfolio id : "+ id +" n'a pas été trouvé.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.noContent().build(); // Statut 204 No Content
+        } catch(
+            DataAccessException e) {
+            return ResponseEntity.status(502).build(); // Statut
+        } catch(Exception e){
+            return ResponseEntity.notFound().build(); // Statut 404 Not Found
         }
     }
 

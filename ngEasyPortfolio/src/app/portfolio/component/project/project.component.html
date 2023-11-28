@@ -4,7 +4,7 @@
       <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
     </button>
 
-    <div *ngIf="isProjectFormShowing" class="gradient">Essayez gratuitement !! </div>
+    <div *ngIf="isProjectFormShowing" class="gradient ">Essayez gratuitement !! </div>
 </h5>
 
 <div class="elt-form d-flex " *ngIf="isProjectFormShowing" >
@@ -14,7 +14,7 @@
         <input type="text" 
               class="form-control" 
               id="project-title" 
-              [(ngModel)]="currentProject.title"
+              [(ngModel)]="newProject.title"
               name="project-title"
               placeholder="Titre du projet">
       </div>
@@ -22,7 +22,7 @@
         <label for="project-description" class="form-label">Description du projet</label>
         <textarea class="form-control" 
                   id="project-description"
-                  [(ngModel)]="currentProject.description"
+                  [(ngModel)]="newProject.description"
                   name="project-description" 
                   rows="3"></textarea>
       </div>
@@ -31,14 +31,14 @@
         <input type="date" 
               class="form-control" 
               id="project-date" 
-              [(ngModel)]="currentProject.date"
+              [(ngModel)]="newProject.date"
               name="project-date">
       </div>
-     
+<!--      
       <div class="mb-3">
         <label for="skill-file" class="form-label">Illustrez votre projet avec une image</label>
         <input class="form-control" type="file" id="skill-file" disabled>
-      </div>
+      </div> -->
       <input class="btn btn-primary" type="submit" value="Valider">
     </form>
   </div>

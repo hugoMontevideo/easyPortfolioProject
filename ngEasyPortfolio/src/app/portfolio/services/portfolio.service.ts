@@ -18,10 +18,10 @@ import { Project } from "../component/project/project.interface";
 
 export class PortfolioService {
     ENV_DEV:string = environment.apiUrl;
-    loginUser: LoginUser = {
-        email: '',
-        token: '',
-      } ;
+    // loginUser: LoginUser = {
+    //     email: '',
+    //     token: '',
+    //   } ;
 
 
     constructor ( 
@@ -40,8 +40,8 @@ export class PortfolioService {
     }
 
     // get All
-    getAllPortfolios( table: string): Observable<any> {
-        return this.http.get<any>(`${this.ENV_DEV}/${table}`, { responseType: "json"});
+    getAllPortfolios( table: string): Observable<Portfolio[]> {
+        return this.http.get<Portfolio[]>(`${this.ENV_DEV}/${table}`);
     }
 
     getId = (id : string | any ): number => {
@@ -50,95 +50,24 @@ export class PortfolioService {
     }
 
     // table : PROJECT *************
-    addProject = ( table: string, currentProject: Project ): Observable<any> => {     
-        // The dates are of type Date in Angular and of type LocalDate in Java 
-        let projectAdd: ProjectAddDto = {
-                            title: currentProject.title,
-                            description: currentProject.description,
-                            date: currentProject.date,
-                            portfolioId: currentProject.portfolioId
-                        }
-        return this.http.post(`${this.ENV_DEV}/${table}`, projectAdd );
-    }
-
-    deleteProject = (table: string , projectId: number): Observable<any> | any => {
-        return this.http.delete(`${this.ENV_DEV}/${table}/${projectId}` );  
-
-    }
-
+    
 
 
     // table : EDUCATION *************
-    addEducation = ( table: string, currentEducation: Education ): Observable<any> => {     
-        // The dates are of type Date in Angular and of type LocalDate in Java 
-        let educationAdd: EducationAddDto = {
-                            training: currentEducation.training,
-                            school: currentEducation.school,
-                            degree: currentEducation.degree,
-                            startDate: currentEducation.startDate,
-                            endDate: currentEducation.endDate,
-                            description: currentEducation.description,
-                            portfolioId: currentEducation.portfolioId
-                        }
-        return this.http.post(`${this.ENV_DEV}/${table}`, educationAdd ,{responseType: "json"} );
-    }
-
-    deleteEducation = (table: string , educationId: number): Observable<any> | any => {
-        // this.jwtTokenService.setToken(this.jwtTokenService.getToken());
-        return this.http.delete( `${this.ENV_DEV}/${table}/${educationId}` );  
-    }
-
+    
 
 
     // table : EXPERIENCE *************
 
-    addExperience = ( table: string, experienceEdit: Experience ): Observable<any> => {    
-        
-        let startDate: number = this.dateToLong(experienceEdit.startDate);
-        let endDate: number = this.dateToLong(experienceEdit.endDate);
-        let experience : ExperienceAddDto = {
-                title: experienceEdit.title,
-                company: experienceEdit.company,
-                description: experienceEdit.description,
-                startDate: startDate,
-                endDate:endDate,
-                portfolioId:experienceEdit.portfolioId
-            }
-        return this.http.post(`${this.ENV_DEV}/${table}`, experience ,{responseType: "json"} );
-    }
-
-    deleteExperience = (table: string , experienceId: number): Observable<any> | any => {
-        // this.jwtTokenService.setToken(this.jwtTokenService.getToken());
-        // if(this.jwtTokenService.isLogged()){
-            return this.http.delete(`${this.ENV_DEV}/${table}/${experienceId}`,{responseType: "json"} );  
-        // }
-    }
+  
 
     // table : SKILL *************
 
-    addSkill = ( table: string, currentSkill: Skill ): Observable<any> => {     
-        
-        let skill : SkillAddDto = {
-            title: currentSkill.title,
-            description: currentSkill.description,
-            portfolioId: currentSkill.portfolioId,
-        }       
-        return this.http.post(`${this.ENV_DEV}/${table}`, skill );
-    }
-
-    deleteSkill= (table: string , skillId: number): Observable<any> | any => {
-        if(this.jwtTokenService.isLogged()){
-            return this.http.delete(`${this.ENV_DEV}/${table}/${skillId}`);  
-        }
-    }
+  
 
 
 
-    // UTILS ****************************
-    dateToLong = (date : string ): number => {
-        let tempDate: Date = new Date(date);
-        return tempDate.getTime();
-    }
+   
 
     
 }

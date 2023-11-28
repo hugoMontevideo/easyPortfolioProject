@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { PortfolioRoutingModule } from './portfolio-routing.module';
 import { PortfolioService } from './services/portfolio.service';
 import { PortfolioListComponent } from './component/portfolio-list/portfolio-list.component';
@@ -12,6 +11,10 @@ import { ProjectComponent } from './component/project/project.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SkillFormComponent } from './component/skill-form/skill-form.component';
 import { FormsModule } from '@angular/forms';
+import { SkillService } from './services/skill.service';
+import { ProjectService } from './services/project.service';
+import { EducationService } from './services/education.service';
+import { ExperienceService } from './services/experience.service';
 
 @NgModule({
   declarations: [
@@ -31,6 +34,11 @@ import { FormsModule } from '@angular/forms';
   ],
   providers: [
     PortfolioService, 
+    SkillService,
+    ProjectService,
+    EducationService,
+    ExperienceService
+
   ]
 })
 export class PortfolioModule { }

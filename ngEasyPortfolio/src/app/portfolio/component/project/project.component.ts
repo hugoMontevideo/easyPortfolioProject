@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Project } from './project.interface';
-import { PortfolioService } from '../../services/portfolio.service';
-
+import { ProjectService } from '../../services/project.service';
 
 @Component({
   selector: 'app-project',
@@ -15,7 +14,7 @@ export class ProjectComponent {
 
   legend: string = "Ajouter";
 
-  currentProject: Project = {
+  newProject: Project = {
     id: -1,
     title: "",
     description: "",
@@ -25,11 +24,10 @@ export class ProjectComponent {
 
   isProjectFormShowing: boolean = false; // display or hide form
 
-
-  constructor( private portfolioService: PortfolioService ){}
+  constructor( private projectService: ProjectService ){}
 
   ngOnChanges(){
-    this.currentProject.portfolioId = this.portfolioId;
+    this.newProject.portfolioId = this.portfolioId;
   }
 
   public onAddProject = () => {
@@ -40,12 +38,12 @@ export class ProjectComponent {
   public onSubmitProject = ()=>{
     // // hide the form
     this.isProjectFormShowing = false; 
-    this.currentProject.portfolioId = this.portfolioId;  
-    this.portfolioService.addProject('projects' , this.currentProject)
+    this.newProject.portfolioId = this.portfolioId;  
+    this.projectService.addProject('projects' , this.newProject)
     .subscribe({
       next:(data: Project)=>{
         // Ajouter educationEdit a educations [] pour affichage
-        this.projects.push(this.currentProject);
+        this.projects.push(this.newProject);
       },
       error:(err:Error)=>{
         console.log("**error adding education**");
@@ -54,7 +52,7 @@ export class ProjectComponent {
   }
 
   onDeleteProject = (projectId : number, index: number):void => {
-    this.portfolioService.deleteProject("projects" , projectId)
+    this.projectService.deleteProject("projects" , projectId)
     .subscribe({
     next:( )=> {
       this.projects.splice(index,1)

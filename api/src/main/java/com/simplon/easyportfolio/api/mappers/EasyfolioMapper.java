@@ -32,9 +32,11 @@ import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
 import jakarta.persistence.ManyToOne;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface EasyfolioMapper {
@@ -47,9 +49,23 @@ public interface EasyfolioMapper {
 
     PortfolioServiceRequestModel portfolioDtoToServiceModel (PortfolioDTO portfolioDTO);
     PortfolioRepositoryModel portfolioSvcToRepositoryModel (PortfolioServiceModel portfolioServiceModel);
+
+    @Mapping(source="portfolio", target="portfolio", qualifiedByName = "optionalToType")
     ProjectRepositoryModel projectServiceRequestToRepositoryModel(ProjectServiceRequestModel projectServiceRequestModel);
-    @Mapping(target = "portfolio", ignore = true)
+    @Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")
+    //@Mapping(target = "portfolio", ignore = true)
     ProjectServiceRequestModel projectDtoToServiceRequestModel(ProjectDTO projectDTO);
+
+
+    @Named("optionalToType")
+    default <T> T optionalToType(Optional<T> source) throws Exception {
+        return source.orElse(null);
+    }
+    @Named("typeToOptional")
+    default <T> Optional<T> typeToOptional(T source) throws Exception {
+        return Optional.ofNullable(source);
+    }
+
 
     EducationServiceRequestModel educationDtoToServiceRequestModel(EducationDTO educationDTO);
     EducationRepositoryModel educationServiceToRepositoryModel(EducationServiceModel educationServiceModel);
@@ -79,6 +95,7 @@ public interface EasyfolioMapper {
 
     //@Mapping(target = "skills", ignore = true)
     PortfolioServiceResponseModel portfolioRepositoryToResponseSvc (PortfolioRepositoryModel portfolioRepositoryModel);
+    PortfolioServiceModel portfolioRepositoryToServiceModel( PortfolioRepositoryModel portfolio );
 
     PortfolioGetDTO portfolioSvcToGetDTO (PortfolioServiceResponseModel portfolioServiceResponseModel);
 
