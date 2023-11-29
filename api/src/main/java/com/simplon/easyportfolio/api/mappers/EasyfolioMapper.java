@@ -53,7 +53,7 @@ public interface EasyfolioMapper {
     @Mapping(source="portfolio", target="portfolio", qualifiedByName = "optionalToType")
     ProjectRepositoryModel projectServiceRequestToRepositoryModel(ProjectServiceRequestModel projectServiceRequestModel);
     @Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")
-    //@Mapping(target = "portfolio", ignore = true)
+    @Mapping(source="file", target="file", qualifiedByName = "optionalToType")
     ProjectServiceRequestModel projectDtoToServiceRequestModel(ProjectDTO projectDTO);
 
 

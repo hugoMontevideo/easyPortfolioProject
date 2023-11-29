@@ -1,33 +1,78 @@
-
-<div class="rapp-skillow">
-  <div class="col-sm-6 mx-auto">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title title">{{portfolio.title | uppercase }}</h5>
-        <p class="card-text">{{portfolio.name | titlecase }}</p>
-        <!-- <p class="card-text">{{portfolio.city | titlecase }}</p> -->
-        <small>{{portfolio.id}}</small>
-      
-
-        <div class="projects ">
-          <app-project [projects]="portfolio.projects" [portfolioId]="portfolio.id"></app-project> 
+<div class="aside col-3">
+  <div class="rapp-skillow">
+    <div class="col-sm-6 mx-auto">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title title">{{portfolio.title | uppercase }}</h5>
+          <p class="card-text">{{portfolio.name | titlecase }}</p>
+          <!-- <p class="card-text">{{portfolio.city | titlecase }}</p> -->
+          <small>{{portfolio.id}}</small>  
         </div>
-
-        <div class="educations ">
-          <app-education [educations]="portfolio.educations" [portfolioId]="portfolio.id"></app-education> 
+      </div>
+    </div>
+  </div>
+  
+  <div class="accordion bg-transparent" id="accordionExample">
+  
+    <div class="accordion-item bg-transparent">
+      <h2 class="accordion-header bg-transparent">
+        <button class="accordion-button bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Projets
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show bg-transparent" data-bs-parent="#accordionExample">
+        <div class="accordion-body projects bg-transparent">       
+          <app-project [projects]="portfolio.projects" [portfolioId]="portfolio.id"></app-project>        
         </div>
-
-        <div class="experiences ">
-          <app-experience [experiences]="portfolio.experiences" [portfolioId]="portfolio.id"></app-experience>
-        </div>
-          
-          
-
-        <div class="skills" ><!-- *********  SKILLS   ********** -->    
+      </div>
+    </div>
+  
+    <div class="accordion-item bg-transparent">
+      <h2 class="accordion-header bg-transparent">
+        <button class="accordion-button collapsed bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Compétences
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse bg-transparent" data-bs-parent="#accordionExample">
+        <div class="accordion-body skills bg-transparent">   
           <app-skill [skills]="portfolio.skills" [portfolioId]="portfolio.id"></app-skill>
         </div>
+      </div>
+    </div>
+    <div class="accordion-item bg-transparent">
+      <h2 class="accordion-header bg-transparent">
+        <button class="accordion-button collapsed bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Etudes et formations
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse bg-transparent" data-bs-parent="#accordionExample">
+        <div class="accordion-body educations bg-transparent">
+          <app-education [educations]="portfolio.educations" [portfolioId]="portfolio.id"></app-education>       
+        </div>
+      </div>
+    </div>
+  
+    <div class="accordion-item bg-transparent">
+      <h2 class="accordion-header bg-transparent">
+        <button class="accordion-button collapsed bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
+          Expérience professionnelle
+        </button>
+      </h2>
+      <div id="collapseFour" class="accordion-collapse collapse bg-transparent" data-bs-parent="#accordionExample">
+        <div class="accordion-body experiences bg-transparent">
+          <app-experience [experiences]="portfolio.experiences" [portfolioId]="portfolio.id"></app-experience>      
+        </div>
+      </div>
+    </div>
+  
+  </div>
 
-        <div class="actions">
+  <div class="gradient">Essayez gratuitement !! </div>
+
+</div>
+
+
+   <!-- <div class="actions"> -->
           <!-- <button class="btn btn-info"
                     (click)="onEditClick($event)"
                     data-bs-toggle="modal"
@@ -40,20 +85,6 @@
                   data-bs-target="#deleteModal">
               Supprimer
           </button> -->
-        </div>
-        
-      </div>
-    </div>
-  </div>
+        <!-- </div> -->
 
-</div>
-
-
-<!-- 
-<app-skill 
-              *ngFor="let skill of portfolio.skills; let i = index" 
-              [skill]="skill" 
-              [i]="i"
-              (index2send)="handleIndex($event)"
-              ></app-skill>  -->
 

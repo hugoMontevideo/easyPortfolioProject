@@ -19,8 +19,11 @@ export class ProjectComponent {
     title: "",
     description: "",
     date: new Date("1970-01-01"),
+    fileName: "",
+    file: null,
     portfolioId: this.portfolioId
   }
+  selectedFile!: File | null;
 
   isProjectFormShowing: boolean = false; // display or hide form
 
@@ -38,7 +41,6 @@ export class ProjectComponent {
   public onSubmitProject = ()=>{
     // // hide the form
     this.isProjectFormShowing = false; 
-    this.newProject.portfolioId = this.portfolioId;  
     this.projectService.addProject('projects' , this.newProject)
     .subscribe({
       next:(data: Project)=>{
@@ -49,6 +51,10 @@ export class ProjectComponent {
         console.log("**error adding education**");
       }
     });
+  }
+  // if I select a file on the form :
+  onSelectedFile(event:any){
+    this.newProject.file = event.target.files[0];
   }
 
   onDeleteProject = (projectId : number, index: number):void => {

@@ -63,7 +63,9 @@
       </div>
       <div class="login d-flex">
         <div class="nav-item" *ngIf="jwtToken.getUser()" >
-          <p class="nav-link">{{ jwtToken.getUser() }}</p>
+          <div class="user-initial d-flex justify-content-center align-items-center">
+            {{ jwtToken.getUser()[0] }}
+          </div>
         </div> 
         <div class="nav-item" >
           <a href="/login" class="btn btn-outline-success" >{{ jwtToken.isLogged() ? 'Déconnexion'  : 'Connexion' }}</a>

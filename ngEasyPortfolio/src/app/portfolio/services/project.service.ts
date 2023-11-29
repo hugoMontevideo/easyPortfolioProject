@@ -13,21 +13,25 @@ import { ProjectAddDto } from '../component/project/project-add-dto.interface';
 export class ProjectService {
   ENV_DEV:string = environment.apiUrl;
 
+  selectedFile!: any;
 
   constructor(
     private http: HttpClient,
     private jwtTokenService : JWTTokenService, 
   ) { }
-
-  addProject = ( table: string, currentProject: Project ): Observable<any> => {     
+  addProject = ( table: string, newProject: Project ): Observable<any> => { 
+    this.selectedFile = newProject.file;    
+    
     // The dates are of type Date in Angular and of type LocalDate in Java 
-    let projectAdd: ProjectAddDto = {
-                        title: currentProject.title,
-                        description: currentProject.description,
-                        date: currentProject.date,
-                        portfolioId: currentProject.portfolioId
-                    }
-    return this.http.post(`${this.ENV_DEV}/${table}`, projectAdd );
+    const formData = new FormData;
+    formData.append('title', newProject.title);
+    formData.append('description', newProject.description);
+    formData.append('date', newProject.date.toString());
+    formData.append('fileName', newProject.fileName);
+    formData.append('file', this.selectedFile);
+    formData.append('portfolioId', newProject.portfolioId.toString());
+
+    return this.http.post(`${this.ENV_DEV}/${table}`, formData );
 }
 
 deleteProject = (table: string , projectId: number): Observable<any> | any => {

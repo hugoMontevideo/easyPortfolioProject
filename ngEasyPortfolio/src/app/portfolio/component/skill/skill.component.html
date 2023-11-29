@@ -1,9 +1,9 @@
-<h5 class="d-flex justify-content-between title">
-    Compétences
+<h6 class="d-flex justify-content-between title">
+    Ajouter une compétence
     <button (click)="onAddSkill()">
       <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
     </button>
-</h5>
+</h6>
 <div class="elt-form d-flex " *ngIf="isSkillFormShowing" >
     <form #form="ngForm" class="col-6 mx-auto" (ngSubmit)="onSubmitSkill()" >
       <legend>{{ legend }}</legend>

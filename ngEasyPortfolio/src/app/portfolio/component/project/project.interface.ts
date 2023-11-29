@@ -3,5 +3,7 @@ export interface Project {
     title: string,
     description: string,
     date: Date,
+    fileName: string,
+    file: File | null,
     portfolioId: number
 }

@@ -1,5 +1,6 @@
 package com.simplon.easyportfolio.api.services.portfolios;
 
+import com.github.slugify.Slugify;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
 import com.simplon.easyportfolio.api.repositories.educations.EducationRepository;
 import com.simplon.easyportfolio.api.repositories.educations.EducationRepositoryModel;
@@ -16,7 +17,6 @@ import com.simplon.easyportfolio.api.services.educations.EducationServiceRequest
 import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceResponseModel;
-import com.simplon.easyportfolio.api.services.projects.ProjectServiceModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceResponseModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceModel;
@@ -24,14 +24,21 @@ import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOError;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Optional;
+import org.apache.commons.io.FilenameUtils;
 
 @Service
 public class PortfolioService {
 
-    
+
     @Autowired
     PortfolioRepository portfolioRepository;
     @Autowired
@@ -43,6 +50,7 @@ public class PortfolioService {
     @Autowired
     SkillRepository skillRepository;
 
+    private final Slugify slug = Slugify.builder().build();
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
 
     // Table : PORTFOLIO   *****************
@@ -90,23 +98,27 @@ public class PortfolioService {
         portfolioRepository.deleteById(id);
     }
 
-
-        // Table : PROJECT   *****************
+    // Table : PROJECT   *****************
     // add Project
     public boolean addProject(ProjectServiceRequestModel projectServiceRequestModel) {
-        
-        
+        if(!projectServiceRequestModel.getFile().isEmpty()){
+            // naming pictures : in project = project_ + projectName + (timeInMilli)
+            long timestamp = System.currentTimeMillis();
+            String pictureName = "project " + projectServiceRequestModel.getTitle() + "-" +timestamp ;
+            String pictureName2 = uploadPicture(projectServiceRequestModel.getFile(), pictureName);
+            projectServiceRequestModel.setFileName(pictureName2);
+        }
+
         Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
         
         PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
 
         projectServiceRequestModel.setPortfolio( Optional.ofNullable(portfolioServiceModel));
 
+        System.out.println(projectServiceRequestModel);
         ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModel(projectServiceRequestModel);
 
-
         return projectRepository.save(project) != null;
-
     }
 
     public ProjectServiceResponseModel findProjectById(Long id) {
@@ -259,6 +271,34 @@ public class PortfolioService {
     public void deleteSkill(Long id) {
         skillRepository.deleteById(id);
     }
+
+
+
+    // UTILS  *****************************************
+    public String uploadPicture(MultipartFile file, String pictureName) throws IOError{
+        try{
+            String uploadDirectory = "/public/upload/pictures"; // pictures upload folder
+            String filename = file.getOriginalFilename(); // upload file
+
+            String extension = FilenameUtils.getExtension(filename);
+            filename = slug.slugify(pictureName) + "." + extension;
+            Path path = Paths.get(".", uploadDirectory).toAbsolutePath(); // absolute path
+            File targetFile = new File(path.toString(), filename);
+            if(!targetFile.getParentFile().exists()){
+                targetFile.getParentFile().mkdirs();
+            }
+            file.transferTo(targetFile);
+            return filename;
+        }catch (IOError e){
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+
+        }
+        return "Error";
+    }
+
 
 
 

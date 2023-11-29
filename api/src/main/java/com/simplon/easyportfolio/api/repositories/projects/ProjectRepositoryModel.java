@@ -29,6 +29,9 @@ public class ProjectRepositoryModel {
     @Column(name = "date")
     private LocalDate date;
 
+    @Column(name = "file_name")
+    private String fileName;
+
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
     private PortfolioRepositoryModel portfolio;

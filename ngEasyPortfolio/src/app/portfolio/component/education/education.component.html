@@ -1,9 +1,9 @@
-<h5 class="d-flex justify-content-between title">
-    Etudes et formation
+<h6 class="d-flex justify-content-between title">
+    Ajouter une formation
     <button (click)="onAddEducation()">
       <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
     </button>
-</h5>
+</h6>
 
 <div class="elt-form d-flex " *ngIf="isEducationFormShowing" >
     <form #form="ngForm" class="col-6 mx-auto" (ngSubmit)="onSubmitEducation()" >

@@ -1,1 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
+.title{  // add a portfolio, skill, etc
+    padding: .4rem;
+    button{
+        border: none;
+        padding: .2rem .3rem;
+        border-radius: 5px;
+        background-color: transparent;
+    }
+    button:hover{
+        background-color: rgba(0, 255, 255, 0.137);
+    }
+}
+.title:hover{
+    background-color: rgba(255, 228, 196, 0.303);
+}
+
+.elt-title{ // text and buttons in the aside cards (skills, portfolios,etc)
+    padding: .4rem;
+    .elt-button{
+        border: none;
+        padding: .2rem .3rem;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background-color: transparent;
+        .icon{
+            font-size: .7rem;
+            color: rgba(0, 0, 0, 0.322);
+        }
+    }
+    .elt-button:hover{
+        background-color: rgba(0, 255, 255, 0.137);
+        .icon{
+            color: black;
+        }
+    }
+}

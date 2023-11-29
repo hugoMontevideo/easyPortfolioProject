@@ -1,9 +1,9 @@
-<h5 class="d-flex justify-content-between title">
-    Expériences professionnelles
+<h6 class="d-flex justify-content-between title">
+    Ajouter une expérience professionnelle
     <button (click)="onAddExperience()">
       <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
     </button>
-</h5>
+</h6>
 
 <div class="elt-form d-flex " *ngIf="isExperienceFormShowing" >
     <form #form1="ngForm" class="col-6 mx-auto" (ngSubmit)="onSubmitExperience()" >

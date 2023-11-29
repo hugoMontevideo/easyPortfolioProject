@@ -1,14 +1,14 @@
-<h5 class="d-flex justify-content-between title">
-    Projets
+<h6 class="d-flex justify-content-between title">
+    Ajouter un projet
     <button (click)="onAddProject()">
       <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
     </button>
 
     <div *ngIf="isProjectFormShowing" class="gradient ">Essayez gratuitement !! </div>
-</h5>
+</h6>
 
 <div class="elt-form d-flex " *ngIf="isProjectFormShowing" >
-    <form #form="ngForm" class="col-6 mx-auto" (ngSubmit)="onSubmitProject()" >
+    <form #form="ngForm" class="col-6 mx-auto" (ngSubmit)="onSubmitProject()" enctype="multipart/form-data">
       <legend>{{ legend }}</legend>
       <div class="mb-3">
         <input type="text" 
@@ -34,11 +34,17 @@
               [(ngModel)]="newProject.date"
               name="project-date">
       </div>
-<!--      
+     
       <div class="mb-3">
-        <label for="skill-file" class="form-label">Illustrez votre projet avec une image</label>
-        <input class="form-control" type="file" id="skill-file" disabled>
-      </div> -->
+        <label for="project" class="project-label">Illustrez votre projet avec une image</label>
+        <input 
+          class="project-control" 
+          type="file" id="project-file" 
+          name="selected-file"
+          (change)="onSelectedFile($event)"
+          >
+        <input type="hidden" name="picture" [(ngModel)]="newProject.fileName">
+      </div>
       <input class="btn btn-primary" type="submit" value="Valider">
     </form>
   </div>

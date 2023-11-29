@@ -11,7 +11,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.time.LocalDate;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -23,13 +27,30 @@ public class ProjectController {
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
 
     @PostMapping
-    public boolean add(@RequestBody ProjectDTO projectDTO){
+    public boolean add(
+            @RequestParam("title") String title,
+            @RequestParam ("description")String description,
+            @RequestParam ("date")LocalDate date,
+            @RequestParam ("fileName")String fileName,
+            @RequestParam ("file")MultipartFile file,
+            @RequestParam ("portfolioId")Long portfolioId
+            ){
+
+        // crating DTO with received parameters
+        ProjectDTO DTO = new ProjectDTO(title, description, date, fileName, Optional.ofNullable(file), portfolioId);
 
         ProjectServiceRequestModel projectServiceRequestModel =
-                mapper.projectDtoToServiceRequestModel(projectDTO);
+                mapper.projectDtoToServiceRequestModel(DTO);
 
         return portfolioService.addProject( projectServiceRequestModel );
     }
+    /** public boolean add(@RequestBody ProjectDTO projectDTO){
+        System.out.println(projectDTO);
+        ProjectServiceRequestModel projectServiceRequestModel =
+                mapper.projectDtoToServiceRequestModel(projectDTO);
+        return portfolioService.addProject( projectServiceRequestModel );
+    }**/
+
 
 
     @GetMapping("/{id}")  //  GET BY ID   *****
