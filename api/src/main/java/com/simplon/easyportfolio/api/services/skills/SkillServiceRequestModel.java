@@ -1,5 +1,6 @@
 package com.simplon.easyportfolio.api.services.skills;
 
+import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceRequestModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,5 +16,6 @@ import java.util.Optional;
 public class SkillServiceRequestModel {
     private String title;
     private String description;
-    private PortfolioServiceRequestModel portfolio;
+    private Optional<PortfolioServiceModel> portfolio;
+    private Optional<Long> portfolioId;
 }

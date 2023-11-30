@@ -1,6 +1,5 @@
 package com.simplon.easyportfolio.api.controllers.portfolios;
 
-
 import com.simplon.easyportfolio.api.exceptions.PortfolioNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioService;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.Optional;
-
-@CrossOrigin
 @RestController
 @RequestMapping("api/portfolios")
 public class PortfolioController {
@@ -32,13 +29,10 @@ public class PortfolioController {
     @GetMapping("/{id}")  //  GET BY ID   *****
     public ResponseEntity<PortfolioGetDTO> findById(@PathVariable Long id){
         try{
-           PortfolioServiceResponseModel responseModel =  portfolioService.findById(id);
-            System.out.println(responseModel.getSkills());
+            return new ResponseEntity<>( mapper.portfolioSvcToGetDTO(portfolioService.findById(id)), HttpStatus.OK);
 
-           PortfolioGetDTO DTO =  mapper.portfolioSvcToGetDTO( responseModel);
-            System.out.println(DTO.getProjects());
-            // return new ResponseEntity<>( mapper.portfolioSvcToGetDTO(portfolioService.findById(id)), HttpStatus.OK);
-            return new ResponseEntity<>( DTO, HttpStatus.OK);
+           //PortfolioGetDTO DTO =  mapper.portfolioSvcToGetDTO( portfolioService.findById(id));
+            //return new ResponseEntity<>( DTO, HttpStatus.OK);
         }catch (PortfolioNotFoundException ex){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getReason());
         }

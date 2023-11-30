@@ -20,12 +20,12 @@ import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceRespo
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceResponseModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceModel;
+import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.IOError;
 import java.io.IOException;
@@ -37,7 +37,6 @@ import org.apache.commons.io.FilenameUtils;
 
 @Service
 public class PortfolioService {
-
 
     @Autowired
     PortfolioRepository portfolioRepository;
@@ -66,14 +65,8 @@ public class PortfolioService {
 
     public PortfolioServiceResponseModel findById(Long id) {
         Optional<PortfolioRepositoryModel> portfolioRepositoryModel = portfolioRepository.findById(id);
-        if (portfolioRepositoryModel.isEmpty()){
-            return null;
-        }else{
 
-            // insertion de l'objet
-
-            return mapper.portfolioRepositoryToResponseSvc(portfolioRepositoryModel.get());
-        }
+        return mapper.portfolioRepositoryToResponseSvc(portfolioRepositoryModel.get());
     }
 
     public boolean update(PortfolioServiceRequestModel portfolioServiceModel) {
@@ -88,8 +81,6 @@ public class PortfolioService {
         ArrayList<PortfolioRepositoryModel> portfolioRepositoryModels = portfolioRepository.findAll();
 
         portfolioRepositoryModels.forEach((PortfolioRepositoryModel item)->portfolioServiceModels.add( mapper.portfolioRepositoryToResponseSvc(item) ));
-
-        // todo *****  renseigner la arrayList skills
 
         return portfolioServiceModels;
     }
@@ -115,7 +106,6 @@ public class PortfolioService {
 
         projectServiceRequestModel.setPortfolio( Optional.ofNullable(portfolioServiceModel));
 
-        System.out.println(projectServiceRequestModel);
         ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModel(projectServiceRequestModel);
 
         return projectRepository.save(project) != null;
@@ -212,7 +202,6 @@ public class PortfolioService {
     }
 
     public ExperienceServiceResponseModel findExperienceById(Long id) {
-        // TODO *** finish the method, not working yet ***
         Optional<ExperienceRepositoryModel> experienceRepositoryModel = experienceRepository.findById(id);
 
         if (experienceRepositoryModel.isEmpty()){
@@ -239,33 +228,26 @@ public class PortfolioService {
 
     // Table : SKILL   *****************
 
-    public SkillRepositoryModel addSkill(SkillServiceModel skillServiceModel) {
+    public SkillServiceResponseModel addSkill(SkillServiceRequestModel skillServiceRequestModel) {
+        //getting the portfolioRepositoryModel
+        Optional<PortfolioRepositoryModel> portfolio =
+                portfolioRepository.findById( skillServiceRequestModel.getPortfolioId().get() );
 
-        SkillRepositoryModel repositoryModel = mapper.skillServiceToRepositoryModel(skillServiceModel);
+        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
+        skillServiceRequestModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
+
+        SkillRepositoryModel skill = mapper.skillServiceRequestToRepositoryModel(skillServiceRequestModel);
+        System.out.println(skill);
         // adding portfolio manually
-        Optional<PortfolioRepositoryModel> portfolioRepositoryModel =
-                portfolioRepository.findById( skillServiceModel.getPortfolio().getId() );
 
-        if( portfolioRepositoryModel.isPresent() )  {
-            repositoryModel.setPortfolio(portfolioRepositoryModel.get());
-        }
-        return skillRepository.save(repositoryModel);
+        SkillRepositoryModel addedSkill = skillRepository.save(skill);
+        return mapper.skillRepositoryToResponseSvc(addedSkill);
     }
 
     public SkillServiceResponseModel findSkillById(Long id) {
-
         Optional<SkillRepositoryModel> skillRepositoryModel = skillRepository.findById(id);
 
-        System.out.println(skillRepositoryModel.get());
-
-        if (skillRepositoryModel.isEmpty()){
-            return null;
-        }else{
-            //SkillServiceResponseModel item = mapper.skillRepositoryToResponseSvc(skillRepositoryModel.get());
-
-            //return item;
-            return new SkillServiceResponseModel();
-        }
+        return mapper.skillRepositoryToResponseSvc(skillRepositoryModel.get());
     }
 
     public void deleteSkill(Long id) {
@@ -275,7 +257,7 @@ public class PortfolioService {
 
 
     // UTILS  *****************************************
-    public String uploadPicture(MultipartFile file, String pictureName) throws IOError{
+    private String uploadPicture(MultipartFile file, String pictureName) throws IOError{
         try{
             String uploadDirectory = "/public/upload/pictures"; // pictures upload folder
             String filename = file.getOriginalFilename(); // upload file
@@ -298,10 +280,6 @@ public class PortfolioService {
         }
         return "Error";
     }
-
-
-
-
 }
 
 

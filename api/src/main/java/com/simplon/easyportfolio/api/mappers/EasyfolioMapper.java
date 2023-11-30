@@ -70,10 +70,11 @@ public interface EasyfolioMapper {
     EducationServiceRequestModel educationDtoToServiceRequestModel(EducationDTO educationDTO);
     EducationRepositoryModel educationServiceToRepositoryModel(EducationServiceModel educationServiceModel);
 
-    @Mapping(target = "portfolio", ignore = true)
-    SkillServiceModel skillDtoToServiceModel(SkillDTO skillDTO);
-    @Mapping(target = "portfolio", ignore = true)
-    SkillRepositoryModel skillServiceToRepositoryModel(SkillServiceModel skillServiceModel);
+// SKILLS
+    @Mapping(source="portfolio", target="portfolio", qualifiedByName = "optionalToType")
+    SkillRepositoryModel skillServiceRequestToRepositoryModel(SkillServiceRequestModel skillServiceModel);
+    @Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")
+    SkillServiceRequestModel skillDtoToServiceRequestModel(SkillDTO dto);
 
     @Mapping(target = "portfolio", ignore = true)
     ExperienceServiceModel experienceDtoToServiceModel(ExperienceDTO experienceDTO);
@@ -110,7 +111,6 @@ public interface EasyfolioMapper {
 
 
     ProjectGetDTO projectSvcToGetDTO(ProjectServiceResponseModel educationServiceResponseModel);
-
 
 
 }

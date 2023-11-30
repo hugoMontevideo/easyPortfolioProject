@@ -17,7 +17,7 @@
 
 .elt-title{ // text and buttons in the aside cards (skills, portfolios,etc)
     padding: .4rem;
-    .elt-button{
+    .elt-button, .elt-button-red{
         border: none;
         padding: .2rem .3rem;
         width: 2rem;
@@ -31,6 +31,12 @@
     }
     .elt-button:hover{
         background-color: rgba(0, 255, 255, 0.137);
+        .icon{
+            color: black;
+        }
+    }
+    .elt-button-red:hover{
+        background-color: rgba(255, 0, 162, 0.137);
         .icon{
             color: black;
         }
