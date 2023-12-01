@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { LoginUser } from '../login/login-user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -7,37 +6,56 @@ import { LoginUser } from '../login/login-user.interface';
 
 export class SessionStorageService {
 
-
-  public setConButton  = (conButton: string): void => {
-    sessionStorage.setItem('conbutton', conButton);
-  }
-  public getConButton = (): string|any => {
-    return sessionStorage.getItem('conbutton');
-  }
+  tempData!: string;
 
 
   public setLogin  = (login: string): void => {
     sessionStorage.setItem('login', login);
   }
-  public getLogin = (): string | any => {
-   return sessionStorage.getItem("login");
+  public getLogin = (): string  => {
+    let anyData = sessionStorage.getItem('login');
+    let login = anyData ?? "" ;
+    return login;
   }
 
-  public setToken = (token: string): void => {
-    sessionStorage.setItem('token', token);
+  
+  public setTempData  = (tempData: string): void => {
+    sessionStorage.setItem('temp-data', tempData);
   }
-  public getToken = (): string|any => {
-    return sessionStorage.getItem('token');
+  public getTempData = (): string  => {
+    let anyData = sessionStorage.getItem('temp-data');
+    let tempData = anyData ?? "" ;
+    return tempData;
+  }
+  removeTempData = ():void => {
+    sessionStorage.removeItem("temp-data");
+    this.tempData = "";
+
   }
 
-  public hydrate = (loginUser : LoginUser) => {
-    sessionStorage.setItem('login', loginUser.email);
-    sessionStorage.setItem('token', loginUser.token);
-    sessionStorage.setItem("conbutton", "Déconnexion")
-  }
-
-  public clearStorage = (): void => {
-    sessionStorage.removeItem('token');
-  }
 
 }
+
+ // public setConButton  = (conButton: string): void => {
+  //   sessionStorage.setItem('conbutton', conButton);
+  // }
+  // public getConButton = (): string|any => {
+  //   return sessionStorage.getItem('conbutton');
+  // }
+
+   // public setToken = (token: string): void => {
+  //   sessionStorage.setItem('token', token);
+  // }
+  // public getToken = (): string|any => {
+  //   return sessionStorage.getItem('token');
+  // }
+
+  // public hydrate = (loginUser : LoginUser) => {
+  //   sessionStorage.setItem('login', loginUser.email);
+  //   sessionStorage.setItem('token', loginUser.token);
+  //   sessionStorage.setItem("conbutton", "Déconnexion")
+  // }
+
+  // public clearStorage = (): void => {
+  //   sessionStorage.removeItem('token');
+  // }

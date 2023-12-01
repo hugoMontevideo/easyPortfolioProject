@@ -19,7 +19,6 @@ import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceModel
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceResponseModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceResponseModel;
-import com.simplon.easyportfolio.api.services.skills.SkillServiceModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
 import jakarta.transaction.Transactional;
@@ -127,7 +126,6 @@ public class PortfolioService {
 
     // delete Project
     public boolean deleteProject(Long id) {
-
         try{
         //if(projectRepository.findById(id).isPresent()){
             projectRepository.deleteById(id);
@@ -136,7 +134,6 @@ public class PortfolioService {
             return false;
         }
     }
-
 
 
     // Table : EDUCATION   *****************
@@ -228,7 +225,7 @@ public class PortfolioService {
 
     // Table : SKILL   *****************
 
-    public SkillServiceResponseModel addSkill(SkillServiceRequestModel skillServiceRequestModel) {
+    public SkillServiceResponseModel saveSkill(SkillServiceRequestModel skillServiceRequestModel) {
         //getting the portfolioRepositoryModel
         Optional<PortfolioRepositoryModel> portfolio =
                 portfolioRepository.findById( skillServiceRequestModel.getPortfolioId().get() );
@@ -237,7 +234,6 @@ public class PortfolioService {
         skillServiceRequestModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
 
         SkillRepositoryModel skill = mapper.skillServiceRequestToRepositoryModel(skillServiceRequestModel);
-        System.out.println(skill);
         // adding portfolio manually
 
         SkillRepositoryModel addedSkill = skillRepository.save(skill);
@@ -280,6 +276,8 @@ public class PortfolioService {
         }
         return "Error";
     }
+
+
 }
 
 

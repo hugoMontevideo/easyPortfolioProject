@@ -71,6 +71,7 @@ public interface EasyfolioMapper {
     EducationRepositoryModel educationServiceToRepositoryModel(EducationServiceModel educationServiceModel);
 
 // SKILLS
+    @Mapping(source="id", target="id", qualifiedByName = "optionalToType")
     @Mapping(source="portfolio", target="portfolio", qualifiedByName = "optionalToType")
     SkillRepositoryModel skillServiceRequestToRepositoryModel(SkillServiceRequestModel skillServiceModel);
     @Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")

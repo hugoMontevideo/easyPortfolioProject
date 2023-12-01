@@ -10,20 +10,26 @@ import { SkillModel } from '../component/skill/skill-model';
 @Injectable()
 export class SkillService {
   ENV_DEV:string = environment.apiUrl;
+  tempData: string = ""; // "add" or "edit"
 
   constructor(
     private http: HttpClient,
-    private jwtTokenService : JWTTokenService, 
+    private jwtTokenService : JWTTokenService
   ) { }
 
-  addSkill = ( table: string, newSkill: Skill ): Observable<any> => {     
-        
-      let skill : SkillAddDto = {
-          title: newSkill.title,
-          description: newSkill.description,
-          portfolioId: newSkill.portfolioId
-      }       
-      return this.http.post(`${this.ENV_DEV}/${table}`, skill );
+  saveSkill = ( table: string, newSkill: Skill ): Observable<any> => {      
+    console.log(newSkill);
+      
+     if( newSkill.id == -1 ){
+       let skill : SkillAddDto = {
+           title: newSkill.title,
+           description: newSkill.description,
+           portfolioId: newSkill.portfolioId
+       }       
+       return this.http.post( `${this.ENV_DEV}/${table}`, skill );
+     } else {  
+      return this.http.post( `${this.ENV_DEV}/${table}/${newSkill.id}`, newSkill );
+     }  
   }
 
   deleteSkill= (table: string , skillId: number): Observable<any> | any => {
@@ -42,8 +48,14 @@ export class SkillService {
   }
 
 
-
   // UTILS  **************************
+  public refreshSkills = (skills: SkillModel[], skill: SkillModel) => {
+    if(this.tempData == "add"){
+      skills.push(skill);
+    }
+    this.tempData = "";
+    return skills;
+  }
 
   public resetNewSkill = ( pId: number ): Skill => {
     let newSkill: Skill = {
@@ -55,15 +67,15 @@ export class SkillService {
     return newSkill;
   }
 
-  public getNewSkillModel = (skill: Skill): SkillModel => {
-    return new SkillModel (
-          skill.id,
-          skill.title,
-          skill.description,
-          skill.portfolioId
-        );
-      // return skillModel;
-  }
+  // public getNewSkillModel = (skill: Skill): SkillModel => {
+  //   return new SkillModel (
+  //         skill.id,
+  //         skill.title,
+  //         skill.description,
+  //         skill.portfolioId
+  //       );
+  //     // return skillModel;
+  // }
 
 
 

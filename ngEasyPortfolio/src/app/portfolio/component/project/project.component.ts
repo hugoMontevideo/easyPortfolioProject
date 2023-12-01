@@ -34,7 +34,7 @@ export class ProjectComponent {
   }
 
   public onAddProject = () => {
-    this.legend = "Ajouter une expérience"
+    this.legend = "Ajouter"
     this.isProjectFormShowing = true;
   }
 

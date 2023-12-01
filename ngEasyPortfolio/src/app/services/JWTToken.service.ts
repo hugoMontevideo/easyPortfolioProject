@@ -3,7 +3,10 @@ import { jwtDecode } from 'jwt-decode';
 import { DecodeToken } from './interfaces/decode-token.interface';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
+
 export class JWTTokenService {
 
     jwtToken!: string;

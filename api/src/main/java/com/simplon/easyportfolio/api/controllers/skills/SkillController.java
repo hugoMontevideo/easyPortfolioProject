@@ -38,13 +38,21 @@ public class SkillController {
     // addSkill
     @PostMapping
     public SkillGetDTO add(@RequestBody SkillDTO DTO){
-
         SkillServiceRequestModel skillServiceRequestModel = mapper.skillDtoToServiceRequestModel(DTO);
 
-        SkillServiceResponseModel addedSkill = portfolioService.addSkill( skillServiceRequestModel );
+        SkillServiceResponseModel addedSkill = portfolioService.saveSkill( skillServiceRequestModel );
         return mapper.skillSvcToGetDTO(addedSkill);
 
     }
+
+    @PostMapping("/{id}")
+    public SkillGetDTO update(@RequestBody SkillDTO DTO){
+        SkillServiceRequestModel skillServiceRequestModel = mapper.skillDtoToServiceRequestModel(DTO);
+
+        SkillServiceResponseModel updatedSkill =  portfolioService.saveSkill( skillServiceRequestModel );
+        return mapper.skillSvcToGetDTO(updatedSkill);
+    }
+
 
     // delete Skill
     @DeleteMapping("/{id}")

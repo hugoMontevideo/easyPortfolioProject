@@ -14,6 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SkillServiceRequestModel {
+    private Optional<Long> id;
     private String title;
     private String description;
     private Optional<PortfolioServiceModel> portfolio;
