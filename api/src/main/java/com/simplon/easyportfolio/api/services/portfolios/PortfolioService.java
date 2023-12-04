@@ -12,13 +12,13 @@ import com.simplon.easyportfolio.api.repositories.projects.ProjectRepository;
 import com.simplon.easyportfolio.api.repositories.projects.ProjectRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepository;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
-import com.simplon.easyportfolio.api.services.educations.EducationServiceModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceRequestModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceResponseModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestModel;
+import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceResponseModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestUpdateModel;
@@ -32,6 +32,7 @@ import java.io.IOError;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.apache.commons.io.FilenameUtils;
@@ -53,7 +54,7 @@ public class PortfolioService {
     private final Slugify slug = Slugify.builder().build();
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
 
-    // Table : PORTFOLIO   *****************
+    /** Table : PORTFOLIO   ***************** **/
     public boolean add(PortfolioServiceRequestModel portfolioServiceModel) {
         PortfolioRepositoryModel portfolioRepositoryModel =
                 new PortfolioRepositoryModel(portfolioServiceModel.getTitle(),
@@ -89,7 +90,7 @@ public class PortfolioService {
         portfolioRepository.deleteById(id);
     }
 
-    // Table : PROJECT   *****************
+/** Table : PROJECT   ***************** **/
     // add Project
     public ProjectServiceResponseModel saveProject(ProjectServiceRequestModel projectServiceRequestModel) {
         if(!projectServiceRequestModel.getFile().isEmpty()){
@@ -99,17 +100,60 @@ public class PortfolioService {
             String pictureName2 = uploadPicture(projectServiceRequestModel.getFile().get(), pictureName);
             projectServiceRequestModel.setFileName(pictureName2);
         }
-
         Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
         PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
         // adding portfolio manually
         projectServiceRequestModel.setPortfolio( Optional.ofNullable(portfolioServiceModel));
+        // verifing date - if date == 1970 01 01 we set it to null
+        if(!isValidDate(projectServiceRequestModel.getDate())){
+            projectServiceRequestModel.setDate(null);
+        }
 
         ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModelAdd(projectServiceRequestModel);
         ProjectRepositoryModel addedProject = projectRepository.save(project);
         return mapper.projectRepositoryToResponseSvc(addedProject);
     }
 
+
+    public ProjectServiceResponseModel updateProject(ProjectServiceRequestUpdateModel projectModel) {
+        if(!projectModel.getFile().isEmpty()){
+            // naming pictures : in project = project_ + projectName + (timeInMilli)
+            long timestamp = System.currentTimeMillis();
+            String pictureName = "project " + projectModel.getTitle() + "-" +timestamp ;
+            String pictureName2 = uploadPicture(projectModel.getFile().get(), pictureName);
+            projectModel.setFileName(pictureName2);
+        }
+        //getting the portfolioRepositoryModel
+        Optional<PortfolioRepositoryModel> portfolio =
+                portfolioRepository.findById( projectModel.getPortfolioId().get() );
+        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
+        projectModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
+
+        ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModel(projectModel);
+        // adding portfolio manually
+        // verifing date - if date == 1970 01 01 we set it to null
+        if(!isValidDate(projectModel.getDate())){
+            projectModel.setDate(null);
+        }
+
+        ProjectRepositoryModel addedProject = projectRepository.save(project);
+        return mapper.projectRepositoryToResponseSvc(addedProject);
+    }
+
+    public ExperienceServiceResponseModel updateExperience(ExperienceServiceRequestUpdateModel experienceModel) {
+        //getting the portfolioRepositoryModel
+        Optional<PortfolioRepositoryModel> portfolio =
+                portfolioRepository.findById( experienceModel.getPortfolioId().get() );
+
+        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
+        experienceModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
+
+        ExperienceRepositoryModel experience = mapper.experienceServiceRequestToRepositoryModel(experienceModel);
+        // adding portfolio manually
+
+        ExperienceRepositoryModel addedExperience = experienceRepository.save(experience);
+        return mapper.experienceRepositoryToResponseSvc(addedExperience);
+    }
 
 
     public ProjectServiceResponseModel findProjectById(Long id) {
@@ -221,20 +265,12 @@ public class PortfolioService {
 
     }
     //update experience
-    public ExperienceServiceResponseModel updateExperience(ExperienceServiceRequestUpdateModel experienceModel) {
-        //getting the portfolioRepositoryModel
-        Optional<PortfolioRepositoryModel> portfolio =
-                portfolioRepository.findById( experienceModel.getPortfolioId().get() );
 
-        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
-        experienceModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
 
-        ExperienceRepositoryModel experience = mapper.experienceServiceRequestToRepositoryModel(experienceModel);
-        // adding portfolio manually
 
-        ExperienceRepositoryModel addedExperience = experienceRepository.save(experience);
-        return mapper.experienceRepositoryToResponseSvc(addedExperience);
-    }
+
+
+
 
 /** Table : SKILL   *****************/
     //update skill
@@ -300,6 +336,10 @@ public class PortfolioService {
 
         }
         return "Error";
+    }
+    private boolean isValidDate (LocalDate date){
+        LocalDate defaultDate = LocalDate.of(1970,1, 2 );
+        return date.isAfter(defaultDate);
     }
 
 

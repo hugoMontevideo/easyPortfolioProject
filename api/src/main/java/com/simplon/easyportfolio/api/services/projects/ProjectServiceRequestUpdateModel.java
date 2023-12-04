@@ -17,7 +17,7 @@ public class ProjectServiceRequestUpdateModel {
     private String description;
     private LocalDate date;
     private String fileName;
-    private MultipartFile file;
+    private Optional<MultipartFile> file;
     private Optional<PortfolioServiceModel> portfolio;
     private Optional<Long> portfolioId;
 }

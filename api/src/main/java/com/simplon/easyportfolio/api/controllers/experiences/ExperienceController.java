@@ -50,7 +50,7 @@ public class ExperienceController {
         return mapper.experienceSvcToGetDTO(addedExperience);
     }
 
-    /** update Experience **/
+    // update Experience
     @PutMapping("/{id}")
     public ExperienceGetDTO update(@RequestBody ExperienceUpdateDTO DTO){
         ExperienceServiceRequestUpdateModel experienceServiceRequestUpdateModel =

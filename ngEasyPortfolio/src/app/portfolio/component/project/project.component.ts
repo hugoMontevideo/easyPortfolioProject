@@ -43,7 +43,14 @@ export class ProjectComponent {
     this.legend = "Ajouter un projet"
     this.isProjectFormShowing = true;
     this.projectService.tempData = "add";
+  }
 
+  public onEditProject = (index: number) => {
+    this.legend = "Modifier un projet"
+    this.isProjectFormShowing = true;
+    this.newProject = this.projects[index];
+    this.newProject.portfolioId = this.portfolioId;
+    this.projectService.tempData = "edit";  
   }
 
   public onSubmitProject = ()=>{
@@ -53,20 +60,21 @@ export class ProjectComponent {
       next:(data)=>{
         this.isProjectFormShowing = false; 
         // Add projectModel to projects [], display purpose
-        this.projects = this.projectService.refreshSkills(this.projects,
-                                                      new ProjectModel( 
-                                                        data.id,
-                                                        data.title,
-                                                        data.description,
-                                                        data.date,
-                                                        data.fileName,
-                                                        null,
-                                                        this.newProject.portfolioId ) 
-                                                      );
+        this.projects = 
+          this.projectService.refreshSkills(this.projects,
+                                            new ProjectModel( 
+                                            data.id,
+                                            data.title,
+                                            data.description,
+                                            data.date,
+                                            data.fileName,
+                                            null,
+                                            this.newProject.portfolioId ) 
+                                          );
         this.newProject = this.projectService.resetNewSkill(this.newProject.portfolioId);
       },
       error:(_error)=>{
-        console.log("**error Adding Project**");
+        console.log("**error Adding or updating Project**");
         if(_error instanceof HttpErrorResponse ) {
           this.inputError = _error.error.title;
         } 

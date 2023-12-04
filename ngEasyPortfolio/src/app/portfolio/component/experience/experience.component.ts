@@ -47,7 +47,7 @@ export class ExperienceComponent {
   }
 
   public onEditExperience = (index: number) => {
-    this.legend = "Modifier une compétence"
+    this.legend = "Modifier une expérience professionnelle"
     this.isExperienceFormShowing = true;
     this.newExperience = this.experiences[index];
     this.newExperience.portfolioId = this.portfolioId;
@@ -61,17 +61,18 @@ export class ExperienceComponent {
       next:(data)=>{
         this.isExperienceFormShowing = false;  
         // Ajouter skillEdit a skills [] pour affichage
-        this.experiences = this.experienceService.refreshExperiences(this.experiences, 
-                                                                      new ExperienceModel(
-                                                                        data.id,
-                                                                        data.title,
-                                                                        data.company,
-                                                                        data.description,
-                                                                        data.startDate,
-                                                                        data.endDate,
-                                                                        this.newExperience.portfolioId
-                                                                      )
-                                                                    );
+        this.experiences = 
+          this.experienceService.refreshExperiences(this.experiences, 
+                                                    new ExperienceModel(
+                                                    data.id,
+                                                    data.title,
+                                                    data.company,
+                                                    data.description,
+                                                    data.startDate,
+                                                    data.endDate,
+                                                    this.newExperience.portfolioId
+                                                  )
+                                                );
         this.newExperience = this.experienceService.resetNewExperience(this.newExperience.portfolioId);
       },
       error:(_error)=>{

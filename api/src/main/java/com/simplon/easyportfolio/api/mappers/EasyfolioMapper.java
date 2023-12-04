@@ -10,6 +10,7 @@ import com.simplon.easyportfolio.api.controllers.portfolios.PortfolioDTO;
 import com.simplon.easyportfolio.api.controllers.portfolios.PortfolioGetDTO;
 import com.simplon.easyportfolio.api.controllers.projects.ProjectDTO;
 import com.simplon.easyportfolio.api.controllers.projects.ProjectGetDTO;
+import com.simplon.easyportfolio.api.controllers.projects.ProjectUpdateDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillUpdateDTO;
@@ -31,6 +32,7 @@ import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceRequest
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceResponseModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestModel;
+import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceResponseModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestModel;
@@ -57,8 +59,14 @@ public interface EasyfolioMapper {
     PortfolioServiceRequestModel portfolioDtoToServiceModel (PortfolioDTO portfolioDTO);
     PortfolioRepositoryModel portfolioSvcToRepositoryModel (PortfolioServiceModel portfolioServiceModel);
 
+    // PROJECT
+    @Mapping(source="id", target="id", qualifiedByName = "optionalToType") // updateExp
+    @Mapping(source="portfolio", target="portfolio", qualifiedByName = "optionalToType")
+    ProjectRepositoryModel projectServiceRequestToRepositoryModel(ProjectServiceRequestUpdateModel projectServiceRequestModel);
     @Mapping(source="portfolio", target="portfolio", qualifiedByName = "optionalToType")
     ProjectRepositoryModel projectServiceRequestToRepositoryModelAdd(ProjectServiceRequestModel projectServiceRequestModel);
+    @Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")//update
+    ProjectServiceRequestUpdateModel projectDtoToServiceRequestModel(ProjectUpdateDTO dto);
     @Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")
     ProjectServiceRequestModel projectDtoToServiceRequestModelAdd(ProjectDTO projectDTO);
 

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { PortfolioRoutingModule } from './portfolio-routing.module';
 import { PortfolioService } from './services/portfolio.service';
 import { PortfolioListComponent } from './component/portfolio-list/portfolio-list.component';
@@ -37,8 +37,8 @@ import { ExperienceService } from './services/experience.service';
     SkillService,
     ProjectService,
     EducationService,
-    ExperienceService
-
+    ExperienceService,
+    DatePipe
   ]
 })
 export class PortfolioModule { }

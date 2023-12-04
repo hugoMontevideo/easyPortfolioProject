@@ -8,7 +8,7 @@
         <button (click)="onCloseModalForm()"><fa-icon [icon]="['fas', 'window-close']" ></fa-icon></button>
       </p>
       <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitProject()" enctype="multipart/form-data">
-        <legend class="text-center form-legend mb-3">{{ legend }} un projet</legend>
+        <legend class="text-center form-legend mb-3">{{ legend }}</legend>
         <div class="mb-3">
           <div *ngIf="inputError" class="mb-1">
             <span class="text-danger input-error">{{ inputError }}</span>
@@ -27,7 +27,7 @@
                     id="project-description"
                     [(ngModel)]="newProject.description"
                     name="project-description" 
-                    rows="3">Hello</textarea>
+                    rows="3"></textarea>
         </div>
         <div class="mb-3">
           <label for="project-date" class="form-label">Date</label>
@@ -35,7 +35,8 @@
                 class="form-control" 
                 id="project-date" 
                 [(ngModel)]="newProject.date"
-                name="project-date">
+                name="project-date"
+                [value]="newProject.date" >
         </div>
        
         <div class="mb-3">
@@ -60,12 +61,17 @@
 <div *ngFor="let project of projects; let iv = index">
   <div class="card">
     <div class="card-body">
-        <p class="d-flex justify-content-between elt-title">
+        <div class="d-flex justify-content-between elt-title">
             {{project.title}}
-            <button (click)="onDeleteProject(project.id, iv)" class="elt-button" >
-                <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
-            </button>
-        </p>
+            <div>
+              <button (click)="onEditProject(iv)" class="elt-button" >
+                <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
+              </button> 
+              <button (click)="onDeleteProject(project.id, iv)" class="elt-button" >
+                  <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
+              </button>
+            </div>
+          </div>
     </div>
   </div>
 </div> 
