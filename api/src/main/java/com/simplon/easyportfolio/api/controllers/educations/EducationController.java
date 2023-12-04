@@ -5,6 +5,8 @@ import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioService;
+import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -22,11 +24,12 @@ public class EducationController {
 
     // add Education
     @PostMapping
-    public boolean add(@RequestBody EducationDTO educationDTO){
+    public EducationGetDTO add(@RequestBody @Valid EducationDTO DTO){
         EducationServiceRequestModel educationServiceRequestModel =
-                mapper.educationDtoToServiceRequestModel(educationDTO);
+                mapper.educationDtoToServiceRequestModelAdd(DTO);
 
-             return portfolioService.addEducation( educationServiceRequestModel );
+        EducationServiceResponseModel addedEducation = portfolioService.saveEducation( educationServiceRequestModel );
+        return mapper.educationSvcToGetDTO(addedEducation);
     }
 
     @GetMapping("/{id}")  //  GET BY ID   *****

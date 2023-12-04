@@ -2,14 +2,17 @@ package com.simplon.easyportfolio.api.mappers;
 
 import com.simplon.easyportfolio.api.controllers.educations.EducationDTO;
 import com.simplon.easyportfolio.api.controllers.educations.EducationGetDTO;
+import com.simplon.easyportfolio.api.controllers.educations.EducationUpdateDTO;
 import com.simplon.easyportfolio.api.controllers.experiences.ExperienceDTO;
 import com.simplon.easyportfolio.api.controllers.experiences.ExperienceGetDTO;
+import com.simplon.easyportfolio.api.controllers.experiences.ExperienceUpdateDTO;
 import com.simplon.easyportfolio.api.controllers.portfolios.PortfolioDTO;
 import com.simplon.easyportfolio.api.controllers.portfolios.PortfolioGetDTO;
 import com.simplon.easyportfolio.api.controllers.projects.ProjectDTO;
 import com.simplon.easyportfolio.api.controllers.projects.ProjectGetDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
+import com.simplon.easyportfolio.api.controllers.skills.SkillUpdateDTO;
 import com.simplon.easyportfolio.api.repositories.educations.EducationRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
@@ -17,8 +20,11 @@ import com.simplon.easyportfolio.api.repositories.projects.ProjectRepositoryMode
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestModel;
+import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceModel;
+import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceRequestModel;
+import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceResponseModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceRequestModel;
@@ -28,6 +34,7 @@ import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestMode
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceResponseModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestModel;
+import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
 import jakarta.persistence.ManyToOne;
 import org.mapstruct.Mapper;
@@ -51,10 +58,9 @@ public interface EasyfolioMapper {
     PortfolioRepositoryModel portfolioSvcToRepositoryModel (PortfolioServiceModel portfolioServiceModel);
 
     @Mapping(source="portfolio", target="portfolio", qualifiedByName = "optionalToType")
-    ProjectRepositoryModel projectServiceRequestToRepositoryModel(ProjectServiceRequestModel projectServiceRequestModel);
+    ProjectRepositoryModel projectServiceRequestToRepositoryModelAdd(ProjectServiceRequestModel projectServiceRequestModel);
     @Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")
-    @Mapping(source="file", target="file", qualifiedByName = "optionalToType")
-    ProjectServiceRequestModel projectDtoToServiceRequestModel(ProjectDTO projectDTO);
+    ProjectServiceRequestModel projectDtoToServiceRequestModelAdd(ProjectDTO projectDTO);
 
 
     @Named("optionalToType")
@@ -66,21 +72,41 @@ public interface EasyfolioMapper {
         return Optional.ofNullable(source);
     }
 
+// EDUCATION
+    @Mapping(source="portfolio", target="portfolio", qualifiedByName = "optionalToType")// add
+    EducationRepositoryModel educationServiceRequestToRepositoryModelAdd(EducationServiceRequestModel experienceServiceRequestModel);
+    //@Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")//update
+    //EducationServiceRequestUpdateModel educationDtoToServiceRequestModel(EducationUpdateDTO dto);
+    @Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")//add
+    EducationServiceRequestModel educationDtoToServiceRequestModelAdd(EducationDTO dto);
 
-    EducationServiceRequestModel educationDtoToServiceRequestModel(EducationDTO educationDTO);
-    EducationRepositoryModel educationServiceToRepositoryModel(EducationServiceModel educationServiceModel);
-
-// SKILLS
-    @Mapping(source="id", target="id", qualifiedByName = "optionalToType")
+// EXPERIENCE
+    @Mapping(source="id", target="id", qualifiedByName = "optionalToType") // updateExp
     @Mapping(source="portfolio", target="portfolio", qualifiedByName = "optionalToType")
-    SkillRepositoryModel skillServiceRequestToRepositoryModel(SkillServiceRequestModel skillServiceModel);
-    @Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")
-    SkillServiceRequestModel skillDtoToServiceRequestModel(SkillDTO dto);
+    ExperienceRepositoryModel experienceServiceRequestToRepositoryModel(ExperienceServiceRequestUpdateModel experienceServiceRequestModel);
+    @Mapping(source="portfolio", target="portfolio", qualifiedByName = "optionalToType")// add
+    ExperienceRepositoryModel experienceServiceRequestToRepositoryModelAdd(ExperienceServiceRequestModel experienceModel);
+    @Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")//update
+    ExperienceServiceRequestUpdateModel experienceDtoToServiceRequestModel(ExperienceUpdateDTO dto);
+    @Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")//add
+    ExperienceServiceRequestModel experienceDtoToServiceRequestModelAdd(ExperienceDTO dto);
 
+// SKILL
+    @Mapping(source="id", target="id", qualifiedByName = "optionalToType")// updateSkill
+    @Mapping(source="portfolio", target="portfolio", qualifiedByName = "optionalToType")
+    SkillRepositoryModel skillServiceRequestToRepositoryModel(SkillServiceRequestUpdateModel skillServiceModel);
+    @Mapping(source="portfolio", target="portfolio", qualifiedByName = "optionalToType")// add
+    SkillRepositoryModel skillServiceRequestToRepositoryModelAdd(SkillServiceRequestModel skillServiceModel);
+    @Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")//update
+    SkillServiceRequestUpdateModel skillDtoToServiceRequestModel(SkillUpdateDTO dto);
+    @Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")// add
+    SkillServiceRequestModel skillDtoToServiceRequestModelAdd(SkillDTO dto);
+
+ /**   @Mapping(source="id", target="id", qualifiedByName = "optionalToType")
     @Mapping(target = "portfolio", ignore = true)
     ExperienceServiceModel experienceDtoToServiceModel(ExperienceDTO experienceDTO);
     @Mapping(target = "portfolio", ignore = true)
-    ExperienceRepositoryModel experienceServiceToRepositoryModel(ExperienceServiceModel experienceServiceModel);
+    ExperienceRepositoryModel experienceServiceToRepositoryModel(ExperienceServiceModel experienceServiceModel); **/
 
 
 
@@ -110,8 +136,13 @@ public interface EasyfolioMapper {
     EducationServiceResponseModel educationRepositoryToResponseSvc(EducationRepositoryModel educationRepositoryModel);
     EducationGetDTO educationSvcToGetDTO(EducationServiceResponseModel educationServiceResponseModel);
 
-
+    ProjectServiceResponseModel projectRepositoryToResponseSvc(ProjectRepositoryModel projectRepositoryModel);
     ProjectGetDTO projectSvcToGetDTO(ProjectServiceResponseModel educationServiceResponseModel);
 
 
+
 }
+
+
+
+// @Mapping(source="file", target="file", qualifiedByName = "optionalToType")

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,9 +19,9 @@ public class ExperienceServiceModel {
 
     private String description;
 
-    private Long startDate;
+    private LocalDate startDate;
 
-    private Long endDate;
+    private LocalDate endDate;
     //@OneToMany(mappedBy = "experience", orphanRemoval = true)
     //private List<DocumentExperienceRepositoryModel> skills = new ArrayList<>();
     private PortfolioServiceModel portfolio;

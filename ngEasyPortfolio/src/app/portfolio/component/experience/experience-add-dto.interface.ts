@@ -2,7 +2,7 @@ export interface ExperienceAddDto {
     title: string,
     company: string,
     description: string,
-    startDate: number,
-    endDate:number,
+    startDate: Date,
+    endDate:Date,
     portfolioId:number
 }

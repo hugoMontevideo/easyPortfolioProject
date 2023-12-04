@@ -1,11 +1,16 @@
 package com.simplon.easyportfolio.api.controllers.experiences;
 
+import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
+import com.simplon.easyportfolio.api.controllers.skills.SkillUpdateDTO;
 import com.simplon.easyportfolio.api.exceptions.PortfolioNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
-import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceModel;
+import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceRequestModel;
+import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceResponseModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioService;
-import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceModel;
+import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestUpdateModel;
+import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -37,21 +42,23 @@ public class ExperienceController {
 
     // addExperience
     @PostMapping
-    public boolean add(@RequestBody ExperienceDTO experienceDTO){
+    public ExperienceGetDTO add(@RequestBody @Valid ExperienceDTO DTO){
+        System.out.println(DTO);
+        ExperienceServiceRequestModel experienceServiceRequestModel = mapper.experienceDtoToServiceRequestModelAdd(DTO);
+        ExperienceServiceResponseModel addedExperience =
+                portfolioService.saveExperience( experienceServiceRequestModel );
+        return mapper.experienceSvcToGetDTO(addedExperience);
+    }
 
-        if (portfolioService.findById(experienceDTO.getPortfolioId()) != null ){
-            PortfolioServiceModel portfolio = new PortfolioServiceModel( experienceDTO.getPortfolioId() );
+    /** update Experience **/
+    @PutMapping("/{id}")
+    public ExperienceGetDTO update(@RequestBody ExperienceUpdateDTO DTO){
+        ExperienceServiceRequestUpdateModel experienceServiceRequestUpdateModel =
+                mapper.experienceDtoToServiceRequestModel(DTO);
 
-            //todo *** try catch du findById
-            ExperienceServiceModel experienceServiceModel = mapper.experienceDtoToServiceModel(experienceDTO);
-            //adding portfolio manually
-            experienceServiceModel.setPortfolio(portfolio);
-
-            portfolioService.addExperience( experienceServiceModel );
-
-            return true;
-        }
-        return false;
+        ExperienceServiceResponseModel updatedExperience =
+                portfolioService.updateExperience( experienceServiceRequestUpdateModel );
+        return mapper.experienceSvcToGetDTO(updatedExperience);
     }
 
     // delete Experience

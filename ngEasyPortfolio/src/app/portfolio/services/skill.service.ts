@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JWTTokenService } from 'src/app/services/JWTToken.service';
 import { Skill } from '../component/skill/skill.interface';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { SkillAddDto } from '../component/skill/skill-add-dto.interface';
 import { environment } from 'src/environments/environment';
 import { SkillModel } from '../component/skill/skill-model';
@@ -17,18 +17,17 @@ export class SkillService {
     private jwtTokenService : JWTTokenService
   ) { }
 
-  saveSkill = ( table: string, newSkill: Skill ): Observable<any> => {      
-    console.log(newSkill);
-      
+  saveSkill = ( table: string, newSkill: Skill ): Observable<any> => {       
      if( newSkill.id == -1 ){
        let skill : SkillAddDto = {
            title: newSkill.title,
            description: newSkill.description,
            portfolioId: newSkill.portfolioId
-       }       
-       return this.http.post( `${this.ENV_DEV}/${table}`, skill );
+       };       
+       return this.http.post( `${this.ENV_DEV}/${table}`, skill )
+        .pipe(catchError(this.handleError)); // catch validator errors
      } else {  
-      return this.http.post( `${this.ENV_DEV}/${table}/${newSkill.id}`, newSkill );
+      return this.http.put( `${this.ENV_DEV}/${table}/${newSkill.id}`, newSkill );
      }  
   }
 
@@ -58,24 +57,18 @@ export class SkillService {
   }
 
   public resetNewSkill = ( pId: number ): Skill => {
-    let newSkill: Skill = {
-      id:-1,
-      title: "",
-      description: "",
-      portfolioId: pId
-    };
-    return newSkill;
+    return {
+              id:-1,
+              title: "",
+              description: "",
+              portfolioId: pId
+            };
   }
 
-  // public getNewSkillModel = (skill: Skill): SkillModel => {
-  //   return new SkillModel (
-  //         skill.id,
-  //         skill.title,
-  //         skill.description,
-  //         skill.portfolioId
-  //       );
-  //     // return skillModel;
-  // }
+  private handleError(error: HttpErrorResponse):Observable<never>{
+    return throwError(()=>error);
+  }
+
 
 
 

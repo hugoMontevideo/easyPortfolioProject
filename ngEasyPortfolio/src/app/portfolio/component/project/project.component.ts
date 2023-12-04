@@ -1,6 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { Project } from './project.interface';
 import { ProjectService } from '../../services/project.service';
+import { ProjectModel } from './project-model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-project',
@@ -9,10 +11,10 @@ import { ProjectService } from '../../services/project.service';
 })
 export class ProjectComponent {
 
-  @Input() projects!:Project[];
+  @Input() projects!:ProjectModel[];
   @Input() portfolioId!: number;
-
   legend: string = "Ajouter";
+  inputError!: string;
 
   newProject: Project = {
     id: -1,
@@ -24,33 +26,53 @@ export class ProjectComponent {
     portfolioId: this.portfolioId
   }
   selectedFile!: File | null;
-
   isProjectFormShowing: boolean = false; // display or hide form
 
   constructor( private projectService: ProjectService ){}
 
-  ngOnChanges(){
+  ngOnChanges(change: SimpleChanges){
     this.newProject.portfolioId = this.portfolioId;
   }
 
+  public onCloseModalForm = () => {
+    this.isProjectFormShowing = false;
+    this.newProject = this.projectService.resetNewSkill(this.newProject.portfolioId);
+  }
+
   public onAddProject = () => {
-    this.legend = "Ajouter"
+    this.legend = "Ajouter un projet"
     this.isProjectFormShowing = true;
+    this.projectService.tempData = "add";
+
   }
 
   public onSubmitProject = ()=>{
     // // hide the form
-    this.isProjectFormShowing = false; 
-    this.projectService.addProject('projects' , this.newProject)
+    this.projectService.saveProject('projects' , this.newProject)
     .subscribe({
-      next:(data: Project)=>{
-        // Ajouter educationEdit a educations [] pour affichage
-        this.projects.push(this.newProject);
+      next:(data)=>{
+        this.isProjectFormShowing = false; 
+        // Add projectModel to projects [], display purpose
+        this.projects = this.projectService.refreshSkills(this.projects,
+                                                      new ProjectModel( 
+                                                        data.id,
+                                                        data.title,
+                                                        data.description,
+                                                        data.date,
+                                                        data.fileName,
+                                                        null,
+                                                        this.newProject.portfolioId ) 
+                                                      );
+        this.newProject = this.projectService.resetNewSkill(this.newProject.portfolioId);
       },
-      error:(err:Error)=>{
-        console.log("**error adding education**");
+      error:(_error)=>{
+        console.log("**error Adding Project**");
+        if(_error instanceof HttpErrorResponse ) {
+          this.inputError = _error.error.title;
+        } 
       }
     });
+
   }
   // if I select a file on the form :
   onSelectedFile(event:any){

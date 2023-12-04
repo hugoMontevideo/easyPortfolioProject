@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -26,10 +28,10 @@ public class ExperienceRepositoryModel {
     private String description;
 
     @Column(name = "start_date")
-    private Long startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date")
-    private Long endDate;
+    private LocalDate endDate;
 
 
     //@OneToMany(mappedBy = "experience", orphanRemoval = true)

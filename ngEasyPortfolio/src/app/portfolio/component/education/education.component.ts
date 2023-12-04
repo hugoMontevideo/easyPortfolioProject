@@ -1,7 +1,9 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Education } from './education.interface';
 import { PortfolioService } from '../../services/portfolio.service';
 import { EducationService } from '../../services/education.service';
+import { EducationModel } from './education-model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-education',
@@ -10,12 +12,10 @@ import { EducationService } from '../../services/education.service';
 })
 export class EducationComponent {
 
-  @Input() educations!:Education[];
+  @Input() educations!:EducationModel[];
   @Input() portfolioId!: number;
-
   legend: string = "Ajouter";
-
-  constructor( private educationService: EducationService ){}
+  inputError!: string;
 
   newEducation: Education = {
     id: -1,
@@ -29,31 +29,60 @@ export class EducationComponent {
 };
   isEducationFormShowing: boolean = false; // display or hide form
 
-  ngOnChanges(){
+  constructor( private educationService: EducationService ){}
+
+  ngOnChanges(change: SimpleChanges){
     this.newEducation.portfolioId = this.portfolioId;
   }
 
-  
+  public onCloseModalForm = () => {
+    this.isEducationFormShowing = false;
+    this.newEducation = this.educationService.resetNewEducation(this.newEducation.portfolioId);
+  }
 
   public onAddEducation = () => {
     this.legend = "Ajouter une expérience"
     this.isEducationFormShowing = true;
+    this.educationService.tempData = "add";
   }
+
+  public onEditSkill = (index: number) => {
+    this.legend = "Modifier une compétence"
+    this.isEducationFormShowing = true;
+    this.newEducation = this.educations[index];
+    this.newEducation.portfolioId = this.portfolioId;
+    this.educationService.tempData = "edit";  
+  }
+
 
   public onSubmitEducation = ()=>{
     // // hide the form
-    this.isEducationFormShowing = false; 
     this.newEducation.portfolioId = this.portfolioId;  
-    this.educationService.addEducation('educations' , this.newEducation)
+    this.educationService.saveEducation('educations' , this.newEducation)
     .subscribe({
-      next:(data: Education)=>{
-        // Ajouter educationEdit a educations [] pour affichage
-        this.educations.push(this.newEducation);
-      },
-      error:(err:Error)=>{
-        console.log("**error adding education**");
-      }
-    });
+      next:(data)=>{
+        this.isEducationFormShowing = false;      
+         // Add skillModel to skills [], display purpose
+         this.educations = this.educationService.refreshSkills(this.educations,
+                                                       new EducationModel( 
+                                                         data.id,
+                                                         data.training,
+                                                         data.school,
+                                                         data.degree,
+                                                         data.startDate,
+                                                         data.endDate,
+                                                         data.description,
+                                                         this.newEducation.portfolioId ) 
+                                                       );
+         this.newEducation = this.educationService.resetNewEducation(this.newEducation.portfolioId);
+       },
+       error:(_error)=>{
+         console.log("**error Adding Education**");
+         if(_error instanceof HttpErrorResponse ) {
+           this.inputError = _error.error.training;
+         } 
+       }
+     });
   }
 
   onDeleteEducation = (educationId : number, index: number):void => {
@@ -62,8 +91,7 @@ export class EducationComponent {
     next:( )=> {
       this.educations.splice(index,1)
       },
-    error:(err:Error)=>{ console.log("Error while deleting education.");
-        }
+    error:(err:Error)=>{ console.log("Error while deleting education.");}
     }) 
   }
 

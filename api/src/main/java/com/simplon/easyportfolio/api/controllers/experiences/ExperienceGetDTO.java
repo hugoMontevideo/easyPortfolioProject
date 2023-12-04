@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,8 +15,8 @@ public class ExperienceGetDTO {
     private String title;
     private String company;
     private String description;
-    private Long startDate;
-    private Long endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     //@OneToMany(mappedBy = "experience", orphanRemoval = true)
     //private List<DocumentExperienceRepositoryModel> skills = new ArrayList<>();
 }

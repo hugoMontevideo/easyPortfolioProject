@@ -3,18 +3,24 @@
     <button (click)="onAddEducation()">
       <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
     </button>
-</h6>
 
-<div class="elt-form d-flex " *ngIf="isEducationFormShowing" >
-    <form #form="ngForm" class="col-6 mx-auto" (ngSubmit)="onSubmitEducation()" >
-      <legend>{{ legend }}</legend>
+  <div class="gradient p-4 " *ngIf="isEducationFormShowing" >
+    <p class="text-end m-0">
+      <button (click)="onCloseModalForm()"><fa-icon [icon]="['fas', 'window-close']" ></fa-icon></button>
+    </p>
+    <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitEducation()" >
+      <legend class="text-center form-legend mb-3">{{ legend }}</legend>
       <div class="mb-3">
+        <div *ngIf="inputError" class="mb-1">
+          <span class="text-danger input-error">{{ inputError }}</span>
+        </div>
+        <!-- <input type="text" minlength="2" maxlength="60" ************ disabled on dev  -->
         <input type="text" 
               class="form-control" 
               id="education-training" 
               [(ngModel)]="newEducation.training"
               name="education-training"
-              placeholder="Titre de la formation ou cursus">
+              placeholder="Titre de la formation ou cursus" required>
       </div>
       <div class="mb-3">
         <input type="text" 
@@ -60,19 +66,29 @@
         <label for="skill-file" class="form-label">Chargez un fichier en rapport avec cette compétence (disabled)</label>
         <input class="form-control" type="file" id="skill-file" disabled>
       </div> -->
-      <input class="btn btn-primary" type="submit" value="Valider">
+      <input class="btn btn-primary d-block mx-auto" 
+            type="submit" 
+            value="Valider">
+            <!-- [disabled]="form.invalid">***************disabled on dev  -->
+
     </form>
   </div>
+</h6>
 
-  <div *ngFor="let education of educations; let iii = index">
-    <div class="card">
-      <div class="card-body">
-          <p class="d-flex justify-content-between elt-title">
-              {{education.training}}
-              <button (click)="onDeleteEducation(education.id, iii)" class="elt-button" >
-                  <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
-              </button>
-          </p>
-      </div>
+<div *ngFor="let education of educations; let iii = index">
+  <div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between elt-title">
+          {{education.training}}
+          <div>
+            <button (click)="onEditSkill(iii)" class="elt-button" >
+              <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
+            </button> 
+            <button (click)="onDeleteEducation(education.id, iii)" class="elt-button" >
+                <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
+            </button>
+          </div>
+        </div>
     </div>
-  </div> 
+  </div>
+</div> 

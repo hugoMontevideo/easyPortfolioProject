@@ -2,12 +2,11 @@ package com.simplon.easyportfolio.api.controllers.skills;
 
 import com.simplon.easyportfolio.api.exceptions.PortfolioNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
-import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioService;
-import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceModel;
-import com.simplon.easyportfolio.api.services.skills.SkillServiceModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestModel;
+import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -37,22 +36,21 @@ public class SkillController {
 
     // addSkill
     @PostMapping
-    public SkillGetDTO add(@RequestBody SkillDTO DTO){
-        SkillServiceRequestModel skillServiceRequestModel = mapper.skillDtoToServiceRequestModel(DTO);
+    public SkillGetDTO add(@RequestBody @Valid SkillDTO DTO){
+        SkillServiceRequestModel skillServiceRequestModel = mapper.skillDtoToServiceRequestModelAdd(DTO);
 
         SkillServiceResponseModel addedSkill = portfolioService.saveSkill( skillServiceRequestModel );
         return mapper.skillSvcToGetDTO(addedSkill);
 
     }
 
-    @PostMapping("/{id}")
-    public SkillGetDTO update(@RequestBody SkillDTO DTO){
-        SkillServiceRequestModel skillServiceRequestModel = mapper.skillDtoToServiceRequestModel(DTO);
+    @PutMapping("/{id}")
+    public SkillGetDTO update(@RequestBody SkillUpdateDTO DTO){
+        SkillServiceRequestUpdateModel skillServiceRequestUpdModel = mapper.skillDtoToServiceRequestModel(DTO);
 
-        SkillServiceResponseModel updatedSkill =  portfolioService.saveSkill( skillServiceRequestModel );
+        SkillServiceResponseModel updatedSkill =  portfolioService.updateSkill( skillServiceRequestUpdModel );
         return mapper.skillSvcToGetDTO(updatedSkill);
     }
-
 
     // delete Skill
     @DeleteMapping("/{id}")
