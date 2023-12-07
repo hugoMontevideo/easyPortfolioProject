@@ -30,10 +30,10 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.loginEmailPwd)
     .subscribe({
       next:(user) => {                                      
-                      this.router.navigateByUrl("/portfolios");
+                this.router.navigateByUrl("/portfolios");
       },    
       error: (err:Error) => {
-                              this.loginError="Mdp ou email invalides";
+                this.loginError="Mdp ou email invalides";
       },
       complete: ()=> {console.log("ok vers portfolio");
       }

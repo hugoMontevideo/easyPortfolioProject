@@ -4,9 +4,13 @@
       <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
     </button>
     <div *ngIf="isProjectFormShowing" class="gradient p-4">
-      <p class="text-end m-0">
-        <button (click)="onCloseModalForm()"><fa-icon [icon]="['fas', 'window-close']" ></fa-icon></button>
-      </p>
+      <div class="text-end m-0">
+        <button (click)="onCloseModalForm()"
+              class="close-btn">
+          <fa-icon [icon]="['fas', 'window-close']"></fa-icon>
+          <span class="info-text">Fermer le formulaire</span>
+        </button>
+      </div>
       <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitProject()" enctype="multipart/form-data">
         <legend class="text-center form-legend mb-3">{{ legend }}</legend>
         <div class="mb-3">
@@ -47,7 +51,16 @@
             name="selected-file"
             (change)="onSelectedFile($event)"
             >
-          <input type="hidden" name="picture" [(ngModel)]="newProject.fileName">
+        </div>
+        <div class="d-flex justify-content-end align-items-start" *ngIf="newProject.fileName" >
+          <div class="preview">
+            <img [src]="projectService.ENV_PICT + newProject.fileName" alt="">  
+          </div>
+          <button (click)="onDeletePicture()"
+                class="delete-img-btn">
+            <fa-icon [icon]="['fas', 'window-close']"></fa-icon>
+            <div class="info-text-">Supprimer la photo</div>
+          </button>
         </div>
         <input class="btn btn-primary d-block mx-auto" 
             type="submit" 

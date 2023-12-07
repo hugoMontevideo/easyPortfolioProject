@@ -6,9 +6,7 @@ export class ProjectModel {
         public description: string,
         public date: Date,
         public fileName: string,
-        public file: File | null,
-        public portfolioId: number
-        
+        public portfolioId: number        
      ){  }
      
 }

@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Education } from './education.interface';
-import { PortfolioService } from '../../services/portfolio.service';
 import { EducationService } from '../../services/education.service';
 import { EducationModel } from './education-model';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -23,7 +22,7 @@ export class EducationComponent {
     school: "",
     degree: "",
     startDate: new Date("1970-01-01"),
-    endDate: new Date,
+    endDate: new Date("1970-01-01"),
     description: "",
     portfolioId: this.portfolioId
 };
@@ -62,7 +61,7 @@ export class EducationComponent {
     .subscribe({
       next:(data)=>{
         this.isEducationFormShowing = false;      
-         // Add skillModel to skills [], display purpose
+         // Add educationModel to educations[], display purpose
          this.educations = this.educationService.refreshSkills(this.educations,
                                                        new EducationModel( 
                                                          data.id,

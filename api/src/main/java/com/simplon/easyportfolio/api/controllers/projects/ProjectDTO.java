@@ -17,7 +17,7 @@ public class ProjectDTO {
     private String title;
     private String description;
     private LocalDate date;
-    private String fileName;
+    private Optional<String> fileName;
     private Optional<MultipartFile> file;
     private Long portfolioId;
 

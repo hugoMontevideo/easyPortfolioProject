@@ -18,7 +18,7 @@ export class EducationService {
     private jwtTokenService : JWTTokenService, 
   ) { }
 
-  saveEducation = ( table: string, newEducation: Education ): Observable<any> => {     
+  saveEducation = ( table: string, newEducation: Education ): Observable<any> => {  
     // The dates are of type Date in Angular and of type LocalDate in Java 
     if(this.tempData == "add") {
       let education: EducationAddDto = {
@@ -32,10 +32,9 @@ export class EducationService {
                       }
       return this.http.post(`${this.ENV_DEV}/${table}`, education )
         .pipe(catchError(this.handleError)); // catch validator errors
-
     }
-    return this.http.post(`${this.ENV_DEV}/${table}/${newEducation.id}`, newEducation );
-
+    //  update *******
+    return this.http.put(`${this.ENV_DEV}/${table}/${newEducation.id}`, newEducation );
 }
 
 deleteEducation = (table: string , educationId: number): Observable<any> | any => {

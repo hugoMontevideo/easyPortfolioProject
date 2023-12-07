@@ -16,4 +16,5 @@ public class ProjectServiceResponseModel {
     private String title;
     private String description;
     private LocalDate date;
+    private String fileName;
 }

@@ -4,6 +4,5 @@ export interface Project {
     description: string,
     date: Date,
     fileName: string,
-    file: File | null,
     portfolioId: number
 }

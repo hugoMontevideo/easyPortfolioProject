@@ -2,6 +2,7 @@ package com.simplon.easyportfolio.api.controllers.experiences;
 
 import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillUpdateDTO;
+import com.simplon.easyportfolio.api.exceptions.ExperienceNotFoundException;
 import com.simplon.easyportfolio.api.exceptions.PortfolioNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceRequestModel;
@@ -28,15 +29,14 @@ public class ExperienceController {
 
     @GetMapping("/{id}")  //  GET BY ID   *****
     public ResponseEntity<ExperienceGetDTO> findById(@PathVariable Long id){
-
         try{
             ExperienceServiceResponseModel responseModel = portfolioService.findExperienceById(id);
 
             ExperienceGetDTO DTO = mapper.experienceSvcToGetDTO(responseModel);
-            // todo  ***  creer un byIddto qui a objet portfolio sans l'array de skills
             return new ResponseEntity<>( DTO, HttpStatus.OK);
-        }catch (PortfolioNotFoundException ex){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getReason());
+
+        }catch (ExperienceNotFoundException e){
+            throw new RuntimeException(e);
         }
     }
 

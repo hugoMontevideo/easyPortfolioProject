@@ -1,10 +1,16 @@
 package com.simplon.easyportfolio.api.controllers.educations;
 
+import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
+import com.simplon.easyportfolio.api.controllers.skills.SkillUpdateDTO;
+import com.simplon.easyportfolio.api.exceptions.EducationNotFoundException;
+import com.simplon.easyportfolio.api.exceptions.ExperienceNotFoundException;
 import com.simplon.easyportfolio.api.exceptions.PortfolioNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestModel;
+import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioService;
+import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +44,9 @@ public class EducationController {
             EducationServiceResponseModel responseModel = portfolioService.findEducationById(id);
 
             EducationGetDTO DTO = mapper.educationSvcToGetDTO(responseModel);
-            // todo  ***  creer un byIddto qui a objet portfolio sans l'array de skills
             return new ResponseEntity<>( DTO, HttpStatus.OK);
-        }catch (PortfolioNotFoundException ex){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getReason());
+        }catch (EducationNotFoundException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -57,8 +62,16 @@ public class EducationController {
             return ResponseEntity.notFound().build(); // Statut 404 Not Found
         }
     }
+    // update Education
+    @PutMapping("/{id}")
+    public EducationGetDTO update(@RequestBody EducationUpdateDTO DTO){
+        EducationServiceRequestUpdateModel educationServiceRequestUpdModel =
+                mapper.educationDtoToServiceRequestModel(DTO);
 
-
+        EducationServiceResponseModel updatedEducation =
+                portfolioService.updateEducation( educationServiceRequestUpdModel );
+        return mapper.educationSvcToGetDTO(updatedEducation);
+    }
 
 
 

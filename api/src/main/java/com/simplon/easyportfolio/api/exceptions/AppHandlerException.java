@@ -1,6 +1,7 @@
 package com.simplon.easyportfolio.api.exceptions;
 
 import jakarta.validation.ConstraintViolationException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,8 +22,39 @@ public class AppHandlerException {
         });
         return errorMap;
     }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public Map<String,String> handleContraintViolation(ConstraintViolationException ex){
+        Map<String,String> errorMap = new HashMap<>();
+        ex.getConstraintViolations().forEach( error-> {
+            errorMap.put("title", error.getMessageTemplate());
+        });
+        return errorMap;
+    }
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(SkillNotFoundException.class)
+    public Map<String,String> handleSkillNotFound(@NotNull SkillNotFoundException exception){
+        Map<String,String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage", exception.getMessage());
+        return errorMap;
+    }
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(ExperienceNotFoundException.class)
+    public Map<String,String> handleexperienceNotFound(@org.jetbrains.annotations.NotNull ExperienceNotFoundException exception){
+        Map<String,String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage", exception.getMessage());
+        return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(EducationNotFoundException.class)
+    public Map<String,String> handleeducationNotFound(@NotNull EducationNotFoundException exception){
+        Map<String,String> errorMap = new HashMap<>();
+        errorMap.put("errorMessage", exception.getMessage());
+        return errorMap;
+    }
 
 
 

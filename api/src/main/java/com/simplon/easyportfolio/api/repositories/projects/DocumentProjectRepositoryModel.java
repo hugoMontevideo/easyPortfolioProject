@@ -8,15 +8,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="project")
-public class ProjectRepositoryModel {
+@Table(name="document_project")
+public class DocumentProjectRepositoryModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,17 +23,13 @@ public class ProjectRepositoryModel {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "mime")
+    private String mime;
 
-    @Column(name = "date")
-    private LocalDate date;
-
-    @OneToMany(mappedBy = "project", orphanRemoval = true)
-    private List<DocumentProjectRepositoryModel> documents ;
+    @Column(name = "file_name")
+    private String filename;
 
     @ManyToOne
-    @JoinColumn(name = "portfolio_id")
-    private PortfolioRepositoryModel portfolio;
-
+    @JoinColumn(name = "project_id")
+    private ProjectRepositoryModel project;
 }

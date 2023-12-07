@@ -13,6 +13,7 @@ export class ProjectComponent {
 
   @Input() projects!:ProjectModel[];
   @Input() portfolioId!: number;
+
   legend: string = "Ajouter";
   inputError!: string;
 
@@ -22,13 +23,12 @@ export class ProjectComponent {
     description: "",
     date: new Date("1970-01-01"),
     fileName: "",
-    file: null,
     portfolioId: this.portfolioId
   }
   selectedFile!: File | null;
-  isProjectFormShowing: boolean = false; // display or hide form
+  isProjectFormShowing: boolean = true; // display or hide form
 
-  constructor( private projectService: ProjectService ){}
+  constructor( public projectService: ProjectService ){}
 
   ngOnChanges(change: SimpleChanges){
     this.newProject.portfolioId = this.portfolioId;
@@ -43,8 +43,31 @@ export class ProjectComponent {
     this.legend = "Ajouter un projet"
     this.isProjectFormShowing = true;
     this.projectService.tempData = "add";
+    this.projectService.add('projects', this.newProject)
+      .subscribe({
+        next:(data)=>{
+          this.projects = 
+            this.projectService.refreshSkills(this.projects,  // tableau d'affichage
+                                              new ProjectModel( 
+                                                data.id,
+                                                data.title,
+                                                data.description,
+                                                data.date,
+                                                data.fileName,
+                                                this.newProject.portfolioId ) 
+                                            );
+          this.newProject.id = data.id; 
+          this.newProject.title = data.title;                                  
+        },
+        error:(_error)=>{
+          console.log("**error Adding or updating Project**");
+          if(_error instanceof HttpErrorResponse ) {
+            this.inputError = _error.error.title;
+          } 
+        }
+      });
   }
-
+ 
   public onEditProject = (index: number) => {
     this.legend = "Modifier un projet"
     this.isProjectFormShowing = true;
@@ -53,23 +76,22 @@ export class ProjectComponent {
     this.projectService.tempData = "edit";  
   }
 
-  public onSubmitProject = ()=>{
+  public onSubmitProject = ()=>{    
     // // hide the form
-    this.projectService.saveProject('projects' , this.newProject)
+    this.projectService.saveProject('projects' , this.newProject, this.selectedFile!)
     .subscribe({
       next:(data)=>{
-        this.isProjectFormShowing = false; 
+        this.isProjectFormShowing = true; 
         // Add projectModel to projects [], display purpose
         this.projects = 
           this.projectService.refreshSkills(this.projects,
                                             new ProjectModel( 
-                                            data.id,
-                                            data.title,
-                                            data.description,
-                                            data.date,
-                                            data.fileName,
-                                            null,
-                                            this.newProject.portfolioId ) 
+                                              data.id,
+                                              data.title,
+                                              data.description,
+                                              data.date,
+                                              data.fileName,
+                                              this.newProject.portfolioId ) 
                                           );
         this.newProject = this.projectService.resetNewSkill(this.newProject.portfolioId);
       },
@@ -80,11 +102,18 @@ export class ProjectComponent {
         } 
       }
     });
-
   }
+  /**
+   * Delete the picture on db
+   */
+  onDeletePicture = () => {
+    console.log("hello");
+    
+  }
+
   // if I select a file on the form :
   onSelectedFile(event:any){
-    this.newProject.file = event.target.files[0];
+    this.selectedFile = event.target.files[0];    
   }
 
   onDeleteProject = (projectId : number, index: number):void => {

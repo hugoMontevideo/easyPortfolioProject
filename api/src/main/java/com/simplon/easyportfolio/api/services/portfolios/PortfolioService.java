@@ -1,6 +1,10 @@
 package com.simplon.easyportfolio.api.services.portfolios;
 
 import com.github.slugify.Slugify;
+import com.simplon.easyportfolio.api.exceptions.EducationNotFoundException;
+import com.simplon.easyportfolio.api.exceptions.ExperienceNotFoundException;
+import com.simplon.easyportfolio.api.exceptions.ProjectNotFoundException;
+import com.simplon.easyportfolio.api.exceptions.SkillNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
 import com.simplon.easyportfolio.api.repositories.educations.EducationRepository;
 import com.simplon.easyportfolio.api.repositories.educations.EducationRepositoryModel;
@@ -8,22 +12,24 @@ import com.simplon.easyportfolio.api.repositories.experiences.ExperienceReposito
 import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepository;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
+import com.simplon.easyportfolio.api.repositories.projects.DocumentProjectRepository;
+import com.simplon.easyportfolio.api.repositories.projects.DocumentProjectRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.projects.ProjectRepository;
 import com.simplon.easyportfolio.api.repositories.projects.ProjectRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepository;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestModel;
+import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceRequestModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceResponseModel;
-import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestModel;
-import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestUpdateModel;
-import com.simplon.easyportfolio.api.services.projects.ProjectServiceResponseModel;
+import com.simplon.easyportfolio.api.services.projects.*;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
 import jakarta.transaction.Transactional;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,11 +45,14 @@ import org.apache.commons.io.FilenameUtils;
 
 @Service
 public class PortfolioService {
+    private static final LocalDate DATE_VIDE = LocalDate.of(1970,1,2);
 
     @Autowired
     PortfolioRepository portfolioRepository;
     @Autowired
     ProjectRepository projectRepository;
+    @Autowired
+    DocumentProjectRepository documentProjectRepository;
     @Autowired
     EducationRepository educationRepository;
     @Autowired
@@ -92,29 +101,75 @@ public class PortfolioService {
 
 /** Table : PROJECT   ***************** **/
     // add Project
-    public ProjectServiceResponseModel saveProject(ProjectServiceRequestModel projectServiceRequestModel) {
+public ProjectServiceResponseModel addProject( ProjectServiceRequestModel projectServiceRequestModel ) {
+   // find portfolio by id and ...
+    Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
+    PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
+    // adding portfolio manually
+    projectServiceRequestModel.setPortfolio( Optional.ofNullable(portfolioServiceModel));
+    Optional<LocalDate> noDate = Optional.empty();
+    projectServiceRequestModel.setDate(noDate);
+
+    ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModelAdd(projectServiceRequestModel);
+    ProjectRepositoryModel addedProject = projectRepository.save(project);  //
+
+    return mapper.projectRepositoryToResponseSvc(addedProject);
+}
+    public ProjectServiceResponseModel saveProject( ProjectServiceRequestModel projectServiceRequestModel ) {
+        DocumentProjectServiceRequestModel documentProjectServiceRequestModel = new DocumentProjectServiceRequestModel();
         if(!projectServiceRequestModel.getFile().isEmpty()){
             // naming pictures : in project = project_ + projectName + (timeInMilli)
             long timestamp = System.currentTimeMillis();
             String pictureName = "project " + projectServiceRequestModel.getTitle() + "-" +timestamp ;
+            /** picture saved on server **/
             String pictureName2 = uploadPicture(projectServiceRequestModel.getFile().get(), pictureName);
-            projectServiceRequestModel.setFileName(pictureName2);
+            projectServiceRequestModel.setFileName(Optional.of(pictureName2));
+            // filling documentModel manually
+            documentProjectServiceRequestModel.setFilename(Optional.of(pictureName2));
         }
         Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
         PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
         // adding portfolio manually
         projectServiceRequestModel.setPortfolio( Optional.ofNullable(portfolioServiceModel));
-        // verifing date - if date == 1970 01 01 we set it to null
-        if(!isValidDate(projectServiceRequestModel.getDate())){
-            projectServiceRequestModel.setDate(null);
+        // verifing date - if date == 1970 01 01 we set it to empty ** projectModel
+        if(!isValidDate(projectServiceRequestModel.getDate().get())){
+            Optional<LocalDate> noDate = Optional.empty();
+            projectServiceRequestModel.setDate(noDate);
         }
 
         ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModelAdd(projectServiceRequestModel);
         ProjectRepositoryModel addedProject = projectRepository.save(project);
+
+        // filling documentModel manually 2     *** documentProjectModel
+
+        DocumentProjectRepositoryModel documentProjectRepositoryModel =
+                mapper.documentProjectServiceRequestToRepositoryModelAdd(documentProjectServiceRequestModel);
+        documentProjectRepositoryModel.setProject(addedProject);
+        System.out.println(documentProjectRepositoryModel.getProject().getId() + "hello"+
+                documentProjectRepositoryModel.getFilename());
+        /** saving documentProjectModel in db    *** documentProjectModel **/
+        documentProjectRepository.save(documentProjectRepositoryModel);
+
         return mapper.projectRepositoryToResponseSvc(addedProject);
     }
 
+    private DocumentProjectServiceResponseModel pushDocumentProject(DocumentProjectServiceRequestModel documentRequestModel) {
 
+        DocumentProjectRepositoryModel documentProjectRepositoryModel =
+                mapper.documentProjectServiceRequestToRepositoryModelAdd(documentRequestModel);
+        Optional<ProjectRepositoryModel> project =
+                projectRepository.findById(documentRequestModel.getProjectId().get());
+        System.out.println(project);
+        //adding project manually
+        documentProjectRepositoryModel.setProject(project.get());
+
+        DocumentProjectRepositoryModel addedDocProject = documentProjectRepository.save(documentProjectRepositoryModel);
+        return mapper.documentProjectRepositoryToResponseSvc(addedDocProject);
+    }
+
+
+
+    // update project
     public ProjectServiceResponseModel updateProject(ProjectServiceRequestUpdateModel projectModel) {
         if(!projectModel.getFile().isEmpty()){
             // naming pictures : in project = project_ + projectName + (timeInMilli)
@@ -127,49 +182,28 @@ public class PortfolioService {
         Optional<PortfolioRepositoryModel> portfolio =
                 portfolioRepository.findById( projectModel.getPortfolioId().get() );
         PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
-        projectModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
-
-        ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModel(projectModel);
         // adding portfolio manually
-        // verifing date - if date == 1970 01 01 we set it to null
-        if(!isValidDate(projectModel.getDate())){
-            projectModel.setDate(null);
+        projectModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
+        ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModel(projectModel);
+        // verifing date - if date == 1970 01 01 we set it to empty
+        if(!isValidDate(projectModel.getDate().get())){
+            Optional<LocalDate> noDate = Optional.empty();
+            projectModel.setDate(noDate);
         }
 
         ProjectRepositoryModel addedProject = projectRepository.save(project);
         return mapper.projectRepositoryToResponseSvc(addedProject);
     }
+    // find by id project
+    public ProjectServiceResponseModel findProjectById(Long id) throws ProjectNotFoundException {
+        try {
+            Optional<ProjectRepositoryModel> projectRepositoryModel = projectRepository.findById(id);
+            return mapper.projectRepositoryToResponseSvc(projectRepositoryModel.get());
 
-    public ExperienceServiceResponseModel updateExperience(ExperienceServiceRequestUpdateModel experienceModel) {
-        //getting the portfolioRepositoryModel
-        Optional<PortfolioRepositoryModel> portfolio =
-                portfolioRepository.findById( experienceModel.getPortfolioId().get() );
-
-        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
-        experienceModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
-
-        ExperienceRepositoryModel experience = mapper.experienceServiceRequestToRepositoryModel(experienceModel);
-        // adding portfolio manually
-
-        ExperienceRepositoryModel addedExperience = experienceRepository.save(experience);
-        return mapper.experienceRepositoryToResponseSvc(addedExperience);
-    }
-
-
-    public ProjectServiceResponseModel findProjectById(Long id) {
-        // TODO *** finish the method, not working yet ***
-        Optional<ProjectRepositoryModel> projectRepositoryModel = projectRepository.findById(id);
-
-        if (projectRepositoryModel.isEmpty()){
-            return null;
-        }else{
-            //SkillServiceResponseModel item = mapper.skillRepositoryToResponseSvc(skillRepositoryModel.get());
-            //return item;
-            return new ProjectServiceResponseModel();
-
+        }catch(Exception exception){
+            throw new ProjectNotFoundException("Project not found with id : " + id);
         }
     }
-
     // delete Project
     public boolean deleteProject(Long id) {
         try{
@@ -181,7 +215,7 @@ public class PortfolioService {
         }
     }
 
-// Table : EDUCATION   *****************
+/** Table : EDUCATION   ***************** **/
     // add Education
     public EducationServiceResponseModel saveEducation(EducationServiceRequestModel educationRequest) {
         //getting the portfolioRepositoryModel
@@ -190,29 +224,46 @@ public class PortfolioService {
 
         // adding portfolio manually
         educationRequest.setPortfolio(Optional.ofNullable(portfolioServiceModel));
+        System.out.println(isValidDate(educationRequest.getStartDate().get()));
+        if(isValidDate(educationRequest.getStartDate().get())){
+            Optional<LocalDate> noDate = Optional.empty();
+            educationRequest.setStartDate(noDate);
+        }
 
         EducationRepositoryModel education =
                 mapper.educationServiceRequestToRepositoryModelAdd(educationRequest);
         EducationRepositoryModel addedExperience = educationRepository.save(education);
         return mapper.educationRepositoryToResponseSvc(addedExperience);
     }
+    //update education
+    public EducationServiceResponseModel updateEducation(EducationServiceRequestUpdateModel educationServiceModel) {
+        //getting the portfolioRepositoryModel
+        Optional<PortfolioRepositoryModel> portfolio =
+                portfolioRepository.findById( educationServiceModel.getPortfolioId().get() );
 
-
-    public EducationServiceResponseModel findEducationById(Long id) {
-        // TODO *** finish the method, not working yet ***
-        Optional<EducationRepositoryModel> experienceRepositoryModel = educationRepository.findById(id);
-
-        if (experienceRepositoryModel.isEmpty()){
-            return null;
-        }else{
-            //SkillServiceResponseModel item = mapper.skillRepositoryToResponseSvc(skillRepositoryModel.get());
-
-            //return item;
-            return new EducationServiceResponseModel();
+        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
+        // adding portfolio manually
+        educationServiceModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
+        if(!isValidDate(educationServiceModel.getStartDate().get())){
+            Optional<LocalDate> noDate = Optional.empty();
+            educationServiceModel.setStartDate(noDate);
         }
 
+        EducationRepositoryModel education = mapper.educationServiceRequestToRepositoryModel(educationServiceModel);
+        EducationRepositoryModel addedEducation = educationRepository.save(education);
+        return mapper.educationRepositoryToResponseSvc(addedEducation);
     }
 
+    // find by id education
+    public EducationServiceResponseModel findEducationById(Long id) throws EducationNotFoundException {
+        try {
+            Optional<EducationRepositoryModel> educationRepositoryModel = educationRepository.findById(id);
+            return mapper.educationRepositoryToResponseSvc(educationRepositoryModel.get());
+
+        }catch(Exception exception){
+            throw new EducationNotFoundException("Education not found with id : " + id);
+        }
+    }
     // delete Education
     public boolean deleteEducation(Long id) {
 
@@ -225,7 +276,6 @@ public class PortfolioService {
     }
 
 /** Table : EXPERIENCE   *****************/
-
     // add Experience
     public ExperienceServiceResponseModel saveExperience(ExperienceServiceRequestModel experienceServiceRequestModel) {
         //getting the portfolioRepositoryModel
@@ -233,6 +283,10 @@ public class PortfolioService {
         PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
         // adding portfolio manually
         experienceServiceRequestModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
+        if(!isValidDate(experienceServiceRequestModel.getStartDate().get())){
+            Optional<LocalDate> noDate = Optional.empty();
+            experienceServiceRequestModel.setStartDate(noDate);
+        }
 
         ExperienceRepositoryModel experience =
                 mapper.experienceServiceRequestToRepositoryModelAdd(experienceServiceRequestModel);
@@ -240,19 +294,14 @@ public class PortfolioService {
         return mapper.experienceRepositoryToResponseSvc(addedExperience);
     }
 
-    //find by id
-    public ExperienceServiceResponseModel findExperienceById(Long id) {
-        Optional<ExperienceRepositoryModel> experienceRepositoryModel = experienceRepository.findById(id);
-
-        if (experienceRepositoryModel.isEmpty()){
-            return null;
-        }else{
-            //SkillServiceResponseModel item = mapper.skillRepositoryToResponseSvc(skillRepositoryModel.get());
-
-            //return item;
-            return new ExperienceServiceResponseModel();
+    //find by id Experience
+    public ExperienceServiceResponseModel findExperienceById(Long id) throws ExperienceNotFoundException {
+        try {
+            Optional<ExperienceRepositoryModel> experienceRepositoryModel = experienceRepository.findById(id);
+            return mapper.experienceRepositoryToResponseSvc(experienceRepositoryModel.get());
+        } catch (Exception exception){
+            throw new ExperienceNotFoundException("Experience not found with id : " + id);
         }
-
     }
     // delete Experience
     public boolean deleteExperience(Long id) {
@@ -262,15 +311,25 @@ public class PortfolioService {
         } catch (Exception e) {
             return false;
         }
-
     }
     //update experience
+    public ExperienceServiceResponseModel updateExperience(ExperienceServiceRequestUpdateModel experienceServiceModel) {
+        //getting the portfolioRepositoryModel
+        Optional<PortfolioRepositoryModel> portfolio =
+                portfolioRepository.findById( experienceServiceModel.getPortfolioId().get() );
 
+        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
+        // adding portfolio manually
+        experienceServiceModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
+        if(!isValidDate(experienceServiceModel.getStartDate().get())){
+            Optional<LocalDate> noDate = Optional.empty();
+            experienceServiceModel.setStartDate(noDate);
+        }
 
-
-
-
-
+        ExperienceRepositoryModel experience = mapper.experienceServiceRequestToRepositoryModel(experienceServiceModel);
+        ExperienceRepositoryModel addedExperience = experienceRepository.save(experience);
+        return mapper.experienceRepositoryToResponseSvc(addedExperience);
+    }
 
 /** Table : SKILL   *****************/
     //update skill
@@ -288,7 +347,6 @@ public class PortfolioService {
         SkillRepositoryModel addedSkill = skillRepository.save(skill);
         return mapper.skillRepositoryToResponseSvc(addedSkill);
     }
-
     // add skill
     public SkillServiceResponseModel saveSkill(SkillServiceRequestModel skillServiceRequestModel) {
         //getting the portfolioRepositoryModel
@@ -301,19 +359,28 @@ public class PortfolioService {
         SkillRepositoryModel addedSkill = skillRepository.save(skill);
         return mapper.skillRepositoryToResponseSvc(addedSkill);
     }
-
-
-    public SkillServiceResponseModel findSkillById(Long id) {
+    // findById Skill
+    public SkillServiceResponseModel findSkillById(Long id) throws SkillNotFoundException {
+        try{
         Optional<SkillRepositoryModel> skillRepositoryModel = skillRepository.findById(id);
+        //if( skillRepositoryModel.isEmpty() ){
+            return mapper.skillRepositoryToResponseSvc(skillRepositoryModel.get());
 
-        return mapper.skillRepositoryToResponseSvc(skillRepositoryModel.get());
+        }catch(Exception exception){
+            throw new SkillNotFoundException("Skill not found with id : " + id);
+        }
+    }
+    // delete Skill
+    public boolean deleteSkill(Long id) {
+        try {
+            skillRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public void deleteSkill(Long id) {
-        skillRepository.deleteById(id);
-    }
-
-    // UTILS  *****************************************
+/** UTILS  ***************************************** **/
     private String uploadPicture(MultipartFile file, String pictureName) throws IOError{
         try{
             String uploadDirectory = "/public/upload/pictures"; // pictures upload folder
@@ -333,16 +400,39 @@ public class PortfolioService {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
-
         }
         return "Error";
     }
     private boolean isValidDate (LocalDate date){
-        LocalDate defaultDate = LocalDate.of(1970,1, 2 );
-        return date.isAfter(defaultDate);
+        return date.isAfter(DATE_VIDE);
     }
 
 
+/** documents  ***************************************** **/
+
+    public void getdDocumentProjectById(Long docId) {
+        // TODO **************
+    }
+
+    public DocumentProjectServiceResponseModel saveDocumentProject(DocumentProjectServiceRequestModel documentServiceRequestModel) {
+        if(!documentServiceRequestModel.getFile().isEmpty()){
+            // naming pictures : in project = project_ + projectName + (timeInMilli)
+            long timestamp = System.currentTimeMillis();
+            String pictureName = "project " + documentServiceRequestModel.getTitle() + "-" +timestamp ;
+            String pictureName2 = uploadPicture(documentServiceRequestModel.getFile().get(), pictureName);
+            documentServiceRequestModel.setFilename(Optional.of(pictureName2));
+        }
+        DocumentProjectRepositoryModel documentProject =
+                mapper.documentProjectServiceRequestToRepositoryModelAdd(documentServiceRequestModel);
+        Optional<ProjectRepositoryModel> project =
+                projectRepository.findById(documentServiceRequestModel.getProjectId().get());
+        //adding project manually
+        documentProject.setProject(project.get());
+        DocumentProjectRepositoryModel addedDocProject = documentProjectRepository.save(documentProject);
+        return mapper.documentProjectRepositoryToResponseSvc(addedDocProject);
+
+
+    }
 
 
 }

@@ -17,9 +17,15 @@ public class ProjectServiceRequestModel {
 
     private String title;
     private String description;
-    private LocalDate date;
-    private String fileName;
+    private Optional<LocalDate> date;
+    private Optional<String> fileName;
+    private Optional<Long> fileId;
     private Optional<MultipartFile> file;
     private Optional<PortfolioServiceModel> portfolio;
     private Optional<Long> portfolioId;
+
+    public ProjectServiceRequestModel(String title, Long portfolioId) {
+        this.title=title;
+        this.portfolioId= Optional.ofNullable(portfolioId);
+    }
 }

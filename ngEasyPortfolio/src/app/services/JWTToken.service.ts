@@ -34,9 +34,9 @@ export class JWTTokenService {
       }
     }
 
-    getDecodeToken() {
+    getDecodeToke = () => {
       return jwtDecode(this.jwtToken);
-    }
+    };
 
 
     getUser(): string | any {

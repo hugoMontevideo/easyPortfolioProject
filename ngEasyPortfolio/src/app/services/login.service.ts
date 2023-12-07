@@ -27,13 +27,12 @@ export class LoginService {
     this.httpClient = new HttpClient(this.httpBackend);
 
     return this.httpClient.post<any>(`${this.ENV_BASE}/auth/authorize`, loginEmailPwd, {responseType: "json"})
-    .pipe(map(data => {
-      if(data){
-        this.jwtToken.setToken(data.token);        
-        
-      }
-      return data ;
-    }))
+      .pipe(map(data => {
+        if(data){
+          this.jwtToken.setToken(data.token);        
+        }
+        return data ;
+      }))
   }
 
   public logout = ():void => {

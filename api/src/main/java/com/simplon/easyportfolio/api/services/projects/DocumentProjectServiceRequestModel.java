@@ -6,18 +6,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
 import java.util.Optional;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectServiceRequestUpdateModel {
-    private Optional<Long> id;
+public class DocumentProjectServiceRequestModel {
     private String title;
-    private String description;
-    private Optional<LocalDate> date;
-    private String fileName;
+    private String mime;
+    private Optional<String> filename;
     private Optional<MultipartFile> file;
-    private Optional<PortfolioServiceModel> portfolio;
-    private Optional<Long> portfolioId;
+    private Optional<ProjectServiceModel> project;
+    private Optional<Long> projectId;
+
+    public DocumentProjectServiceRequestModel(String filename, Long projectId) {
+        this.filename = Optional.ofNullable(filename);
+        this.projectId = Optional.ofNullable(projectId);
+    }
 }

@@ -5,25 +5,25 @@ import { environment } from 'src/environments/environment';
 import { Project } from '../component/project/project.interface';
 import { Observable, catchError, throwError } from 'rxjs';
 import { ProjectModel } from '../component/project/project-model';
-import { DatePipe } from '@angular/common';
+import { ProjectAddDto } from '../component/project/project-add-dto.interface';
 
 
 @Injectable()
 export class ProjectService {
   ENV_DEV:string = environment.apiUrl;
+  ENV_PICT:string = `${environment.apiImg}/pictures/`;
   tempData: string = ""; // "add" or "edit"
+  currentFile! : File;
 
-  selectedFile!: File | any;
 
   constructor(
     private http: HttpClient,
     private jwtTokenService : JWTTokenService, 
-    public datePipe: DatePipe
   ) { }
 
-  saveProject = ( table: string, newProject: Project ): Observable<any> => { 
-    const defaultDate = new Date("1970-01-02");
-    this.selectedFile = newProject.file;     
+  saveProject = ( table: string, newProject: Project, selectedFile: File | null  ): Observable<any> => { 
+    const defaultDate = new Date("1970-01-02"); 
+    
     // The dates are of type Date in Angular and of type LocalDate in Java 
     const formData = new FormData;
     if( newProject.date < defaultDate){        
@@ -31,12 +31,15 @@ export class ProjectService {
     }else{
       formData.append('date', newProject.date.toString());  // date send by the form
     }
+    if(this.isFile(selectedFile)){
+      formData.append('file', this.currentFile) ;
+    }; 
     formData.append('title', newProject.title);
     formData.append('description', newProject.description);
     formData.append('fileName', newProject.fileName);
-    formData.append('file', this.selectedFile);
+    formData.append('file', selectedFile!) ;
     formData.append('portfolioId', newProject.portfolioId.toString());
-    if( this.tempData == "add") {
+    if( newProject.id < 1) {
       return this.http.post(`${this.ENV_DEV}/${table}`, formData )
         .pipe(catchError(this.handleError)); // catch validator errors
 
@@ -47,11 +50,19 @@ export class ProjectService {
       .pipe(catchError(this.handleError)); // catch validator errors
   }
 
+  public add = ( table: string, newProject: Project ): Observable<any> => { 
+    let projectAdd : ProjectAddDto = {
+      title: "nouveau projet en cours",
+      portfolioId: newProject.portfolioId
+  }
+      return this.http.post(`${this.ENV_DEV}/${table}`, projectAdd )
+        .pipe(catchError(this.handleError)); // catch validator error
+  }
+
   deleteProject = (table: string , projectId: number): Observable<any> | any => {
       return this.http.delete(`${this.ENV_DEV}/${table}/${projectId}` );  
 
   }
-
 
   // UTILS  **************************
   public refreshSkills = (projects: ProjectModel[], project: ProjectModel) => {
@@ -69,13 +80,20 @@ export class ProjectService {
               description: "",
               date: new Date("1970-01-01"),
               fileName: "",
-              file: null,
               portfolioId: pId
             };
   }
 
   private handleError(error: HttpErrorResponse):Observable<never>{
     return throwError(()=>error);
+  }
+
+  isFile(file: File | null ): boolean {
+    if(file !== null){
+      this.currentFile = file;
+      return true;
+    }  
+    return false                                                                                                                                                                                                                                                                                                                                                                                              ;
   }
 
 

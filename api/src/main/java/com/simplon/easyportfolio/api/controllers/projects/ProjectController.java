@@ -1,11 +1,14 @@
 package com.simplon.easyportfolio.api.controllers.projects;
 
+import com.simplon.easyportfolio.api.controllers.skills.SkillDTO;
 import com.simplon.easyportfolio.api.exceptions.PortfolioNotFoundException;
+import com.simplon.easyportfolio.api.exceptions.ProjectNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioService;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceResponseModel;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -19,7 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.Optional;
-@Validated
+@Validated  // forms validation
 @CrossOrigin
 @RestController
 @RequestMapping("api/projects")
@@ -29,23 +32,14 @@ public class ProjectController {
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
 
     @PostMapping
-    public ProjectGetDTO add(
-            @RequestParam("title") @Size(min =2, message = "Le titre doit avoir entre 2 et 60 caractères") String title,
-            @RequestParam ("description")String description,
-            @RequestParam LocalDate date,
-            @RequestParam ("fileName")String fileName,
-            @RequestParam ("file")Optional<MultipartFile> file,
-            @RequestParam ("portfolioId")Long portfolioId
-            ){
-        // creating DTO with received parameters
-        ProjectDTO DTO = new ProjectDTO(title, description, date, fileName, file, portfolioId);
+    public ProjectGetDTO add( @RequestBody  ProjectAddDTO DTO) {
+        // mapping DTO to service request model
+        ProjectServiceRequestModel serviceModel = new ProjectServiceRequestModel(DTO.getTitle(), DTO.getPortfolioId());
 
-        ProjectServiceRequestModel projectServiceRequestModel =
-                mapper.projectDtoToServiceRequestModelAdd(DTO);
-
-        ProjectServiceResponseModel addedProject = portfolioService.saveProject(projectServiceRequestModel);
+        ProjectServiceResponseModel addedProject = portfolioService.addProject(serviceModel);
         return mapper.projectSvcToGetDTO( addedProject );
     }
+
     //update project
     @PutMapping("/{id}")
     public ProjectGetDTO update(
@@ -81,10 +75,9 @@ public class ProjectController {
             ProjectServiceResponseModel responseModel = portfolioService.findProjectById(id);
 
             ProjectGetDTO DTO = mapper.projectSvcToGetDTO(responseModel);
-            // TODO  ***  creer un byIddto qui a objet portfolio sans l'array de skills
             return new ResponseEntity<>( DTO, HttpStatus.OK);
-        }catch (PortfolioNotFoundException ex){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getReason());
+        }catch (ProjectNotFoundException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -99,6 +92,11 @@ public class ProjectController {
         } catch(Exception e){
             return ResponseEntity.notFound().build(); // Statut 404 Not Found
         }
+    }
+    @DeleteMapping("/{id}/documents/{doc_id}")
+    public void deletePictureOnProject(@PathVariable Long doc_id){
+        portfolioService.getdDocumentProjectById(doc_id);
+        return;
     }
 
 

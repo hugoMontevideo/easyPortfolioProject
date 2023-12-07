@@ -17,8 +17,8 @@ public class EducationServiceRequestModel {
     private String training;
     private String school;
     private String degree;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Optional<LocalDate> startDate;
+    private Optional<LocalDate> endDate;
     private String description;
     private Optional<PortfolioServiceModel> portfolio;
     private Optional<Long> portfolioId;

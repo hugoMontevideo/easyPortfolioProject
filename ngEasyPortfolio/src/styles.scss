@@ -50,4 +50,55 @@
         font-size: .9rem;
         font-weight: 400;
     }
+    .preview{ 
+        margin: 0 0 1rem ;
+        overflow: hidden;
+        img{
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit:cover;
+        }
+    }
+}
+.close-btn{// onCloseModalForm ()
+    position: relative;
+    .info-text{
+        font-size: 0;
+    }
+}
+.close-btn:hover .info-text{
+    cursor: pointer;
+    display: block;
+    position:absolute;
+    left: 50%;
+    top: -100%;
+    transform: translate(20%);
+    font-size: .8rem;
+    background-color: rgba(127, 255, 212, 0.801);
+    padding: .3rem;
+    border-radius: 3px;
+    font-size: .8rem;
+}
+.delete-img-btn{  // onDeletePicture ()
+    position: relative;
+    .info-text-{
+        // display: none;
+        position: absolute;
+        font-size: 0;
+    }
+    fa-icon{
+        color: rgb(143, 10, 10);
+    }
+}
+.delete-img-btn:hover .info-text-{
+    cursor: pointer;
+    display: block;
+    left: 50%;
+    top: -100%;
+    transform: translate(20%);
+    font-size: .8rem;
+    background-color: rgba(127, 255, 212, 0.801);
+    padding: .3rem;
+    border-radius: 3px;
 }

@@ -15,6 +15,7 @@ public class ProjectServiceModel {
     private String title;
     private String description;
     private LocalDate date;
+    private String fileName;
     private PortfolioServiceModel portfolio;
 
     public ProjectServiceModel(String title, String description, LocalDate date, PortfolioServiceModel portfolio){
