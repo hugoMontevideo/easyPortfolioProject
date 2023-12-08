@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +17,9 @@ public class ProjectServiceModel {
     private String description;
     private LocalDate date;
     private String fileName;
+    private List<DocumentProjectServiceModel> documents ;
     private PortfolioServiceModel portfolio;
+
 
     public ProjectServiceModel(String title, String description, LocalDate date, PortfolioServiceModel portfolio){
         this.title = title;

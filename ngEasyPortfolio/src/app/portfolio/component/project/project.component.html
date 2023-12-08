@@ -52,15 +52,18 @@
             (change)="onSelectedFile($event)"
             >
         </div>
-        <div class="d-flex justify-content-end align-items-start" *ngIf="newProject.fileName" >
-          <div class="preview">
-            <img [src]="projectService.ENV_PICT + newProject.fileName" alt="">  
+        <div *ngFor="let doc of newProject.documents; let j = index">    
+          <div class="d-flex justify-content-end align-items-start" *ngIf="doc.filename" >
+            <div class="preview">
+              <img [src]="projectService.ENV_PICT + doc.filename" alt="">  
+            </div>
+            <button (click)="onDeletePicture(j, doc.id )"
+                  class="delete-img-btn">
+              <fa-icon [icon]="['fas', 'window-close']"></fa-icon>
+              <div class="info-text-">Supprimer la photo</div>
+            </button>
           </div>
-          <button (click)="onDeletePicture()"
-                class="delete-img-btn">
-            <fa-icon [icon]="['fas', 'window-close']"></fa-icon>
-            <div class="info-text-">Supprimer la photo</div>
-          </button>
+
         </div>
         <input class="btn btn-primary d-block mx-auto" 
             type="submit" 

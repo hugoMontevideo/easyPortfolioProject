@@ -183,6 +183,10 @@ public interface EasyfolioMapper {
     DocumentProjectGetDTO documentProjectSvcToGetDTO(DocumentProjectServiceResponseModel docProjectServiceResponseModel);
 
 
+  /*********************************************************/
+
+    DocumentProjectServiceModel documentProjectRepositoryToSvc (DocumentProjectRepositoryModel document);
+
 }
 
 

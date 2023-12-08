@@ -1,3 +1,5 @@
+import { DocumentProjectModel } from "./document-project-model";
+
 export class ProjectModel {
 
     constructor(
@@ -6,6 +8,7 @@ export class ProjectModel {
         public description: string,
         public date: Date,
         public fileName: string,
+        public documents: DocumentProjectModel [],
         public portfolioId: number        
      ){  }
      

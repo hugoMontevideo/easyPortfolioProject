@@ -101,7 +101,7 @@ public class PortfolioService {
 
 /** Table : PROJECT   ***************** **/
     // add Project
-public ProjectServiceResponseModel addProject( ProjectServiceRequestModel projectServiceRequestModel ) {
+public ProjectServiceResponseModel addProject(@NotNull ProjectServiceRequestModel projectServiceRequestModel ) {
    // find portfolio by id and ...
     Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
     PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
@@ -115,91 +115,43 @@ public ProjectServiceResponseModel addProject( ProjectServiceRequestModel projec
 
     return mapper.projectRepositoryToResponseSvc(addedProject);
 }
-    public ProjectServiceResponseModel saveProject( ProjectServiceRequestModel projectServiceRequestModel ) {
-        DocumentProjectServiceRequestModel documentProjectServiceRequestModel = new DocumentProjectServiceRequestModel();
-        if(!projectServiceRequestModel.getFile().isEmpty()){
-            // naming pictures : in project = project_ + projectName + (timeInMilli)
-            long timestamp = System.currentTimeMillis();
-            String pictureName = "project " + projectServiceRequestModel.getTitle() + "-" +timestamp ;
-            /** picture saved on server **/
-            String pictureName2 = uploadPicture(projectServiceRequestModel.getFile().get(), pictureName);
-            projectServiceRequestModel.setFileName(Optional.of(pictureName2));
-            // filling documentModel manually
-            documentProjectServiceRequestModel.setFilename(Optional.of(pictureName2));
-        }
-        Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
-        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
-        // adding portfolio manually
-        projectServiceRequestModel.setPortfolio( Optional.ofNullable(portfolioServiceModel));
-        // verifing date - if date == 1970 01 01 we set it to empty ** projectModel
-        if(!isValidDate(projectServiceRequestModel.getDate().get())){
-            Optional<LocalDate> noDate = Optional.empty();
-            projectServiceRequestModel.setDate(noDate);
-        }
+    public ProjectServiceResponseModel updateProject( ProjectServiceRequestUpdateModel projectServiceRequestModel ) {
 
-        ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModelAdd(projectServiceRequestModel);
-        ProjectRepositoryModel addedProject = projectRepository.save(project);
 
-        // filling documentModel manually 2     *** documentProjectModel
+    Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
+    PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
+    // adding portfolio manually
+    projectServiceRequestModel.setPortfolio( Optional.ofNullable(portfolioServiceModel));
+    // verifing date - if date == 1970 01 01 we set it to empty ** projectModel
+    if(!isValidDate(projectServiceRequestModel.getDate().get())){
+        Optional<LocalDate> noDate = Optional.empty();
+        projectServiceRequestModel.setDate(noDate);
+    }
+    ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModel(projectServiceRequestModel);
 
-        DocumentProjectRepositoryModel documentProjectRepositoryModel =
-                mapper.documentProjectServiceRequestToRepositoryModelAdd(documentProjectServiceRequestModel);
-        documentProjectRepositoryModel.setProject(addedProject);
-        System.out.println(documentProjectRepositoryModel.getProject().getId() + "hello"+
-                documentProjectRepositoryModel.getFilename());
+    if(!projectServiceRequestModel.getFile().isEmpty()){
+        // naming pictures : in project = project_ + projectName + (timeInMilli)
+        long timestamp = System.currentTimeMillis();
+        String pictureName = "project " + projectServiceRequestModel.getTitle() + "-" +timestamp ;
+        /** picture saved on server **/
+        String pictureName2 = uploadPicture(projectServiceRequestModel.getFile().get(), pictureName);
+        // filling documentModel manually
+        DocumentProjectRepositoryModel document = new DocumentProjectRepositoryModel();
+        document.setFilename(pictureName2);
+        document.setProject(project);
         /** saving documentProjectModel in db    *** documentProjectModel **/
-        documentProjectRepository.save(documentProjectRepositoryModel);
-
-        return mapper.projectRepositoryToResponseSvc(addedProject);
+        documentProjectRepository.save(document);
     }
+    ProjectRepositoryModel addedProject = projectRepository.save(project);
 
-    private DocumentProjectServiceResponseModel pushDocumentProject(DocumentProjectServiceRequestModel documentRequestModel) {
+    return mapper.projectRepositoryToResponseSvc(addedProject);
+}
 
-        DocumentProjectRepositoryModel documentProjectRepositoryModel =
-                mapper.documentProjectServiceRequestToRepositoryModelAdd(documentRequestModel);
-        Optional<ProjectRepositoryModel> project =
-                projectRepository.findById(documentRequestModel.getProjectId().get());
-        System.out.println(project);
-        //adding project manually
-        documentProjectRepositoryModel.setProject(project.get());
-
-        DocumentProjectRepositoryModel addedDocProject = documentProjectRepository.save(documentProjectRepositoryModel);
-        return mapper.documentProjectRepositoryToResponseSvc(addedDocProject);
-    }
-
-
-
-    // update project
-    public ProjectServiceResponseModel updateProject(ProjectServiceRequestUpdateModel projectModel) {
-        if(!projectModel.getFile().isEmpty()){
-            // naming pictures : in project = project_ + projectName + (timeInMilli)
-            long timestamp = System.currentTimeMillis();
-            String pictureName = "project " + projectModel.getTitle() + "-" +timestamp ;
-            String pictureName2 = uploadPicture(projectModel.getFile().get(), pictureName);
-            projectModel.setFileName(pictureName2);
-        }
-        //getting the portfolioRepositoryModel
-        Optional<PortfolioRepositoryModel> portfolio =
-                portfolioRepository.findById( projectModel.getPortfolioId().get() );
-        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
-        // adding portfolio manually
-        projectModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
-        ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModel(projectModel);
-        // verifing date - if date == 1970 01 01 we set it to empty
-        if(!isValidDate(projectModel.getDate().get())){
-            Optional<LocalDate> noDate = Optional.empty();
-            projectModel.setDate(noDate);
-        }
-
-        ProjectRepositoryModel addedProject = projectRepository.save(project);
-        return mapper.projectRepositoryToResponseSvc(addedProject);
-    }
     // find by id project
     public ProjectServiceResponseModel findProjectById(Long id) throws ProjectNotFoundException {
         try {
             Optional<ProjectRepositoryModel> projectRepositoryModel = projectRepository.findById(id);
             return mapper.projectRepositoryToResponseSvc(projectRepositoryModel.get());
-
         }catch(Exception exception){
             throw new ProjectNotFoundException("Project not found with id : " + id);
         }
@@ -406,12 +358,16 @@ public ProjectServiceResponseModel addProject( ProjectServiceRequestModel projec
     private boolean isValidDate (LocalDate date){
         return date.isAfter(DATE_VIDE);
     }
+ /** documents  ***************************************** **/
+    //delete document project
+    public boolean getdDocumentProjectById(Long docId) {
+       try{
+           documentProjectRepository.deleteById(docId);
+           return true;
+       }catch (Exception e){
+           return false;
+       }
 
-
-/** documents  ***************************************** **/
-
-    public void getdDocumentProjectById(Long docId) {
-        // TODO **************
     }
 
     public DocumentProjectServiceResponseModel saveDocumentProject(DocumentProjectServiceRequestModel documentServiceRequestModel) {
@@ -430,10 +386,20 @@ public ProjectServiceResponseModel addProject( ProjectServiceRequestModel projec
         documentProject.setProject(project.get());
         DocumentProjectRepositoryModel addedDocProject = documentProjectRepository.save(documentProject);
         return mapper.documentProjectRepositoryToResponseSvc(addedDocProject);
-
-
     }
+    private DocumentProjectServiceResponseModel pushDocumentProject(DocumentProjectServiceRequestModel documentRequestModel) {
 
+        DocumentProjectRepositoryModel documentProjectRepositoryModel =
+                mapper.documentProjectServiceRequestToRepositoryModelAdd(documentRequestModel);
+        Optional<ProjectRepositoryModel> project =
+                projectRepository.findById(documentRequestModel.getProjectId().get());
+        System.out.println(project);
+        //adding project manually
+        documentProjectRepositoryModel.setProject(project.get());
+
+        DocumentProjectRepositoryModel addedDocProject = documentProjectRepository.save(documentProjectRepositoryModel);
+        return mapper.documentProjectRepositoryToResponseSvc(addedDocProject);
+    }
 
 }
 

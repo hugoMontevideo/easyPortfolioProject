@@ -39,7 +39,9 @@ export class PortfolioListItemComponent implements OnInit {
 
       this.portfolioService.getPortfolioById(this.table, this.portfolio.id)
       .subscribe({
-        next:(response:Portfolio) => { this.portfolio = response }, 
+        next:(response:Portfolio) => { this.portfolio = response;
+                                      console.log(response);
+                                       }, 
         error: (err:Error) => console.log("Error portfolioById")
       });
       

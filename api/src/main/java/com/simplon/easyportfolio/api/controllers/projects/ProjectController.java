@@ -46,16 +46,16 @@ public class ProjectController {
             @RequestParam("id") Optional<Long> id,
             @RequestParam("title") @Size(min =2, message = "Le titre doit avoir entre 2 et 60 caractères") String title,
             @RequestParam ("description")String description,
-            @RequestParam LocalDate date,
-            @RequestParam ("fileName")String fileName,
+            @RequestParam ("date") LocalDate date,
+            @RequestParam ("fileName")Optional<String> fileName,
             @RequestParam ("file")Optional<MultipartFile> file,
             @RequestParam ("portfolioId")Long portfolioId
     ){
         // creating DTO with received parameters
         ProjectUpdateDTO DTO = new ProjectUpdateDTO(id, title, description, date, fileName, file, portfolioId);
-
         ProjectServiceRequestUpdateModel projectServiceRequestUpdateModel =
                 mapper.projectDtoToServiceRequestModel(DTO);
+
 
         ProjectServiceResponseModel addedProject = portfolioService.updateProject(projectServiceRequestUpdateModel);
         return mapper.projectSvcToGetDTO( addedProject );
@@ -93,10 +93,17 @@ public class ProjectController {
             return ResponseEntity.notFound().build(); // Statut 404 Not Found
         }
     }
+
     @DeleteMapping("/{id}/documents/{doc_id}")
-    public void deletePictureOnProject(@PathVariable Long doc_id){
-        portfolioService.getdDocumentProjectById(doc_id);
-        return;
+    public ResponseEntity<Void> deletePictureOnProject(@PathVariable Long doc_id){
+        try {
+            portfolioService.getdDocumentProjectById(doc_id);
+            return ResponseEntity.noContent().build(); // Statut 204 No Content
+        } catch(DataAccessException e) {
+            return ResponseEntity.status(502).build(); // Statut
+        } catch(Exception e){
+            return ResponseEntity.notFound().build(); // Statut 404 Not Found
+        }
     }
 
 

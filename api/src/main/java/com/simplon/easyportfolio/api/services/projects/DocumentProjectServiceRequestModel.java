@@ -15,7 +15,7 @@ public class DocumentProjectServiceRequestModel {
     private String mime;
     private Optional<String> filename;
     private Optional<MultipartFile> file;
-    private Optional<ProjectServiceModel> project;
+    private Optional<ProjectServiceRequestUpdateModel> project;
     private Optional<Long> projectId;
 
     public DocumentProjectServiceRequestModel(String filename, Long projectId) {

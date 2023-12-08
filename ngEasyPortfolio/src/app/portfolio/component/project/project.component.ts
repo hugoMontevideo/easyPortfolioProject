@@ -14,7 +14,7 @@ export class ProjectComponent {
   @Input() projects!:ProjectModel[];
   @Input() portfolioId!: number;
 
-  legend: string = "Ajouter";
+  legend: string = "";
   inputError!: string;
 
   newProject: Project = {
@@ -23,15 +23,17 @@ export class ProjectComponent {
     description: "",
     date: new Date("1970-01-01"),
     fileName: "",
+    documents: [],
     portfolioId: this.portfolioId
   }
   selectedFile!: File | null;
-  isProjectFormShowing: boolean = true; // display or hide form
+  isProjectFormShowing: boolean = false; // display or hide form
 
   constructor( public projectService: ProjectService ){}
 
   ngOnChanges(change: SimpleChanges){
     this.newProject.portfolioId = this.portfolioId;
+    this.projectService.portfolioId = this.portfolioId;
   }
 
   public onCloseModalForm = () => {
@@ -47,13 +49,14 @@ export class ProjectComponent {
       .subscribe({
         next:(data)=>{
           this.projects = 
-            this.projectService.refreshSkills(this.projects,  // tableau d'affichage
+            this.projectService.addProjectToArray(this.projects,  // tableau d'affichage
                                               new ProjectModel( 
                                                 data.id,
                                                 data.title,
                                                 data.description,
                                                 data.date,
                                                 data.fileName,
+                                                data.documents,
                                                 this.newProject.portfolioId ) 
                                             );
           this.newProject.id = data.id; 
@@ -71,9 +74,10 @@ export class ProjectComponent {
   public onEditProject = (index: number) => {
     this.legend = "Modifier un projet"
     this.isProjectFormShowing = true;
-    this.newProject = this.projects[index];
+    this.newProject = this.projectService.mapNewProject(this.projects[index]);
     this.newProject.portfolioId = this.portfolioId;
     this.projectService.tempData = "edit";  
+    this.projectService.tempNumData = index;  
   }
 
   public onSubmitProject = ()=>{    
@@ -81,18 +85,19 @@ export class ProjectComponent {
     this.projectService.saveProject('projects' , this.newProject, this.selectedFile!)
     .subscribe({
       next:(data)=>{
-        this.isProjectFormShowing = true; 
+        this.isProjectFormShowing = false; 
         // Add projectModel to projects [], display purpose
-        this.projects = 
-          this.projectService.refreshSkills(this.projects,
-                                            new ProjectModel( 
-                                              data.id,
-                                              data.title,
-                                              data.description,
-                                              data.date,
-                                              data.fileName,
-                                              this.newProject.portfolioId ) 
-                                          );
+        this.projects.splice(this.projectService.tempNumData,1);
+        let addedProjet =  new ProjectModel( 
+                                data.id,
+                                data.title,
+                                data.description,
+                                data.date,
+                                data.fileName,
+                                data.documents,
+                                this.newProject.portfolioId );
+                                          
+        this.projects.splice(this.projectService.tempNumData,0, addedProjet);
         this.newProject = this.projectService.resetNewSkill(this.newProject.portfolioId);
       },
       error:(_error)=>{
@@ -103,13 +108,7 @@ export class ProjectComponent {
       }
     });
   }
-  /**
-   * Delete the picture on db
-   */
-  onDeletePicture = () => {
-    console.log("hello");
-    
-  }
+  
 
   // if I select a file on the form :
   onSelectedFile(event:any){
@@ -125,6 +124,24 @@ export class ProjectComponent {
     error:(err:Error)=>{ console.log("Error while deleting education.");
         }
     }) 
+  }
+
+  /**
+   * Delete the picture on db
+   */
+  onDeletePicture = (index:number, documentId:number) => {
+    this.projectService.deleteDocument("projects" , this.newProject.id, documentId)
+      .subscribe({
+      next:( )=> {
+        this.newProject.documents.splice(index,1)
+        },
+      error:(err:Error)=>{ 
+              // TODO  manage errors properly 
+              console.log("Error while deleting document education.");
+          }
+    });
+    // TODO
+    console.log("hello", documentId);
   }
 
 

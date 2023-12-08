@@ -30,7 +30,7 @@ public class ProjectRepositoryModel {
     @Column(name = "date")
     private LocalDate date;
 
-    @OneToMany(mappedBy = "project", orphanRemoval = true)
+    @OneToMany(mappedBy = "project")
     private List<DocumentProjectRepositoryModel> documents ;
 
     @ManyToOne
