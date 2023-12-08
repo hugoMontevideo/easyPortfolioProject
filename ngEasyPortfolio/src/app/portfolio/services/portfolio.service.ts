@@ -1,95 +1,86 @@
 import { Injectable } from "@angular/core";
-import { Observable, map } from "rxjs";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
-import { PortfolioDTO } from "../model/portfolio/portfolioDTO.interface";
 import { LoginUser } from "src/app/login/login-user.interface";
+import { Portfolio } from "../model/portfolio/portfolio.interface";
+import { JWTTokenService } from "src/app/services/JWTToken.service";
+import { Skill } from "../component/skill/skill.interface";
+import { Experience } from "../component/experience/experience.interface";
+import { Education } from "../component/education/education.interface";
+import { EducationAddDto } from "../component/education/education-add-dto.interface";
+import { ExperienceAddDto } from "../component/experience/experience-add-dto.interface";
+import { SkillAddDto } from "../component/skill/skill-add-dto.interface";
+import { ProjectAddDto } from "../component/project/project-add-dto.interface";
+import { Project } from "../component/project/project.interface";
 
 @Injectable()
 
 export class PortfolioService {
     ENV_DEV:string = environment.apiUrl;
-    loginUser: LoginUser = {
-        id: 0,
-        email: '',
-        token: ''
-      } ;
+    // loginUser: LoginUser = {
+    //     email: '',
+    //     token: '',
+    //   } ;
 
-    constructor ( private http: HttpClient ) {}
 
+    constructor ( 
+                private http: HttpClient,
+                private jwtTokenService : JWTTokenService, 
+         ) {};
 
     // get by id
-    public getPortfolioById(table:string, id:number): Observable<PortfolioDTO>{
-        return this.http.get<PortfolioDTO>(`${this.ENV_DEV}/${table}/${id}`, {responseType: "json"});
+    public getPortfolioById(table:string, id:number): Observable<Portfolio> | any {
+        // get the token
+        this.jwtTokenService.setToken(this.jwtTokenService.getToken());
+        if(this.jwtTokenService.isLogged()){
+
+            return this.http.get<Portfolio>(`${this.ENV_DEV}/${table}/${id}`);
+        }
     }
 
+    // get All
+    getAllPortfolios( table: string): Observable<Portfolio[]> {
+        return this.http.get<Portfolio[]>(`${this.ENV_DEV}/${table}`);
+    }
+
+    getId = (id : string | any ): number => {
+        return parseInt(id) ?? 0;
+      
+    }
+
+    // table : PROJECT *************
     
 
-    getData( table: string, id: number ): Observable<any> {
-        // let currentUser = {token: ""};
-        // let headers = new HttpHeaders();
-        // headers = headers.set("Authorization", "Bearer ");
-            
-        return this.http.get<any>(`${this.ENV_DEV}/${table}`, {responseType: "json"} );
-    }
 
-    getAll( table: string): Observable<any> {
-        // let currentUser = {token: ""};
-        let headers = new HttpHeaders();
-        headers = headers.set("Authorization", "Bearer ");
-        let anything: any = sessionStorage.getItem("currentUser");
-        
-        if( anything != null){
-            this.loginUser = JSON.parse(anything);
-            headers = headers.set("Authorization", "Bearer" + this.loginUser.token);
-            console.log(this.loginUser.token);
-          
-        }
-            
-        return this.http.get<any>(`${this.ENV_DEV}/${table}`, {headers:headers, responseType: "json"});
-        // .pipe(map(data => {
-        //     if(user){
-        //       console.log(user);
-              
-        //     //   sessionStorage.setItem('currentUser', JSON.stringify(user)); 
-              
-        //     }
-        //     return data ;
-        //   }));
-    }
-
+    // table : EDUCATION *************
     
-    getById( table: string, userId: number, portfolioId: number ): Observable<any> {
-        let currentUser = {token: ""};
-        let headers = new HttpHeaders();
-        headers = headers.set("Authorization", "Bearer ");
-        let anything: any = sessionStorage.getItem("currentUser");
 
-        
-        
-        if( anything != null){
-            currentUser = JSON.parse(anything);
-            headers = headers.set("Authorization", "Bearer" + currentUser.token);
-            console.log(currentUser.token);
-          
-        }
-            
-        return this.http.get(`http://localhost/angular/ngEasyPortfolio/src/app/services/api/${table}.php?action=readById&id=${userId}&p_id=${portfolioId}`, {headers:headers, responseType: "json"});
-        // .pipe(map(data => {
-        //     if(user){
-        //       console.log(user);
-              
-        //     //   sessionStorage.setItem('currentUser', JSON.stringify(user)); 
-              
-        //     }
-        //     return data ;
-        //   }));
-    }
+
+    // table : EXPERIENCE *************
+
+  
+
+    // table : SKILL *************
+
+  
 
 
 
-
-
+   
 
     
 }
+
+
+
+// return this.http.get(`http://localhost/angular/ngEasyPortfolio/src/app/services/api/${table}.php?action=readById&id=${userId}&p_id=${portfolioId}`, {headers:headers, responseType: "json"});
+// .pipe(map(data => {
+//     if(user){
+//       console.log(user);
+      
+//     //   sessionStorage.setItem('currentUser', JSON.stringify(user)); 
+      
+//     }
+//     return data ;
+//   }));

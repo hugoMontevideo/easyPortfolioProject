@@ -1,21 +1,18 @@
 package com.simplon.easyportfolio.api.controllers.portfolios;
 
-
 import com.simplon.easyportfolio.api.exceptions.PortfolioNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioService;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceRequestModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.ArrayList;
 import java.util.Optional;
-
-@CrossOrigin
 @RestController
 @RequestMapping("api/portfolios")
 public class PortfolioController {
@@ -32,19 +29,16 @@ public class PortfolioController {
     @GetMapping("/{id}")  //  GET BY ID   *****
     public ResponseEntity<PortfolioGetDTO> findById(@PathVariable Long id){
         try{
-           PortfolioServiceResponseModel responseModel =  portfolioService.findById(id);
-            System.out.println(responseModel.getSkills());
+            return new ResponseEntity<>( mapper.portfolioSvcToGetDTO(portfolioService.findById(id)), HttpStatus.OK);
 
-           PortfolioGetDTO DTO =  mapper.portfolioSvcToGetDTO( responseModel);
-            System.out.println(DTO.getSkills());
-            // return new ResponseEntity<>( mapper.portfolioSvcToGetDTO(portfolioService.findById(id)), HttpStatus.OK);
-            return new ResponseEntity<>( DTO, HttpStatus.OK);
+           //PortfolioGetDTO DTO =  mapper.portfolioSvcToGetDTO( portfolioService.findById(id));
+            //return new ResponseEntity<>( DTO, HttpStatus.OK);
         }catch (PortfolioNotFoundException ex){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getReason());
         }
     }
 
-    @GetMapping     //  FIND ALL
+    @GetMapping     //  GET ALL
     public ArrayList<PortfolioGetDTO> findAll(){
         ArrayList<PortfolioGetDTO> portfolioGetDTOs = new ArrayList<>();
         ArrayList<PortfolioServiceResponseModel> portfolioServiceModels = portfolioService.findAll();
@@ -69,11 +63,15 @@ public class PortfolioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id){
-        if(portfolioService.findById(id) != null){
+
+    try {
             portfolioService.delete(id);
-            return new ResponseEntity<>("Le portfolio id : "+ id +" a été supprimé.", HttpStatus.NOT_FOUND);
-        }else{
-            return new ResponseEntity<>("Le portfolio id : "+ id +" n'a pas été trouvé.", HttpStatus.NOT_FOUND);
+            return ResponseEntity.noContent().build(); // Statut 204 No Content
+        } catch(
+            DataAccessException e) {
+            return ResponseEntity.status(502).build(); // Statut
+        } catch(Exception e){
+            return ResponseEntity.notFound().build(); // Statut 404 Not Found
         }
     }
 

@@ -11,6 +11,9 @@ export class AppComponent {
   title = 'ngEasyPortfolio';
   faCoffe = faCoffee;
 
+  userEmail = "hello";
+  connectionButton: boolean = false;
+  
   constructor(
         private modalService: NgbModal,
       ){}
@@ -18,4 +21,11 @@ export class AppComponent {
   public open(modal:any):void {
     this.modalService.open(modal);
   }
+
+public getEmitEmail( loginEmail : {userEmail:string} ){
+  
+}
+
+
+
 }

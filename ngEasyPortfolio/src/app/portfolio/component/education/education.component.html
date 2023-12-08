@@ -1,0 +1,94 @@
+<h6 class="d-flex justify-content-between title">
+    Ajouter une formation
+    <button (click)="onAddEducation()">
+      <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
+    </button>
+
+  <div class="gradient p-4 " *ngIf="isEducationFormShowing" >
+    <p class="text-end m-0">
+      <button (click)="onCloseModalForm()"><fa-icon [icon]="['fas', 'window-close']" ></fa-icon></button>
+    </p>
+    <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitEducation()" >
+      <legend class="text-center form-legend mb-3">{{ legend }}</legend>
+      <div class="mb-3">
+        <div *ngIf="inputError" class="mb-1">
+          <span class="text-danger input-error">{{ inputError }}</span>
+        </div>
+        <!-- <input type="text" minlength="2" maxlength="60" ************ disabled on dev  -->
+        <input type="text" 
+              class="form-control" 
+              id="education-training" 
+              [(ngModel)]="newEducation.training"
+              name="education-training"
+              placeholder="Titre de la formation ou cursus" required>
+      </div>
+      <div class="mb-3">
+        <input type="text" 
+              class="form-control" 
+              id="education-school" 
+              [(ngModel)]="newEducation.school"
+              name="educationEdit-school"
+              placeholder="Ecole">
+      </div>
+      <div class="mb-3">
+        <input type="text" 
+              class="form-control" 
+              id="education-degree" 
+              [(ngModel)]="newEducation.degree"
+              name="education-degree"
+              placeholder="Diplôme, niveau d'études obtenu">
+      </div>
+      <div class="mb-3">
+        <label for="education-startDate" class="form-label">Date de début</label>
+        <input type="date" 
+              class="form-control" 
+              id="education-startDate" 
+              [(ngModel)]="newEducation.startDate"
+              name="education-startDate">
+      </div>
+      <div class="mb-3">
+        <label for="education-endDate" class="form-label">Date de fin</label>
+        <input type="date" 
+              class="form-control" 
+              id="education-endDate" 
+              [(ngModel)]="newEducation.endDate"
+              name="education-endDate">
+      </div>
+      <div class="mb-3">
+        <label for="education-title" class="form-label">Description</label>
+        <textarea class="form-control" 
+                  id="education-description"
+                  [(ngModel)]="newEducation.description"
+                  name="education-description" 
+                  rows="3">Description</textarea>
+      </div>
+      <!-- <div class="mb-3">
+        <label for="skill-file" class="form-label">Chargez un fichier en rapport avec cette compétence (disabled)</label>
+        <input class="form-control" type="file" id="skill-file" disabled>
+      </div> -->
+      <input class="btn btn-primary d-block mx-auto" 
+            type="submit" 
+            value="Valider">
+            <!-- [disabled]="form.invalid">***************disabled on dev  -->
+
+    </form>
+  </div>
+</h6>
+
+<div *ngFor="let education of educations; let iii = index">
+  <div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between elt-title">
+          {{education.training}}
+          <div>
+            <button (click)="onEditSkill(iii)" class="elt-button" >
+              <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
+            </button> 
+            <button (click)="onDeleteEducation(education.id, iii)" class="elt-button" >
+                <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
+            </button>
+          </div>
+        </div>
+    </div>
+  </div>
+</div> 

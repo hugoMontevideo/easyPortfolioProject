@@ -1,0 +1,87 @@
+<h6 class="d-flex justify-content-between title">
+  Ajouter une expérience professionnelle
+  <button (click)="onAddExperience()">
+    <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
+  </button>
+
+  <div class="gradient p-4" *ngIf="isExperienceFormShowing" >
+    <p class="text-end m-0">
+      <button (click)="onCloseModalForm()"><fa-icon [icon]="['fas', 'window-close']" ></fa-icon></button>
+    </p>
+    <form #form1="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitExperience()" >
+      <legend class="text-center form-legend mb-3">{{ legend }}</legend>
+      <div class="mb-3">
+        <div *ngIf="inputError" class="mb-1">
+          <span class="text-danger input-error">{{ inputError }}</span>
+        </div>
+        <input type="text" 
+              class="form-control" 
+              id="experience-title" 
+              [(ngModel)]="newExperience.title"
+              name="experience-title"
+              placeholder="Titre de l'expérience pro" required>
+      </div>
+      <div class="mb-3">
+        <!-- <input type="text" minlength="2" maxlength="60" ************ disabled on dev  -->
+        <input type="text" 
+              class="form-control" 
+              id="experience-company" 
+              [(ngModel)]="newExperience.company"
+              name="experience-company"
+              placeholder="Entreprise ou entité">
+      </div>
+      <div class="mb-3">
+        <label for="experience-title" class="form-label">Description</label>
+        <textarea class="form-control" 
+                  id="experience-description"
+                  [(ngModel)]="newExperience.description"
+                  name="experience-description" 
+                  rows="3">Description</textarea>
+      </div>
+      <div class="mb-3">
+        <label for="experience-startDate" class="form-label">Date de début</label>
+        <input type="date" 
+              class="form-control" 
+              id="experience-startDate" 
+              [(ngModel)]="newExperience.startDate"
+              name="experience-startDate">
+      </div>
+      <div class="mb-3">
+        <label for="experience-endDate" class="form-label">Date de fin</label>
+        <input type="date" 
+              class="form-control" 
+              id="experience-endDate" 
+              [(ngModel)]="newExperience.endDate"
+              name="experience-endDate">
+      </div>
+      <!-- <div class="mb-3">
+        <label for="skill-file" class="form-label">Chargez un fichier en rapport avec cette compétence (disabled)</label>
+        <input class="form-control" type="file" id="skill-file" disabled>
+      </div> -->
+      <input class="btn btn-primary d-block mx-auto" 
+          type="submit" 
+          value="Valider">
+            <!-- [disabled]="form.invalid">***************disabled on dev  -->
+
+    </form>
+  </div>
+
+</h6>
+
+<div *ngFor="let experience of experiences; let ii = index">
+    <div class="card">
+      <div class="card-body">
+          <div class="d-flex justify-content-between elt-title">
+            {{experience.title}}
+            <div>
+              <button (click)="onEditExperience(ii)" class="elt-button" >
+                <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
+              </button> 
+              <button (click)="onDeleteExperience(experience.id, ii)" class="elt-button" >
+                  <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
+              </button>
+            </div>
+          </div>
+      </div>
+    </div>
+</div> 

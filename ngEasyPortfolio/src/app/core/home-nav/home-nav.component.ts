@@ -1,15 +1,20 @@
-import { Component } from '@angular/core';
-import { LoginService } from 'src/app/services/login.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { JWTTokenService } from 'src/app/services/JWTToken.service';
 
 @Component({
   selector: 'app-home-nav',
   templateUrl: './home-nav.component.html',
   styleUrls: ['./home-nav.component.scss']
 })
+
 export class HomeNavComponent {
-  
+
   constructor(
-    protected loginService: LoginService
+    public jwtToken: JWTTokenService,
   ){}
+
+ 
+
+
   
 }

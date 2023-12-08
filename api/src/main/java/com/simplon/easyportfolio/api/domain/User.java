@@ -21,15 +21,14 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="email", unique = true, length = 32)// security: avoid conceptual duplicates to avoid unexpected
-    // behaviors
+    @Column(name="email", unique = true, length = 32)// security: avoid conceptual duplicates to avoid unexpected behaviors
     private String login;
 
     @Column(name = "password")
     private  String password;
 
-   @Column(name = "name")
-   private String name;
+    @Column(name = "name")
+    private String name;
     @Column(name = "firstname")
     private String firstname;
     @Column(name = "inscription_date")
@@ -44,9 +43,6 @@ public class User implements UserDetails {
 
     //@OneToMany(mappedBy = "user", orphanRemoval = true)
     //private List<CvRepositoryModel> cvs = new ArrayList<>();
-
-
-
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;

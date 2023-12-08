@@ -1,10 +1,11 @@
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand"  routerLink="/"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{exact:true}"     
       >
-      <img [src]="'http://localhost/easyportfolio/upload/icons/eP.svg'" alt="logo easyportfolio">
+      <img src="http://localhost/upload/icons/eP.svg" alt="logo easyportfolio">
     </a> 
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,12 +20,13 @@
                 routerLinkActive="active" 
                 [routerLinkActiveOptions]="{exact:true}"
                 >
-                Home <fa-icon [icon]="['fas','mug-hot']"></fa-icon>
+                Home 
+                <fa-icon [icon]="['fas','mug-hot']"></fa-icon>
             </a>
           </li>
 
           <!-- <li class="nav-item" *ngIf="loginService.currentUserEmail != '' "> -->
-            <a class="nav-link" routerLink="/portfolio"
+            <a class="nav-link" routerLink="/portfolios"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact:true}">Mes Portfolios
             </a>
@@ -40,10 +42,10 @@
 
           <!-- <li class="nav-item" *ngIf="loginService.currentUserEmail != '' "> -->
             <a class="nav-link" routerLink="/user/5"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{exact:true}"
-                >
-                Mon Profil
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact:true}"
+              >
+              Mon Profil
             </a><!--[routerLinkActiveOptions]="{exact:true}"-->
           <!-- </li> -->
           <li class="nav-item dropdown">
@@ -57,22 +59,17 @@
               <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </li>
-          <!-- <li class="nav-item" *ngIf="loginService.currentUserEmail != '' ">
-            <a class="nav-link" >{{ loginService.currentUserEmail }}</a>
-          </li>
-          <li class="nav-item" *ngIf="loginService.currentUserEmail != '' ">
-            <a class="btn btn-primary" (click)="loginService.logout()" >Deconnexion</a>
-          </li>
-          <li class="nav-item" *ngIf="loginService.currentUserEmail == '' ">
-            <a class="btn btn-primary" routerLink="login" >Connexion</a>
-          </li> -->
         </ul>
-
-
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+      </div>
+      <div class="login d-flex">
+        <div class="nav-item" *ngIf="jwtToken.getUser()" >
+          <div class="user-initial d-flex justify-content-center align-items-center">
+            {{ jwtToken.getUser()[0] }}
+          </div>
+        </div> 
+        <div class="nav-item" >
+          <a href="/login" class="btn btn-outline-success" >{{ jwtToken.isLogged() ? 'Déconnexion'  : 'Connexion' }}</a>
+        </div>
       </div>
     </div>
   </nav>
