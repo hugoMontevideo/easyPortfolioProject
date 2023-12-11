@@ -4,29 +4,28 @@ import { JWTTokenService } from 'src/app/services/JWTToken.service';
 import { environment } from 'src/environments/environment';
 import { Project } from '../component/project/project.interface';
 import { Observable, catchError, throwError } from 'rxjs';
-import { ProjectModel } from '../component/project/project-model';
 import { ProjectAddDto } from '../component/project/project-add-dto.interface';
 import { DocumentProject } from '../component/project/document-project.interface';
-
 
 @Injectable()
 export class ProjectService {
   ENV_DEV:string = environment.apiUrl;
   ENV_PICT:string = `${environment.apiImg}/pictures/`;
-  tempData: string = ""; // "add" or "edit"
-  tempNumData: number = -1;
-  portfolioId!: number; 
-  currentFile! : File;
-
 
   constructor(
     private http: HttpClient,
     private jwtTokenService : JWTTokenService, 
   ) { }
 
-  saveProject = ( table: string, newProject: Project, selectedFile: File | null ): Observable<any> => { 
-    console.log(newProject);
-    
+  getProjects = ( portfolioId:number | any ):Observable<Project[]> => {
+    return this.http.get<Project[]>( `${this.ENV_DEV}/portfolios/${portfolioId}/projects`);
+  }
+
+  getDocumentProjects = ( projectId: number ):Observable<DocumentProject[]> => {
+    return this.http.get<DocumentProject[]>( `${this.ENV_DEV}/projects/${projectId}/documents`);
+  }
+  
+  saveProject = ( newProject: Project, selectedFile: File | null ): Observable<any> => {     
     const defaultDate = new Date("1970-01-02"); 
     // The dates are of type Date in Angular and of type LocalDate in Java 
     const formData = new FormData;
@@ -38,52 +37,39 @@ export class ProjectService {
       formData.append('date', newProject.date.toString());  // date send by the form
     }
     if(this.isFile(selectedFile)){
-      formData.append('file', this.currentFile) ;
+      formData.append('file', selectedFile as File) ;
     }; 
     formData.append('title', newProject.title);
     formData.append('description', newProject.description);
     formData.append('fileName', newProject.fileName);
-    // formData.append('file', selectedFile!) ;
-    formData.append('portfolioId', newProject.portfolioId.toString());
-    // if( newProject.id < 1) {
-    //   return this.http.post(`${this.ENV_DEV}/${table}`, formData )
-    //     .pipe(catchError(this.handleError)); // catch validator errors
-
-    // }
-    //  update *******
+    if(newProject.portfolioId != undefined){
+      formData.append('portfolioId', newProject.portfolioId.toString());
+    }
     formData.append('id', newProject.id.toString());
-    return this.http.put( `${this.ENV_DEV}/${table}/${newProject.id}`, formData )
+    return this.http.put( `${this.ENV_DEV}/projects/${newProject.id}`, formData )
       .pipe(catchError(this.handleError)); // catch validator errors
   }
 
-  public add = ( table: string, newProject: Project ): Observable<any> => { 
+  public add = ( newProject: Project ): Observable<any> => { 
     let projectAdd : ProjectAddDto = {
       title: "nouveau projet en cours",
       portfolioId: newProject.portfolioId
   }
-      return this.http.post(`${this.ENV_DEV}/${table}`, projectAdd )
+      return this.http.post(`${this.ENV_DEV}/projects`, projectAdd )
         .pipe(catchError(this.handleError)); // catch validator error
   }
 
-  deleteProject = (table: string , projectId: number): Observable<any> | any => {
-      return this.http.delete(`${this.ENV_DEV}/${table}/${projectId}` );  
-
+  deleteProject = ( projectId: number): Observable<any> | any => {
+      return this.http.delete(`${this.ENV_DEV}/projects/${projectId}` );  
   }
   
   // DOCUMENTS  **************************
-  deleteDocument = (table: string , projectId:number, documentId: number): Observable<any> | any => {
-    return this.http.delete(`${this.ENV_DEV}/${table}/${projectId}/documents/${documentId}` );  
-}
-  // UTILS  **************************
-  public addProjectToArray = (projects: ProjectModel[], project: ProjectModel) => {
-    // if(this.tempData == "add"){
-      projects.push(project);
-    // }
-    // this.tempData = "";
-    return projects;
+  deleteDocument = ( projectId:number, documentId: number): Observable<any> | any => {
+    return this.http.delete(`${this.ENV_DEV}/projects/${projectId}/documents/${documentId}` );  
   }
+  // UTILS  **************************
 
-  public resetNewSkill = ( pId: number ): Project => {
+  public resetNewProject = ( portfolioId: number|any): Project => {
     return {
               id:-1,
               title: "",
@@ -91,7 +77,7 @@ export class ProjectService {
               date: new Date("1970-01-01"),
               fileName: "",
               documents:[],
-              portfolioId: pId
+              portfolioId: portfolioId
             };
   }
 
@@ -101,27 +87,23 @@ export class ProjectService {
 
   isFile = (file: File | null ): boolean => {
     if(file !== null){
-      this.currentFile = file;
+      // this.currentFile = file;
       return true;
     }  
     return false                                                                                                                                                                                                                                                                                                                                                                                              ;
   }
 
-  mapNewProject = ( project : ProjectModel ):Project => {
-    const mappedProject : Project = {
-      id: project.id,
-      title: project.title,
-      description: project.description,
-      date: project.date,
-      fileName:project.fileName,
-      documents: project.documents,
-      portfolioId: this.portfolioId
-    }
-    return mappedProject;
-  }
-
-
-
-
-
 }
+
+  // mapNewProject = ( project : ProjectModel ):Project => {
+  //   const mappedProject : Project = {
+  //     id: project.id,
+  //     title: project.title,
+  //     description: project.description,
+  //     date: project.date,
+  //     fileName:project.fileName,
+  //     documents: project.documents,
+  //     portfolioId: this.portfolioId
+  //   }
+  //   return mappedProject;
+  // }

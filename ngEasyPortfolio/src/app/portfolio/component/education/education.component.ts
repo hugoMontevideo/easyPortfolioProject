@@ -1,7 +1,6 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Education } from './education.interface';
 import { EducationService } from '../../services/education.service';
-import { EducationModel } from './education-model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -11,10 +10,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class EducationComponent {
 
-  @Input() educations!:EducationModel[];
-  @Input() portfolioId!: number;
-  legend: string = "Ajouter";
-  inputError!: string;
+  @Input() educations:Education[] = [];
+  @Input() portfolioId?: number;
+  @Output() educationsChanged = new EventEmitter<Education[]>();
+  legend: string = "";
+  inputError?: string;
 
   newEducation: Education = {
     id: -1,
@@ -39,64 +39,87 @@ export class EducationComponent {
     this.newEducation = this.educationService.resetNewEducation(this.newEducation.portfolioId);
   }
 
-  public onAddEducation = () => {
-    this.legend = "Ajouter une expérience"
-    this.isEducationFormShowing = true;
-    this.educationService.tempData = "add";
-  }
-
-  public onEditSkill = (index: number) => {
+  public onEditEducation = (index: number) => {
     this.legend = "Modifier une compétence"
     this.isEducationFormShowing = true;
     this.newEducation = this.educations[index];
     this.newEducation.portfolioId = this.portfolioId;
-    this.educationService.tempData = "edit";  
   }
 
+  public onAddEducation = () => {
+    this.legend = "Ajouter une expérience"
+    this.isEducationFormShowing = true;
+    this.educationService.add(this.newEducation)
+    .subscribe({
+      next:(data)=>{
+        this.newEducation.id = data.id; 
+        this.newEducation.training = data.training; 
+        this.educationService.getEducations(this.newEducation.portfolioId) // refresh projects[]
+          .subscribe({
+              next: (data:Education[]) => { 
+                          this.educations = data;
+                          this.educationsChanged.emit(this.educations);
+                        },
+              error: (err:Error)=>{console.error("**error Getting educations**");} //TODO *******
+            });
+      },
+      error:(_error)=>{
+        console.log("**error Adding Education**");
+        if(_error instanceof HttpErrorResponse ) {
+          this.inputError = _error.error.training;
+        } 
+      }
+    });
+  }
 
   public onSubmitEducation = ()=>{
     // // hide the form
     this.newEducation.portfolioId = this.portfolioId;  
-    this.educationService.saveEducation('educations' , this.newEducation)
+    this.educationService.saveEducation(this.newEducation)
     .subscribe({
       next:(data)=>{
-        this.isEducationFormShowing = false;      
-         // Add educationModel to educations[], display purpose
-         this.educations = this.educationService.refreshSkills(this.educations,
-                                                       new EducationModel( 
-                                                         data.id,
-                                                         data.training,
-                                                         data.school,
-                                                         data.degree,
-                                                         data.startDate,
-                                                         data.endDate,
-                                                         data.description,
-                                                         this.newEducation.portfolioId ) 
-                                                       );
-         this.newEducation = this.educationService.resetNewEducation(this.newEducation.portfolioId);
-       },
-       error:(_error)=>{
-         console.log("**error Adding Education**");
-         if(_error instanceof HttpErrorResponse ) {
-           this.inputError = _error.error.training;
-         } 
-       }
-     });
+          this.isEducationFormShowing = false;  // hide the form
+          this.newEducation = this.educationService.resetNewEducation(this.portfolioId);
+          this.educationService.getEducations(this.newEducation.portfolioId) // refresh projects[]
+            .subscribe({
+                next: (data:Education[]) => { 
+                          this.educations = data;
+                          this.educationsChanged.emit(this.educations);
+                         },
+                error: (err:Error)=>{console.error("**error Getting educations**");} //TODO *******
+              });
+        },
+      error:(_error)=>{
+        console.error("**error updating Education**");
+        if(_error instanceof HttpErrorResponse ) {
+          this.inputError = _error.error.training;
+        } 
+      }
+    });
   }
 
   onDeleteEducation = (educationId : number, index: number):void => {
-    this.educationService.deleteEducation("educations" , educationId)
+    this.educationService.deleteEducation( educationId)
     .subscribe({
     next:( )=> {
-      this.educations.splice(index,1)
-      },
+      this.educationService.getEducations(this.newEducation.portfolioId) // refresh educations[]
+        .subscribe({
+          next: (data:Education[]) => { 
+                  this.educations = data;
+                  this.educationsChanged.emit(this.educations); 
+                },
+          error: (_error)=>{
+              console.log("**error Getting Projects**"); 
+            }
+        });
+       },
     error:(err:Error)=>{ console.log("Error while deleting education.");}
     }) 
   }
 
 
   
-
+ 
 
 
 }

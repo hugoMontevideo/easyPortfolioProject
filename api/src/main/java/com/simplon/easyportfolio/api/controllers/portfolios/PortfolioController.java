@@ -1,10 +1,19 @@
 package com.simplon.easyportfolio.api.controllers.portfolios;
 
+import com.simplon.easyportfolio.api.controllers.educations.EducationGetDTO;
+import com.simplon.easyportfolio.api.controllers.experiences.ExperienceGetDTO;
+import com.simplon.easyportfolio.api.controllers.projects.ProjectGetDTO;
+import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
+import com.simplon.easyportfolio.api.exceptions.EducationNotFoundException;
 import com.simplon.easyportfolio.api.exceptions.PortfolioNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
+import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
+import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceResponseModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioService;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceRequestModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceResponseModel;
+import com.simplon.easyportfolio.api.services.projects.ProjectServiceResponseModel;
+import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -12,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 @RestController
 @RequestMapping("api/portfolios")
@@ -35,6 +45,50 @@ public class PortfolioController {
             //return new ResponseEntity<>( DTO, HttpStatus.OK);
         }catch (PortfolioNotFoundException ex){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getReason());
+        }
+    }
+    @GetMapping("/{id}/projects")  //  GET PROJECTS BY ID PORTFOLIO  *****
+    public List<ProjectGetDTO> getProjectsByPortfolioId(@PathVariable Long id){
+        try{
+            List<ProjectServiceResponseModel> projectServices = portfolioService.getProjectsByPortfolioId(id);
+           return mapper.listProjectSvcToGetDTO( projectServices);
+        }catch (PortfolioNotFoundException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getReason());
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+    @GetMapping("/{id}/educations")  //  GET EDUCATIONS BY ID PORTFOLIO  *****
+    public List<EducationGetDTO> getEducationsByPortfolioId(@PathVariable Long id){
+        try{
+            List<EducationServiceResponseModel> educationServices = portfolioService.getEducationsByPortfolioId(id);
+            return mapper.listEducationSvcToGetDTO( educationServices );
+        }catch (PortfolioNotFoundException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+    @GetMapping("/{id}/skills")  //  GET skills BY ID PORTFOLIO  *****
+    public List<SkillGetDTO> getSkillsByPortfolioId(@PathVariable Long id){
+        try{
+            List<SkillServiceResponseModel> skillsServices = portfolioService.getSkillsByPortfolioId(id);
+            return mapper.listSkillSvcToGetDTO( skillsServices );
+        }catch (PortfolioNotFoundException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+    @GetMapping("/{id}/experiences")  //  GET experiences BY ID PORTFOLIO  *****
+    public List<ExperienceGetDTO> getExperiencesByPortfolioId(@PathVariable Long id){
+        try{
+            List<ExperienceServiceResponseModel> experienceServices = portfolioService.getexperiencesByPortfolioId(id);
+            return mapper.listExperienceSvcToGetDTO( experienceServices );
+        }catch (PortfolioNotFoundException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }catch(Exception e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -63,10 +117,9 @@ public class PortfolioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id){
-
     try {
             portfolioService.delete(id);
-            return ResponseEntity.noContent().build(); // Statut 204 No Content
+            return new ResponseEntity(HttpStatus.OK); // Statut 204 No Content
         } catch(
             DataAccessException e) {
             return ResponseEntity.status(502).build(); // Statut

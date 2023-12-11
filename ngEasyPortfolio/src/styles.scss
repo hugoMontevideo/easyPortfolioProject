@@ -50,15 +50,16 @@
         font-size: .9rem;
         font-weight: 400;
     }
-    .preview{ 
-        margin: 0 0 1rem ;
-        overflow: hidden;
-        img{
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit:cover;
-        }
+    
+}
+.preview{ 
+    margin: 0 0 1rem ;
+    overflow: hidden;
+    img{
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit:cover;
     }
 }
 .close-btn{// onCloseModalForm ()

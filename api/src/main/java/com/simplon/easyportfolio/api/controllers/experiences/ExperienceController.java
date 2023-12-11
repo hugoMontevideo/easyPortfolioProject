@@ -5,6 +5,7 @@ import com.simplon.easyportfolio.api.controllers.skills.SkillUpdateDTO;
 import com.simplon.easyportfolio.api.exceptions.ExperienceNotFoundException;
 import com.simplon.easyportfolio.api.exceptions.PortfolioNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
+import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceRequestModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceResponseModel;
@@ -42,17 +43,16 @@ public class ExperienceController {
 
     // addExperience
     @PostMapping
-    public ExperienceGetDTO add(@RequestBody @Valid ExperienceDTO DTO){
-        System.out.println(DTO);
-        ExperienceServiceRequestModel experienceServiceRequestModel = mapper.experienceDtoToServiceRequestModelAdd(DTO);
+    public ExperienceGetDTO add(@RequestBody @Valid ExperienceAddDTO DTO){
+        ExperienceServiceRequestModel serviceModel = new ExperienceServiceRequestModel(DTO.getTitle(), DTO.getPortfolioId());
         ExperienceServiceResponseModel addedExperience =
-                portfolioService.saveExperience( experienceServiceRequestModel );
+                portfolioService.saveExperience( serviceModel );
         return mapper.experienceSvcToGetDTO(addedExperience);
     }
 
     // update Experience
     @PutMapping("/{id}")
-    public ExperienceGetDTO update(@RequestBody ExperienceUpdateDTO DTO){
+    public ExperienceGetDTO update(@RequestBody @Valid ExperienceUpdateDTO DTO){
         ExperienceServiceRequestUpdateModel experienceServiceRequestUpdateModel =
                 mapper.experienceDtoToServiceRequestModel(DTO);
 

@@ -1,7 +1,7 @@
-import { EducationModel } from "../../component/education/education-model";
-import { ExperienceModel } from "../../component/experience/experience-model";
-import { ProjectModel } from "../../component/project/project-model";
-import { SkillModel } from "../../component/skill/skill-model";
+import { Education } from "../../component/education/education.interface";
+import { Experience } from "../../component/experience/experience.interface";
+import { Project } from "../../component/project/project.interface";
+import { Skill } from "../../component/skill/skill.interface";
 
 export interface Portfolio {  
     id: number,
@@ -11,10 +11,10 @@ export interface Portfolio {
     firstname: string,
     email:string,
     city: string,
-    projects: ProjectModel[],
-    educations: EducationModel[],
-    experiences: ExperienceModel[],
-    skills: SkillModel[]
+    projects: Project[],
+    educations: Education[],
+    experiences: Experience[],
+    skills: Skill[]
 
     // u_id!: number;
 

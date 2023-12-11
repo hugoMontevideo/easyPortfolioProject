@@ -1,7 +1,6 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Experience } from './experience.interface';
 import { ExperienceService } from '../../services/experience.service';
-import { ExperienceModel } from './experience-model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -11,11 +10,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class ExperienceComponent {
 
-  @Input() experiences!:ExperienceModel[];
-  @Input() portfolioId!: number;
+  @Input() experiences:Experience[] = [];
+  @Input() portfolioId?: number;
+  @Output() experiencesChanged = new EventEmitter<Experience[]>();
+  legend: string = "";
+  inputError?: string;
 
-  legend: string = "Ajouter";
-  inputError!: string;
   newExperience: Experience = {
     id: -1,
     title: "",
@@ -27,9 +27,7 @@ export class ExperienceComponent {
   };
   isExperienceFormShowing: boolean = false; // display or hide form
 
-  constructor( 
-          private experienceService: ExperienceService 
-              ){}
+  constructor( private experienceService: ExperienceService){};
   
   ngOnChanges(change: SimpleChanges ){
     this.newExperience.portfolioId = this.portfolioId;
@@ -40,40 +38,54 @@ export class ExperienceComponent {
     this.newExperience = this.experienceService.resetNewExperience(this.newExperience.portfolioId);
   }
 
-  public onAddExperience = () => {
-    this.legend = "Ajouter une expérience"
-    this.isExperienceFormShowing = true;
-    this.experienceService.tempData = "add";
-  }
-
   public onEditExperience = (index: number) => {
     this.legend = "Modifier une expérience professionnelle"
     this.isExperienceFormShowing = true;
     this.newExperience = this.experiences[index];
-    this.newExperience.portfolioId = this.portfolioId;
-    this.experienceService.tempData = "edit";  
+    this.newExperience.portfolioId = this.portfolioId; 
+  }
+
+  public onAddExperience = () => {
+    this.legend = "Ajouter une expérience"
+    this.isExperienceFormShowing = true;
+    this.experienceService.add(this.newExperience)
+    .subscribe({
+      next:(data)=>{
+        this.newExperience.id = data.id; 
+        this.newExperience.title = data.training; 
+        this.experienceService.getExperiences(this.newExperience.portfolioId) // refresh projects[]
+          .subscribe({
+              next: (data:Experience[]) => { 
+                            this.experiences = data;
+                            this.experiencesChanged.emit(this.experiences); 
+                          },
+              error: (err:Error)=>{console.error("**error Getting experiences**");} //TODO *******
+            });
+      },
+      error:(_error)=>{
+        console.error("**error Adding Experience**");
+        if(_error instanceof HttpErrorResponse ) {
+          this.inputError = _error.error.training;
+        } 
+      }
+    });
   }
 
   public onSubmitExperience = ()=>{
     // hide the form
-    this.experienceService.saveExperience('experiences' , this.newExperience)
+    this.experienceService.saveExperience(this.newExperience)
     .subscribe({
       next:(data)=>{
         this.isExperienceFormShowing = false;  
-        // Ajouter skillEdit a skills [] pour affichage
-        this.experiences = 
-          this.experienceService.refreshExperiences(this.experiences, 
-                                                    new ExperienceModel(
-                                                    data.id,
-                                                    data.title,
-                                                    data.company,
-                                                    data.description,
-                                                    data.startDate,
-                                                    data.endDate,
-                                                    this.newExperience.portfolioId
-                                                  )
-                                                );
         this.newExperience = this.experienceService.resetNewExperience(this.newExperience.portfolioId);
+        this.experienceService.getExperiences(this.newExperience.portfolioId) // refresh projects[]
+            .subscribe({
+                next: (data:Experience[]) => { 
+                          this.experiences = data;
+                          this.experiencesChanged.emit(this.experiences);
+                         },
+                error: (err:Error)=>{console.error("**error Getting educations**");} //TODO *******
+              });
       },
       error:(_error)=>{
         console.log("**error Adding Experience**");
@@ -85,14 +97,22 @@ export class ExperienceComponent {
   }
 
   onDeleteExperience = (experienceId : number, index: number):void => {
-    this.experienceService.deleteExperience("experiences" , experienceId)
-    .subscribe({
-      next:( )=> {
-            this.experiences.splice(index,1);
-            this.newExperience = this.experienceService.resetNewExperience(this.portfolioId);
-        },
-      error:(_error:Error)=>{ console.log("Error while deleting experience.");}
-    }) 
+    this.experienceService.deleteExperience( experienceId )
+      .subscribe({
+        next:( )=> {
+          this.experienceService.getExperiences(this.newExperience.portfolioId) // refresh educations[]
+            .subscribe({
+              next: (data:Experience[]) => { 
+                      this.experiences = data;
+                      this.experiencesChanged.emit(this.experiences); 
+                    },
+              error: (_error)=>{
+                  console.log("**error Getting Projects**"); 
+                }
+            });
+          },
+        error:(err:Error)=>{ console.log("Error while deleting education.");}
+      });
   }
 
 }

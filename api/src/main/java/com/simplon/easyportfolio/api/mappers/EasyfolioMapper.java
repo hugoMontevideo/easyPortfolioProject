@@ -152,8 +152,20 @@ public interface EasyfolioMapper {
     //           List<Repository>  ->  List<Service>  -->  List<GetDTO>
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    //List<SkillServiceResponseModel> listSkillRepoToSvc (List<SkillRepositoryModel> skillRepositoryModels);
+    List<ProjectServiceResponseModel> listProjectRepoToSvc (List<ProjectRepositoryModel> projectRepositoryModels);
+    List<ProjectGetDTO> listProjectSvcToGetDTO (List<ProjectServiceResponseModel> projectRepositoryModels);
 
+    List<DocumentProjectServiceResponseModel> listDocumentProjectRepoToSvc(List<DocumentProjectRepositoryModel> documentProjects);
+    List<DocumentProjectGetDTO> listDocumentProjectSvcToGetDTO(List<DocumentProjectServiceResponseModel> documentProjectServices);
+
+    List<EducationServiceResponseModel> listEducationRepoToSvc(List<EducationRepositoryModel> educations);
+    List<EducationGetDTO> listEducationSvcToGetDTO(List<EducationServiceResponseModel> educationServices);
+
+    List<ExperienceServiceResponseModel> listExperienceRepoToSvc(List<ExperienceRepositoryModel> experiences);
+    List<ExperienceGetDTO> listExperienceSvcToGetDTO(List<ExperienceServiceResponseModel> experienceServices);
+
+    List<SkillServiceResponseModel> listSkillRepoToSvc(List<SkillRepositoryModel> skills);
+    List<SkillGetDTO> listSkillSvcToGetDTO(List<SkillServiceResponseModel> skillsServices);
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //                Repository  ->  Service  -->  GetDTO
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -186,6 +198,8 @@ public interface EasyfolioMapper {
   /*********************************************************/
 
     DocumentProjectServiceModel documentProjectRepositoryToSvc (DocumentProjectRepositoryModel document);
+
+
 
 }
 

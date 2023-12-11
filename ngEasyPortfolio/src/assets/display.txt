@@ -9,26 +9,26 @@
         }
     }
    
-   
-   
-   
-   
-   
-   public ProjectServiceResponseModel updateProject1(ProjectServiceRequestUpdateModel projectModel) {
-        
+    public EducationServiceResponseModel updateEducation(EducationServiceRequestUpdateModel educationServiceModel) {
         //getting the portfolioRepositoryModel
         Optional<PortfolioRepositoryModel> portfolio =
-                portfolioRepository.findById( projectModel.getPortfolioId().get() );
+                portfolioRepository.findById( educationServiceModel.getPortfolioId().get() );
         PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
         // adding portfolio manually
-        projectModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
-        ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModel(projectModel);
-        // verifing date - if date == 1970 01 01 we set it to empty
-        if(!isValidDate(projectModel.getDate().get())){
-            Optional<LocalDate> noDate = Optional.empty();
-            projectModel.setDate(noDate);
+        educationServiceModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
+        Optional<LocalDate> noDate = Optional.empty();
+        if(educationServiceModel.getStartDate().isPresent()){
+            if(!isValidDate(educationServiceModel.getStartDate().get())){
+                educationServiceModel.setStartDate(noDate);
+            }
+        }
+        if(educationServiceModel.getEndDate().isPresent()){
+            if(!isValidDate(educationServiceModel.getEndDate().get())){
+                educationServiceModel.setEndDate(noDate);
+            }
         }
 
-        ProjectRepositoryModel addedProject = projectRepository.save(project);
-        return mapper.projectRepositoryToResponseSvc(addedProject);
+        EducationRepositoryModel education = mapper.educationServiceRequestToRepositoryModel(educationServiceModel);
+        EducationRepositoryModel addedEducation = educationRepository.save(education);
+        return mapper.educationRepositoryToResponseSvc(addedEducation);
     }

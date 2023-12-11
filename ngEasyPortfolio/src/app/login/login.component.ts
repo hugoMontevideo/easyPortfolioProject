@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
                 this.router.navigateByUrl("/portfolios");
       },    
       error: (err:Error) => {
-                this.loginError="Mdp invalide";
+                this.loginError="Mot de passe ou email invalides";
       },
       complete: ()=> {console.log("ok vers portfolio");
       }

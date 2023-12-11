@@ -2,6 +2,7 @@ package com.simplon.easyportfolio.api.controllers.skills;
 
 import com.simplon.easyportfolio.api.exceptions.SkillNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
+import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioService;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestUpdateModel;
@@ -35,19 +36,20 @@ public class SkillController {
 
     // addSkill
     @PostMapping
-    public SkillGetDTO add(@RequestBody @Valid SkillDTO DTO){
-        SkillServiceRequestModel skillServiceRequestModel = mapper.skillDtoToServiceRequestModelAdd(DTO);
+    public SkillGetDTO add(@RequestBody @Valid SkillAddDTO DTO){
+        SkillServiceRequestModel serviceModel = new SkillServiceRequestModel(DTO.getTitle(),
+                DTO.getPortfolioId());
 
-        SkillServiceResponseModel addedSkill = portfolioService.saveSkill( skillServiceRequestModel );
+        SkillServiceResponseModel addedSkill = portfolioService.saveSkill( serviceModel );
         return mapper.skillSvcToGetDTO(addedSkill);
-
     }
     // update Skill
     @PutMapping("/{id}")
-    public SkillGetDTO update(@RequestBody SkillUpdateDTO DTO){
+    public SkillGetDTO update(@RequestBody @Valid SkillUpdateDTO DTO){
         SkillServiceRequestUpdateModel skillServiceRequestUpdModel = mapper.skillDtoToServiceRequestModel(DTO);
 
-        SkillServiceResponseModel updatedSkill =  portfolioService.updateSkill( skillServiceRequestUpdModel );
+        SkillServiceResponseModel updatedSkill =
+                portfolioService.updateSkill( skillServiceRequestUpdModel );
         return mapper.skillSvcToGetDTO(updatedSkill);
     }
     // delete Skill

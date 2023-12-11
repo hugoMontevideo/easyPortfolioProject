@@ -5,66 +5,60 @@ import { environment } from 'src/environments/environment';
 import { Experience } from '../component/experience/experience.interface';
 import { Observable, catchError, throwError } from 'rxjs';
 import { ExperienceAddDto } from '../component/experience/experience-add-dto.interface';
-import { ExperienceModel } from '../component/experience/experience-model';
+
 
 
 @Injectable()
 
 export class ExperienceService {
   ENV_DEV:string = environment.apiUrl;
-  tempData: string = ""; // "add" or "edit"
 
   constructor(
     private http: HttpClient,
     private jwtTokenService : JWTTokenService
   ) { }
-
-  //  add or update experience  
-  saveExperience = ( table: string, newExperience: Experience ): Observable<any> => {
-     if( newExperience.id == -1 ){
-      let experience : ExperienceAddDto = {
-              title: newExperience.title,
-              company: newExperience.company,
-              description: newExperience.description,
-              startDate: newExperience.startDate,
-              endDate:newExperience.endDate,
-              portfolioId:newExperience.portfolioId
-            };            
-      return this.http.post(`${this.ENV_DEV}/${table}`, experience )
-        .pipe(catchError(this.handleError)); // catch validator api errors
-    }
-    return this.http.put( `${this.ENV_DEV}/${table}/${newExperience.id}`, newExperience );
+  getExperiences = ( portfolioId:number | any ):Observable<Experience[]> => {
+    return this.http.get<Experience[]>( `${this.ENV_DEV}/portfolios/${portfolioId}/experiences`);
   }
 
-  deleteExperience = (table: string , experienceId: number): Observable<any> | any => {
+  //  add or update experience  
+  saveExperience = ( newExperience: Experience ): Observable<any> => {
+    return this.http.put( `${this.ENV_DEV}/experiences/${newExperience.id}`, newExperience )
+    .pipe(catchError(this.handleError)); // catch validator errors
+  }
+
+  add = ( newExperience: Experience ): Observable<any> => { 
+      let experienceAdd : ExperienceAddDto = {
+        title: "nouveau diplôme en cours",
+        portfolioId: newExperience.portfolioId
+    }
+    return this.http.post(`${this.ENV_DEV}/experiences`, experienceAdd )
+      .pipe(catchError(this.handleError)); // catch validator error
+  }
+
+  deleteExperience = ( experienceId: number): Observable<any> | any => {
       // this.jwtTokenService.setToken(this.jwtTokenService.getToken());
       // if(this.jwtTokenService.isLogged()){
-          return this.http.delete(`${this.ENV_DEV}/${table}/${experienceId}`);  
+          return this.http.delete(`${this.ENV_DEV}/experiences/${experienceId}`);  
       // }
   }
 
 
  // UTILS ****************************
- dateToLong = (date : string ): number => {
-  let tempDate: Date = new Date(date);
-  return tempDate.getTime();
-}
-  public refreshExperiences = (experiences: ExperienceModel[], experience: ExperienceModel) => {
-    if(this.tempData == "add"){
-      experiences.push(experience);
-    }
-    this.tempData = "";
-    return experiences;
+  dateToLong = (date : string ): number => {
+    let tempDate: Date = new Date(date);
+    return tempDate.getTime();
   }
+  
 
-  public resetNewExperience = ( pId: number ): Experience => {
+  public resetNewExperience = ( portfolioId: number | any ): Experience => {
      return { id: -1,
               title: "",
               company:"",
               description: "",
               startDate: new Date("1970-01-01"),
               endDate: new Date("1970-01-01"),
-              portfolioId: pId
+              portfolioId: portfolioId
             };
   }
   

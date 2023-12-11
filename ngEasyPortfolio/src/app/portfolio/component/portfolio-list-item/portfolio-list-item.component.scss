@@ -14,5 +14,15 @@
     }
 }
 
+.display{
+    background-color: rgba(218, 182, 135, 0.404);
+    border: red 1px solid;
+    .frame{  // live changes displaying
+        border: rgb(89, 0, 255) 1px solid;
+        height: 50% ;
+        margin: 5rem auto;
+
+    }
+}
 
 
