@@ -39,7 +39,7 @@ export class JWTTokenService {
     };
 
 
-    getUser(): string | any {
+    getUser= (): string | any => {
       this.decodeToken();
       return this.decodedToken ? this.decodedToken.sub : null;
     }

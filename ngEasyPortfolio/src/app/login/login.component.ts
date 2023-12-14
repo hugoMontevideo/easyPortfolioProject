@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
 import { LoginEmailPwd } from './login-email-pwd.interface';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +11,7 @@ import { LoginEmailPwd } from './login-email-pwd.interface';
 })
 export class LoginComponent implements OnInit {
 
+  ENV_ICONS: string = `${environment.apiIcons}/`;
   loginEmailPwd: LoginEmailPwd = {
                   email: "", 
                   password: ""

@@ -41,7 +41,6 @@ export class ProjectComponent {
   }
  
   public onEditProject = (index: number) => {
-    console.log(this.projects);
     this.legend = "Modifier un projet"
     this.isProjectFormShowing = true;
     this.newProject = this.projects[index];

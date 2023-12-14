@@ -1,5 +1,7 @@
 package com.simplon.easyportfolio.api.mappers;
 
+import com.simplon.easyportfolio.api.controllers.auth.UserResponseUpdateDTO;
+import com.simplon.easyportfolio.api.controllers.auth.UserUpdateDTO;
 import com.simplon.easyportfolio.api.controllers.educations.EducationDTO;
 import com.simplon.easyportfolio.api.controllers.educations.EducationGetDTO;
 import com.simplon.easyportfolio.api.controllers.educations.EducationUpdateDTO;
@@ -12,6 +14,7 @@ import com.simplon.easyportfolio.api.controllers.projects.*;
 import com.simplon.easyportfolio.api.controllers.skills.SkillDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillUpdateDTO;
+import com.simplon.easyportfolio.api.domain.User;
 import com.simplon.easyportfolio.api.repositories.educations.EducationRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
@@ -34,6 +37,8 @@ import com.simplon.easyportfolio.api.services.skills.SkillServiceModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
+import com.simplon.easyportfolio.api.services.user.UserServiceModel;
+import com.simplon.easyportfolio.api.services.user.UserServiceUpdateModel;
 import jakarta.persistence.ManyToOne;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -201,6 +206,18 @@ public interface EasyfolioMapper {
 
 
 
+
+    /****  USERS  ********************************************/
+
+    UserServiceUpdateModel userUpDtoToServiceUpdateModel(UserUpdateDTO dto);
+
+    User userServiceUpdateToUser(UserServiceUpdateModel serviceModel);
+
+    UserServiceModel userToServiceModel(User updatedUser);
+    @Mapping(target = "password", ignore = true)
+    UserResponseUpdateDTO userServiceToUpdateDTO(UserServiceModel userServiceModel);
+
+    UserServiceUpdateModel userServiceToServiceUpdate(UserServiceModel userServiceModel);
 }
 
 

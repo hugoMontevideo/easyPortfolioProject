@@ -21,7 +21,7 @@ export class EducationService {
   }
 
   saveEducation = ( newEducation: Education ): Observable<any> => {             
-      return this.http.put(`${this.ENV_DEV}/educations/${newEducation.id}`, newEducation )
+    return this.http.put(`${this.ENV_DEV}/educations/${newEducation.id}`, newEducation )
         .pipe(catchError(this.handleError)); // catch validator errors
   }
 
@@ -41,7 +41,6 @@ export class EducationService {
   }
 
   // UTILS  **************************
-
   public resetNewEducation = ( portfolioId: number|any ): Education => {
     return {
               id: -1,

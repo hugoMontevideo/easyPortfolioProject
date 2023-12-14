@@ -1,0 +1,78 @@
+<div class="register position-relative">
+    <form >
+        <div class="row">
+            <div class="w-50 mx-auto">
+                <div class="card mt-3 bg-transparent" >
+                    <h5 class="card-header text-center">Enregistrement</h5>
+                    <span class="text-danger">{{ registerError }}</span>
+                    <div class="card-body bg-transparent">
+                        <div class="form-group form-row">
+                            <label for="email" class="col-md-4 col-form-label" >Email</label>
+                            <div class="col-md-12">
+                                <input type="email"
+                                        name="username"
+                                        id="email"
+                                        [(ngModel)]="register.email"
+                                        class="form-control"
+                                        placeholder="email"
+                                        autofocus="autofocus">
+                            </div>
+                        </div>
+                        <div class="form-group form-row ">
+                            <label for="password" class="col-md-4 col-form-label mx-auto">Mot de passe</label>
+                            <div class="col-md-12">
+                                <input type="password"
+                                        name="password"
+                                        [(ngModel)]="register.password"
+                                        id="password"
+                                        class="form-control"
+                                        placeholder="nom"
+                                      >
+                            </div>
+                        </div>
+                      
+                      <a class="btn btn-primary mx-auto d-block w-25 mt-1" (click)="onConnectionClick($event)">Valider</a>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="picture position-absolute end-0 bottom-0 z-n1">
+            <img [src]="ENV_ICONS + 'people.jpg'" alt="Dessin d'un groupe de gens">
+        </div>
+    </form>
+</div>
+
+
+
+
+
+<!-- <div class="container-fluid">
+    <form #form="ngForm" (ngSubmit)="onSubmit( form )" class="mt-5">
+        <legend class="mb-4">Inscription</legend>
+        <div class="mb-3">
+            <label for="lastname" class="form-label">Nom</label>
+            <input [(ngModel)]="user.name" name="name" type="text" class="form-control" id="lastname" >
+        </div>
+        <div>
+            <label for="firstname" class="form-label">Prénom</label>
+            <input [(ngModel)]="user.firstname" name="firstname" id="firstname" 
+                    type="text" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" [(ngModel)]="user.email" name="email" class="form-control" id="email" >
+            <div id="emailHelp" class="form-text">Entrez un email valide svp.</div>
+        </div>
+        <div class="mb-3">
+        <label for="password" class="form-label">Mot de passe</label>
+        <input type="password" [(ngModel)]="user.password" class="form-control" 
+                name="password" id="password" >
+        </div>
+        <div class="mb-3">
+        <label for="password1" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password1">
+        </div> 
+        <button type="submit" class="btn btn-primary">Valider</button>
+    </form>
+</div> -->

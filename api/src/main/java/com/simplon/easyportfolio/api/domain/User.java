@@ -3,11 +3,11 @@ package com.simplon.easyportfolio.api.domain;
 import com.simplon.easyportfolio.api.repositories.cvs.CvRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,6 +15,9 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -22,7 +25,7 @@ public class User implements UserDetails {
     private int id;
 
     @Column(name="email", unique = true, length = 32)// security: avoid conceptual duplicates to avoid unexpected behaviors
-    private String login;
+    private String email;
 
     @Column(name = "password")
     private  String password;
@@ -32,13 +35,13 @@ public class User implements UserDetails {
     @Column(name = "firstname")
     private String firstname;
     @Column(name = "inscription_date")
-    private Long inscriptionDate;
+    private LocalDate inscriptionDate;
     @Column(name = "connection_date")
-    private Long connectionDate;
+    private LocalDate connectionDate;
     @Column(name = "profile_img_path")
     private String profileImgPath;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "user")
     private List<PortfolioRepositoryModel> portfolios = new ArrayList<>();
 
     //@OneToMany(mappedBy = "user", orphanRemoval = true)
@@ -51,7 +54,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
-        //return (Collection<? extends GrantedAuthority>) roles;  // ***** todo ** revoir cette ligne
+        //return (Collection<? extends GrantedAuthority>) roles;  // ***** TODO ** revoir cette ligne
     }
     @Override
     public String getPassword() {
@@ -59,7 +62,7 @@ public class User implements UserDetails {
     }
     @Override
     public String getUsername() {
-        return login;
+        return email;
     }
     @Override
     public boolean isAccountNonExpired() {
@@ -77,6 +80,8 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 
 
 }

@@ -1,34 +1,162 @@
-   
-   
-     public boolean deleteSkill(Long id) {
-        try {
-            skillRepository.deleteById(id);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-   
-    public EducationServiceResponseModel updateEducation(EducationServiceRequestUpdateModel educationServiceModel) {
-        //getting the portfolioRepositoryModel
-        Optional<PortfolioRepositoryModel> portfolio =
-                portfolioRepository.findById( educationServiceModel.getPortfolioId().get() );
-        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
-        // adding portfolio manually
-        educationServiceModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
-        Optional<LocalDate> noDate = Optional.empty();
-        if(educationServiceModel.getStartDate().isPresent()){
-            if(!isValidDate(educationServiceModel.getStartDate().get())){
-                educationServiceModel.setStartDate(noDate);
-            }
-        }
-        if(educationServiceModel.getEndDate().isPresent()){
-            if(!isValidDate(educationServiceModel.getEndDate().get())){
-                educationServiceModel.setEndDate(noDate);
-            }
-        }
+package com.simplon.easyportfolio.api.services.impl;
 
-        EducationRepositoryModel education = mapper.educationServiceRequestToRepositoryModel(educationServiceModel);
-        EducationRepositoryModel addedEducation = educationRepository.save(education);
-        return mapper.educationRepositoryToResponseSvc(addedEducation);
+import com.simplon.easyportfolio.api.domain.User;
+import com.simplon.easyportfolio.api.exceptions.AccountExistsException;
+import com.simplon.easyportfolio.api.repositories.security.OwnerRepository;
+import com.simplon.easyportfolio.api.services.jwt.JwtUserService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.security.Key;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+
+@Service
+public class JwtUserServiceImpl implements JwtUserService {
+    @Autowired
+    private OwnerRepository ownerRepository;
+    @Autowired
+    AuthenticationConfiguration authenticationConfiguration;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    private final String signingKey;
+
+
+    //private static final String SECRET_KEY = "6405FE67CB753248C25AB7C235929DBDBF32CA561791CAC47C285A547152AE61A0F5093F0EE49190299435196817628593ED914D6D77C1F7C1836F75C409A88C8216B451ABD8EDA0216A00D8BF134422DBF69E3E75D3B95821643079C8E4BE92C83256828624D9D72418AB795EE9610A1CE705837A4D465AD74B66A874EE5E78";
+
+     public JwtUserServiceImpl(@Value("${jwt.signing.key}") String signingKey ){
+         this.signingKey = signingKey;
+     }
+
+     @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+         User user = ownerRepository.findByLogin(username);
+         if(user == null) {
+             throw new UsernameNotFoundException("The owner could not be found. HM");
+         }
+         return user;
+     }
+
+     // USED FOR REGISTRATION
+    @Override
+    public Authentication authenticate(String username, String password) throws Exception {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(username, password);
+        return  authenticationConfiguration.getAuthenticationManager().authenticate(authentication);
     }
+
+    @Override
+    public UserDetails save(String username, String password) throws AccountExistsException {
+        UserDetails existingUser = ownerRepository.findByLogin(username);
+        if (existingUser == null) {
+            throw new AccountExistsException();
+        }
+        User user = new User();
+        user.setLogin(username);
+        user.setPassword(passwordEncoder.encode(password));
+        ownerRepository.save(user);
+        return user;
+    }
+
+
+    //USED FOR AUTHENTIFICATION
+    @Override
+    public UserDetails getUserFromJwt(String jwt) {
+        String username = getUsernameFromToken(jwt);
+        return loadUserByUsername(username);
+    }
+
+
+    private String getUsernameFromToken(String token) {
+        Claims claims = Jwts.parser()
+                        .setSigningKey(signingKey)
+                        .parseClaimsJws(token)
+                        .getBody();
+        return claims.getSubject();
+    }
+
+
+    @Override
+    public String generateJwtForUser(UserDetails user) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + 3600 * 1000);
+        return Jwts.builder()
+                .setSubject(user.getUsername())
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, signingKey)
+                .compact();
+
+    }
+
+
+
+/**
+    public String extractUsername (String token){
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    public<T> T extractClaim(String token, Function<Claims, T> claimsResolver){
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims extractAllClaims(String token) {
+        return  Jwts
+                .parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    private Key getSignInKey () {
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public String generateToken( UserDetails userDetails) {
+         return generateToken(new HashMap<>(), userDetails);
+    }
+
+    public String generateToken(
+            Map<String, Object> extraClaims,
+            UserDetails userDetails
+    ) {
+         return Jwts.builder()
+                 .setClaims(extraClaims)
+                 .setSubject(userDetails.getUsername())
+                 .setIssuedAt(new Date(System.currentTimeMillis()))
+                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 2 ))
+                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                 .compact();
+    }
+
+    public boolean isTokenValid(String token, UserDetails userDetails){
+         final String username = extractUsername(token);
+         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    }
+
+    private boolean isTokenExpired(String token) {
+         return extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(String token) {
+         return extractClaim(token, Claims::getExpiration);
+    }
+ **/

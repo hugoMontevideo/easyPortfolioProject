@@ -127,9 +127,6 @@ public class PortfolioController {
             return ResponseEntity.notFound().build(); // Statut 404 Not Found
         }
     }
-
-
-
 }
 
 //  add  PortfolioServiceModel portfolioServiceModel = new PortfolioServiceModel( portfolioDTO.getTitle(),portfolioDTO

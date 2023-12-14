@@ -1,4 +1,7 @@
-<div class="row">
+<div class="portfolio-list">
+
+
+  <div class="row">
     <div class="col-sm-6">
       <div class="card" *ngFor="let portfolio of portfolios">
         <div class="card-body">
@@ -20,7 +23,7 @@
                   Supprimer
               </button> -->
               <a [href]="'/portfolios/' + portfolio.id"
-                 class="btn btn-warning">
+                  class="btn btn-warning">
                 Détail
               </a>
 
@@ -28,7 +31,9 @@
         </div>
       </div>
     </div>
-    
+      
     <div class="gradient">Essayez gratuitement !! </div>
+
+  </div>
 
 </div>

@@ -44,9 +44,12 @@ export class PortfolioService {
         return this.http.get<Portfolio[]>(`${this.ENV_DEV}/${table}`);
     }
 
+
+
+    /** UTILS */
+
     getId = (id : string | any ): number => {
         return parseInt(id) ?? 0;
-      
     }
 
     // table : PROJECT *************

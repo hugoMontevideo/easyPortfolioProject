@@ -44,12 +44,13 @@ export class PortfolioListItemComponent implements OnInit {
     ){};
 
   ngOnInit(): void {
-      this.portfolio.id =  this.portfolioService.getId(this.route.snapshot.paramMap.get('id'));
+    this.portfolio.id =  this.portfolioService.getId(this.route.snapshot.paramMap.get('id'));
 
-      this.portfolioService.getPortfolioById(this.table, this.portfolio.id)
+    this.portfolioService.getPortfolioById(this.table, this.portfolio.id)
       .subscribe({
         next:(response:Portfolio) => { 
                                     this.portfolio = response;
+                                    
                                   }, 
         error: (err:Error) => {
                         // TODO  manage error response

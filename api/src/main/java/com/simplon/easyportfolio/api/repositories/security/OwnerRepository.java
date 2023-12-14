@@ -5,5 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface OwnerRepository extends CrudRepository<User, Integer> {
 
-    User findByLogin(String email);
+    User findByEmail(String email);
+
 }
