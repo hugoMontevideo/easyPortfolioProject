@@ -31,12 +31,6 @@ export class UserItemComponent implements OnInit {
   isPictureFormShowing=false;
   selectedFile?: File ;
 
-  //  ngOnChanges(change: SimpleChanges){
-  //   this.user = this.user;
-  //   console.log(change);
-    
-  // }
-
    constructor ( protected userService: UserService,
                 private route: ActivatedRoute ) {}
 
@@ -83,8 +77,10 @@ export class UserItemComponent implements OnInit {
     this.userService.savePicture(this.user.id, this.selectedFile!)
     .subscribe({
       next:(data:User)=>{
+        console.log(data);
               this.isPictureFormShowing = false;  // hide the form
               this.user = data;
+              
           },
       error:(_error : any)=>{
         console.error("**error updating User**");
@@ -95,6 +91,9 @@ export class UserItemComponent implements OnInit {
     });
   }
   
+  onSelectedFile = (event:any):void => {
+    this.selectedFile = event.target.files[0];    
+  }
 
 
 

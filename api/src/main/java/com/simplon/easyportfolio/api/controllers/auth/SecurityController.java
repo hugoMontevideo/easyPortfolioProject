@@ -18,9 +18,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -95,6 +97,22 @@ public class SecurityController {
             //Here, the response can be configured, user has many other properties
             UserServiceModel userServiceModel = userAppService.findByEmail(email);
             UserResponseUpdateDTO responseDTO =  mapper.userServiceToUpdateDTO(userServiceModel);
+
+            return ResponseEntity.ok(responseDTO);
+        } catch(ResponseStatusException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PutMapping("/users/{id}/profile_picture")
+    public ResponseEntity<UserResponseUpdateDTO>updateUserPicture(@PathVariable Integer id, @RequestParam ("file") MultipartFile file) throws ResponseStatusException {
+        System.out.println(id + "*"+file);
+        try {
+            UserServiceModel updatedUser =    userAppService.updateUserPicture(id, file);
+
+            UserResponseUpdateDTO responseDTO =  mapper.userServiceToUpdateDTO(updatedUser);
 
             return ResponseEntity.ok(responseDTO);
         } catch(ResponseStatusException e) {

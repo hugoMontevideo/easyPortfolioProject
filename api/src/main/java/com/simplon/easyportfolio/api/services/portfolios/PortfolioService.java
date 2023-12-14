@@ -349,7 +349,7 @@ public ProjectServiceResponseModel addProject(@NotNull ProjectServiceRequestMode
         }
     }
 
-/** UTILS  ***************************************** **/
+ /** UTILS  ***************************************** **/
     private String uploadPicture(MultipartFile file, String pictureName) throws IOError{
         try{
             String uploadDirectory = "/public/upload/pictures"; // pictures upload folder
@@ -383,9 +383,10 @@ public ProjectServiceResponseModel addProject(@NotNull ProjectServiceRequestMode
            String pictureName = document.get().getFilename();
            Path picturePath = Paths.get(".", "/public/upload/pictures", pictureName);
            if(Files.exists(picturePath)){
-               System.out.println(picturePath.toString());
+               // deleting file on public folder
                Files.delete(picturePath);
            }
+           // deleting on bdd
            documentProjectRepository.deleteById(docId);
        }catch (Exception e){
            e.printStackTrace();
@@ -467,6 +468,10 @@ public ProjectServiceResponseModel addProject(@NotNull ProjectServiceRequestMode
             throw new PortfolioNotFoundException(HttpStatus.NOT_FOUND);
         }
     }
+
+
+
+
 }
 
 

@@ -21,7 +21,6 @@ export class UserService {
     }
 
     savePicture = ( userId:number, selectedFile: File ): Observable<any> => { 
-
         let formData = new FormData;
         formData.append('file', selectedFile as File);
 

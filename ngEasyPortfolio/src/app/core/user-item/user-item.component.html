@@ -1,7 +1,12 @@
 <div class="user">
   <div class="d-flex justify-content-start align-items-start" >
     <div class="profile">
-      <img [src]="userService.ENV_ICONS +'default-profile-space-invaders.png'" [alt]="'Photo de profil '+user.firstname">  
+      <img *ngIf="user.profileImgPath; else srcDefault" 
+            [src]="userService.ENV_PICT+'users/' + user.profileImgPath" 
+            [alt]="'Photo de profil '+user.firstname">  
+      <ng-template #srcDefault>
+        <img [src]="userService.ENV_ICONS +'default-profile-space-invaders.png'" [alt]="'Photo de profil '+user.firstname">  
+      </ng-template>
     </div>
     <button (click)="onModifyPicture()"
           class="modify-img-btn">
@@ -79,11 +84,12 @@
       </div>
     </div>
     <div class="mb-3">
-      <label for="user-picture" class="form-label">Choisir une image</label>
+      <label for="selected-file" class="form-label">Choisir une image</label>
       <input 
         class="form-control" 
-        type="file" id="user-picture" 
-        name="user-picture"
+        type="file" id="selected-file" 
+        name="selected-file"
+        (change)="onSelectedFile($event)"
         >
     </div>
     <input class="btn btn-primary d-block mx-auto" type="submit" value="Valider">

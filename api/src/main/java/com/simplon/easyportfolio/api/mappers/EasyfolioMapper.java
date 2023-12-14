@@ -218,6 +218,8 @@ public interface EasyfolioMapper {
     UserResponseUpdateDTO userServiceToUpdateDTO(UserServiceModel userServiceModel);
 
     UserServiceUpdateModel userServiceToServiceUpdate(UserServiceModel userServiceModel);
+
+    UserServiceModel userRepositoryToSvcModel(User user);
 }
 
 
