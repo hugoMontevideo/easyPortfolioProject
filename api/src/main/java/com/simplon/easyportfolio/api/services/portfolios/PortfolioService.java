@@ -1,6 +1,7 @@
 package com.simplon.easyportfolio.api.services.portfolios;
 
 import com.github.slugify.Slugify;
+import com.simplon.easyportfolio.api.domain.User;
 import com.simplon.easyportfolio.api.exceptions.*;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
 import com.simplon.easyportfolio.api.repositories.educations.EducationRepository;
@@ -13,6 +14,7 @@ import com.simplon.easyportfolio.api.repositories.projects.DocumentProjectReposi
 import com.simplon.easyportfolio.api.repositories.projects.DocumentProjectRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.projects.ProjectRepository;
 import com.simplon.easyportfolio.api.repositories.projects.ProjectRepositoryModel;
+import com.simplon.easyportfolio.api.repositories.security.OwnerRepository;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepository;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestModel;
@@ -25,6 +27,7 @@ import com.simplon.easyportfolio.api.services.projects.*;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
+import com.simplon.easyportfolio.api.services.user.UserServiceModel;
 import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +49,8 @@ import org.apache.commons.io.FilenameUtils;
 @Service
 public class PortfolioService {
     private static final LocalDate DATE_VIDE = LocalDate.of(1970,1,2);
-
+    @Autowired
+    OwnerRepository ownerRepository;
     @Autowired
     PortfolioRepository portfolioRepository;
     @Autowired
@@ -64,7 +68,64 @@ public class PortfolioService {
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
 
     /** Table : PORTFOLIO   ***************** **/
-    public boolean add(PortfolioServiceRequestModel portfolioServiceModel) {
+    //update
+    public PortfolioServiceResponseModel updatePortfolio(@NotNull PortfolioServiceRequestModel o) {
+        Optional<User> user = ownerRepository.findById(o.getUserId().get());
+        PortfolioRepositoryModel portfolio = mapper.portfolioServiceRequestToRepositoryModelUpdate(o);
+   /**     PortfolioRepositoryModel port1 = new PortfolioRepositoryModel(
+                o.getId().get(), o.getTitle(),o.getDescription(),o.getName(), o.getFirstname(),o.getEmail(),o.getCity(), o.getProfileImgPath(), o.getAboutMe(),user.get()
+
+        );**/
+        portfolio.setUser(user.get());
+        PortfolioRepositoryModel updatedPortfolio = portfolioRepository.save(portfolio);
+
+        return mapper.portfolioRepositoryToResponseSvc(updatedPortfolio);
+    }
+    /** updateProfileImgPath  **/
+    public PortfolioServiceResponseModel updateProfileImgPath(Long id, MultipartFile file) throws IOException {
+        Optional<PortfolioRepositoryModel> portfolioRepoModel = portfolioRepository.findById(id);
+        /* deleting file on folder **/
+        String uploadDirectory = "/public/upload/pictures/portfolios"; // pictures upload folder
+        deleteProfileImgPath(portfolioRepoModel.get().getProfileImgPath(),uploadDirectory );
+        /* naming pictures  = profile-img- + projectName + (timeInMilli) **/
+        long timestamp = System.currentTimeMillis();
+        String pictureName = "about-me-img-" + timestamp ;
+        /* file saved on server **/
+        String pictureName2 = uploadPicture(file, pictureName, uploadDirectory);
+        /* filling userRepositoryModel manually **/
+        portfolioRepoModel.get().setProfileImgPath(pictureName2);
+        /* updatedUser in db    *** User **/
+        PortfolioRepositoryModel savedPortfolio = portfolioRepository.save(portfolioRepoModel.get());
+
+
+        return mapper.portfolioRepositoryToResponseSvc(savedPortfolio);
+    }
+
+    private String uploadPicture(MultipartFile file, String pictureName, String directory) throws IOError{
+        try{
+            String filename = file.getOriginalFilename(); // upload file
+            String extension = FilenameUtils.getExtension(filename); // getting file extension
+            filename = slug.slugify(pictureName) + "." + extension;
+
+            Path path = Paths.get(".", directory).toAbsolutePath(); // absolute path
+            File targetFile = new File(path.toString(), filename);
+            if(!targetFile.getParentFile().exists()){
+                targetFile.getParentFile().mkdirs();
+            }
+            file.transferTo(targetFile);
+            System.out.println(filename+"****");
+            return filename;
+        }catch (IOError e){
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return "Error";
+    }
+
+    //add portfolio
+    public boolean add(@NotNull PortfolioServiceRequestModel portfolioServiceModel) {
         PortfolioRepositoryModel portfolioRepositoryModel =
                 new PortfolioRepositoryModel(portfolioServiceModel.getTitle(),
                         portfolioServiceModel.getName(), portfolioServiceModel.getFirstname(),
@@ -74,9 +135,9 @@ public class PortfolioService {
          return portfolioRepositoryReturn != null;
     }
 
-    public PortfolioServiceResponseModel findById(Long id) {
+    public PortfolioServiceModel findById(Long id) {
         Optional<PortfolioRepositoryModel> portfolioRepositoryModel = portfolioRepository.findById(id);
-        return mapper.portfolioRepositoryToResponseSvc(portfolioRepositoryModel.get());
+        return mapper.portfolioRepositoryToServiceModel(portfolioRepositoryModel.get());
     }
 
     public List<ProjectServiceResponseModel> getProjectsByPortfolioId(Long id) throws PortfolioNotFoundException {
@@ -97,22 +158,25 @@ public class PortfolioService {
         return true;
     }
     @Transactional
-    public ArrayList<PortfolioServiceResponseModel> findAll() {
-        ArrayList<PortfolioServiceResponseModel> portfolioServiceModels = new ArrayList<>();
+    public List<PortfolioServiceModel> findAll() {
+        //ArrayList<PortfolioServiceResponseModel> portfolioServiceModels = new ArrayList<>();
 
-        ArrayList<PortfolioRepositoryModel> portfolioRepositoryModels = portfolioRepository.findAll();
+        //ArrayList<PortfolioRepositoryModel> portfolioRepositoryModels = portfolioRepository.findAll();
+        List<PortfolioRepositoryModel> portfolioRepositoryModels = portfolioRepository.findAll();
 
-        portfolioRepositoryModels.forEach((PortfolioRepositoryModel item)->portfolioServiceModels.add( mapper.portfolioRepositoryToResponseSvc(item) ));
+        //portfolioRepositoryModels.forEach((PortfolioRepositoryModel item)->portfolioServiceModels.add( mapper.portfolioRepositoryToResponseSvc(item) ));
 
-        return portfolioServiceModels;
+
+        return mapper.listPortolioRepositoryToSvcModel(portfolioRepositoryModels);
     }
 
     public void delete(Long id) {
         portfolioRepository.deleteById(id);
     }
 
-/** Table : PROJECT   ***************** **/
-    // add Project
+    /** Table : PROJECT   ***************** **/
+
+    /** add Project **/
 public ProjectServiceResponseModel addProject(@NotNull ProjectServiceRequestModel projectServiceRequestModel ) {
    // find portfolio by id and ...
     Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
@@ -140,11 +204,12 @@ public ProjectServiceResponseModel addProject(@NotNull ProjectServiceRequestMode
     ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModel(projectServiceRequestModel);
 
     if(!projectServiceRequestModel.getFile().isEmpty()){
+        String uploadDirectory = "/public/upload/pictures"; // pictures upload folder
         // naming pictures : in project = project_ + projectName + (timeInMilli)
         long timestamp = System.currentTimeMillis();
         String pictureName = "project " + projectServiceRequestModel.getTitle() + "-" +timestamp ;
         /** picture saved on server **/
-        String pictureName2 = uploadPicture(projectServiceRequestModel.getFile().get(), pictureName);
+        String pictureName2 = uploadPicture(projectServiceRequestModel.getFile().get(), pictureName, uploadDirectory);
         // filling documentModel manually
         DocumentProjectRepositoryModel document = new DocumentProjectRepositoryModel();
         document.setFilename(pictureName2);
@@ -349,56 +414,17 @@ public ProjectServiceResponseModel addProject(@NotNull ProjectServiceRequestMode
         }
     }
 
- /** UTILS  ***************************************** **/
-    private String uploadPicture(MultipartFile file, String pictureName) throws IOError{
-        try{
-            String uploadDirectory = "/public/upload/pictures"; // pictures upload folder
-            String filename = file.getOriginalFilename(); // upload file
 
-            String extension = FilenameUtils.getExtension(filename);
-            filename = slug.slugify(pictureName) + "." + extension;
-            Path path = Paths.get(".", uploadDirectory).toAbsolutePath(); // absolute path
-            File targetFile = new File(path.toString(), filename);
-            if(!targetFile.getParentFile().exists()){
-                targetFile.getParentFile().mkdirs();
-            }
-            file.transferTo(targetFile);
-            return filename;
-        }catch (IOError e){
-            e.printStackTrace();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return "Error";
-    }
-    private boolean isValidDate (LocalDate date){
-        return date.isAfter(DATE_VIDE);
-    }
  /** documents  ***************************************** **/
     //delete document project
-    public void deleteDocumentProjectById(Long docId) throws Exception {
-       try{
-           Optional<DocumentProjectRepositoryModel> document = documentProjectRepository.findById(docId);
-           String pictureName = document.get().getFilename();
-           Path picturePath = Paths.get(".", "/public/upload/pictures", pictureName);
-           if(Files.exists(picturePath)){
-               // deleting file on public folder
-               Files.delete(picturePath);
-           }
-           // deleting on bdd
-           documentProjectRepository.deleteById(docId);
-       }catch (Exception e){
-           e.printStackTrace();
-       }
-    }
-
+    // save document project
     public DocumentProjectServiceResponseModel saveDocumentProject(DocumentProjectServiceRequestModel documentServiceRequestModel) {
         if(!documentServiceRequestModel.getFile().isEmpty()){
+            String uploadDirectory = "/public/upload/pictures"; // pictures upload folder
             // naming pictures : in project = project_ + projectName + (timeInMilli)
             long timestamp = System.currentTimeMillis();
             String pictureName = "project " + documentServiceRequestModel.getTitle() + "-" +timestamp ;
-            String pictureName2 = uploadPicture(documentServiceRequestModel.getFile().get(), pictureName);
+            String pictureName2 = uploadPicture(documentServiceRequestModel.getFile().get(), pictureName,uploadDirectory);
             documentServiceRequestModel.setFilename(Optional.of(pictureName2));
         }
         DocumentProjectRepositoryModel documentProject =
@@ -411,7 +437,6 @@ public ProjectServiceResponseModel addProject(@NotNull ProjectServiceRequestMode
         return mapper.documentProjectRepositoryToResponseSvc(addedDocProject);
     }
     private DocumentProjectServiceResponseModel pushDocumentProject(DocumentProjectServiceRequestModel documentRequestModel) {
-
         DocumentProjectRepositoryModel documentProjectRepositoryModel =
                 mapper.documentProjectServiceRequestToRepositoryModelAdd(documentRequestModel);
         Optional<ProjectRepositoryModel> project =
@@ -424,6 +449,7 @@ public ProjectServiceResponseModel addProject(@NotNull ProjectServiceRequestMode
         return mapper.documentProjectRepositoryToResponseSvc(addedDocProject);
     }
 
+    /** ************ getting Arrays By Id  ********************** **/
     public List<DocumentProjectServiceResponseModel> getDocumentProjectsByPortfolioId(Long id) throws ProjectNotFoundException {
         try {
             Optional<ProjectRepositoryModel> projectRepositoryModel = projectRepository.findById(id);
@@ -469,6 +495,44 @@ public ProjectServiceResponseModel addProject(@NotNull ProjectServiceRequestMode
         }
     }
 
+    /** UTILS  ***************************************** **/
+
+    private boolean isValidDate (LocalDate date){
+        return date.isAfter(DATE_VIDE);
+    }
+
+    public void deleteDocumentProjectById(Long docId) throws Exception {
+        try{
+            Optional<DocumentProjectRepositoryModel> document = documentProjectRepository.findById(docId);
+            String pictureName = document.get().getFilename();
+            Path picturePath = Paths.get(".", "/public/upload/pictures", pictureName);
+            if(Files.exists(picturePath)){
+                // deleting file on public folder
+                Files.delete(picturePath);
+            }
+            // deleting on bdd
+            documentProjectRepository.deleteById(docId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private boolean deleteProfileImgPath(String profileImgPath, String directory) throws IOException {
+        try{
+            if (profileImgPath != null && !profileImgPath.isEmpty()) {
+                //Path picturePath = Paths.get(".", "/public/upload/pictures/users", profileImgPath);
+                Path picturePath = Paths.get(".", directory, profileImgPath);
+                if (Files.exists(picturePath)) {
+                    // deleting file on public folder
+                    Files.delete(picturePath);
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            throw new IOException("Error deleting profile picture", e);
+        }
+        return false;
+    }
 
 
 

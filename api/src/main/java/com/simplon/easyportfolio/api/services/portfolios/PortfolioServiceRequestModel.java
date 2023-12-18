@@ -1,5 +1,6 @@
 package com.simplon.easyportfolio.api.services.portfolios;
 
+import com.simplon.easyportfolio.api.domain.User;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceResponseModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceResponseModel;
@@ -19,13 +20,15 @@ import java.util.Optional;
 public class PortfolioServiceRequestModel {
     public Optional<Long> id;
     private String title;
+    private String description;
     private String name;
     private String firstname;
     private String email;
-    private List<ProjectServiceResponseModel> projects;
-    private List<ExperienceServiceResponseModel> experiences;
-    private List<EducationServiceResponseModel> educations;
-    private List<SkillServiceResponseModel> skills;
+    private String city;
+    private String profileImgPath;
+    private String aboutMe;
+    private Optional<Integer> userId;
+    private Optional<User> user;
 
     public PortfolioServiceRequestModel(Optional<Long> id) {
         this.id = id ;
@@ -36,6 +39,23 @@ public class PortfolioServiceRequestModel {
         this.firstname = firstname;
         this.email = email;
     }
+
+    public PortfolioServiceRequestModel(Long id, String title, String description, String name, String firstname, String email, String city, String profileImgPath, String aboutMe) {
+        this.id = Optional.ofNullable(id);
+        this.title = title;
+        this.description = description;
+        this.name = name;
+        this.firstname = firstname;
+        this.email = email;
+        this.city = city;
+        this.profileImgPath = profileImgPath;
+        this.aboutMe = aboutMe;
+    }
+
+
+
+
+
 
 
 }

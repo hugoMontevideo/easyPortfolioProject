@@ -25,11 +25,11 @@ public class PortfolioServiceModel {
     private String email;
     private String city;
     private String profileImgPath;
+    private String aboutMe;
     private List<ProjectRepositoryModel> projects ;
     private List<ExperienceRepositoryModel> experiences ;
     private List<EducationRepositoryModel> educations ;
     private List<SkillRepositoryModel> skills;
-
     //@OneToMany(mappedBy = "portfolio", orphanRemoval = true)
     //private List<SocialLinkRepositoryModel> socialLinks ;
     private User user;

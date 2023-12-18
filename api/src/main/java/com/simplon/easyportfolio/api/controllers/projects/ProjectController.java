@@ -1,7 +1,5 @@
 package com.simplon.easyportfolio.api.controllers.projects;
 
-import com.simplon.easyportfolio.api.controllers.skills.SkillDTO;
-import com.simplon.easyportfolio.api.exceptions.PortfolioNotFoundException;
 import com.simplon.easyportfolio.api.exceptions.ProjectNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioService;
@@ -9,24 +7,19 @@ import com.simplon.easyportfolio.api.services.projects.DocumentProjectServiceRes
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceResponseModel;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 @Validated  // forms validation
-@CrossOrigin
 @RestController
 @RequestMapping("api/projects")
 public class ProjectController {

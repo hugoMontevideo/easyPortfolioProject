@@ -40,16 +40,12 @@ public class User implements UserDetails {
     private LocalDate connectionDate;
     @Column(name = "profile_img_path")
     private String profileImgPath;
-
     @OneToMany(mappedBy = "user")
-    private List<PortfolioRepositoryModel> portfolios = new ArrayList<>();
-
+    private List<PortfolioRepositoryModel> portfolios;
     //@OneToMany(mappedBy = "user", orphanRemoval = true)
     //private List<CvRepositoryModel> cvs = new ArrayList<>();
-
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
-
     // Implementing methods for security
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

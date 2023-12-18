@@ -1,0 +1,263 @@
+
+ <!-- 0 **************************************************** -->
+ <div class="header_layout">
+    <header class="topmenu header_layout">
+        <div class="topmenu_layout">
+            <div id="logo_container">
+                <a href="#home" id="svg3">      
+                   
+                    H
+                    <!-- <div class="letter1"><? // substr($_SESSION['user']['firstname'],0,1) ; ?> </div> -->
+                    <!-- <div class="letter2">X</div> -->      
+                </a> 
+            </div>
+            <div class="header_last_details">
+                <div class="svg_burger " id="burgerMenu">
+                    <img [src]="ENV_ICONS+'template-dev/i8Burgergreen.svg' " alt="Burger menu">
+                </div>
+
+                <div class="svg_burger none" id="burgerMenuX">
+                    <img [src]="ENV_ICONS+'template-dev/i8XBurgergreen.svg '"
+                    alt="Symbole X">
+                </div>
+            </div><!-- end .header_last_details -->
+        </div>
+        <!-- menu qui apparaît lors du clic sur le burger -->
+         <nav class="burger none" >
+            <a href="#online-home">Accueil</a>
+            <a href="#online-projects">Réalisations</a>
+            <a href="#online-skills">Compétences</a>
+            <a href="#online-about">A propos</a>
+            <a href="?action=home" target="_blank">easyPortfolio - Accueil</a>
+        </nav> 
+    </header>
+</div>
+    <!-- <section class="example admin portfolios"> -->
+
+    <!-- *************  accueil    ******************** -->
+    <section id="online-home" class="content_example page1" >    
+        <article class="networks">
+            <div class="github">
+                <a href="">
+                    <img [src]="ENV_ICONS+'template-dev/icons8-git.svg'" alt="">
+                </a>
+            </div>               
+            <div class="linkedin">
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-in.svg'" alt="">
+
+                </a>
+            </div>
+            <div class="instagram">
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-insta.svg'" alt="">
+                </a>
+            </div>
+            <div class="twitter">
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-tw.svg'" alt="">
+                </a>
+            </div>
+            <div class="fb">
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-fb.svg'" alt="">
+                </a>
+            </div>
+        </article><!-- end .networks -->    
+        
+        <article class="content_page portfolios page1">
+            <p class="hi">Bonjour tout le monde!</p>
+            <p class="high-light">Je suis </p>
+            <h1>{{portfolio.firstname|titlecase}} {{portfolio.name|uppercase}}</h1>
+            <h3>{{ portfolio.title |titlecase}}</h3>
+            <p class="city">{{portfolio.city}}</p> 
+            <div class="achievements">
+                <a href="#online-projects" class="add achievement">Projets réalisés</a>
+            </div>
+        </article><!-- end .content_page -->
+        
+        <article class="mail">
+            <p>{{portfolio.email}}</p>
+        </article>  
+    </section><!-- end .exemple_content -->
+        
+     <!-- *** end section *** -->
+    <section id="online-projects" class="content_example page2" >
+        <div id="realisations-div" class="realisations-div">
+            
+            <h1>Réalisations</h1>
+            <div class="realisations-box" *ngIf="portfolio.projects.length > 0">
+                <div class="realisations-box-card" *ngFor="let project of portfolio.projects">
+                   
+                    <a href="https://www.easyportfolio.hugo-machado.com/public/index.php"
+                        title="Aller sur le projet">
+                        <div *ngIf="project.documents[0]">  
+                         <img [src]="ENV_PICT + project.documents[0].filename" alt="Image du projet"> 
+                        </div>   
+                    </a>
+                    <h3>{{ project.title }}</h3>
+                    <p>{{project.description }}</p>
+                    
+                </div>
+                    <!-- <?php $aS_id =ProjectRepository::projectGetSkills($oProject->getId()) ?>
+                    <?php  $aSkillsComputerLang1 = [];?>  -->
+                    <!-- on va récuperer les langagages informatiques catégorie == 3 --> 
+                    <!-- <?php  foreach( $aS_id as $s_id) :?>
+                        <?php $aSkillsComputerLang1[] = SkillRepository::skillsOnProject($s_id, 3) ?>
+                    <?php  endforeach ?>  -->
+                    
+                    <!-- <?php  if( !empty($aSkillsComputerLang1)  ) :?>  -->
+                        <p class="p_skills_list">
+                        <strong>
+                            <!-- <?php foreach($aSkillsComputerLang1 as $oSkill1):?> 
+                                <?php  if( $oSkill1 !== null  ) :?> 
+                                <?= ( !next($aSkillsComputerLang1)) ? $oSkill1->getTitle() :$oSkill1->getTitle(). ' - ';?> 
+                                <?php  endif ;?>
+                            <?php endforeach; ?> -->
+                        </strong>
+                        </p>
+                        
+                    <!-- <?php  endif ;?>                  -->
+                <!-- </div> -->
+            <!-- <?php endforeach; ?>
+            <?php  endif ;?> -->
+            </div>
+        </div>     
+    </section><!-- end .exemple project -->
+    <!-- *** end section *** -->
+
+        <section id="online-skills" class="content_example skills page3" >
+            <div class="skills-presentation">
+                <h1>Hard &<br> Soft skills</h1>
+                <p>
+                   
+                            : "Je me considère comme une personne très reactive, à l'écoute et
+                            capable de traduire les besoins du client.<br>
+                            J'ai une large expérience professionnelle dans beaucoup de domaines
+                            que je pourrai mettrai à profit dans le développement web.<br>
+                            N'hésitez pas à visiter mon profil Linkedin pour me connaitre
+                            un peu plus...<em>Vous pouvez changer ce texte dans 'Compétences - 3'</em>"
+                   
+                </p>
+            </div>
+            <div class="skills-box competences">
+                <div class="competences-pro">
+                    <h3>Compétences professionnelles</h3>
+                    <div class="realisations-box" *ngIf="portfolio.skills.length > 0">
+                        <div class="realisations-box-card" *ngFor="let skill of portfolio.skills">
+                            <ul>
+                                <li><strong>{{ skill.title }}</strong> : {{ skill.description }}</li> 
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="scrolling none">
+                        <div id="langages_pro" data-text=" HTML - CSS - PHP - MySQL - JavaScript - ">
+                            Langages informatiques
+                            <!-- <span> <?php foreach ($aSkillsComputerLang as $oSkill): ?>
+                                <?= ( !next($aSkillsComputerLang)) ? $oSkill->getTitle() :$oSkill->getTitle(). ' - ';?> 
+                            <?php endforeach;?> </span> -->
+                    
+                        </div>
+                    </div>
+
+                    <div id="techno">
+                        technologies
+                        <!-- <span> <?php foreach ($aSkillsSoftwares as $oSkill): ?>
+                            <?= ( !next($aSkillsSoftwares)) ? $oSkill->getTitle() :$oSkill->getTitle(). ' - ';?> 
+                            <?php endforeach;?> </span> -->
+                    </div>
+
+                </div>  
+                <div class="competences-perso">
+                    <h3>Compétences personnelles</h3>  
+                        <ul>
+                            <li><strong>Titre</strong></li> 
+                        </ul>
+                </div>
+                <div class="competences-languages">
+                    <h3>Langues</h3>
+                    
+                        <ul>
+                            <li><strong>Titre</strong> : description</li> 
+                        </ul>
+                        
+                </div>
+            </div> 
+        </section>
+
+        <section id="online-about" class="content_example about page4 ">
+            <div class="page4-box">
+                <div >         
+                    <h1>A propos</h1>
+                    <div class="about-img">
+                        <img *ngIf="portfolio.profileImgPath; else srcDefault" 
+                              [src]="ENV_PICT+'portfolios/' + portfolio.profileImgPath" 
+                              [alt]="'Photo de profil '+portfolio.firstname">  
+                        <ng-template #srcDefault>
+                          <img [src]="ENV_ICONS + 'girl-shirt-avatar.png'" [alt]="'developpeur : '+portfolio.firstname">  
+                        </ng-template>
+                      </div>
+                </div>
+                <div class="about-presentation">
+                    <p>
+                    "A propos de moi...<em>Vous pouvez changer ce texte dans 'Portfolios - 1'</em>"; ?> 
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+        <footer>
+            <section class="footer-layout">
+                <div class="footer-social">
+                    <a href="">
+                        <fa-icon class="icon" [icon]="['fas', 'pen']"></fa-icon> 
+                    </a> 
+                    <a href="">
+                        <fa-icon class="icon" [icon]="['fab', 'linkedin']"></fa-icon> 
+                    </a>
+                    <a href="">
+                        <fa-icon class="icon" [icon]="['fas', 'facebook']"></fa-icon>  
+                    </a>
+                    <a href="">
+                        <fa-icon class="icon" [icon]="['fas', 'facebook']"></fa-icon>  
+                    </a> 
+                </div>
+                <div class="footer-contact">
+                    <div>
+                        <h1>Contact</h1>
+                    </div>
+                    <div>
+                        <h3>{{portfolio.firstname|titlecase }} {{portfolio.name|titlecase }}</h3>
+                        <ul>
+                            <li class="email">{{portfolio.email }}</li>
+                            <li class="city">{{portfolio.city}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-easyPortfolio">
+                     <div>
+                        <h1>easyPortfolio</h1>
+                    </div>
+                    <div>
+                        <figure>
+                            <img src="http://localhost/upload/icons/eP.svg" alt="logo d'easyPortfolio">
+                        </figure>
+                        <ul>
+                            <li class="indefini">Application gratuite</li>
+                            <li class="indefini">Projet de classe</li>
+                            <li class="indefini">Mention spéciale</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <div class="copyR"><strong>Application créée par hugoMachado </strong>
+                2023
+                &copy;             
+            </div>
+        </footer>
+        <!-- <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>  -->
+      
+        
+

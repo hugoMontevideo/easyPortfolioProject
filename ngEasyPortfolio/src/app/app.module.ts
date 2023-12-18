@@ -13,10 +13,10 @@ import { SharedModule } from './shared/shared.module';
 import { PortfolioModule } from './portfolio/portfolio.module';
 import { JWTTokenService } from './services/JWTToken.service';
 import { JwtInterceptorService } from './services/jwt-interceptor.service';
-import { HomeNavComponent } from './core/home-nav/home-nav.component';
-import { FooterComponent } from './core/footer/footer.component';
 import { RegisterComponent } from './register/register.component';
-import { UserItemComponent } from './core/user-item/user-item.component';
+import { TemplateDevComponent } from './a-online/template-dev/template-dev.component';
+
+
 
 @NgModule({
   declarations: [
@@ -25,9 +25,8 @@ import { UserItemComponent } from './core/user-item/user-item.component';
     UserComponent,
     LoginComponent,
     RegisterComponent,
-    HomeNavComponent,
-    FooterComponent,
-    UserItemComponent
+    TemplateDevComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -36,7 +35,7 @@ import { UserItemComponent } from './core/user-item/user-item.component';
     HttpClientModule,
     FormsModule,
     SharedModule,
-    PortfolioModule
+    PortfolioModule,
   ],
   providers: [
     JWTTokenService,

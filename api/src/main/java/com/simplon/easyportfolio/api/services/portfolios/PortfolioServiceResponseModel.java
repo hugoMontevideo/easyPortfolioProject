@@ -4,6 +4,8 @@ import com.simplon.easyportfolio.api.services.educations.EducationServiceRespons
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceResponseModel;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceResponseModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
+import com.simplon.easyportfolio.api.services.user.UserServiceResponseModel;
+import com.simplon.easyportfolio.api.services.user.UserServiceUpdateModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +22,12 @@ public class PortfolioServiceResponseModel {
     private String name;
     private String firstname;
     private String email;
+    private String city;
+    private String profileImgPath;
+    private String aboutMe;
     private List<ProjectServiceResponseModel> projects;
     private List<ExperienceServiceResponseModel> experiences;
     private List<EducationServiceResponseModel> educations;
     private List<SkillServiceResponseModel> skills;
+    private UserServiceResponseModel user;
 }

@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -74,30 +75,13 @@ public class SecurityController {
         }
     }
     //Remarque: authentifie le principal (le user) à partir du JWT.
-
-    @PutMapping("/users/{id}")
-    public ResponseEntity<UserResponseUpdateDTO>updateUser(@RequestBody UserUpdateDTO DTO) throws ResponseStatusException {
-        try {
-            //Here, the response can be configured, user has many other properties
-            UserServiceUpdateModel serviceModel = mapper.userUpDtoToServiceUpdateModel(DTO);
-            UserServiceModel updatedUser = userAppService.updateUser(serviceModel);
-            UserResponseUpdateDTO responseDTO =  mapper.userServiceToUpdateDTO(updatedUser);
-
-            return ResponseEntity.ok(responseDTO);
-        } catch(ResponseStatusException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @GetMapping("/users/{email}")
     public ResponseEntity<UserResponseUpdateDTO> getUserByEmail(@PathVariable String email) throws ResponseStatusException {
         try {
             //Here, the response can be configured, user has many other properties
             UserServiceModel userServiceModel = userAppService.findByEmail(email);
-            UserResponseUpdateDTO responseDTO =  mapper.userServiceToUpdateDTO(userServiceModel);
 
+            UserResponseUpdateDTO responseDTO =  mapper.userServiceToUpdateDTO(userServiceModel);
             return ResponseEntity.ok(responseDTO);
         } catch(ResponseStatusException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -106,11 +90,12 @@ public class SecurityController {
         }
     }
 
-    @PutMapping("/users/{id}/profile_picture")
-    public ResponseEntity<UserResponseUpdateDTO>updateUserPicture(@PathVariable Integer id, @RequestParam ("file") MultipartFile file) throws ResponseStatusException {
-        System.out.println(id + "*"+file);
+    /** update user **/
+    @PutMapping("/users/{id}")
+    public ResponseEntity<UserResponseUpdateDTO>updateUser(@RequestBody UserUpdateDTO DTO) throws ResponseStatusException {
         try {
-            UserServiceModel updatedUser =    userAppService.updateUserPicture(id, file);
+            UserServiceUpdateModel serviceModel = mapper.userUpDtoToServiceUpdateModel(DTO);
+            UserServiceModel updatedUser = userAppService.updateUser(serviceModel);
 
             UserResponseUpdateDTO responseDTO =  mapper.userServiceToUpdateDTO(updatedUser);
 
@@ -122,7 +107,19 @@ public class SecurityController {
         }
     }
 
-
+    /** update profileImgPath property **/
+    @PutMapping("/users/{id}/profile_picture")
+    public ResponseEntity<UserDTO>updateUserPicture(@PathVariable Integer id, @RequestParam ("file") MultipartFile file) {
+        try {
+            UserServiceModel updatedUser = userAppService.updateUserPicture(id, file);
+            UserDTO userDTO =  mapper.userServiceToDTO(updatedUser);
+            return ResponseEntity.ok(userDTO);
+        } catch(ResponseStatusException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 

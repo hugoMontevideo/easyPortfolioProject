@@ -16,7 +16,7 @@ export class UserService {
 
     constructor ( private http: HttpClient ) {};
 
-    getUserByEmail(email:string): Observable<any>{        
+    getUserByEmail = (email:string): Observable<any> => {        
         return this.http.get<any>(`http://localhost/auth/users/${email}`);
     }
 
@@ -29,8 +29,8 @@ export class UserService {
     }
     
     saveUser = ( user: User ): Observable<any> => {             
-    return this.http.put(`http://localhost/auth/users/${user.id}`, user )
-        .pipe(catchError(this.handleError)); // catch validator errors
+        return this.http.put(`http://localhost/auth/users/${user.id}`, user )
+          .pipe(catchError(this.handleError)); // catch validator errors
     }
 
     /** UTILS */
@@ -38,7 +38,6 @@ export class UserService {
         return throwError(()=>error);
       }
     
-
     getId = (id : string | any ): number => {
         return parseInt(id) ?? 0;
     }

@@ -6,6 +6,7 @@ import { Project } from '../project/project.interface';
 import { Skill } from '../skill/skill.interface';
 import { Education } from '../education/education.interface';
 import { Experience } from '../experience/experience.interface';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -14,30 +15,38 @@ import { Experience } from '../experience/experience.interface';
   styleUrls: ['./portfolio-list-item.component.scss']
 })
 export class PortfolioListItemComponent implements OnInit {
-
-  table: string = 'portfolios';
   isShowingProjects = true;
   isShowingSkills = false;
   isShowingEducs = false;
   isShowingExpers = false;
 
-  // portfolioId:number = -1;
-  legend!: string; // form legend
   portfolio: Portfolio = {
-        id: -1,
-        title: "",
-        description: "",
-        name: "",
-        firstname: "",
-        email:"",
-        city: "",
-        projects: [],
-        educations:[],
-        experiences:[],
-        skills: []
-        // u_id!: number;
-    }
-    
+                    id: -1,
+                    title: "",
+                    description: "",
+                    name: "",
+                    firstname: "",
+                    email:"",
+                    city: "",
+                    profileImgPath: "",
+                    aboutMe: "",
+                    projects: [],
+                    educations:[],
+                    experiences:[],
+                    skills: [],
+                    user: {
+                      id: 0,
+                      name: "",
+                      firstname: "",
+                      email: "",
+                      password: "",
+                      dateInscription: new Date("1970-01-01"),
+                      dateConnect: new Date("1970-01-01"),
+                      profileImgPath: "",
+                      roles: []
+                    }
+                  };
+                
   constructor(
       private route: ActivatedRoute,
       private portfolioService: PortfolioService,
@@ -45,12 +54,10 @@ export class PortfolioListItemComponent implements OnInit {
 
   ngOnInit(): void {
     this.portfolio.id =  this.portfolioService.getId(this.route.snapshot.paramMap.get('id'));
-
-    this.portfolioService.getPortfolioById(this.table, this.portfolio.id)
+    this.portfolioService.getPortfolioById( this.portfolio.id)
       .subscribe({
         next:(response:Portfolio) => { 
-                                    this.portfolio = response;
-                                    
+                                    this.portfolio = response;                                 
                                   }, 
         error: (err:Error) => {
                         // TODO  manage error response

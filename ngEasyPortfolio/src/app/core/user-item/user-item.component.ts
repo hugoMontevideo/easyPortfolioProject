@@ -1,7 +1,6 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { User } from '../user/user.interface';
 import { UserService } from 'src/app/services/user.service';
-import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -9,33 +8,34 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './user-item.component.html',
   styleUrls: ['./user-item.component.scss']
 })
-export class UserItemComponent implements OnInit {
+export class UserItemComponent {
   @Input() user: User = {
-                          id: -1,
-                          name: "",
-                          firstname: "",
-                          email: "",
-                          password: "",
-                          dateInscription: new Date("1970-01-01"),
-                          dateConnect: new Date("1970-01-01"), 
-                          profileImgPath:"",
-                          portfolios: [],
-                          roles: []
-                          // role!: string;
-                          // token!: string;
-                          // confirmed!: number;
-                        }
+                        id: -1,
+                        name: "",
+                        firstname: "",
+                        email: "",
+                        password: "",
+                        dateInscription: new Date("1970-01-01"),
+                        dateConnect: new Date("1970-01-01"), 
+                        profileImgPath:"",
+                        portfolios: [],
+                        roles: []
+                        // role!: string;
+                        // token!: string;
+                        // confirmed!: number;
+                      }
   legend: string = "";
   isUserFormShowing=false;
   inputError?: string;
   isPictureFormShowing=false;
   selectedFile?: File ;
 
-   constructor ( protected userService: UserService,
-                private route: ActivatedRoute ) {}
+  constructor ( protected userService: UserService ) {}
 
-   ngOnInit(): void {
-  
+  public onModifyPicture = () => {
+    this.legend = "Modifier la photo de profil"
+    this.isPictureFormShowing = true;
+    this.isUserFormShowing = false;
   }
 
   public onEditUser = () => {
@@ -44,22 +44,15 @@ export class UserItemComponent implements OnInit {
     this.isPictureFormShowing = false;
   }
 
-  public onModifyPicture = () => {
-    this.legend = "Modifier mon profil"
-    this.isPictureFormShowing = true;
-    this.isUserFormShowing = false;
-  }
-
   public onCloseModalForm = () => {
     this.isUserFormShowing = false;
     this.isPictureFormShowing = false;
   }
 
   public onSubmitUser = ()=>{
-    // // hide the form 
     this.userService.saveUser(this.user)
     .subscribe({
-      next:(data:User)=>{
+      next:(data:User)=>{        
               this.isUserFormShowing = false;  // hide the form
               this.user = data;
           },
@@ -73,17 +66,14 @@ export class UserItemComponent implements OnInit {
   }
 
   public onSubmitPicture = ()=>{
-    // // hide the form 
     this.userService.savePicture(this.user.id, this.selectedFile!)
     .subscribe({
       next:(data:User)=>{
-        console.log(data);
               this.isPictureFormShowing = false;  // hide the form
-              this.user = data;
-              
+              this.user = data;         
           },
       error:(_error : any)=>{
-        console.error("**error updating User**");
+        console.error("**error updating User profile picture**");
         if(_error instanceof HttpErrorResponse ) {
           this.inputError = _error.error.title;
         } 

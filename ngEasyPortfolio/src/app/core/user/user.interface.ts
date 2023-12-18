@@ -11,7 +11,7 @@ export interface User{
     dateInscription: Date;
     dateConnect: Date;
     profileImgPath: string;
-    portfolios: Portfolio[],
+    portfolios?: Portfolio[],
     roles: Role[]
     // role!: string;
     // token!: string;

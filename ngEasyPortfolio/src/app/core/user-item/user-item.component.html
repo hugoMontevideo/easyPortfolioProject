@@ -9,14 +9,13 @@
       </ng-template>
     </div>
     <button (click)="onModifyPicture()"
-          class="modify-img-btn">
+          class="modify-img-btn" title="Modifier photo de profil">
       <fa-icon class="icon" [icon]="['fas', 'pen']"></fa-icon>
-      <div class="info-text-">modifier</div>
     </button>
   </div>
     
-    <h5>{{ user.name | uppercase }}</h5>
     <p>{{ user.firstname | titlecase }}</p>
+    <h5>{{ user.name | uppercase }}</h5>
     <p>{{ user.email }}</p>
     <button class="btn btn-secondary" 
         type="button" 
@@ -27,14 +26,22 @@
 </div>
 
 <div class="gradient p-4 " *ngIf="isUserFormShowing" >
-  <p class="text-end m-0">
+  <div class="text-end m-0">
     <button (click)="onCloseModalForm()"><fa-icon [icon]="['fas', 'window-close']" ></fa-icon></button>
-  </p>
+  </div>
   <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitUser()" >
     <legend class="text-center form-legend mb-3">{{ legend }}</legend>
     <div class="mb-3">
       <div *ngIf="inputError" class="mb-1">
         <span class="text-danger input-error">{{ inputError }}</span>
+      </div>
+      <div class="mb-3">
+        <input type="text" 
+              class="form-control" 
+              id="user-firstname" 
+              [(ngModel)]="user.firstname"
+              name="user-firstname"
+              placeholder="Prénom">
       </div>
       <!-- <input type="text" minlength="2" maxlength="60" ************ disabled on dev  -->
       <input type="text" 
@@ -44,31 +51,18 @@
             name="user-name"
             placeholder="Nom" required>
     </div>
-    <div class="mb-3">
-      <input type="text" 
-            class="form-control" 
-            id="user-firstname" 
-            [(ngModel)]="user.firstname"
-            name="user-firstname"
-            placeholder="Prénom">
-    </div>
-    <div class="mb-3">
+    <!-- <div class="mb-3">
       <input type="email" 
             class="form-control" 
             id="user-email" 
             [(ngModel)]="user.email"
             name="user-email"
             placeholder="email">
-    </div>
-    <!-- <div class="mb-3">
-      <label for="skill-file" class="form-label">Chargez un fichier en rapport avec cette compétence (disabled)</label>
-      <input class="form-control" type="file" id="skill-file" disabled>
     </div> -->
     <input class="btn btn-primary d-block mx-auto" 
           type="submit" 
           value="Valider">
           <!-- [disabled]="form.invalid">***************disabled on dev  -->
-
   </form>
 </div>
 
@@ -76,6 +70,7 @@
   <div class="text-end m-0">
     <button (click)="onCloseModalForm()"><fa-icon [icon]="['fas', 'window-close']" ></fa-icon></button>
   </div>
+
   <form #form1="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitPicture()" enctype="multipart/form-data">
     <legend class="text-center form-legend mb-3">Modifier ma photo</legend>
     <div class="mb-3">

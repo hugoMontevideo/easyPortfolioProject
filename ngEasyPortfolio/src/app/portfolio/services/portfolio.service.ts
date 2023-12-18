@@ -1,41 +1,46 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { Observable, catchError, throwError } from "rxjs";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { environment } from "src/environments/environment";
-import { LoginUser } from "src/app/login/login-user.interface";
 import { Portfolio } from "../model/portfolio/portfolio.interface";
+import { PortfolioDTO } from "../model/portfolio/portfolioDTO.interface";
 import { JWTTokenService } from "src/app/services/JWTToken.service";
-import { Skill } from "../component/skill/skill.interface";
-import { Experience } from "../component/experience/experience.interface";
-import { Education } from "../component/education/education.interface";
-import { EducationAddDto } from "../component/education/education-add-dto.interface";
-import { ExperienceAddDto } from "../component/experience/experience-add-dto.interface";
-import { SkillAddDto } from "../component/skill/skill-add-dto.interface";
-import { ProjectAddDto } from "../component/project/project-add-dto.interface";
-import { Project } from "../component/project/project.interface";
 
 @Injectable()
 
 export class PortfolioService {
     ENV_DEV:string = environment.apiUrl;
-    // loginUser: LoginUser = {
-    //     email: '',
-    //     token: '',
-    //   } ;
-
 
     constructor ( 
                 private http: HttpClient,
                 private jwtTokenService : JWTTokenService, 
          ) {};
+    
+    /** update portfolio */    
+    savePortfolio = ( portfolio: Portfolio ): Observable<Portfolio> => { 
 
-    // get by id
-    public getPortfolioById(table:string, id:number): Observable<Portfolio> | any {
+        const savedPortfolio :PortfolioDTO = {
+                                id: portfolio.id,
+                                title: portfolio.title,
+                                description: portfolio.description,
+                                name: portfolio.name,
+                                firstname: portfolio.firstname,
+                                email:portfolio.email,
+                                city: portfolio.city,
+                                profileImgPath:portfolio.profileImgPath,
+                                aboutMe: portfolio.aboutMe,
+                                userId: portfolio.user?.id
+                            }
+        return this.http.put<Portfolio>(`${this.ENV_DEV}/portfolios/${portfolio.id}`, savedPortfolio )
+            .pipe(catchError(this.handleError)); // catch validator errors
+    }
+
+    /** getbyid portfolio */ 
+    public getPortfolioById(id:number): Observable<Portfolio> | any {
         // get the token
         this.jwtTokenService.setToken(this.jwtTokenService.getToken());
         if(this.jwtTokenService.isLogged()){
-
-            return this.http.get<Portfolio>(`${this.ENV_DEV}/${table}/${id}`);
+            return this.http.get<Portfolio>(`${this.ENV_DEV}/portfolios/${id}`);
         }
     }
 
@@ -43,28 +48,26 @@ export class PortfolioService {
     getAllPortfolios( table: string): Observable<Portfolio[]> {
         return this.http.get<Portfolio[]>(`${this.ENV_DEV}/${table}`);
     }
-
+    
+    // save picture AboutMe
+    savePicture = ( portfolioId:number, selectedFile: File ): Observable<any> => { 
+        let formData = new FormData;
+        formData.append('file', selectedFile as File);
+        return this.http.put(`${this.ENV_DEV}/portfolios/${portfolioId}/about_me_picture`, formData)
+            .pipe(catchError(this.handleError)); // catch validator errors
+    }
 
 
     /** UTILS */
+    private handleError(error: HttpErrorResponse):Observable<never>{
+        return throwError(()=>error);
+    }
+
 
     getId = (id : string | any ): number => {
         return parseInt(id) ?? 0;
     }
 
-    // table : PROJECT *************
-    
-
-
-    // table : EDUCATION *************
-    
-
-
-    // table : EXPERIENCE *************
-
-  
-
-    // table : SKILL *************
 
   
 

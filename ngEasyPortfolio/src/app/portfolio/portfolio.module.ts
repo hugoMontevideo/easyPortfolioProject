@@ -18,6 +18,11 @@ import { BoardProjectComponent } from './board/board-project/board-project.compo
 import { BoardSkillComponent } from './board/board-skill/board-skill.component';
 import { BoardEducationComponent } from './board/board-education/board-education.component';
 import { BoardExperienceComponent } from './board/board-experience/board-experience.component';
+import { HomeNavComponent } from '../core/home-nav/home-nav.component';
+import { UserItemComponent } from '../core/user-item/user-item.component';
+import { FooterComponent } from '../core/footer/footer.component';
+import { LeftSidebarComponent } from '../core/left-sidebar/left-sidebar.component';
+
 @NgModule({
   declarations: [
     EducationComponent,
@@ -30,13 +35,22 @@ import { BoardExperienceComponent } from './board/board-experience/board-experie
     BoardSkillComponent,
     BoardEducationComponent,
     BoardExperienceComponent,
-  
+    HomeNavComponent,
+    UserItemComponent,
+    FooterComponent,
+    LeftSidebarComponent
+
   ],
   imports: [
     CommonModule,
     PortfolioRoutingModule,
     FontAwesomeModule,
     FormsModule
+  ],
+  exports:[
+    HomeNavComponent,
+    FooterComponent,
+    LeftSidebarComponent
   ],
   providers: [
     PortfolioService, 

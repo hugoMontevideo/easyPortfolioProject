@@ -3,6 +3,7 @@ package com.simplon.easyportfolio.api.services.user;
 import com.simplon.easyportfolio.api.domain.Role;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
 
+import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceModel;
 import lombok.AllArgsConstructor;
 
 import lombok.Data;
@@ -22,8 +23,7 @@ public class UserServiceModel {
     private LocalDate inscriptionDate;
     private LocalDate connectionDate;
     private String profileImgPath;
-
-    private List<PortfolioRepositoryModel> portfolios;
+    private List<PortfolioServiceModel> portfolios;
 
     //@OneToMany(mappedBy = "user", orphanRemoval = true)
     //private List<CvRepositoryModel> cvs = new ArrayList<>();

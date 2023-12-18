@@ -114,10 +114,6 @@
             font-size: .7rem;
             color: rgba(0, 0, 0, 0.322);
         }
-    .info-text-{
-        position: absolute;
-        font-size: 0;
-    }
     fa-icon{
         color: rgb(138, 131, 131);
     }
@@ -128,15 +124,4 @@
     .icon{
         color: black;
     }
-}
-.modify-img-btn:hover .info-text-{
-    cursor: pointer;
-    display: block;
-    left: 50%;
-    top: -70%;
-    transform: translate(20%);
-    font-size: .8rem;
-    background-color: rgba(127, 255, 212, 0.116);
-    padding: .3rem;
-    border-radius: 3px;
 }
