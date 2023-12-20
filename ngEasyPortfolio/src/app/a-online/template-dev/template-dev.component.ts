@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
 export class TemplateDevComponent implements OnInit {
   ENV_ICONS: string = `${environment.apiIcons}/`;
   ENV_PICT:string = `${environment.apiImg}/pictures/`;
+  burger = false;
 
   portfolio: Portfolio = {
         id: -1,
@@ -53,5 +54,11 @@ export class TemplateDevComponent implements OnInit {
                     }
     });
 
+  }
+
+  onBurger = ()=>{
+    this.burger=!this.burger;
+    console.log(this.burger);
+    
   }
 }

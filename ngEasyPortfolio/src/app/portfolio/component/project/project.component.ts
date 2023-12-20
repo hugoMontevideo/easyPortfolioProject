@@ -16,6 +16,7 @@ export class ProjectComponent {
   @Output() projectsChanged = new EventEmitter<Project[]>();
   legend: string = "";
   inputError?: string;
+  isProjectFormShowing: boolean = false; // display or hide form
 
   newProject: Project = {
     id: -1,
@@ -27,7 +28,6 @@ export class ProjectComponent {
     portfolioId: this.portfolioId
   }
   selectedFile?: File ;
-  isProjectFormShowing: boolean = false; // display or hide form
 
   constructor( public projectService: ProjectService ){}
 

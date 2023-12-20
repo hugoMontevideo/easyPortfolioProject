@@ -27,6 +27,7 @@ public class ProjectController {
     PortfolioService portfolioService;
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
 
+    // add project
     @PostMapping
     public ProjectGetDTO add( @RequestBody  ProjectAddDTO DTO) {
         // mapping DTO to service request model
@@ -101,6 +102,7 @@ public class ProjectController {
         }
     }
 
+    // delete picture on Project
     @DeleteMapping("/{id}/documents/{doc_id}")
     public ResponseEntity<String> deletePictureOnProject(@PathVariable Long doc_id){
         try {

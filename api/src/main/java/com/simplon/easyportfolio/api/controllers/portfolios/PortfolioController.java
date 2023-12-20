@@ -1,22 +1,16 @@
 package com.simplon.easyportfolio.api.controllers.portfolios;
 
-import com.simplon.easyportfolio.api.controllers.auth.UserResponseUpdateDTO;
 import com.simplon.easyportfolio.api.controllers.educations.EducationGetDTO;
 import com.simplon.easyportfolio.api.controllers.experiences.ExperienceGetDTO;
 import com.simplon.easyportfolio.api.controllers.projects.ProjectGetDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
-import com.simplon.easyportfolio.api.controllers.skills.SkillUpdateDTO;
-import com.simplon.easyportfolio.api.exceptions.EducationNotFoundException;
 import com.simplon.easyportfolio.api.exceptions.PortfolioNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceResponseModel;
 import com.simplon.easyportfolio.api.services.portfolios.*;
 import com.simplon.easyportfolio.api.services.projects.ProjectServiceResponseModel;
-import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
-import com.simplon.easyportfolio.api.services.user.UserServiceModel;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -25,9 +19,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 @Validated
 @RestController
 @RequestMapping("api/portfolios")
@@ -70,9 +63,15 @@ public class PortfolioController {
         }
     }
 
+    // add portfolio
     @PostMapping
-    public boolean add(@RequestBody PortfolioDTO portfolioDTO){
-        return portfolioService.add(mapper.portfolioDtoToServiceRequestModel(portfolioDTO));
+    public PortfolioFullDTO add( @RequestBody PortfolioAddDTO DTO) {
+        // mapping DTO to service request model
+        PortfolioServiceRequestModel serviceModel = new PortfolioServiceRequestModel(DTO.getTitle(), DTO.getUserId());
+
+        PortfolioServiceResponseModel addedPortfolio = portfolioService.addPortfolio(serviceModel);
+        System.out.println(addedPortfolio);
+        return mapper.portfolioSvcResponseToFullDTO( addedPortfolio );
     }
 
     /** getById portfolio **/
@@ -152,11 +151,11 @@ public class PortfolioController {
            throw new PortfolioNotFoundException(HttpStatus.NOT_FOUND, "Le folio n'a pas été trouvé.");
         }
     } **/
-
+    // delete Portfolio
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id){
+    public ResponseEntity<String> deletePortfolio(@PathVariable Long id){
     try {
-            portfolioService.delete(id);
+            portfolioService.deletePortfolio(id);
             return new ResponseEntity(HttpStatus.OK); // Statut 204 No Content
         } catch(
             DataAccessException e) {
@@ -165,5 +164,11 @@ public class PortfolioController {
             return ResponseEntity.notFound().build(); // Statut 404 Not Found
         }
     }
+
+
+
+
+
+
 }
 

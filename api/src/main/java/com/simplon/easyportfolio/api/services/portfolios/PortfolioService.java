@@ -27,7 +27,6 @@ import com.simplon.easyportfolio.api.services.projects.*;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
-import com.simplon.easyportfolio.api.services.user.UserServiceModel;
 import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +40,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 
 @Service
 public class PortfolioService {
@@ -72,7 +71,7 @@ public class PortfolioService {
     public PortfolioServiceResponseModel updatePortfolio(@NotNull PortfolioServiceRequestModel o) {
         Optional<User> user = ownerRepository.findById(o.getUserId().get());
         PortfolioRepositoryModel portfolio = mapper.portfolioServiceRequestToRepositoryModelUpdate(o);
-   /**     PortfolioRepositoryModel port1 = new PortfolioRepositoryModel(
+        /**     PortfolioRepositoryModel port1 = new PortfolioRepositoryModel(
                 o.getId().get(), o.getTitle(),o.getDescription(),o.getName(), o.getFirstname(),o.getEmail(),o.getCity(), o.getProfileImgPath(), o.getAboutMe(),user.get()
 
         );**/
@@ -86,7 +85,9 @@ public class PortfolioService {
         Optional<PortfolioRepositoryModel> portfolioRepoModel = portfolioRepository.findById(id);
         /* deleting file on folder **/
         String uploadDirectory = "/public/upload/pictures/portfolios"; // pictures upload folder
-        deleteProfileImgPath(portfolioRepoModel.get().getProfileImgPath(),uploadDirectory );
+        if (!StringUtils.isBlank(portfolioRepoModel.get().getProfileImgPath())){
+            deleteProfileImgPath(portfolioRepoModel.get().getProfileImgPath(), uploadDirectory);
+        };
         /* naming pictures  = profile-img- + projectName + (timeInMilli) **/
         long timestamp = System.currentTimeMillis();
         String pictureName = "about-me-img-" + timestamp ;
@@ -96,7 +97,6 @@ public class PortfolioService {
         portfolioRepoModel.get().setProfileImgPath(pictureName2);
         /* updatedUser in db    *** User **/
         PortfolioRepositoryModel savedPortfolio = portfolioRepository.save(portfolioRepoModel.get());
-
 
         return mapper.portfolioRepositoryToResponseSvc(savedPortfolio);
     }
@@ -134,6 +134,16 @@ public class PortfolioService {
 
          return portfolioRepositoryReturn != null;
     }
+    public PortfolioServiceResponseModel addPortfolio(PortfolioServiceRequestModel serviceModel) {
+        Optional<User> user = ownerRepository.findById(serviceModel.getUserId().get());
+
+        PortfolioRepositoryModel repositoryModel = PortfolioRepositoryModel.builder()
+                .title(serviceModel.getTitle())
+                .user(user.get())
+                .build();
+        PortfolioRepositoryModel portfolioRepositoryadded = portfolioRepository.save(repositoryModel);
+        return mapper.portfolioRepositoryToResponseSvc(portfolioRepositoryadded);
+    }
 
     public PortfolioServiceModel findById(Long id) {
         Optional<PortfolioRepositoryModel> portfolioRepositoryModel = portfolioRepository.findById(id);
@@ -170,27 +180,27 @@ public class PortfolioService {
         return mapper.listPortolioRepositoryToSvcModel(portfolioRepositoryModels);
     }
 
-    public void delete(Long id) {
+    public void deletePortfolio(Long id) {
         portfolioRepository.deleteById(id);
     }
 
     /** Table : PROJECT   ***************** **/
 
     /** add Project **/
-public ProjectServiceResponseModel addProject(@NotNull ProjectServiceRequestModel projectServiceRequestModel ) {
-   // find portfolio by id and ...
-    Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
-    PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
-    // adding portfolio manually
-    projectServiceRequestModel.setPortfolio( Optional.ofNullable(portfolioServiceModel));
-    Optional<LocalDate> noDate = Optional.empty();
-    projectServiceRequestModel.setDate(noDate);
+    public ProjectServiceResponseModel addProject(@NotNull ProjectServiceRequestModel projectServiceRequestModel ) {
+       // find portfolio by id and ...
+        Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
+        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
+        // adding portfolio manually
+        projectServiceRequestModel.setPortfolio( Optional.ofNullable(portfolioServiceModel));
+        Optional<LocalDate> noDate = Optional.empty();
+        projectServiceRequestModel.setDate(noDate);
 
-    ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModelAdd(projectServiceRequestModel);
-    ProjectRepositoryModel addedProject = projectRepository.save(project);  //
+        ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModelAdd(projectServiceRequestModel);
+        ProjectRepositoryModel addedProject = projectRepository.save(project);  //
 
-    return mapper.projectRepositoryToResponseSvc(addedProject);
-}
+        return mapper.projectRepositoryToResponseSvc(addedProject);
+    }
     public ProjectServiceResponseModel updateProject( ProjectServiceRequestUpdateModel projectServiceRequestModel ) {
     Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
     PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());

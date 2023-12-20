@@ -15,7 +15,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./portfolio-list-item.component.scss']
 })
 export class PortfolioListItemComponent implements OnInit {
-  isShowingProjects = true;
+  isShowingHome = true;
+  isShowingProjects = false;
   isShowingSkills = false;
   isShowingEducs = false;
   isShowingExpers = false;
@@ -68,24 +69,31 @@ export class PortfolioListItemComponent implements OnInit {
 
   onProjectButton =():void => {
     this.isShowingProjects = !this.isShowingProjects;
+    this.isShowingHome=!this.isShowingProjects;
     this.isShowingSkills = false;
     this.isShowingEducs = false;
     this.isShowingExpers = false;
   }
   onSkillButton = ():void => {
     this.isShowingSkills = !this.isShowingSkills;
+    this.isShowingHome=!this.isShowingSkills;
+
     this.isShowingProjects = false;
     this.isShowingEducs = false;
     this.isShowingExpers = false;
   }
   onEducationButton = () => {
     this.isShowingEducs = !this.isShowingEducs;
+    this.isShowingHome=!this.isShowingEducs;
+    
     this.isShowingProjects = false;
     this.isShowingSkills = false;
     this.isShowingExpers = false;
   }
   onExperienceButton(){
     this.isShowingExpers = !this.isShowingExpers;
+    this.isShowingHome=!this.isShowingExpers;
+
     this.isShowingProjects = false;
     this.isShowingSkills = false;
     this.isShowingEducs = false;

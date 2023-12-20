@@ -4,7 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './home/home.component';
-
 import { UserComponent } from './core/user/user.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
@@ -26,7 +25,6 @@ import { TemplateDevComponent } from './a-online/template-dev/template-dev.compo
     LoginComponent,
     RegisterComponent,
     TemplateDevComponent,
-   
   ],
   imports: [
     BrowserModule,

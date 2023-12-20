@@ -9,7 +9,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./home-nav.component.scss']
 })
 
-export class HomeNavComponent {
+export class HomeNavComponent  {
 
   currentUser: User = {
                         id: -1,

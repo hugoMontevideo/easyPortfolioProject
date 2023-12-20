@@ -5,8 +5,11 @@ import com.simplon.easyportfolio.api.domain.User;
 import com.simplon.easyportfolio.api.exceptions.ProjectNotFoundException;
 import com.simplon.easyportfolio.api.exceptions.UserNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
+import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.security.OwnerRepository;
+import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceModel;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,11 +38,17 @@ public class UserAppService {
             throw new UserNotFoundException("User not found with id : " + id);
         }
     }
+    public List<PortfolioServiceModel> getPortfoliosByUserEmail(String email) {
+        User user = ownerRepository.findByEmail(email);
+
+        List<PortfolioRepositoryModel> portfolioRepositoryModels = user.getPortfolios();
+        return mapper.listPortolioRepositoryToSvcModel(portfolioRepositoryModels);
+    }
 
     public UserServiceModel findByEmail(String email) {
         User user = ownerRepository.findByEmail(email);
 
-        UserServiceModel userModel = new UserServiceModel(
+       UserServiceModel userModel = new UserServiceModel(
                 user.getId(), user.getEmail(),"", user.getName(), user.getFirstname(), user.getInscriptionDate(), user.getConnectionDate(), user.getProfileImgPath(), null, null
         );
         return userModel;
@@ -56,7 +66,11 @@ public class UserAppService {
         try {
             Optional<User> userRepoModel = ownerRepository.findById(id);
             /* deleting file on folder **/
-            deleteProfilePicture(userRepoModel.get().getProfileImgPath());
+            if (!StringUtils.isBlank(userRepoModel.get().getProfileImgPath())){
+                deleteProfilePicture(userRepoModel.get().getProfileImgPath());
+            };
+           // System.out.println(userRepoModel.get().getProfileImgPath()+"ùùù");
+           // deleteProfilePicture(userRepoModel.get().getProfileImgPath());
             /* file saved on server **/
             String pictureName2 = uploadPicture(file);
             /* filling userRepositoryModel manually **/

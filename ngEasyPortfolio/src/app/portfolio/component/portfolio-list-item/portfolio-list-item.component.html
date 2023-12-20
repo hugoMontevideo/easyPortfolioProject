@@ -2,9 +2,10 @@
 <main class="d-flex">
   <app-left-sidebar class="left-sidebar col-1 bg-dark"
       [portfolio]="portfolio"
-      ></app-left-sidebar>
+      >
+  </app-left-sidebar>
 
-  <div class="portfolio-list-item col-11">
+  <div class="portfolio-list-item flex-grow-1">
     <div class="main d-flex">
       <div class="aside col-3">
         <div class="rapp-skillow">
@@ -35,7 +36,7 @@
                 Projets
               </button>
             </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show bg-transparent" data-bs-parent="#accordionExample">
+            <div id="collapseOne" class="accordion-collapse collapse bg-transparent" data-bs-parent="#accordionExample">
               <div class="accordion-body projects bg-transparent">       
                 <app-project [projects]="portfolio.projects" 
                       [portfolioId]="portfolio.id" 
@@ -105,8 +106,12 @@
         <div class="gradient">Essayez gratuitement !! </div>
 
       </div>
-      <div class="display col-8">  
-        <section class="frame col-8 mx-auto">
+      <div class="display flex-grow-1">  
+
+        <section class="frame col-8 mx-auto board">
+          <article *ngIf="isShowingHome"> <!-- Board Home -->
+            <app-board-home [portfolio]="portfolio" [portfolioId]="portfolio.id"></app-board-home>
+          </article>
           <article *ngIf="isShowingProjects">
             <h1>Projects</h1>
             <app-board-project [projects]="portfolio.projects" [portfolioId]="portfolio.id"></app-board-project>
@@ -124,7 +129,6 @@
             <app-board-experience [experiences]="portfolio.experiences" [portfolioId]="portfolio.id"></app-board-experience>
           </article>
         
-
         </section>
       </div>
     </div>
@@ -132,21 +136,5 @@
 </main>
 <app-footer></app-footer>
 
-
-
-   <!-- <div class="actions"> -->
-          <!-- <button class="btn btn-info"
-                    (click)="onEditClick($event)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editModal">
-                Modifier
-          </button>
-          <button class="btn btn-warning"
-                  (click)="onDeleteClick($event)"
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteModal">
-              Supprimer
-          </button> -->
-        <!-- </div> -->
 
 

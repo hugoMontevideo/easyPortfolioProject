@@ -8,8 +8,8 @@
   body {
     margin: 0;
     font-family: "Open Sans",Helvetica, Arial, sans-serif;
-  }
-  
+  } 
+
   /********** HEADER *******************/
   .topmenu {
     position: fixed;
@@ -19,124 +19,113 @@
     z-index: 100;
     background-color: rgba(10, 25, 47, 0.89);
     padding: .5em .5em;
-  }
-  
-  .topmenu .topmenu_layout {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    padding: 0 0.5em .3em;
-    border-bottom: solid 1px #52caae;
-  }
-  
-  .topmenu #logo_container a {
-    display: inline-block;
-    border: #52caae solid 1px;
-    padding: 1px;
-    text-decoration: none;
-    padding: 0px 2px;
-    font-size: 1em;
-    font-weight: 400;
-    font-family: 'Times New Roman', Times, serif;
-    color: #52caae;
-  }
-  
-  .topmenu #logo_container a .letter1 {
-    font-size: 1.9em;
-    background-color: #52caae;
-  }
-  
-  .topmenu .svg_burger {
-    position: relative;
-    width: 35px;
-  }
-  
-  .topmenu .svg_burger img {
-    width: 100%;
-  }
-  
-  .topmenu .svg_burger.none {
-    display: none;
-  }
-  
-  .topmenu .svg_burger:hover {
-    cursor: pointer;
-  }
-  
-  .topmenu .burger {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    background-color: rgba(10, 25, 47, 0.557);
-    padding: 3em auto 4em;
-    width: 100%;
-  }
-  
-  .topmenu .burger a {
+    .topmenu_layout {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+      padding: 0 0.5em .3em;
+      border-bottom: solid 1px #52caae;
+    }
+    #logo_container a {
+       display: inline-block;
+       border: #52caae solid 1px;
+       padding: 1px;
+       text-decoration: none;
+       padding: 0px 2px;
+       font-size: 1em;
+       font-weight: 400;
+       font-family: 'Times New Roman', Times, serif;
+       color: #52caae;
+       .letter1 {
+             font-size: 1.9em;
+             background-color: #52caae;
+        }   
+    }
+    .svg_burger {
+      position: relative;
+      width: 35px;
+    }
+        
+    .svg_burger img {
+     width: 100%;
+   }
+   
+    .svg_burger:hover {
+     cursor: pointer;
+   }
+   
+   .burger {
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-orient: vertical;
+     -webkit-box-direction: normal;
+         -ms-flex-direction: column;
+             flex-direction: column;
+     background-color: rgba(10, 25, 47, 0.557);
+     padding: 3em auto 4em;
+     width: 100%;
+   }
+   .burger a {
     font-family: Helvetica, Arial, sans-serif;
     text-decoration: none;
     padding: 1em 2em;
     color: #52caae;
-    /* text-align: center; */
     font-size: .8em;
     font-weight: bold;
   }
   
-  .topmenu .burger a:hover {
+ .burger a:hover {
     color: #4646c6;
     background-color: rgba(213, 213, 243, 0.555);
   }
+
+}
   
-  .topmenu .burger.none {
-    display: none;
-  }
+.content_example {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font-family: Helvetica, Arial, sans-serif;
+  color: rgba(255, 255, 255, 0.749);
+  background-color: rgba(10, 25, 47, 0.89);
+  &.page1 {
+      padding: 3.5em .5em 1em;
+      min-height: 100vh;
+    }
+    .networks {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      -ms-flex-pack: distribute;
+      justify-content: space-around;
+      div {
+        width: 30px;
+        img {
+          width: 100%;
+        }
+      }
+    }
+
+
+}
   
-  .content_example {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
-    font-family: Helvetica, Arial, sans-serif;
-    color: rgba(255, 255, 255, 0.749);
-    background-color: rgba(10, 25, 47, 0.89);
-  }
   
-  .content_example.page1 {
-    padding: 3.5em .5em 1em;
-    min-height: 100vh;
-  }
   
-  .content_example .networks {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
-  }
   
-  .content_example .networks div {
-    width: 30px;
-  }
-  
-  .content_example .networks div img {
-    width: 100%;
-  }
   
   .content_example .content_page.portfolios {
     text-align:center;    
@@ -524,36 +513,37 @@
   @media screen and (min-width: 750px) {
     .topmenu {
       padding: 1em 1em 0;
-    }
-    .topmenu #logo_container a {
-      padding: 1px 3px;
-      font-size: 1.3em;
-    }
-    .topmenu #logo svg {
-      width: 26px;
-    }
-    .topmenu .svg_burger {
-      width: 42px;
+      #logo_container a {
+        padding: 1px 3px;
+        font-size: 1.3em;
+      }
+      #logo svg {
+        width: 26px;
+      }
+      .svg_burger {
+        width: 42px;
+      }
     }
     .content_example.page1 {
       padding: 6em 1em 1.5em;
-    }
-    .content_example.page1 .mail p{
-      font-size: 1.6em;
-    }
-    .content_example .networks div {
-      width: 35px;
-    }
-    .content_example .content_page.portfolios {
-      padding-top: 2.5em;
-    }
-    .content_example .content_page.portfolios p.hi {
-      font-size: 1.8em;
-      margin: 1.4em 0;
-    }
-    .content_example .content_page.portfolios h1 {
-      margin: .9em 0 .5em;
-      font-size: 2.7em;
+      .mail p{
+       font-size: 1.6em;
+     }
+     .networks div {
+       width: 35px;
+     }
+     .content_page.portfolios {
+       padding-top: 2.5em;
+       p.hi {
+         font-size: 1.8em;
+         margin: 1.4em 0;
+       }
+       h1 {
+         margin: .9em 0 .5em;
+         font-size: 2.7em;
+       }
+     }
+
     }
    .content_example.page2 .realisations-div .realisations-box-card {
       max-width: 300px;
@@ -746,6 +736,13 @@
     }
    .content_example.page3 .skills-presentation h1 {
       font-size: 4.8em;
+    }
+    .footer-layout{
+      .footer-social{
+        .rs{
+          width: 2.2rem;
+        }
+      }
     }
   }
   /*# sourceMappingURL=style.css.map */

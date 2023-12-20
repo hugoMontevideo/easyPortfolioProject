@@ -54,7 +54,7 @@ export class ProjectService {
     let projectAdd : ProjectAddDto = {
       title: "nouveau projet en cours",
       portfolioId: newProject.portfolioId
-  }
+    }
       return this.http.post(`${this.ENV_DEV}/projects`, projectAdd )
         .pipe(catchError(this.handleError)); // catch validator error
   }

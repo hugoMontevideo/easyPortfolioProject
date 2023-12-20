@@ -4,26 +4,26 @@
     <header class="topmenu header_layout">
         <div class="topmenu_layout">
             <div id="logo_container">
-                <a href="#home" id="svg3">      
-                   
+                <a href="#home" id="svg3" >      
                     H
                     <!-- <div class="letter1"><? // substr($_SESSION['user']['firstname'],0,1) ; ?> </div> -->
                     <!-- <div class="letter2">X</div> -->      
                 </a> 
             </div>
+
             <div class="header_last_details">
-                <div class="svg_burger " id="burgerMenu">
-                    <img [src]="ENV_ICONS+'template-dev/i8Burgergreen.svg' " alt="Burger menu">
+                <div class="svg_burger " id="burgerMenu" *ngIf="!burger">
+                    <img [src]="ENV_ICONS+'template-dev/i8Burgergreen.svg' " alt="Burger menu" (click)="onBurger()">
                 </div>
 
-                <div class="svg_burger none" id="burgerMenuX">
+                <div class="svg_burger" id="burgerMenuX" (click)="onBurger()" *ngIf="burger">
                     <img [src]="ENV_ICONS+'template-dev/i8XBurgergreen.svg '"
                     alt="Symbole X">
                 </div>
             </div><!-- end .header_last_details -->
         </div>
         <!-- menu qui apparaît lors du clic sur le burger -->
-         <nav class="burger none" >
+         <nav class="burger" *ngIf="burger" >
             <a href="#online-home">Accueil</a>
             <a href="#online-projects">Réalisations</a>
             <a href="#online-skills">Compétences</a>
@@ -74,6 +74,7 @@
             <div class="achievements">
                 <a href="#online-projects" class="add achievement">Projets réalisés</a>
             </div>
+         
         </article><!-- end .content_page -->
         
         <article class="mail">
@@ -210,19 +211,33 @@
 
         <footer>
             <section class="footer-layout">
-                <div class="footer-social">
-                    <a href="">
-                        <fa-icon class="icon" [icon]="['fas', 'pen']"></fa-icon> 
-                    </a> 
-                    <a href="">
-                        <fa-icon class="icon" [icon]="['fab', 'linkedin']"></fa-icon> 
-                    </a>
-                    <a href="">
-                        <fa-icon class="icon" [icon]="['fas', 'facebook']"></fa-icon>  
-                    </a>
-                    <a href="">
-                        <fa-icon class="icon" [icon]="['fas', 'facebook']"></fa-icon>  
-                    </a> 
+                <div class="footer-social">   
+                    <div class="github rs">
+                        <a href="">
+                            <img [src]="ENV_ICONS+'template-dev/icons8-git.svg'" alt="">
+                        </a>
+                    </div>               
+                    <div class="linkedin rs">
+                        <a href="">
+                        <img [src]="ENV_ICONS+'template-dev/icons8-in.svg'" alt="">
+        
+                        </a>
+                    </div>
+                    <div class="instagram rs">
+                        <a href="" >
+                        <img [src]="ENV_ICONS+'template-dev/icons8-insta.svg'" alt="">
+                        </a>
+                    </div>
+                    <div class="twitter rs">
+                        <a href="">
+                        <img [src]="ENV_ICONS+'template-dev/icons8-tw.svg'" alt="">
+                        </a>
+                    </div>
+                    <div class="fb rs">
+                        <a href="">
+                        <img [src]="ENV_ICONS+'template-dev/icons8-fb.svg'" alt="">
+                        </a>
+                    </div>
                 </div>
                 <div class="footer-contact">
                     <div>

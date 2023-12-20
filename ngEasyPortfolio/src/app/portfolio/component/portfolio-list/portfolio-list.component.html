@@ -1,40 +1,119 @@
 <app-home-nav></app-home-nav>
 
-<div class="portfolio-list">
-
+<div class="portfolio-list col-5">
+  <h1>Mes Portfolios</h1>
+  <h4 class="d-flex justify-content-between title">
+    Ajouter un portfolio
+    <button (click)="onAddPortfolio()">
+      <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
+    </button> 
+    <div *ngIf="isPortfolioFormShowing" class="gradient p-4">
+      <div class="text-end m-0">
+        <button (click)="onCloseModalForm()"
+              class="close-btn">
+          <fa-icon [icon]="['fas', 'window-close']"></fa-icon>
+          <span class="info-text">Fermer le formulaire</span>
+        </button>
+      </div>
+      <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitPortfolio()" enctype="multipart/form-data">
+        <legend class="text-center form-legend mb-3">{{ legend }}</legend>
+        <div class="mb-3">
+          <div *ngIf="inputError" class="mb-1">
+            <span class="text-danger input-error">{{ inputError }}</span>
+          </div>
+          <label for="portfolio-title" class="form-label">Titre du portfolio</label>
+          <!-- <input type="text" minlength="2" maxlength="60" ************ disabled on dev  -->
+          <input type="text" 
+                class="form-control" 
+                id="portfolio-title" 
+                [(ngModel)]="newPortfolio.title"
+                name="portfolio-title"
+                placeholder="Titre du portfolio">
+        </div>
+        <div class="mb-3">
+          <label for="portfolio-description" class="form-label">Description du portfolio</label>
+          <textarea class="form-control" 
+                    id="portfolio-description"
+                    [(ngModel)]="newPortfolio.description"
+                    name="portfolio-description" 
+                    rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="portfolio-name" class="form-label">Nom</label>
+          <input type="text" 
+                class="form-control" 
+                id="portfolio-name" 
+                [(ngModel)]="newPortfolio.name"
+                name="portfolio-name"
+                placeholder="Nom">
+        </div>
+        <div class="mb-3">
+          <label for="portfolio-firstname" class="form-label">Prénom</label>
+          <input type="text" 
+                class="form-control" 
+                id="portfolio-firstname" 
+                [(ngModel)]="newPortfolio.name"
+                name="portfolio-firstname"
+                placeholder="Prénom">
+        </div>
+        <div class="mb-3">
+          <label for="portfolio-email" class="form-label">Email</label>
+          <input type="email" 
+                class="form-control" 
+                id="portfolio-email" 
+                [(ngModel)]="newPortfolio.firstname"
+                name="portfolio-email"
+                placeholder="Email">
+        </div>
+        <div class="mb-3">
+          <label for="portfolio-city" class="form-label">Ville</label>
+          <input type="text" 
+                class="form-control" 
+                id="portfolio-city" 
+                [(ngModel)]="newPortfolio.city"
+                name="portfolio-city"
+                placeholder="Ville">
+        </div>
+        
+        <input class="btn btn-primary d-block mx-auto" 
+            type="submit" 
+            value="Valider">
+            <!-- [disabled]="form.invalid">***************disabled on dev  -->
+  
+      </form>
+    </div>
+  </h4>
 
   <div class="row">
     <div class="col-sm-6">
-      <div class="card" *ngFor="let portfolio of portfolios">
+      <div class="card" *ngFor="let portfolio of portfolios; let i = index;">
         <div class="card-body">
-          <h5 class="card-title">{{portfolio.title | uppercase }}</h5>
-          <p class="card-text">{{portfolio.name | titlecase }}</p>
-          <!-- <p class="card-text">{{portfolio.city | titlecase }}</p> -->
+          <h5 class="card-title">
+            {{portfolio.title | uppercase }} 
+            <button (click)="onEditPortfolio(i)" class="elt-button" >
+              <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
+            </button> 
+          </h5>
+          <p class="card-text">
+            {{portfolio.name | titlecase }}
+            <button (click)="onDeletePortfolio(portfolio.id)" class="elt-button" >
+              <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
+            </button>
+          </p>
+          <p class="card-text">{{portfolio.city | titlecase }}</p> 
           <small>{{portfolio.id}}</small>
-          <div class="actions">
-            <!-- <button class="btn btn-info"
-                      (click)="onEditClick($event)"
-                      data-bs-toggle="modal"
-                      data-bs-target="#editModal">
-                  Modifier
-            </button> -->
-            <!-- <button class="btn btn-warning"
-                      (click)="onDeleteClick($event)"
-                      data-bs-toggle="modal"
-                      data-bs-target="#deleteModal">
-                  Supprimer
-              </button> -->
-              <a [href]="'/portfolios/' + portfolio.id"
-                  class="btn btn-warning">
-                Détail
-              </a>
+          <div class="actions">       
+            <a [href]="'/portfolios/' + portfolio.id"
+                class="btn btn-warning">
+              Détail
+            </a>
 
           </div>
         </div>
       </div>
     </div>
       
-    <div class="gradient">Essayez gratuitement !! </div>
+    <!-- <div class="gradient">Essayez gratuitement !! </div> -->
 
   </div>
 

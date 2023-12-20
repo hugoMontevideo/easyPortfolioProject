@@ -33,6 +33,10 @@ public class PortfolioServiceRequestModel {
     public PortfolioServiceRequestModel(Optional<Long> id) {
         this.id = id ;
     }
+    public PortfolioServiceRequestModel( String title, Integer userId) {
+        this.title = title;
+        this.userId = Optional.ofNullable(userId);
+    }
     public PortfolioServiceRequestModel(Optional<Long> id,  String title, String name, String firstname, String email) {
         this.title = title;
         this.name = name;
@@ -51,11 +55,6 @@ public class PortfolioServiceRequestModel {
         this.profileImgPath = profileImgPath;
         this.aboutMe = aboutMe;
     }
-
-
-
-
-
 
 
 }

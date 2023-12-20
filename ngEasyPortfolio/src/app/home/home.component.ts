@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginUser } from '../login/login-user.interface';
-import { SessionStorageService } from '../services/session-storage.service';
+import { PortfolioService } from '../portfolio/services/portfolio.service';
+import { User } from '../core/user/user.interface';
+import { JWTTokenService } from '../services/JWTToken.service';
 
 @Component({
   selector: 'app-home',
@@ -8,20 +9,26 @@ import { SessionStorageService } from '../services/session-storage.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  loginUser: LoginUser ={
-    email:"",
-    token: ""
-  } 
+
+  user: User = {
+    id: -1,
+    name: "",
+    firstname: "",
+    email: "",
+    password: "",
+    dateInscription: new Date("1970-01-01"),
+    dateConnect: new Date("1970-01-01"),
+    profileImgPath: "",
+    roles: []
+  }
+
   constructor( 
-    private storageService: SessionStorageService
-  )
-  {};
+    private jwtService: JWTTokenService,
+    private portfolioService: PortfolioService
+  ){};
 
   ngOnInit(): void {
-    this.loginUser.email = this.storageService.getLogin();
-  
-    
-    // // je dois passer par une variable intermediaire pour pouvoir recup currentUser
+    this.jwtService.jwtToken = this.jwtService.getToken();
    
   }
 }

@@ -1,0 +1,73 @@
+<div class="board">
+    <div class="header_layout">
+        <header class="topmenu header_layout">
+            <div class="topmenu_layout">
+                <div id="logo_container">
+                    <a href="#home" id="svg3" >      
+                        H
+                        <!-- <div class="letter1"><? // substr($_SESSION['user']['firstname'],0,1) ; ?> </div> -->
+                        <!-- <div class="letter2">X</div> -->      
+                    </a> 
+                </div>
+    
+                <div class="header_last_details">
+                    <div class="svg_burger " id="burgerMenu">
+                        <img [src]="ENV_ICONS+'template-dev/i8Burgergreen.svg' " alt="Burger menu">
+                    </div>
+    <!-- 
+                    <div class="svg_burger" id="burgerMenuX" (click)="onBurger()" *ngIf="burger">
+                        <img [src]="ENV_ICONS+'template-dev/i8XBurgergreen.svg '"
+                        alt="Symbole X">
+                    </div> -->
+                </div><!-- end .header_last_details -->
+            </div>
+           
+        </header>
+    </div>
+    <section id="online-home" class="content_example page1" >    
+        <article class="networks">
+            <div class="github">
+                <a href="">
+                    <img [src]="ENV_ICONS+'template-dev/icons8-git.svg'" alt="">
+                </a>
+            </div>               
+            <div class="linkedin">
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-in.svg'" alt="">
+    
+                </a>
+            </div>
+            <div class="instagram">
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-insta.svg'" alt="">
+                </a>
+            </div>
+            <div class="twitter">
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-tw.svg'" alt="">
+                </a>
+            </div>
+            <div class="fb">
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-fb.svg'" alt="">
+                </a>
+            </div>
+        </article><!-- end .networks -->    
+        
+        <article class="content_page portfolios page1">
+            <p class="hi">Bonjour tout le monde!</p>
+            <p class="high-light">Je suis </p>
+            <h1>{{portfolio.firstname|titlecase}} {{portfolio.name|uppercase}}</h1>
+            <h3>{{ portfolio.title |titlecase}}</h3>
+            <p class="city">{{portfolio.city}}</p> 
+            <div class="achievements">
+                <a href="#online-projects" class="add achievement">Projets réalisés</a>
+            </div>
+         
+        </article><!-- end .content_page -->
+        
+        <article class="mail">
+            <p>{{portfolio.email}}</p>
+        </article>  
+    </section><!-- end .exemple_content -->
+</div>

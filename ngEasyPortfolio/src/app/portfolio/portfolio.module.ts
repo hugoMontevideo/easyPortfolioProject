@@ -22,6 +22,7 @@ import { HomeNavComponent } from '../core/home-nav/home-nav.component';
 import { UserItemComponent } from '../core/user-item/user-item.component';
 import { FooterComponent } from '../core/footer/footer.component';
 import { LeftSidebarComponent } from '../core/left-sidebar/left-sidebar.component';
+import { BoardHomeComponent } from './board/board-home/board-home.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { LeftSidebarComponent } from '../core/left-sidebar/left-sidebar.componen
     HomeNavComponent,
     UserItemComponent,
     FooterComponent,
-    LeftSidebarComponent
+    LeftSidebarComponent,
+    BoardHomeComponent
 
   ],
   imports: [

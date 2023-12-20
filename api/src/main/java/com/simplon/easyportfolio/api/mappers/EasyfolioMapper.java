@@ -167,6 +167,8 @@ public interface EasyfolioMapper {
     List<PortfolioServiceModel> listPortolioRepositoryToSvcModel(List<PortfolioRepositoryModel> addedPortfolio);
     List<PortfolioUpdateDTO> listPortolioSvcToUpdateDTO(List<PortfolioServiceModel> addedPortfolio);
     List<PortfolioGetDTO> listPortolioSvcToGetDTO(List<PortfolioServiceModel> addedPortfolio);
+    // portfolios => descendant
+    List<PortfolioFullDTO> listPortfolioSvcToFullDTO(List<PortfolioServiceModel> portfolioServiceModels);
 
     List<ProjectServiceResponseModel> listProjectRepoToSvc (List<ProjectRepositoryModel> projectRepositoryModels);
     List<ProjectGetDTO> listProjectSvcToGetDTO (List<ProjectServiceResponseModel> projectRepositoryModels);
@@ -232,6 +234,7 @@ public interface EasyfolioMapper {
     UserResponseDTO userServicResponseToFullDTO(UserServiceResponseModel serviceModel);
     UserServiceUpdateModel userServiceToServiceUpdate(UserServiceModel userServiceModel);
     UserServiceModel userRepositoryToSvcModel(User user);
+
 
 
 }

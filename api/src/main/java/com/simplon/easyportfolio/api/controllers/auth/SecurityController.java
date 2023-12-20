@@ -1,5 +1,6 @@
 package com.simplon.easyportfolio.api.controllers.auth;
 
+import com.simplon.easyportfolio.api.controllers.portfolios.PortfolioFullDTO;
 import com.simplon.easyportfolio.api.domain.User;
 import com.simplon.easyportfolio.api.exceptions.AccountExistsException;
 import com.simplon.easyportfolio.api.exceptions.UnauthorizedException;
@@ -7,6 +8,7 @@ import com.simplon.easyportfolio.api.exceptions.UserNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
 import com.simplon.easyportfolio.api.services.impl.JwtUserServiceImpl;
 import com.simplon.easyportfolio.api.services.jwt.JwtUserService;
+import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceModel;
 import com.simplon.easyportfolio.api.services.user.UserAppService;
 import com.simplon.easyportfolio.api.services.user.UserServiceModel;
 import com.simplon.easyportfolio.api.services.user.UserServiceUpdateModel;
@@ -70,6 +72,20 @@ public class SecurityController {
             return ResponseEntity.ok(new LoginResponseDTO( token ));
         } catch(AuthenticationException e) {
             throw new UnauthorizedException();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @GetMapping("/users/{email}/portfolios")
+    public ResponseEntity<List<PortfolioFullDTO>> getPortfoliosByUserEmail(@PathVariable String email) throws ResponseStatusException {
+        try {
+            List<PortfolioServiceModel> portfolioServiceModels = userAppService.getPortfoliosByUserEmail(email);
+
+            List<PortfolioFullDTO> DTOs = mapper.listPortfolioSvcToFullDTO(portfolioServiceModels);
+
+            return ResponseEntity.ok(DTOs);
+        } catch(ResponseStatusException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
