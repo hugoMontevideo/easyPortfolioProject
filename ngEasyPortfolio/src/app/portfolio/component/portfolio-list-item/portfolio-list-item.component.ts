@@ -6,7 +6,6 @@ import { Project } from '../project/project.interface';
 import { Skill } from '../skill/skill.interface';
 import { Education } from '../education/education.interface';
 import { Experience } from '../experience/experience.interface';
-import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -20,6 +19,7 @@ export class PortfolioListItemComponent implements OnInit {
   isShowingSkills = false;
   isShowingEducs = false;
   isShowingExpers = false;
+  allDisplay=true;
 
   portfolio: Portfolio = {
                     id: -1,

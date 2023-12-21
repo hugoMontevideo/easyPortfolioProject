@@ -1,0 +1,26 @@
+
+.item{
+    border-bottom: solid 1px grey;
+}
+
+
+
+button.document, .social_link{
+    background-color: transparent;
+    color: grey;
+    font-size: .8rem;
+    border: none;
+
+}
+a.portfolios{
+    text-decoration: none;
+    color:grey;
+    font-size: .8rem;
+    text-align: center;
+    transition: .2s ease-in-out;
+}
+a:hover, button.document:hover, .social_link:hover{
+    color: pink;
+    transform: scale(1.1);
+}
+

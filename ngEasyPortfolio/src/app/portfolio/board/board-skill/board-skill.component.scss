@@ -1,0 +1,68 @@
+
+
+
+.content_example.page3 {
+    flex-direction: column;
+  }
+
+  .content_example.page3 {
+    width: 100%;
+    background-color: rgba(3, 1, 19, 0.918);
+    padding: 0 0 1rem 0;
+    min-height: 45vh;
+    color: white;
+}
+  
+  .skills-presentation {
+    width: 90%;
+    margin: 0 auto;
+    h1 {
+        color: #52caae;
+        font-size: 3.8em;
+        font-weight: 700;
+        letter-spacing: 0px;
+    }
+
+}
+#langages_pro span {
+   color: #52caae;
+}
+p em {
+  color: #52CAAE;
+}
+
+  .skills-box {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 0 auto;
+    padding: 2em 0;
+  }
+
+
+
+
+
+.competences ul {
+    padding: 0 0 0 1em;
+    li {
+      font-size: .9em;
+      strong {
+        font-size: 1.1em;
+        color: #52caaea5;
+      }
+    }
+  }
+  
+  .skills-box .competences-pro, .skills-box .competences-perso, .skills-box .competences-languages {
+    margin: 0 0 2em;
+  }
+  
+  .skills-box .competences-pro h3, .skills-box .competences-perso h3, .skills-box .competences-languages h3 {
+    margin: 0 0 .7em;
+  }
+  
+  .skills-box .competences-pro #langages_pro, .skills-box .competences-perso #langages_pro, .skills-box .competences-languages #langages_pro {
+    color: #52caae;
+    margin: 1em 0 0;
+  }

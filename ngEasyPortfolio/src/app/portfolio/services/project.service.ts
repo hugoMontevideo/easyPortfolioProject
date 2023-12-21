@@ -41,6 +41,7 @@ export class ProjectService {
     }; 
     formData.append('title', newProject.title);
     formData.append('description', newProject.description);
+    formData.append('languages', newProject.languages);
     formData.append('fileName', newProject.fileName);
     if(newProject.portfolioId != undefined){
       formData.append('portfolioId', newProject.portfolioId.toString());
@@ -74,6 +75,7 @@ export class ProjectService {
               id:-1,
               title: "",
               description: "",
+              languages: "",
               date: new Date("1970-01-01"),
               fileName: "",
               documents:[],

@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./board-home.component.scss']
 })
 export class BoardHomeComponent {
+
   ENV_ICONS: string = `${environment.apiIcons}/`;
   @Input() portfolio:Portfolio = {
                                   id: -1,

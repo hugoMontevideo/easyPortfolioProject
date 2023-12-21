@@ -1,114 +1,195 @@
-<section >
-    <div >                       
-      <button type="button"
-          class="document"
-          title="Ajouter photo de profil"
+<section class="left-sidebar p-2 " >
+  <div class="d-flex justify-content-center item pt-2 pb-2">                       
+    <a routerLink="/portfolios" 
+        class="portfolios "
+        title="Ajouter liens reseaux sociaux"
+    >
+    Mes portfolios
+    </a>
+  </div>
+
+  <div class="item pt-2 pb-2" *ngIf="allDisplay">                       
+    <button type="button"
+        class="document d-flex flex-column align-items-center mx-auto"
+        title="Ajouter photo de profil"
+        data-bs-toggle="offcanvas" 
+        data-bs-target="#offcanvas" 
+        aria-controls="offcanvas"
+      >
+        <img class="document"[src]="ENV_ICONS+'i8-user.svg '" alt="logo user">
+      A propos
+    </button>
+  </div>
+
+  <div class="d-flex justify-content-center item pt-2 pb-2" *ngIf="allDisplay">                       
+      <button
+          class="social_link "
+          title="Ajouter liens reseaux sociaux"
           data-bs-toggle="offcanvas" 
           data-bs-target="#offcanvas" 
           aria-controls="offcanvas"
-        >
-          <img class="document"[src]="ENV_ICONS+'i8-user.svg '" alt="logo user">
-        About me
-      </button>
-    </div>
+          (click)="onLinks()"         
+      >
+      Réseaux sociaux
+    </button>
+  </div>
 
-    <div >                       
-        <a href=""
-            class="social_link"
-            title="Ajouter liens reseaux sociaux"
-        >
-        Réseaux sociaux
-        </a>
-    </div>
 </section>
 
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasLabel">{{ portfolio.name }}</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <div class="portfolio d-flex">
-            <div class="d-flex justify-content-start align-items-start" >
-              <div class="profile">
-                <img *ngIf="portfolio.profileImgPath; else srcDefault" 
-                      [src]="ENV_PICT+'portfolios/' + portfolio.profileImgPath" 
-                      [alt]="'Photo de profil '+portfolio.firstname">  
-                <ng-template #srcDefault>
-                  <img [src]="ENV_PICT+ 'portfolios/'+'girl-shirt-avatar.png'" 
-                        [alt]="'Photo de profil '+portfolio.firstname">  
-                </ng-template>
-              </div>
-              <button (click)="onModifyPicture()"
-                    class="modify-img-btn" title="Modifier l'image">
-                <fa-icon class="icon" [icon]="['fas', 'pen']"></fa-icon>
-              </button>
-            </div>
-            <div class="flex-grow-1">
-                <h5 class="-about-me text-center" >A Propos</h5>
-                <p class="about-me">{{ portfolio.aboutMe}}
-                <button (click)="onModifyAbout()"
-                        class="modify-img-btn" title="Modifier">
-                    <fa-icon class="icon" [icon]="['fas', 'pen']"></fa-icon>
-                </button>
-                </p>
-            </div>  
-              <!-- <h5>{{ user.name | uppercase }}</h5>
-              <p>{{ user.firstname | titlecase }}</p>
-              <p>{{ user.email }}</p>
-              <button class="btn btn-secondary" 
-                  type="button" 
-                  (click)="onEditUser()" >
-                  Modifier votre profil
-              </button> -->
-          
-        </div>
-          
-          <div class="gradient p-4 " *ngIf="isUserFormShowing" >
-            <p class="text-end m-0">
-              <button (click)="onCloseModalForm()"><fa-icon [icon]="['fas', 'window-close']" ></fa-icon></button>
-            </p>
-            <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitUser()" >
-              <legend class="text-center form-legend mb-3">{{ legend }}</legend>
-               
-              <div class="mb-3">
-                <label for="portfolio-about-me" class="form-label">A propos</label>
-                <textarea class="form-control" maxlength="255"
-                          id="portfolio-about-me"
-                          [(ngModel)]="portfolio.aboutMe"
-                          name="portfolio-about-me" 
-                          rows="3">Description</textarea>
-              </div>
-              <input class="btn btn-primary d-block mx-auto" 
-                    type="submit" 
-                    value="Modifier">
-                    <!-- [disabled]="form.invalid">***************disabled on dev  -->
-          
-            </form>
-          </div>
-          
-        <div class="gradient p-4 " *ngIf="isPictureFormShowing" >
-            <div class="text-end m-0">
-              <button (click)="onCloseModalForm()"><fa-icon [icon]="['fas', 'window-close']" ></fa-icon></button>
-            </div>
-            <form #form1="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitPicture()" enctype="multipart/form-data">
-              <legend class="text-center form-legend mb-3">{{ legend }}</legend>
-              <div class="mb-3">
-                <div *ngIf="inputError" class="mb-1">
-                  <span class="text-danger input-error">{{ inputError }}</span>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="selected-file" class="form-label">Choisir une image</label>
-                <input 
-                  class="form-control" 
-                  type="file" id="selected-file" 
-                  name="selected-file"
-                  (change)="onSelectedFile($event)"
-                  >
-              </div>
-              <input class="btn btn-primary d-block mx-auto" type="submit" value="Valider">
-            </form>
-        </div>
-    </div> 
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasLabel">{{ portfolio.name }}</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
+  <div class="offcanvas-body">
+    <div class="portfolio d-flex">
+      <div class="d-flex justify-content-start align-items-start" >
+        <div class="profile">
+          <img *ngIf="portfolio.profileImgPath; else srcDefault" 
+                [src]="ENV_PICT+'portfolios/' + portfolio.profileImgPath" 
+                [alt]="'Photo de profil '+portfolio.firstname">  
+          <ng-template #srcDefault>
+            <img [src]="ENV_PICT+ 'portfolios/'+'girl-shirt-avatar.png'" 
+                  [alt]="'Photo de profil '+portfolio.firstname">  
+          </ng-template>
+        </div>
+        <button (click)="onModifyPicture()"
+              class="modify-img-btn" title="Modifier l'image">
+          <fa-icon class="icon" [icon]="['fas', 'pen']"></fa-icon>
+        </button>
+      </div>
+      <div class="flex-grow-1">
+          <h5 class="-about-me text-center" >A Propos</h5>
+          <p class="about-me">{{ portfolio.aboutMe}}
+          <button (click)="onModifyAbout()"
+                  class="modify-img-btn" title="Modifier">
+              <fa-icon class="icon" [icon]="['fas', 'pen']"></fa-icon>
+          </button>
+          </p>
+      </div>  
+        <!-- <h5>{{ user.name | uppercase }}</h5>
+        <p>{{ user.firstname | titlecase }}</p>
+        <p>{{ user.email }}</p>
+        <button class="btn btn-secondary" 
+            type="button" 
+            (click)="onEditUser()" >
+            Modifier votre profil
+        </button> -->
+    </div>
+      
+    <div class="gradient p-4 title" *ngIf="isUserFormShowing" >
+      <p class="text-end m-0">
+        <button (click)="onCloseModalForm()"><fa-icon [icon]="['fas', 'window-close']" ></fa-icon></button>
+      </p>
+      <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitUser()" >
+        <legend class="text-center form-legend mb-3">{{ legend }}</legend>
+          
+        <div class="mb-3">
+          <label for="portfolio-about-me" class="form-label">A propos</label>
+          <textarea class="form-control" maxlength="255"
+                    id="portfolio-about-me"
+                    [(ngModel)]="portfolio.aboutMe"
+                    name="portfolio-about-me" 
+                    rows="3">Description</textarea>
+        </div>
+        <input class="btn btn-primary d-block mx-auto" 
+              type="submit" 
+              value="Modifier">
+              <!-- [disabled]="form.invalid">***************disabled on dev  -->
+    
+      </form>
+    </div>
+      
+    <div class="gradient p-4 title" *ngIf="isPictureFormShowing" >
+        <div class="text-end m-0">
+          <button (click)="onCloseModalForm()" class="close-btn">
+            <fa-icon [icon]="['fas', 'window-close']" ></fa-icon>
+          </button>
+        </div>
+        <form #form1="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitPicture()" enctype="multipart/form-data">
+          <legend class="text-center form-legend mb-3">{{ legend }}</legend>
+          <div class="mb-3">
+            <div *ngIf="inputError" class="mb-1">
+              <span class="text-danger input-error">{{ inputError }}</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="selected-file" class="form-label">Choisir une image</label>
+            <input 
+              class="form-control" 
+              type="file" id="selected-file" 
+              name="selected-file"
+              (change)="onSelectedFile($event)"
+              >
+          </div>
+          <input class="btn btn-primary d-block mx-auto" type="submit" value="Valider">
+        </form>
+    </div>
+
+    <div class="gradient p-4 title" *ngIf="isLinksFormShowing" >
+      <p class="text-end m-0">
+        <button (click)="onCloseModalForm()">
+          <fa-icon [icon]="['fas', 'window-close']" ></fa-icon>
+        </button>
+      </p>
+      <form #form2="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitLinks()" >
+        <legend class="text-center form-legend mb-3">{{ legend }}</legend>
+        <div class="mb-3">
+          <input type="text" 
+                class="form-control" 
+                id="github" 
+                [(ngModel)]="links"
+                name="educationEdit-school"
+                placeholder="Ecole">
+        </div>
+        <div class="mb-3">
+          <input type="text" 
+                class="form-control" 
+                id="linkedin" 
+                [(ngModel)]="links"
+                name="education-degree"
+                placeholder="Diplôme, niveau d'études obtenu">
+        </div>
+        <div class="mb-3">
+          <input type="text" 
+                class="form-control" 
+                id="instagram" 
+                [(ngModel)]="links"
+                name="instagram"
+                placeholder="Diplôme, niveau d'études obtenu">
+        </div>
+        <div class="mb-3">
+          <input type="text" 
+                class="form-control" 
+                id="twitter" 
+                [(ngModel)]="links"
+                name="instagram"
+                placeholder="Diplôme, niveau d'études obtenu">
+        </div>
+        <div class="mb-3">
+          <input type="text" 
+                class="form-control" 
+                id="facebook" 
+                [(ngModel)]="links"
+                name="facebook"
+                placeholder="Diplôme, niveau d'études obtenu">
+        </div>
+        
+        <input class="btn btn-primary d-block mx-auto" 
+              type="submit" 
+              value="Valider">
+              <!-- [disabled]="form.invalid">***************disabled on dev  -->
+    
+      </form>
+    </div>
+    <div class="d-flex justify-content-center pt-2 pb-2">                       
+      <button
+          class="btn btn-outline-success "
+          title="Ajouter liens reseaux sociaux"
+          (click)="onLinks()"         
+      >
+      Modifier les links des réseaux sociaux
+    </button>
+  </div>
+  </div> 
+</div>

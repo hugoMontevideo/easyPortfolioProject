@@ -43,16 +43,16 @@ public class ProjectController {
             @RequestParam("id") Optional<Long> id,
             @RequestParam("title") @Size(min =2, message = "Le titre doit avoir entre 2 et 60 caractères") String title,
             @RequestParam ("description")String description,
+            @RequestParam ("languages")String languages,
             @RequestParam ("date") LocalDate date,
             @RequestParam ("fileName")Optional<String> fileName,
             @RequestParam ("file")Optional<MultipartFile> file,
             @RequestParam ("portfolioId")Long portfolioId
     ){
         // creating DTO with received parameters
-        ProjectUpdateDTO DTO = new ProjectUpdateDTO(id, title, description, date, fileName, file, portfolioId);
+        ProjectUpdateDTO DTO = new ProjectUpdateDTO(id, title, description, languages, date, fileName, file, portfolioId);
         ProjectServiceRequestUpdateModel projectServiceRequestUpdateModel =
                 mapper.projectDtoToServiceRequestModel(DTO);
-
 
         ProjectServiceResponseModel addedProject = portfolioService.updateProject(projectServiceRequestUpdateModel);
         return mapper.projectSvcToGetDTO( addedProject );

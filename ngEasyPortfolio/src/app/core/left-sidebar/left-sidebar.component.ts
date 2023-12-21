@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 export class LeftSidebarComponent {
   ENV_PICT:string = `${environment.apiImg}/pictures/`;
   ENV_ICONS: string = `${environment.apiIcons}/`;
+  @Input()allDisplay: boolean= false;
   @Input() portfolio: Portfolio = {
                             id: -1,
                             title: "",
@@ -42,7 +43,11 @@ export class LeftSidebarComponent {
   isUserFormShowing=true;
   inputError?: string;
   isPictureFormShowing=false;
+  isLinksFormShowing=false;
   selectedFile?: File ;
+
+  // TODO : add a link property on portfolio
+  links: string = "https://test-facebook";
 
   constructor ( protected portfolioService: PortfolioService ) {}
 
@@ -50,16 +55,28 @@ export class LeftSidebarComponent {
     this.legend = "Modifier la photo"
     this.isPictureFormShowing = true;
     this.isUserFormShowing = false;
+    this.isLinksFormShowing=false
+
   }
   public onModifyAbout = () => {
     this.legend = "Modifier 'A propos'"
     this.isUserFormShowing = true;
     this.isPictureFormShowing = false;
+    this.isLinksFormShowing=false;
+
+  }
+  
+  onLinks = ():void => {
+    this.legend = "Modifier les liens"
+    this.isLinksFormShowing=true;
+    this.isPictureFormShowing=false;
+    this.isUserFormShowing=false;
   }
 
   public onCloseModalForm = () => {
     this.isUserFormShowing = false;
     this.isPictureFormShowing = false;
+    this.isLinksFormShowing=false
   }
 
   public onSubmitUser = ()=>{
@@ -94,10 +111,15 @@ export class LeftSidebarComponent {
       }
     });
   }
+
+  public onSubmitLinks = ()=>{
+    this.isLinksFormShowing=false
+  }
   
   onSelectedFile = (event:any):void => {
     this.selectedFile = event.target.files[0];    
   }
+
 
 
 }

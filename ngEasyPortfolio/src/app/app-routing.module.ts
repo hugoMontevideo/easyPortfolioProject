@@ -16,6 +16,8 @@ const routes: Routes = [
   // exemples, modeles, templates
   { path: "item/:id", component: TemplateDevComponent},
 
+  { path: "**", redirectTo:""},
+
  
 ];
 

@@ -1,9 +1,42 @@
-<div *ngFor="let skill of skills; let iv = index">
-    <div class="card">
-        <div class="card-body">
-            <div class="d-flex justify-content-between elt-title">
-                {{skill.title}}         
-            </div>
+<div class="board">
+    <section id="online-skills" class="content_example skills page3" >
+        <div class="skills-presentation">
+            <h1>Hard &<br> Soft skills</h1>
+            <p>
+                "Je me considère comme une personne très reactive, à l'écoute et
+                capable de traduire les besoins du client.<br>
+                J'ai une large expérience professionnelle dans beaucoup de domaines
+                que je pourrai mettrai à profit dans le développement web.<br>
+                N'hésitez pas à visiter mon profil Linkedin pour me connaitre
+                un peu plus..." <em>Vous pouvez changer ce texte dans 'Compétences'</em>
+            
+            </p>
         </div>
-    </div>
-</div> 
+        <div class="skills-box competences">
+            <div class="competences-perso">
+                <h3>Compétences personnelles</h3>  
+                <ul>
+                    <li *ngFor="let skill of skills"><strong>{{ skill.title | titlecase }}</strong></li>  
+                </ul>
+            </div>
+
+            <div class="scrolling none">
+                <div id="langages_pro" data-text=" HTML - CSS - PHP - MySQL - JavaScript - ">
+                    Langages informatiques : <span>Java - PHP - JavaScript</span>                   
+                </div>
+            </div>
+
+            <div id="techno">
+                Technologies : <span>SpringBoot - Angular - Figma</span>
+            </div>
+            
+            <div class="competences-languages">
+                <h3>Langues</h3>
+                <ul>
+                    <li><strong>Anglais</strong> : Niveau professionnel</li> 
+                    <li><strong>Espagnol</strong> : Bilingue</li> 
+                </ul>     
+            </div>
+        </div> 
+    </section>
+</div>

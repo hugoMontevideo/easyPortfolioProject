@@ -22,6 +22,7 @@ export class ProjectComponent {
     id: -1,
     title: "",
     description: "",
+    languages:"",
     date: new Date("1970-01-01"),
     fileName: "",
     documents: [],

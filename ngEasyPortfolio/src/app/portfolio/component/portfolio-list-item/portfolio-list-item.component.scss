@@ -1,3 +1,9 @@
+.main{
+    //background-image: url("../../../../assets/resources/motif.png");
+    background-size: cover;
+}
+
+
 .portfolio-list-item{
     min-height: 80vh;
 }
@@ -5,16 +11,13 @@
 .aside{
     min-height: 90vh;
     background-color: rgba(192, 184, 184, 0.575);
-
     .gradient{
         background: rgb(217,171,224);
         background: linear-gradient(225deg, rgba(217,171,224,1) 0%, rgba(185,134,241,1) 50%, rgba(166,112,251,1) 100%);
         width: 150px;
         height: 100px;
-    
         border-radius: 10px;
-        color: white
-    
+        color: white  
     }
 }
 
@@ -23,9 +26,10 @@
     border: red 1px solid;
     .frame{  // live changes displaying
         border: rgb(89, 0, 255) 1px solid;
-        height: 50% ;
+        height: 52vh ;
         margin: 5rem auto;
-
+        width: 40vw;
+        overflow-y: scroll;    
     }
 }
 

@@ -27,6 +27,9 @@ public class ProjectRepositoryModel {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "languages")
+    private String languages;
+
     @Column(name = "date")
     private LocalDate date;
 

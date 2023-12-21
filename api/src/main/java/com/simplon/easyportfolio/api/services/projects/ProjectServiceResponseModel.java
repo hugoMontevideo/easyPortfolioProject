@@ -17,6 +17,7 @@ public class ProjectServiceResponseModel {
     private Long id;
     private String title;
     private String description;
+    private String languages;
     private LocalDate date;
     private List<DocumentProjectServiceModel> documents ;
 }

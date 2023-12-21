@@ -34,6 +34,15 @@
                   rows="3"></textarea>
       </div>
       <div class="mb-3">
+        <label for="project-languages" class="form-label">Langages informatiques</label>
+        <input type="text" 
+              class="form-control" 
+              id="project-languages" 
+              [(ngModel)]="newProject.languages"
+              name="project-languages"
+              placeholder="Langages informatiques">
+      </div>
+      <div class="mb-3">
         <label for="project-date" class="form-label">Date</label>
         <input type="date" 
               class="form-control" 

@@ -1,7 +1,8 @@
 <app-home-nav></app-home-nav>
-<main class="d-flex">
+
+<main class="d-flex main">
   <app-left-sidebar class="left-sidebar col-1 bg-dark"
-      [portfolio]="portfolio"
+      [portfolio]="portfolio" [allDisplay]="allDisplay"
       >
   </app-left-sidebar>
 
@@ -108,16 +109,14 @@
       </div>
       <div class="display flex-grow-1">  
 
-        <section class="frame col-8 mx-auto board">
+        <section class="frame mx-auto">
           <article *ngIf="isShowingHome"> <!-- Board Home -->
             <app-board-home [portfolio]="portfolio" [portfolioId]="portfolio.id"></app-board-home>
           </article>
-          <article *ngIf="isShowingProjects">
-            <h1>Projects</h1>
+          <article *ngIf="isShowingProjects"> <!-- Board Projects -->
             <app-board-project [projects]="portfolio.projects" [portfolioId]="portfolio.id"></app-board-project>
           </article>
           <article *ngIf="isShowingSkills">
-            <h1>Competences</h1>
             <app-board-skill [skills]="portfolio.skills" [portfolioId]="portfolio.id"></app-board-skill>
           </article>
           <article *ngIf="isShowingEducs">
@@ -134,6 +133,7 @@
     </div>
   </div>
 </main>
+
 <app-footer></app-footer>
 
 

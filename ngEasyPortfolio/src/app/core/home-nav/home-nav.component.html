@@ -34,31 +34,14 @@
         </li>
 
         <li class="nav-item" *ngIf="jwtToken.getUser()" >
-          <a class="nav-link" routerLink="/user"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{exact:true}"
-              >Liste de users
-          </a>
-        </li>
-
-        <li class="nav-item" *ngIf="jwtToken.getUser()" >
-          <a class="nav-link" routerLink="/user/5"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact:true}"
+          <a class="nav-link"
+            data-bs-toggle="offcanvas" 
+            data-bs-target="#offcanvasRight" 
+            aria-controls="offcanvasRight"
+            (click)="getUserByEmail()"
             >
             Mon Profil
           </a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
         </li>
       </ul>
     </div>  

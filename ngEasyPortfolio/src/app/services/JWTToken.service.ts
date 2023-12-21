@@ -51,7 +51,7 @@ export class JWTTokenService {
     // }
 
 
-    getExpiryTime() {
+    getExpiryTime(): number {
       this.decodeToken();
       return this.decodedToken ? this.decodedToken.exp : 0;
     }
@@ -69,7 +69,6 @@ export class JWTTokenService {
     isLogged(): boolean {
       return this.getToken() != "" 
 
-      // return this.getUser() != null;
     }
 
     removeToken = ():void => {

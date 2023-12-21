@@ -84,8 +84,7 @@
         
      <!-- *** end section *** -->
     <section id="online-projects" class="content_example page2" >
-        <div id="realisations-div" class="realisations-div">
-            
+        <div id="realisations-div" class="realisations-div">         
             <h1>Réalisations</h1>
             <div class="realisations-box" *ngIf="portfolio.projects.length > 0">
                 <div class="realisations-box-card" *ngFor="let project of portfolio.projects">
@@ -98,30 +97,10 @@
                     </a>
                     <h3>{{ project.title }}</h3>
                     <p>{{project.description }}</p>
-                    
+                    <p class="p_skills_list">
+                        <strong>{{ project.languages }}</strong>
+                    </p>
                 </div>
-                    <!-- <?php $aS_id =ProjectRepository::projectGetSkills($oProject->getId()) ?>
-                    <?php  $aSkillsComputerLang1 = [];?>  -->
-                    <!-- on va récuperer les langagages informatiques catégorie == 3 --> 
-                    <!-- <?php  foreach( $aS_id as $s_id) :?>
-                        <?php $aSkillsComputerLang1[] = SkillRepository::skillsOnProject($s_id, 3) ?>
-                    <?php  endforeach ?>  -->
-                    
-                    <!-- <?php  if( !empty($aSkillsComputerLang1)  ) :?>  -->
-                        <p class="p_skills_list">
-                        <strong>
-                            <!-- <?php foreach($aSkillsComputerLang1 as $oSkill1):?> 
-                                <?php  if( $oSkill1 !== null  ) :?> 
-                                <?= ( !next($aSkillsComputerLang1)) ? $oSkill1->getTitle() :$oSkill1->getTitle(). ' - ';?> 
-                                <?php  endif ;?>
-                            <?php endforeach; ?> -->
-                        </strong>
-                        </p>
-                        
-                    <!-- <?php  endif ;?>                  -->
-                <!-- </div> -->
-            <!-- <?php endforeach; ?>
-            <?php  endif ;?> -->
             </div>
         </div>     
     </section><!-- end .exemple project -->
@@ -131,58 +110,38 @@
             <div class="skills-presentation">
                 <h1>Hard &<br> Soft skills</h1>
                 <p>
-                   
-                            : "Je me considère comme une personne très reactive, à l'écoute et
-                            capable de traduire les besoins du client.<br>
-                            J'ai une large expérience professionnelle dans beaucoup de domaines
-                            que je pourrai mettrai à profit dans le développement web.<br>
-                            N'hésitez pas à visiter mon profil Linkedin pour me connaitre
-                            un peu plus...<em>Vous pouvez changer ce texte dans 'Compétences - 3'</em>"
-                   
+                    "Je me considère comme une personne très reactive, à l'écoute et
+                    capable de traduire les besoins du client.<br>
+                    J'ai une large expérience professionnelle dans beaucoup de domaines
+                    que je pourrai mettrai à profit dans le développement web.<br>
+                    N'hésitez pas à visiter mon profil Linkedin pour me connaitre
+                    un peu plus..." <em>Vous pouvez changer ce texte dans 'Compétences'</em>   
                 </p>
             </div>
             <div class="skills-box competences">
-                <div class="competences-pro">
-                    <h3>Compétences professionnelles</h3>
-                    <div class="realisations-box" *ngIf="portfolio.skills.length > 0">
-                        <div class="realisations-box-card" *ngFor="let skill of portfolio.skills">
-                            <ul>
-                                <li><strong>{{ skill.title }}</strong> : {{ skill.description }}</li> 
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="scrolling none">
-                        <div id="langages_pro" data-text=" HTML - CSS - PHP - MySQL - JavaScript - ">
-                            Langages informatiques
-                            <!-- <span> <?php foreach ($aSkillsComputerLang as $oSkill): ?>
-                                <?= ( !next($aSkillsComputerLang)) ? $oSkill->getTitle() :$oSkill->getTitle(). ' - ';?> 
-                            <?php endforeach;?> </span> -->
-                    
-                        </div>
-                    </div>
-
-                    <div id="techno">
-                        technologies
-                        <!-- <span> <?php foreach ($aSkillsSoftwares as $oSkill): ?>
-                            <?= ( !next($aSkillsSoftwares)) ? $oSkill->getTitle() :$oSkill->getTitle(). ' - ';?> 
-                            <?php endforeach;?> </span> -->
-                    </div>
-
-                </div>  
                 <div class="competences-perso">
                     <h3>Compétences personnelles</h3>  
-                        <ul>
-                            <li><strong>Titre</strong></li> 
-                        </ul>
+                    <ul>
+                        <li *ngFor="let skill of portfolio.skills"><strong>{{ skill.title | titlecase }}</strong></li>  
+                    </ul>
                 </div>
+                  
+                <div class="scrolling none">
+                    <div id="langages_pro" data-text=" HTML - CSS - PHP - MySQL - JavaScript - ">
+                        Langages informatiques : <span>Java - PHP - JavaScript</span>                   
+                    </div>
+                </div>
+
+                <div id="techno">
+                    Technologies : <span>SpringBoot - Angular - Figma</span>
+                </div>
+
                 <div class="competences-languages">
                     <h3>Langues</h3>
-                    
-                        <ul>
-                            <li><strong>Titre</strong> : description</li> 
-                        </ul>
-                        
+                    <ul>
+                        <li><strong>Anglais</strong> : Niveau professionnel</li> 
+                        <li><strong>Espagnol</strong> : Bilingue</li> 
+                    </ul>     
                 </div>
             </div> 
         </section>

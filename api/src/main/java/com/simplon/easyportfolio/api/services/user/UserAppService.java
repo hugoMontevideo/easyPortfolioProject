@@ -10,6 +10,7 @@ import com.simplon.easyportfolio.api.repositories.security.OwnerRepository;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceModel;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,8 +54,7 @@ public class UserAppService {
         );
         return userModel;
     }
-
-    public UserServiceModel updateUser(UserServiceUpdateModel serviceModel) {
+    public UserServiceModel updateUser(@NotNull UserServiceUpdateModel serviceModel) {
         User userByEmail = ownerRepository.findByEmail(serviceModel.getEmail());
         serviceModel.setPassword(userByEmail.getPassword());
         User user = mapper.userServiceUpdateToUser( serviceModel);

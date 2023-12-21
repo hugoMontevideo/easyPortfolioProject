@@ -13,7 +13,6 @@ export interface User{
     profileImgPath: string;
     portfolios?: Portfolio[],
     roles: Role[]
-    // role!: string;
     // token!: string;
     // confirmed!: number;
 }

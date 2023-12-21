@@ -105,15 +105,15 @@
 .modify-img-btn{  // onDeletePicture ()
     position: relative;
     border: none;
-        padding: .2rem .3rem;
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-        background-color: transparent;
-        .icon{
-            font-size: .7rem;
-            color: rgba(0, 0, 0, 0.322);
-        }
+    padding: .2rem .3rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: transparent;
+    .icon{
+        font-size: .7rem;
+        color: rgba(0, 0, 0, 0.322);
+    }
     fa-icon{
         color: rgb(138, 131, 131);
     }
