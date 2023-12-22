@@ -105,68 +105,103 @@
         </div>     
     </section><!-- end .exemple project -->
     <!-- *** end section *** -->
-
-        <section id="online-skills" class="content_example skills page3" >
-            <div class="skills-presentation">
-                <h1>Hard &<br> Soft skills</h1>
-                <p>
-                    "Je me considère comme une personne très reactive, à l'écoute et
-                    capable de traduire les besoins du client.<br>
-                    J'ai une large expérience professionnelle dans beaucoup de domaines
-                    que je pourrai mettrai à profit dans le développement web.<br>
-                    N'hésitez pas à visiter mon profil Linkedin pour me connaitre
-                    un peu plus..." <em>Vous pouvez changer ce texte dans 'Compétences'</em>   
-                </p>
+    <section id="online-skills" class="content_example skills page3" >
+        <div class="skills-presentation">
+            <h1>Hard &<br> Soft skills</h1>
+            <p>
+                "Je me considère comme une personne très reactive, à l'écoute et
+                capable de traduire les besoins du client.<br>
+                J'ai une large expérience professionnelle dans beaucoup de domaines
+                que je pourrai mettrai à profit dans le développement web.<br>
+                N'hésitez pas à visiter mon profil Linkedin pour me connaitre
+                un peu plus..." <em>Vous pouvez changer ce texte dans 'Compétences'</em>   
+            </p>
+        </div>
+        <div class="skills-box competences">
+            <div class="competences-perso">
+                <h3>Compétences personnelles</h3>  
+                <ul>
+                    <li *ngFor="let skill of portfolio.skills"><strong>{{ skill.title | titlecase }}</strong></li>  
+                </ul>
             </div>
-            <div class="skills-box competences">
-                <div class="competences-perso">
-                    <h3>Compétences personnelles</h3>  
-                    <ul>
-                        <li *ngFor="let skill of portfolio.skills"><strong>{{ skill.title | titlecase }}</strong></li>  
+                
+            <div class="scrolling none">
+                <div id="langages_pro" class=" mb-3" data-text=" HTML - CSS - PHP - MySQL - JavaScript - ">
+                    Langages informatiques : <span>Java - PHP - JavaScript</span>                   
+                </div>
+            </div>
+
+            <div id="techno" class=" mb-3">
+                Technologies : <span>SpringBoot - Angular - Figma</span>
+            </div>
+
+            <div class="competences-languages">
+                <h3>Langues</h3>
+                <ul>
+                    <li><strong>Anglais</strong> : Niveau professionnel</li> 
+                    <li><strong>Espagnol</strong> : Bilingue</li> 
+                </ul>     
+            </div>
+        </div> 
+    </section>
+
+    <section id="online-educations" class="content_example page4" >
+        <div id="educations-div" class="educations-div">         
+            <h1 id="h1_educ" class="mb-4" >Formations</h1>
+            <div class="educations-box" *ngIf="portfolio.educations.length > 0">
+                <div class="education">
+                    <ul class="" >
+                        <li *ngFor="let education of portfolio.educations" class="d-flex justify-content-between" >
+                            <div class="educ1 d-flex justify-content-center" >{{education.startDate}}</div> - 
+                            <div class="educ2 d-flex justify-content-center">{{education.endDate}}</div> :
+                            <div class="educ3 ms-2"> {{ education.degree }} </div>
+                            <div class="educ4"> {{ education.school }}</div>
+                        </li>
                     </ul>
                 </div>
-                  
-                <div class="scrolling none">
-                    <div id="langages_pro" data-text=" HTML - CSS - PHP - MySQL - JavaScript - ">
-                        Langages informatiques : <span>Java - PHP - JavaScript</span>                   
-                    </div>
-                </div>
+            </div>
+        </div>     
+    </section><!-- end .exemple educations -->
 
-                <div id="techno">
-                    Technologies : <span>SpringBoot - Angular - Figma</span>
-                </div>
-
-                <div class="competences-languages">
-                    <h3>Langues</h3>
-                    <ul>
-                        <li><strong>Anglais</strong> : Niveau professionnel</li> 
-                        <li><strong>Espagnol</strong> : Bilingue</li> 
-                    </ul>     
-                </div>
-            </div> 
-        </section>
-
-        <section id="online-about" class="content_example about page4 ">
-            <div class="page4-box">
-                <div >         
-                    <h1>A propos</h1>
-                    <div class="about-img">
-                        <img *ngIf="portfolio.profileImgPath; else srcDefault" 
-                              [src]="ENV_PICT+'portfolios/' + portfolio.profileImgPath" 
-                              [alt]="'Photo de profil '+portfolio.firstname">  
-                        <ng-template #srcDefault>
-                          <img [src]="ENV_ICONS + 'girl-shirt-avatar.png'" [alt]="'developpeur : '+portfolio.firstname">  
-                        </ng-template>
-                      </div>
-                </div>
-                <div class="about-presentation">
-                    <p>
-                    "A propos de moi...<em>Vous pouvez changer ce texte dans 'Portfolios - 1'</em>"; ?> 
-                    </p>
+    <section id="online-experiences" class="content_example page5" >
+        <div id="experiences-div" class="experiences-div">         
+            <h1 id="h1_exp" class="mb-4" >Experiences professionnelles</h1>
+            <div class="experiences-box" *ngIf="portfolio.experiences.length > 0">
+                <div class="experience">
+                    <ul class="" >
+                        <li *ngFor="let experience of portfolio.experiences" class="d-flex justify-content-between" >
+                            <div class="exper1 d-flex justify-content-center" >{{experience.startDate}}</div> - 
+                            <div class="exper2 d-flex justify-content-center">{{experience.endDate}}</div> :
+                            <div class="exper3 ms-2"> {{ experience.title }} </div>
+                            <div class="exper4"> {{ experience.company }}</div>
+                        </li>
+                    </ul>
                 </div>
             </div>
+        </div>     
+    </section><!-- end .exemple experiences -->
 
-        </section>
+    <section id="online-about" class="content_example about page6 ">
+        <div class="page4-box">
+            <div >         
+                <h1>A propos</h1>
+                <div class="about-img">
+                    <img *ngIf="portfolio.profileImgPath; else srcDefault" 
+                            [src]="ENV_PICT+'portfolios/' + portfolio.profileImgPath" 
+                            [alt]="'Photo de profil '+portfolio.firstname">  
+                    <ng-template #srcDefault>
+                        <img [src]="ENV_ICONS + 'girl-shirt-avatar.png'" [alt]="'developpeur : '+portfolio.firstname">  
+                    </ng-template>
+                    </div>
+            </div>
+            <div class="about-presentation">
+                <p>
+                "A propos de moi...<em>Vous pouvez changer ce texte dans 'Portfolios - 1'</em>"; ?> 
+                </p>
+            </div>
+        </div>
+
+    </section>
 
         <footer>
             <section class="footer-layout">

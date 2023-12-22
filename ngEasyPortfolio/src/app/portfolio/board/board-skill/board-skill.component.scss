@@ -1,5 +1,74 @@
 
+.topmenu {
+  // position: ;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(10, 25, 47, 0.89);
+  padding: .5em .5em;
+  .topmenu_layout {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 0 0.5em .3em;
+    border-bottom: solid 1px #52caae;
+  }
+  #logo_container a {
+     display: inline-block;
+     border: #52caae solid 1px;
+     padding: 1px;
+     text-decoration: none;
+     padding: 0px 2px;
+     font-size: 1em;
+     font-weight: 400;
+     font-family: 'Times New Roman', Times, serif;
+     color: #52caae;
+     .letter1 {
+           font-size: 1.9em;
+           background-color: #52caae;
+      }   
+  }
+  .svg_burger {
+    position: relative;
+    width: 35px;
+  }
+      
+  .svg_burger img {
+   width: 100%;
+ }
+ 
+  .svg_burger:hover {
+   cursor: pointer;
+ }
+ 
+ .burger {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(10, 25, 47, 0.557);
+  padding: 3em auto 4em;
+  width: 100%;
+ }
+ .burger a {
+  font-family: Helvetica, Arial, sans-serif;
+  text-decoration: none;
+  padding: 1em 2em;
+  color: #52caae;
+  font-size: .8em;
+  font-weight: bold;
+}
 
+.burger a:hover {
+  color: #4646c6;
+  background-color: rgba(213, 213, 243, 0.555);
+}
+
+}
 
 .content_example.page3 {
     flex-direction: column;
@@ -18,9 +87,12 @@
     margin: 0 auto;
     h1 {
         color: #52caae;
-        font-size: 3.8em;
+        font-size: 3.5rem;
         font-weight: 700;
         letter-spacing: 0px;
+    }
+    p{
+      font-size: .8rem;
     }
 
 }

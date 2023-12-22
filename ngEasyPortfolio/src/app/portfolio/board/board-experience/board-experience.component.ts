@@ -1,6 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { ExperienceService } from '../../services/experience.service';
 import { Experience } from '../../component/experience/experience.interface';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-board-experience',
@@ -8,6 +9,7 @@ import { Experience } from '../../component/experience/experience.interface';
   styleUrls: ['./board-experience.component.scss']
 })
 export class BoardExperienceComponent {
+  ENV_ICONS: string = `${environment.apiIcons}/`;
   @Input() experiences:Experience[]= [];
   @Input() portfolioId?:number;
 

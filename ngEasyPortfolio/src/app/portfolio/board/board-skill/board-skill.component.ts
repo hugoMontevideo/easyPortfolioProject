@@ -1,6 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { Skill } from '../../component/skill/skill.interface';
 import { SkillService } from '../../services/skill.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-board-skill',
@@ -8,6 +9,7 @@ import { SkillService } from '../../services/skill.service';
   styleUrls: ['./board-skill.component.scss']
 })
 export class BoardSkillComponent {
+  ENV_ICONS: string = `${environment.apiIcons}/`;
   @Input() skills:Skill[]= [];
   @Input() portfolioId?:number;
 
