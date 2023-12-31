@@ -76,16 +76,16 @@
     width: 100%;
     background-color: rgba(3, 1, 19, 0.918);
     padding: 0 0 4em 0;
-  }
+    min-height: 45vh;
+}
   
-  .experiences-box {
+.experiences-box {
     display: flex;
     justify-content: center;
     width: 100%;
     .exper1, .exper2 {
       width: 6rem;
       color: #4fc0a6;
-  
     }
     .exper3 {
       width: 9rem;
@@ -93,9 +93,9 @@
     .exper4 {
       width: 8rem;
     }
-  }
+}
   
-  .experiences-div {
+.experiences-div {
     width: 90%;
     margin: 0 auto;
     padding: 2em;
@@ -109,4 +109,4 @@
       text-align: center;
     }
   
-  }
+}

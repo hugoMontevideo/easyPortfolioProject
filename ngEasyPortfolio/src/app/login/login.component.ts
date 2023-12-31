@@ -10,7 +10,6 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
   ENV_ICONS: string = `${environment.apiIcons}/`;
   loginEmailPwd: LoginEmailPwd = {
                   email: "", 

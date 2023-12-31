@@ -1,3 +1,8 @@
+.main{
+    background-image: url("../../../../assets/resources/motif.png");
+    background-size: cover;
+}
+
 .portfolio-list{
     min-height: 80vh;
 }
@@ -11,20 +16,15 @@
 
 .display{
     background-color: rgba(218, 182, 135, 0.404);
-    border: red 1px solid;
-    .frame{  // live changes displaying
-        border: rgb(89, 0, 255) 1px solid;
-        height: 50% ;
-        margin: 5rem auto;
-
-    }
 }
 .portfolio-box {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     .card{
-        width: 30%;
+        width: 25%;
+        box-shadow: 11px 8px 14px 0px #00000041;
+
     }
   }
   
@@ -58,3 +58,44 @@
     }
 
 }
+
+// from portfolio list item
+.portfolio-list-item{
+    min-height: 80vh;
+}
+
+.aside{
+    min-height: 90vh;
+    background-color: #080707a1;
+    box-shadow: inset 11px 8px 14px 0px #00000075;
+    .card{
+        color: rgba(255, 255, 255, 0.89);
+    }
+    
+}
+
+.display{
+    background-color: rgba(218, 182, 135, 0.404);
+    box-shadow: inset 5px 4px 20px 3px rgba(0, 0, 0, 0.4392156863);
+    .frame{  // live changes displaying
+        border: rgb(89, 0, 255) 1px solid;
+        height: 52vh ;
+        margin: 5rem auto;
+        width: 40vw;
+        overflow-y: scroll;    
+    }
+}
+
+.custom-accordion{
+    box-sizing: border-box;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.329);
+    border: none;
+    h2{
+        button{
+            color: white;
+            font-size: 1.1rem;
+        }
+
+    }
+}
+

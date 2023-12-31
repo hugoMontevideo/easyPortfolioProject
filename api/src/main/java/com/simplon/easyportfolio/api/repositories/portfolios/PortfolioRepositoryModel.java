@@ -46,8 +46,6 @@ public class PortfolioRepositoryModel {
     private List<EducationRepositoryModel> educations ;
     @OneToMany(mappedBy = "portfolio")
     private List<SkillRepositoryModel> skills;
-    //@OneToMany(mappedBy = "portfolio", orphanRemoval = true)
-    //private List<SocialLinkRepositoryModel> socialLinks ;
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;

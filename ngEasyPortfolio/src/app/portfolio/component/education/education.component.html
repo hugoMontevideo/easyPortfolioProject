@@ -81,10 +81,10 @@
         <div class="d-flex justify-content-between elt-title">
           {{education.training}}
           <div>
-            <button (click)="onEditEducation(iii)" class="elt-button" >
+            <button (click)="onEditEducation(iii)" class="elt-button" title="modifier" >
               <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
             </button> 
-            <button (click)="onDeleteEducation(education.id, iii)" class="elt-button" >
+            <button (click)="onDeleteEducation(education.id, iii)" class="elt-button-red" title="supprimer" >
                 <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
             </button>
           </div>

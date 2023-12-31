@@ -43,7 +43,7 @@ public class SkillController {
         SkillServiceResponseModel addedSkill = portfolioService.saveSkill( serviceModel );
         return mapper.skillSvcToGetDTO(addedSkill);
     }
-    // update Skill
+    /** update Skill **/
     @PutMapping("/{id}")
     public SkillGetDTO update(@RequestBody @Valid SkillUpdateDTO DTO){
         SkillServiceRequestUpdateModel skillServiceRequestUpdModel = mapper.skillDtoToServiceRequestModel(DTO);

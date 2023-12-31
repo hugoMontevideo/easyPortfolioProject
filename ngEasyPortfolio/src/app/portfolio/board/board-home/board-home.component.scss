@@ -11,15 +11,9 @@
     background-color: rgba(10, 25, 47, 0.89);
     padding: .5em .5em;
     .topmenu_layout {
-      display: -webkit-box;
-      display: -ms-flexbox;
       display: flex;
-      -webkit-box-pack: justify;
-          -ms-flex-pack: justify;
-              justify-content: space-between;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
+      justify-content: space-between;
+      align-items: center;
       padding: 0 0.5em .3em;
       border-bottom: solid 1px #52caae;
     }
@@ -100,15 +94,13 @@
     .content_page.portfolios {
       text-align:center;    
       width: 60%;
-      padding-top: 1rem;
     }
     
     .content_page.portfolios p.hi {
       font-weight: 500;
       font-size: 1rem;
       margin: .5rem 0;
-      -webkit-transform: skewX(-30deg);
-              transform: skewX(-30deg);     
+      transform: skewX(-30deg);     
     }
     .content_page.portfolios .high-light {
       margin: .8rem 0;
@@ -144,7 +136,6 @@
       text-decoration: none;
       text-align: center;
       padding: .5rem;
-      margin: .5rem 0;
       width: 10rem;
       font-size: .8rem;
     }
@@ -153,15 +144,14 @@
       display: flex;
       margin: 0 ;
       width: 30px;
-      height: 600px;
-      align-items: center;
+      height: 45vh;
+      align-items: flex-end;
     }
     .mail p {
       transform: rotate(270deg);
       transform-origin: left top;
       font-family: "Petit Formal Script", cursive;
       font-size: 1rem;
-      margin-bottom: 4rem;
       color: #4fc0a6;
     }
   

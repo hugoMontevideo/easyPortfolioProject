@@ -4,7 +4,7 @@
     <header class="topmenu header_layout">
         <div class="topmenu_layout">
             <div id="logo_container">
-                <a href="#home" id="svg3" >      
+                <a [routerLink]="['/item/1']" (click)="scrollToSection('online-home')" id="svg3" title="Accueil" >      
                     H
                     <!-- <div class="letter1"><? // substr($_SESSION['user']['firstname'],0,1) ; ?> </div> -->
                     <!-- <div class="letter2">X</div> -->      
@@ -24,11 +24,17 @@
         </div>
         <!-- menu qui apparaît lors du clic sur le burger -->
          <nav class="burger" *ngIf="burger" >
-            <a href="#online-home">Accueil</a>
-            <a href="#online-projects">Réalisations</a>
-            <a href="#online-skills">Compétences</a>
-            <a href="#online-about">A propos</a>
-            <a href="?action=home" target="_blank">easyPortfolio - Accueil</a>
+            <a [routerLink]="['/item/1']" (click)="scrollToSection('online-home')">Accueil</a>
+            <a [routerLink]="['/item/1']"  fragment="projects" 
+                    (click)="scrollToSection('online-projects')" 
+                    *ngIf="portfolio.projects.length > 0">
+                Réalisations
+            </a>
+            <a [routerLink]="['/item/1']" (click)="scrollToSection('online-skills')" >Compétences</a>
+            <a [routerLink]="['/item/1']" (click)="scrollToSection('online-educations')" >Formations et études</a>
+            <a [routerLink]="['/item/1']" (click)="scrollToSection('online-experiences')" >Experiences professionnelles</a>
+            <a [routerLink]="['/item/1']" (click)="scrollToSection('online-about')" >A propos</a>
+            <a href="" >easyPortfolio - Accueil</a>
         </nav> 
     </header>
 </div>
@@ -38,18 +44,18 @@
     <section id="online-home" class="content_example page1" >    
         <article class="networks">
             <div class="github">
-                <a href="">
+                <a href="" title="Mon github">
                     <img [src]="ENV_ICONS+'template-dev/icons8-git.svg'" alt="">
                 </a>
             </div>               
-            <div class="linkedin">
-                <a href="">
+            <div class="linkedin" title="Mon Linkedin" >
+                <a href="" title="Mon instagram" >
                 <img [src]="ENV_ICONS+'template-dev/icons8-in.svg'" alt="">
 
                 </a>
             </div>
             <div class="instagram">
-                <a href="">
+                <a href="" title="Mon twitter" >
                 <img [src]="ENV_ICONS+'template-dev/icons8-insta.svg'" alt="">
                 </a>
             </div>
@@ -58,7 +64,7 @@
                 <img [src]="ENV_ICONS+'template-dev/icons8-tw.svg'" alt="">
                 </a>
             </div>
-            <div class="fb">
+            <div class="fb" title="Mon fb" >
                 <a href="">
                 <img [src]="ENV_ICONS+'template-dev/icons8-fb.svg'" alt="">
                 </a>
@@ -72,7 +78,11 @@
             <h3>{{ portfolio.title |titlecase}}</h3>
             <p class="city">{{portfolio.city}}</p> 
             <div class="achievements">
-                <a href="#online-projects" class="add achievement">Projets réalisés</a>
+                <a [routerLink]="['/item/1']" class="add achievement"
+                    (click)="scrollToSection('online-projects')" 
+                    *ngIf="portfolio.projects.length > 0">
+                    Projets réalisés
+            </a>
             </div>
          
         </article><!-- end .content_page -->
@@ -83,10 +93,10 @@
     </section><!-- end .exemple_content -->
         
      <!-- *** end section *** -->
-    <section id="online-projects" class="content_example page2" >
+    <section id="online-projects" class="content_example page2" *ngIf="portfolio.projects.length > 0" >
         <div id="realisations-div" class="realisations-div">         
             <h1>Réalisations</h1>
-            <div class="realisations-box" *ngIf="portfolio.projects.length > 0">
+            <div class="realisations-box" >
                 <div class="realisations-box-card" *ngFor="let project of portfolio.projects">
                    
                     <a href="https://www.easyportfolio.hugo-machado.com/public/index.php"
@@ -152,10 +162,11 @@
                 <div class="education">
                     <ul class="" >
                         <li *ngFor="let education of portfolio.educations" class="d-flex justify-content-between" >
-                            <div class="educ1 d-flex justify-content-center" >{{education.startDate}}</div> - 
-                            <div class="educ2 d-flex justify-content-center">{{education.endDate}}</div> :
-                            <div class="educ3 ms-2"> {{ education.degree }} </div>
+                            <div class="educ1 d-flex justify-content-center" >{{education.startDate| date:'dd/MM/yyyy'}}</div> - 
+                            <div class="educ2 d-flex justify-content-center">{{education.endDate | date:'dd/MM/yyyy'}}</div> :
+                            <div class="educ3 ms-2"> {{ education.training }} </div>
                             <div class="educ4"> {{ education.school }}</div>
+                            <div class="educ5 text-center"> {{ education.degree !=null ?education.degree :'-' }}</div>
                         </li>
                     </ul>
                 </div>
@@ -165,13 +176,13 @@
 
     <section id="online-experiences" class="content_example page5" >
         <div id="experiences-div" class="experiences-div">         
-            <h1 id="h1_exp" class="mb-4" >Experiences professionnelles</h1>
+            <h1 id="h1_exp" class="mb-4 text-center" >Experiences professionnelles</h1>
             <div class="experiences-box" *ngIf="portfolio.experiences.length > 0">
                 <div class="experience">
                     <ul class="" >
                         <li *ngFor="let experience of portfolio.experiences" class="d-flex justify-content-between" >
-                            <div class="exper1 d-flex justify-content-center" >{{experience.startDate}}</div> - 
-                            <div class="exper2 d-flex justify-content-center">{{experience.endDate}}</div> :
+                            <div class="exper1 d-flex justify-content-center" >{{experience.startDate| date:'dd/MM/yyyy'}}</div> - 
+                            <div class="exper2 d-flex justify-content-center">{{experience.endDate| date:'dd/MM/yyyy'}}</div> :
                             <div class="exper3 ms-2"> {{ experience.title }} </div>
                             <div class="exper4"> {{ experience.company }}</div>
                         </li>
@@ -181,26 +192,27 @@
         </div>     
     </section><!-- end .exemple experiences -->
 
-    <section id="online-about" class="content_example about page6 ">
-        <div class="page4-box">
+    <section id="online-about" class="about page6 pb-6">
+        <h1 class="text-center mb-4 pt-4">A propos</h1>
+        <div class="page6-box d-flex">
             <div >         
-                <h1>A propos</h1>
-                <div class="about-img">
-                    <img *ngIf="portfolio.profileImgPath; else srcDefault" 
-                            [src]="ENV_PICT+'portfolios/' + portfolio.profileImgPath" 
-                            [alt]="'Photo de profil '+portfolio.firstname">  
-                    <ng-template #srcDefault>
-                        <img [src]="ENV_ICONS + 'girl-shirt-avatar.png'" [alt]="'developpeur : '+portfolio.firstname">  
-                    </ng-template>
-                    </div>
+              
+                <img *ngIf="portfolio.profileImgPath; else srcDefault" 
+                        [src]="ENV_PICT+'portfolios/' + portfolio.profileImgPath" 
+                        [alt]="'Photo de profil '+portfolio.firstname"
+                        class="about-img">  
+                <ng-template #srcDefault>
+                    <img [src]="ENV_ICONS + 'girl-shirt-avatar.png'" [alt]="'developpeur : '+portfolio.firstname"
+                    class="about-img">  
+                </ng-template>
+              
             </div>
-            <div class="about-presentation">
+            <div class="about-presentation ms-5">
                 <p>
-                "A propos de moi...<em>Vous pouvez changer ce texte dans 'Portfolios - 1'</em>"; ?> 
+                "A propos de moi Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur quisquam sed enim sequi rerum iusto autem fuga! Reiciendis error, ipsum excepturi laboriosam quibusdam obcaecati porro amet eos. Laudantium cupiditate odio corrupti minus quo sunt cum porro ratione, aperiam nobis culpa aut, temporibus facilis rem earum nihil autem enim! Pariatur, dicta?  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut rem accusantium ad blanditiis eum. Ea quisquam nostrum, dolores doloribus eveniet aliquam. Nisi nihil, fugiat vero maiores expedita quo ratione repudiandae ipsum dolor facilis iste pariatur cum ipsam laboriosam ab earum perspiciatis eius est voluptates. Provident sequi sed minima quam autem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea architecto ipsam saepe exercitationem pariatur magnam voluptate vitae quaerat delectus omnis? Sapiente, dolores. Earum, reprehenderit! Doloremque, voluptatum tempora maxime neque illum officia totam provident quos corporis alias, nisi odit modi. Natus dolores magnam ab quod incidunt rem odio iste consequatur sed!
                 </p>
             </div>
         </div>
-
     </section>
 
         <footer>

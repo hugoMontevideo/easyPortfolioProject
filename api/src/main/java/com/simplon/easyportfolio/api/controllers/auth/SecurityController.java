@@ -1,12 +1,9 @@
 package com.simplon.easyportfolio.api.controllers.auth;
 
 import com.simplon.easyportfolio.api.controllers.portfolios.PortfolioFullDTO;
-import com.simplon.easyportfolio.api.domain.User;
 import com.simplon.easyportfolio.api.exceptions.AccountExistsException;
 import com.simplon.easyportfolio.api.exceptions.UnauthorizedException;
-import com.simplon.easyportfolio.api.exceptions.UserNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
-import com.simplon.easyportfolio.api.services.impl.JwtUserServiceImpl;
 import com.simplon.easyportfolio.api.services.jwt.JwtUserService;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceModel;
 import com.simplon.easyportfolio.api.services.user.UserAppService;
@@ -25,7 +22,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin

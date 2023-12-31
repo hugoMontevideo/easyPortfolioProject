@@ -16,6 +16,7 @@ export class PortfolioListComponent implements OnInit {
   inputError?: string;
   isPortfolioFormShowing: boolean = false; // display or hide form
   allDisplay=false;
+  isProtected = true;
 
   newPortfolio: Portfolio = {
     id: -1,
@@ -50,7 +51,8 @@ export class PortfolioListComponent implements OnInit {
 
   ngOnInit(): void {
     this.jwtService.jwtToken = this.jwtService.getToken();
-    this.getAllPortfolios();
+    this.getAllPortfolios(); 
+
     console.log(this.jwtService.isLogged());
     
   }
@@ -129,29 +131,30 @@ export class PortfolioListComponent implements OnInit {
 
   public onSubmitPortfolio = ()=>{    
     this.portfolioService.savePortfolio(this.newPortfolio)
-     .subscribe({
-       next:(data)=>{
-           this.isPortfolioFormShowing = false;  // hide the form
-           this.newPortfolio = this.portfolioService.resetNewPortfolio(this.newPortfolio.user);
-           this.portfolioService.getAllPortfolios(this.jwtService.getUser()) // refresh portfolios[]
-             .subscribe({
-                 next: (data:Portfolio[]) => { 
-                         this.portfolios = data;
-                      },
-                 error: (_error: Error)=>{
-                     console.log("**error Getting Portfolios**"); 
-                   }
-               });
-         },
-       error:(_error)=>{
-        console.error("**error updating Project**");
-         if(_error instanceof HttpErrorResponse ) {
-          this.inputError = _error.error.title;
-        } 
-       }
-   });
+      .subscribe({
+          next:(data)=>{
+              this.isPortfolioFormShowing = false;  // hide the form
+              this.newPortfolio = this.portfolioService.resetNewPortfolio(this.newPortfolio.user);
+              this.portfolioService.getAllPortfolios(this.jwtService.getUser()) // refresh portfolios[]
+                .subscribe({
+                    next: (data:Portfolio[]) => { 
+                            this.portfolios = data;
+                          },
+                    error: (_error: Error)=>{
+                        console.log("**error Getting Portfolios**"); 
+                      }
+                  });
+            },
+          error:(_error)=>{
+            console.error("**error updating Project**");
+            if(_error instanceof HttpErrorResponse ) {
+              this.inputError = _error.error.title;
+            } 
+          }
+      });
   
   }
+  
 }
 
 

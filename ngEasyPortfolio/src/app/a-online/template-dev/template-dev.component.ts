@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from 'src/app/portfolio/model/portfolio/portfolio.interface';
 import { PortfolioService } from 'src/app/portfolio/services/portfolio.service';
 import { environment } from 'src/environments/environment';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-template-dev',
@@ -34,6 +35,7 @@ export class TemplateDevComponent implements OnInit {
     constructor(
       private route: ActivatedRoute,
       private portfolioService: PortfolioService,
+      private viewportScroller : ViewportScroller
     ){};
   
   ngOnInit(): void {
@@ -42,23 +44,27 @@ export class TemplateDevComponent implements OnInit {
     this.portfolioService.getPortfolioById(this.portfolio.id)
       .subscribe({
         next:(response:Portfolio) => { 
-                                    this.portfolio = response;  
-                                    console.log(response);
-                                    
-                                    console.log(this.portfolio.projects[2].documents[0].filename);
-                                                                   
+                                    this.portfolio = response;                                                                    
                                   }, 
         error: (err:Error) => {
                         // TODO  manage error response
                         console.error("Error portfolioById")
                     }
     });
-
   }
 
   onBurger = ()=>{
-    this.burger=!this.burger;
-    console.log(this.burger);
-    
+    this.burger=!this.burger;    
   }
+
+  scrollToSection = (sectionId : string):void =>{   
+    this.viewportScroller.scrollToAnchor(sectionId);
+    this.burger=false;
+  }
+
+
+
+
+
+
 }

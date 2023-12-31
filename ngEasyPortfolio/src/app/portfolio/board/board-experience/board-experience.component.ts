@@ -19,9 +19,9 @@ export class BoardExperienceComponent {
 
     this.experienceService.getExperiences(this.portfolioId) // refresh projects []
           .subscribe({
-              next: (data:Experience[]) => { this.experiences = data },
-              error: (err:Error)=>{console.error("**error Getting experiences**");} //TODO *******
-            });    
+            next: (data:Experience[]) => { this.experiences = data },
+            error: (err:Error)=>{console.error("**error Getting experiences**");} //TODO *******
+          });    
   }
 
 }

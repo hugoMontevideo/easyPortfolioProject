@@ -8,7 +8,6 @@
       <img src="http://localhost/upload/icons/eP.svg" alt="logo easyportfolio">
     </a> 
     
-
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -49,7 +48,8 @@
   </div>
 </nav>
  
-<div class="secondary-nav d-flex justify-content-end px-1 pt-1 align-items-center"> 
+<div class="secondary-nav d-flex justify-content-end px-1 pt-1 align-items-center pb-1"
+    [ngClass]="{'protected': isProtected}"  > 
   <div class="nav-item" *ngIf="jwtToken.getUser()" >
     <div class="user-initial d-flex justify-content-center align-items-center">
       <button class="btn btn-primary d-flex justify-content-center align-items-center" type="button" 

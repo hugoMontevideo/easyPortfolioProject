@@ -47,7 +47,6 @@ export class BoardHomeComponent {
     this.portfolioService.getPortfolioById(this.portfolioId) // refresh projects []
           .subscribe({
               next: (data:Portfolio) => { this.portfolio = data 
-                console.log(data);
                 
               },
               error: (err:Error)=>{console.error("**error Getting Projects**");} //TODO *******

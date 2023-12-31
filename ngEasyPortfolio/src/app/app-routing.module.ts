@@ -17,13 +17,10 @@ const routes: Routes = [
   { path: "item/:id", component: TemplateDevComponent},
 
   { path: "**", redirectTo:""},
-
- 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes )], //***** usehash à enlever  */
-  // imports: [RouterModule.forRoot(routes, {useHash:true} )], //***** usehash à enlever  */
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

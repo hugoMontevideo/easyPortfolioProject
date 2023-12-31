@@ -16,6 +16,13 @@ a.navbar-brand{
 
 }
 
+.secondary-nav.protected{
+    background-color: black;
+    border-bottom: 1px solid rgba(189, 241, 189, 0.372);
+}
+
 a.register, a.login{
     font-size: .8rem;    
 }
+
+

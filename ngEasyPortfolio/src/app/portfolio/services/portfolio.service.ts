@@ -7,6 +7,7 @@ import { PortfolioDTO } from "../model/portfolio/portfolioDTO.interface";
 import { JWTTokenService } from "src/app/services/JWTToken.service";
 import { User } from "src/app/core/user/user.interface";
 import { PortfolioAddDto } from "../model/portfolio/portolio-add-dto.interface";
+import { BoardManager } from "../component/portfolio-list-item/board-manager.interface";
 
 @Injectable()
 
@@ -32,7 +33,7 @@ export class PortfolioService {
                                 profileImgPath:portfolio.profileImgPath,
                                 aboutMe: portfolio.aboutMe,
                                 userId: portfolio.user?.id
-                            }
+                            }          
         return this.http.put<Portfolio>(`${this.ENV_DEV}/portfolios/${portfolio.id}`, savedPortfolio )
             .pipe(catchError(this.handleError)); // catch validator errors
     }
@@ -76,6 +77,13 @@ export class PortfolioService {
         return this.http.delete(`${this.ENV_DEV}/portfolios/${portfolioId}` );  
     }
 
+    getUserByEmail = (): Observable<any> | any => {    
+      if(  this.jwtTokenService.getUser() != null) {
+          let email = this.jwtTokenService.getUser();
+          return this.http.get<any>(`http://localhost/auth/users/${email}`);
+      }
+  }
+
 
     /** UTILS */
     private handleError(error: HttpErrorResponse):Observable<never>{
@@ -116,15 +124,23 @@ export class PortfolioService {
           };
   }
 
-
-    getUserByEmail = (): Observable<any> | any => {    
-        if(  this.jwtTokenService.getUser() != null) {
-            let email = this.jwtTokenService.getUser();
-            return this.http.get<any>(`http://localhost/auth/users/${email}`);
-        }
+  /**
+   * Manages forms and board displaying
+   * @returns BoardManager
+   */
+  resetBoardManager=(): BoardManager =>{
+    const boardManager: BoardManager = {
+      isShowingHome:false,
+      isShowingProjects : false,
+      isShowingSkills : false,
+      isShowingEducs : false,
+      isShowingExpers : false,
+      isPortfolioFormShowing : false
     }
+    return boardManager;
+  }
 
-   
+
 
     
 }
