@@ -12,8 +12,6 @@ public class SkillServiceModel {
     private Long id;
     private String title;
     private String description;
-    //@OneToMany(mappedBy = "skill", orphanRemoval = true)
-    //private List<DocumentSkillRepositoryModel> skills = new ArrayList<>();
     private PortfolioServiceModel portfolio;
 
 

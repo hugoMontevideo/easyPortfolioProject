@@ -5,5 +5,5 @@ export interface Experience {
     description: string,
     startDate: Date,
     endDate:Date,
-    portfolioId:number
+    portfolioId?:number
 }

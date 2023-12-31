@@ -10,6 +10,7 @@ import com.simplon.easyportfolio.api.services.educations.EducationServiceRequest
 import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioService;
+import com.simplon.easyportfolio.api.services.projects.ProjectServiceRequestModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
 import jakarta.validation.Valid;
@@ -30,14 +31,24 @@ public class EducationController {
 
     // add Education
     @PostMapping
-    public EducationGetDTO add(@RequestBody @Valid EducationDTO DTO){
-        EducationServiceRequestModel educationServiceRequestModel =
-                mapper.educationDtoToServiceRequestModelAdd(DTO);
+    public EducationGetDTO add(@RequestBody @Valid EducationAddDTO DTO){
+        // mapping DTO to service request model
+        EducationServiceRequestModel serviceModel = new EducationServiceRequestModel(DTO.getTraining(), DTO.getPortfolioId());
 
-        EducationServiceResponseModel addedEducation = portfolioService.saveEducation( educationServiceRequestModel );
+        EducationServiceResponseModel addedEducation = portfolioService.saveEducation( serviceModel );
         return mapper.educationSvcToGetDTO(addedEducation);
     }
 
+    // update Education
+    @PutMapping("/{id}")
+    public EducationGetDTO update(@RequestBody @Valid EducationUpdateDTO DTO){
+        EducationServiceRequestUpdateModel educationServiceRequestUpdModel =
+                mapper.educationDtoToServiceRequestModel(DTO);
+
+        EducationServiceResponseModel updatedEducation =
+                portfolioService.updateEducation( educationServiceRequestUpdModel );
+        return mapper.educationSvcToGetDTO(updatedEducation);
+    }
     @GetMapping("/{id}")  //  GET BY ID   *****
     public ResponseEntity<EducationGetDTO> findById(@PathVariable Long id){
         try{
@@ -63,15 +74,7 @@ public class EducationController {
         }
     }
     // update Education
-    @PutMapping("/{id}")
-    public EducationGetDTO update(@RequestBody EducationUpdateDTO DTO){
-        EducationServiceRequestUpdateModel educationServiceRequestUpdModel =
-                mapper.educationDtoToServiceRequestModel(DTO);
 
-        EducationServiceResponseModel updatedEducation =
-                portfolioService.updateEducation( educationServiceRequestUpdModel );
-        return mapper.educationSvcToGetDTO(updatedEducation);
-    }
 
 
 

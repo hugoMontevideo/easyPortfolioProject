@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class LoginService {
-
   ENV_BASE :string = environment.baseUrl;
   ENV_DEV : string = environment.apiUrl;
   
@@ -26,7 +25,7 @@ export class LoginService {
     // on fait une instance de httpClient et on empeche l'ajout de middleware
     this.httpClient = new HttpClient(this.httpBackend);
 
-    return this.httpClient.post<any>(`${this.ENV_BASE}/auth/authorize`, loginEmailPwd, {responseType: "json"})
+    return this.httpClient.post<any>(`${this.ENV_BASE}/auth/authorize`, loginEmailPwd )
       .pipe(map(data => {
         if(data){
           this.jwtToken.setToken(data.token);        

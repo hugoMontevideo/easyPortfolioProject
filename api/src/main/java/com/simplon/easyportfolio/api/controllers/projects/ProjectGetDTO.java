@@ -15,6 +15,7 @@ public class ProjectGetDTO {
     private Long id;
     private String title;
     private String description;
+    private String languages;
     private LocalDate date;
     private List<DocumentProjectGetDTO> documents ;
 }

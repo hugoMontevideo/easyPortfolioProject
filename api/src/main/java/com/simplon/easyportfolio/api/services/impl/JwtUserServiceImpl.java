@@ -29,20 +29,21 @@ public class JwtUserServiceImpl implements JwtUserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     private final String signingKey;
-     public JwtUserServiceImpl(@Value("${jwt.signing.key}") String signingKey ){
-         this.signingKey = signingKey;
-     }
+    public JwtUserServiceImpl(@Value("${jwt.signing.key}") String signingKey ){
+        this.signingKey = signingKey;
+    }
 
-     @Override
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-         User user = ownerRepository.findByLogin(username);
-         if(user == null) {
-             throw new UsernameNotFoundException("The owner could not be found. HM");
-         }
-         return user;
-     }
+        User user = ownerRepository.findByEmail(username);
 
-     // USED FOR REGISTRATION
+        if(user == null) {
+            throw new UsernameNotFoundException("The owner could not be found. HM");
+        }
+        return user;
+    }
+
+    // USED FOR REGISTRATION
     @Override
     public Authentication authenticate(String username, String password) throws Exception {
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, password);
@@ -51,12 +52,12 @@ public class JwtUserServiceImpl implements JwtUserService {
 
     @Override
     public UserDetails save(String username, String password) throws AccountExistsException {
-        UserDetails existingUser = ownerRepository.findByLogin(username);
+        UserDetails existingUser = ownerRepository.findByEmail(username);
         if (existingUser != null) {
             throw new AccountExistsException();
         }
         User user = new User();
-        user.setLogin(username);
+        user.setEmail(username);
         user.setPassword(passwordEncoder.encode(password));
         ownerRepository.save(user);
         return user;
@@ -72,9 +73,11 @@ public class JwtUserServiceImpl implements JwtUserService {
 
 
     private String getUsernameFromToken(String token) {
-        System.out.println(signingKey);
         Claims claims =
-                Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token).getBody();
+                Jwts.parser()
+                    .setSigningKey(signingKey)
+                    .parseClaimsJws(token)
+                    .getBody();
         return claims.getSubject();
     }
 
@@ -92,27 +95,3 @@ public class JwtUserServiceImpl implements JwtUserService {
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

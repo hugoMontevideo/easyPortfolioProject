@@ -6,5 +6,5 @@ export interface Education {
     startDate: Date,
     endDate: Date,
     description: string,
-    portfolioId: number
+    portfolioId?: number
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
 import { LoginEmailPwd } from './login-email-pwd.interface';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,7 @@ import { LoginEmailPwd } from './login-email-pwd.interface';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
+  ENV_ICONS: string = `${environment.apiIcons}/`;
   loginEmailPwd: LoginEmailPwd = {
                   email: "", 
                   password: ""
@@ -33,7 +34,7 @@ export class LoginComponent implements OnInit {
                 this.router.navigateByUrl("/portfolios");
       },    
       error: (err:Error) => {
-                this.loginError="Mdp invalide";
+                this.loginError="Mot de passe ou email invalides";
       },
       complete: ()=> {console.log("ok vers portfolio");
       }

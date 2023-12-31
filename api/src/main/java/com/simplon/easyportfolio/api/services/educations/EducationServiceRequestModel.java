@@ -22,4 +22,9 @@ public class EducationServiceRequestModel {
     private String description;
     private Optional<PortfolioServiceModel> portfolio;
     private Optional<Long> portfolioId;
+
+    public EducationServiceRequestModel(String training, Long portfolioId) {
+        this.training = training;
+        this.portfolioId= Optional.ofNullable(portfolioId);
+    }
 }

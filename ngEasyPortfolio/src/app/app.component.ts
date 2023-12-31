@@ -10,9 +10,6 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 export class AppComponent {
   title = 'ngEasyPortfolio';
   faCoffe = faCoffee;
-
-  userEmail = "hello";
-  connectionButton: boolean = false;
   
   constructor(
         private modalService: NgbModal,
@@ -22,10 +19,9 @@ export class AppComponent {
     this.modalService.open(modal);
   }
 
-public getEmitEmail( loginEmail : {userEmail:string} ){
   
 }
 
 
 
-}
+

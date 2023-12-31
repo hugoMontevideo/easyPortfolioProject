@@ -3,13 +3,26 @@ a.navbar-brand{
 }
 
 .user-initial{
-    background-image: linear-gradient(to right, rgb(242, 112, 156), rgba(255, 147, 114, 0.712));
-    width: 1.8rem;
-    height: 1.8rem;
-    border-radius: 50%;
-    font-size: .9rem;
-    color: white;
-    margin-right: .2rem;
+    button{
+        border: none;
+        background-image: linear-gradient(to right, rgb(242, 112, 156), rgba(255, 147, 114, 0.712));
+        width: 1.8rem;
+        height: 1.8rem;
+        border-radius: 50%;
+        font-size: .9rem;
+        color: white;
+        margin-right: .2rem;
+    }
 
 }
+
+.secondary-nav.protected{
+    background-color: black;
+    border-bottom: 1px solid rgba(189, 241, 189, 0.372);
+}
+
+a.register, a.login{
+    font-size: .8rem;    
+}
+
 

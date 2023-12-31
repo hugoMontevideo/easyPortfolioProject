@@ -17,6 +17,7 @@ public class ProjectServiceRequestModel {
 
     private String title;
     private String description;
+    private String languages;
     private Optional<LocalDate> date;
     private Optional<String> fileName;
     private Optional<Long> fileId;

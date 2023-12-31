@@ -16,6 +16,7 @@ public class ProjectUpdateDTO {
     @Pattern(regexp = ".{2,60}", message = "Le titre doit avoir entre 2 et 60 caractères")
     private String title;
     private String description;
+    private String languages;
     private LocalDate date;
     private Optional<String> fileName;
     private Optional<MultipartFile> file;

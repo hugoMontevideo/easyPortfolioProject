@@ -1,7 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+
 .title{  // add a portfolio, skill, etc
+    border-radius: 4px;
     padding: .4rem;
+    color: rgba(156, 247, 120, 0.651);
     button{
+        color: white;
         border: none;
         padding: .2rem .3rem;
         border-radius: 5px;
@@ -41,8 +44,6 @@
             color: black;
         }
     }
-
-
 }
 
 .form-item{  //forms
@@ -50,15 +51,16 @@
         font-size: .9rem;
         font-weight: 400;
     }
-    .preview{ 
-        margin: 0 0 1rem ;
-        overflow: hidden;
-        img{
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit:cover;
-        }
+    
+}
+.preview,.profile{ 
+    margin: 0 0 1rem ;
+    overflow: hidden;
+    img{
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit:cover;
     }
 }
 .close-btn{// onCloseModalForm ()
@@ -80,10 +82,10 @@
     border-radius: 3px;
     font-size: .8rem;
 }
+
 .delete-img-btn{  // onDeletePicture ()
     position: relative;
     .info-text-{
-        // display: none;
         position: absolute;
         font-size: 0;
     }
@@ -101,4 +103,28 @@
     background-color: rgba(127, 255, 212, 0.801);
     padding: .3rem;
     border-radius: 3px;
+}
+
+.modify-img-btn{  // onDeletePicture ()
+    position: relative;
+    border: none;
+    padding: .2rem .3rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: transparent;
+    .icon{
+        font-size: .7rem;
+        color: rgba(0, 0, 0, 0.322);
+    }
+    fa-icon{
+        color: rgb(138, 131, 131);
+    }
+
+}
+.modify-img-btn:hover{
+    background-color: rgba(0, 255, 255, 0.137);
+    .icon{
+        color: black;
+    }
 }

@@ -1,0 +1,92 @@
+<div class="user">
+  <div class="d-flex justify-content-start align-items-start" >
+    <div class="profile">
+      <img *ngIf="user.profileImgPath; else srcDefault" 
+            [src]="userService.ENV_PICT+'users/' + user.profileImgPath" 
+            [alt]="'Photo de profil '+user.firstname">  
+      <ng-template #srcDefault>
+        <img [src]="userService.ENV_ICONS +'default-profile-space-invaders.png'" [alt]="'Photo de profil '+user.firstname">  
+      </ng-template>
+    </div>
+    <button (click)="onModifyPicture()"
+          class="modify-img-btn" title="Modifier photo de profil">
+      <fa-icon class="icon" [icon]="['fas', 'pen']"></fa-icon>
+    </button>
+  </div>
+    
+    <p>{{ user.firstname | titlecase }}</p>
+    <h5>{{ user.name | uppercase }}</h5>
+    <p>{{ user.email }}</p>
+    <button class="btn btn-secondary" 
+        type="button" 
+        (click)="onEditUser()" >
+        Modifier votre profil
+    </button>
+
+</div>
+
+<div class="gradient p-4 " *ngIf="isUserFormShowing" >
+  <div class="text-end m-0">
+    <button (click)="onCloseModalForm()"><fa-icon [icon]="['fas', 'window-close']" ></fa-icon></button>
+  </div>
+  <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitUser()" >
+    <legend class="text-center form-legend mb-3">{{ legend }}</legend>
+    <div class="mb-3">
+      <div *ngIf="inputError" class="mb-1">
+        <span class="text-danger input-error">{{ inputError }}</span>
+      </div>
+      <div class="mb-3">
+        <input type="text" 
+              class="form-control" 
+              id="user-firstname" 
+              [(ngModel)]="user.firstname"
+              name="user-firstname"
+              placeholder="Prénom">
+      </div>
+      <!-- <input type="text" minlength="2" maxlength="60" ************ disabled on dev  -->
+      <input type="text" 
+            class="form-control" 
+            id="user-name" 
+            [(ngModel)]="user.name"
+            name="user-name"
+            placeholder="Nom" required>
+    </div>
+    <!-- <div class="mb-3">
+      <input type="email" 
+            class="form-control" 
+            id="user-email" 
+            [(ngModel)]="user.email"
+            name="user-email"
+            placeholder="email">
+    </div> -->
+    <input class="btn btn-primary d-block mx-auto" 
+          type="submit" 
+          value="Valider">
+          <!-- [disabled]="form.invalid">***************disabled on dev  -->
+  </form>
+</div>
+
+<div class="gradient p-4 " *ngIf="isPictureFormShowing" >
+  <div class="text-end m-0">
+    <button (click)="onCloseModalForm()"><fa-icon [icon]="['fas', 'window-close']" ></fa-icon></button>
+  </div>
+
+  <form #form1="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitPicture()" enctype="multipart/form-data">
+    <legend class="text-center form-legend mb-3">Modifier ma photo</legend>
+    <div class="mb-3">
+      <div *ngIf="inputError" class="mb-1">
+        <span class="text-danger input-error">{{ inputError }}</span>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="selected-file" class="form-label">Choisir une image</label>
+      <input 
+        class="form-control" 
+        type="file" id="selected-file" 
+        name="selected-file"
+        (change)="onSelectedFile($event)"
+        >
+    </div>
+    <input class="btn btn-primary d-block mx-auto" type="submit" value="Valider">
+  </form>
+</div>

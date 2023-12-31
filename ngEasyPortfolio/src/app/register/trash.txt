@@ -1,0 +1,45 @@
+ private String uploadPicture(MultipartFile file, String pictureName) throws IOError{
+        try{
+            String uploadDirectory = "/public/upload/pictures"; // pictures upload folder
+            String filename = file.getOriginalFilename(); // upload file
+
+            String extension = FilenameUtils.getExtension(filename);
+            filename = slug.slugify(pictureName) + "." + extension;
+            Path path = Paths.get(".", uploadDirectory).toAbsolutePath(); // absolute path
+            File targetFile = new File(path.toString(), filename);
+            if(!targetFile.getParentFile().exists()){
+                targetFile.getParentFile().mkdirs();
+            }
+            file.transferTo(targetFile);
+            return filename;
+        }catch (IOError e){
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return "Error";
+    }
+
+    public ProjectServiceResponseModel saveProject( ProjectServiceRequestModel projectServiceRequestModel ) {
+        if(!projectServiceRequestModel.getFile().isEmpty()){
+            // naming pictures : in project = project_ + projectName + (timeInMilli)
+            long timestamp = System.currentTimeMillis();
+            String pictureName = "project " + projectServiceRequestModel.getTitle() + "-" +timestamp ;
+            String pictureName2 = uploadPicture(projectServiceRequestModel.getFile().get(), pictureName);
+            projectServiceRequestModel.setFileName(Optional.of(pictureName2));
+        }
+        Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
+        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
+        // adding portfolio manually
+        projectServiceRequestModel.setPortfolio( Optional.ofNullable(portfolioServiceModel));
+        // verifing date - if date == 1970 01 01 we set it to empty
+        if(!isValidDate(projectServiceRequestModel.getDate().get())){
+            Optional<LocalDate> noDate = Optional.empty();
+            projectServiceRequestModel.setDate(noDate);
+        }
+
+        ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModelAdd(projectServiceRequestModel);
+        ProjectRepositoryModel addedProject = projectRepository.save(project);
+        return mapper.projectRepositoryToResponseSvc(addedProject);
+    }
