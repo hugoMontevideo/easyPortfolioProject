@@ -22,6 +22,9 @@ public class SkillRepositoryModel {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "category_skill_id")
+    private Long categorySkillId;
+
     //@OneToMany(mappedBy = "skill", orphanRemoval = true)
     //private List<DocumentSkillRepositoryModel> skills = new ArrayList<>();
 

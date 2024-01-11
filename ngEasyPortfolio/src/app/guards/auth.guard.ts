@@ -9,6 +9,4 @@ export const AuthGuard: CanActivateFn = (): boolean =>{
       }
     inject(Router).navigateByUrl('/');
     return false;
-
-
 }

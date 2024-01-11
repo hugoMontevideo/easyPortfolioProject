@@ -2,6 +2,8 @@ package com.simplon.easyportfolio.api.controllers.skills;
 
 import com.simplon.easyportfolio.api.exceptions.SkillNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
+import com.simplon.easyportfolio.api.repositories.skills.CategorySkillRepository;
+import com.simplon.easyportfolio.api.repositories.skills.CategorySkillRepositoryModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestModel;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioService;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestModel;
@@ -14,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("api/skills")
@@ -47,7 +50,7 @@ public class SkillController {
     @PutMapping("/{id}")
     public SkillGetDTO update(@RequestBody @Valid SkillUpdateDTO DTO){
         SkillServiceRequestUpdateModel skillServiceRequestUpdModel = mapper.skillDtoToServiceRequestModel(DTO);
-
+        System.out.println(skillServiceRequestUpdModel);
         SkillServiceResponseModel updatedSkill =
                 portfolioService.updateSkill( skillServiceRequestUpdModel );
         return mapper.skillSvcToGetDTO(updatedSkill);
@@ -65,8 +68,14 @@ public class SkillController {
             return ResponseEntity.notFound().build(); // Statut 404 No Content
         }
 
-
     }
+
+
+    @GetMapping("/categories")  //  GET BY ID   *****
+    public ResponseEntity<List<CategorySkillRepositoryModel>> findAllCategorySkills() {
+        return new ResponseEntity<>( portfolioService.getCategorySkills(), HttpStatus.OK);
+    }
+
 
 
 

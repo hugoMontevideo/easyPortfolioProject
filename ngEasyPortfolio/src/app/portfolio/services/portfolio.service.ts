@@ -86,6 +86,11 @@ export class PortfolioService {
 
 
     /** UTILS */
+
+    detectDevice = () => {
+      return window.innerWidth < 1050; 
+    }
+
     private handleError(error: HttpErrorResponse):Observable<never>{
         return throwError(()=>error);
     }

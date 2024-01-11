@@ -54,7 +54,6 @@ import java.util.Optional;
 public interface EasyfolioMapper {
     EasyfolioMapper INSTANCE = Mappers.getMapper(EasyfolioMapper.class);
 
-
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //            DTO  ->  Service  -->  Repository
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -234,7 +233,6 @@ public interface EasyfolioMapper {
     UserResponseDTO userServicResponseToFullDTO(UserServiceResponseModel serviceModel);
     UserServiceUpdateModel userServiceToServiceUpdate(UserServiceModel userServiceModel);
     UserServiceModel userRepositoryToSvcModel(User user);
-
 
 
 }

@@ -1,35 +1,43 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Skill } from './skill.interface';
 import { SkillService } from '../../services/skill.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CategorySkill } from './category-skill.inteface';
 
 @Component({
   selector: 'app-skill',
   templateUrl: './skill.component.html',
   styleUrls: ['./skill.component.scss']
 })
-export class SkillComponent {
+export class SkillComponent implements OnInit {
   @Input() skills:Skill[] = [];
   @Input() portfolioId!: number;
   @Output() skillsChanged = new EventEmitter<Skill[]>();
   legend: string = "";
   inputError?: string;
+  categorySkills: CategorySkill[] | any;
+
   
   newSkill: Skill = {
     id:-1,
     title: "",
     description: "",
+    categorySkillId: -1,
     portfolioId: this.portfolioId
   };
   isSkillFormShowing: boolean = false; // display or hide form
 
   constructor( private skillService: SkillService ){}
 
+  ngOnInit(): void {
+    this.getCategorySkills();
+  }
+
   ngOnChanges( change: SimpleChanges){
     this.newSkill.portfolioId = this.portfolioId;    
   }
 
- public onCloseModalForm = () => {
+  public onCloseModalForm = () => {
     this.isSkillFormShowing = false;
     this.newSkill = this.skillService.resetNewSkill(this.newSkill.portfolioId);
   }
@@ -86,7 +94,6 @@ export class SkillComponent {
         },
       error:(_error)=>{
         console.error("**error updating Skill**");
-        console.log(_error);
         if(_error instanceof HttpErrorResponse ) {
           this.inputError = _error.error.title;
         } 
@@ -113,5 +120,20 @@ export class SkillComponent {
          }
      }) 
   }
+
+  getCategorySkills = () => {
+    this.skillService.getCategoriesSkills()
+    .subscribe({
+      next:( data : CategorySkill[] )=> {
+        // getting skill categories, i can use it in the form
+          this.categorySkills = data 
+          console.log(this.categorySkills);
+          
+        },
+      error:(_error:Error)=>{ console.log("Error while getting skill categories .");
+         }
+    }) 
+  }
+
 
 }

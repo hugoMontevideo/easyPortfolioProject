@@ -14,5 +14,7 @@ public class SkillUpdateDTO {
     @Pattern(regexp = ".{2,60}", message = "Le titre doit avoir entre 2 et 60 caractères")
     private String title;
     private String description;
+    private Long categorySkillId;
     private Long portfolioId;
+
 }

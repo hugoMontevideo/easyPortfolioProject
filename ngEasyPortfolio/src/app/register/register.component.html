@@ -1,44 +1,44 @@
 <app-home-nav></app-home-nav>
 
 <div class="register position-relative">
-    <form >
-        <div class="row">
-            <div class="w-50 mx-auto">
-                <div class="card mt-3 bg-transparent" >
-                    <h5 class="card-header text-center">Enregistrement</h5>
-                    <span class="text-danger">{{ registerError }}</span>
-                    <div class="card-body bg-transparent">
-                        <div class="form-group form-row">
-                            <label for="email" class="col-md-4 col-form-label" >Email</label>
-                            <div class="col-md-12">
-                                <input type="email"
-                                        name="username"
-                                        id="email"
-                                        [(ngModel)]="register.email"
-                                        class="form-control"
-                                        placeholder="email"
-                                        autofocus="autofocus">
-                            </div>
+    <form class="col-10  mx-auto mt-5">
+      
+        <div class="col-lg-8 mx-auto">
+            <div class="card mt-3 bg-transparent" >
+                <h5 class="card-header text-center">Enregistrement</h5>
+                <span class="text-danger">{{ registerError }}</span>
+                <div class="card-body bg-transparent">
+                    <div class="form-group form-row">
+                        <label for="email" class="col-md-4 col-form-label" >Email</label>
+                        <div class="col-md-12">
+                            <input type="email"
+                                    name="username"
+                                    id="email"
+                                    [(ngModel)]="register.email"
+                                    class="form-control"
+                                    placeholder="email"
+                                    autofocus="autofocus">
                         </div>
-                        <div class="form-group form-row ">
-                            <label for="password" class="col-md-4 col-form-label mx-auto">Mot de passe</label>
-                            <div class="col-md-12">
-                                <input type="password"
-                                        name="password"
-                                        [(ngModel)]="register.password"
-                                        id="password"
-                                        class="form-control"
-                                        placeholder="nom"
-                                      >
-                            </div>
+                    </div>
+                    <div class="form-group form-row ">
+                        <label for="password" class="col-md-4 col-form-label mx-auto">Mot de passe</label>
+                        <div class="col-md-12">
+                            <input type="password"
+                                    name="password"
+                                    [(ngModel)]="register.password"
+                                    id="password"
+                                    class="form-control"
+                                    placeholder="nom"
+                                    >
                         </div>
-                      
-                      <a class="btn btn-primary mx-auto d-block w-25 mt-1" (click)="onConnectionClick($event)">Valider</a>
                     </div>
                     
+                    <a class="btn btn-primary mx-auto d-block w-25 mt-1" (click)="onConnectionClick($event)">Valider</a>
                 </div>
+                
             </div>
         </div>
+       
         <div class="picture position-absolute end-0 bottom-0 z-n1">
             <img [src]="ENV_ICONS + 'people.jpg'" alt="Dessin d'un groupe de gens">
         </div>

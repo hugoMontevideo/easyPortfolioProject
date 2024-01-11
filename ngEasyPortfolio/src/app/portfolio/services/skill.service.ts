@@ -5,6 +5,7 @@ import { Skill } from '../component/skill/skill.interface';
 import { Observable, catchError, throwError } from 'rxjs';
 import { SkillAddDto } from '../component/skill/skill-add-dto.interface';
 import { environment } from 'src/environments/environment';
+import { CategorySkill } from '../component/skill/category-skill.inteface';
 
 @Injectable()
 
@@ -21,6 +22,10 @@ export class SkillService {
     return this.http.get<Skill[]>( `${this.ENV_DEV}/portfolios/${portfolioId}/skills`);
   }
 
+  getCategoriesSkills = ():Observable<CategorySkill[]> => {
+    return this.http.get<Skill[]>( `${this.ENV_DEV}/skills/categories`);
+  }
+
   add = ( newSkill: Skill ): Observable<any> => { 
       let skill : SkillAddDto = {
         title: "nouvelle compétence en cours",
@@ -30,7 +35,9 @@ export class SkillService {
       .pipe(catchError(this.handleError)); // catch validator error
   }
 
-  saveSkill = ( newSkill: Skill ): Observable<any> => {               
+  saveSkill = ( newSkill: Skill ): Observable<any> => {      
+    console.log(newSkill);
+             
     return this.http.put( `${this.ENV_DEV}/skills/${newSkill.id}`, newSkill )
       .pipe(catchError(this.handleError)); // catch validator errors
   }
@@ -40,7 +47,6 @@ export class SkillService {
           return this.http.delete(`${this.ENV_DEV}/skills/${skillId}`);  
       }
   }
-
   // UTILS  **************************
 
   public resetNewSkill = ( portfolioId: number ): Skill => {
@@ -48,7 +54,8 @@ export class SkillService {
               id:-1,
               title: "",
               description: "",
-              portfolioId: portfolioId
+              portfolioId: portfolioId,
+              categorySkillId:-1
             };
   }
 

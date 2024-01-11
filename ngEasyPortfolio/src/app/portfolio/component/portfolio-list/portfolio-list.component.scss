@@ -17,23 +17,22 @@
 .display{
     background-color: rgba(218, 182, 135, 0.404);
 }
+
 .portfolio-box {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
     .card{
-        width: 25%;
+        width: 80%;
         box-shadow: 11px 8px 14px 0px #00000041;
-
+        margin: 1rem 0.5rem;
     }
-  }
+}
   
-
 .title{
     position: relative;
     .gradient{  // *** test replacing forms ****
         position: absolute;
-        right: -270px;
+        right: -170px;
         top: -100px;
         background: rgba(217, 171, 224, 0.849);
         background: linear-gradient(225deg, rgba(217, 171, 224, 0.973) 0%, rgba(186, 134, 241, 0.842) 50%, rgba(166,112,251,1) 100%);
@@ -98,4 +97,28 @@
 
     }
 }
+@media screen and (min-width: 992px) {
+    .title{
+        .gradient{
+            
+            right: -265px;
+            
+        }
+
+    }
+
+    .portfolio-box {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        .card{
+            width: 25%;
+            margin: 1rem 0.5rem;
+        }
+    }
+   
+}
+
+
+
 

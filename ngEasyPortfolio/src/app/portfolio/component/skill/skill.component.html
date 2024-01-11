@@ -1,19 +1,27 @@
-<h6 class="d-flex justify-content-between title">
+<h6 class="d-flex justify-content-between title z-3">
   Ajouter une compétence
   <button (click)="onAddSkill()">
     <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
   </button>
   
-  <div class="gradient p-4" *ngIf="isSkillFormShowing" >
+  <div class="gradient p-4" 
+        *ngIf="isSkillFormShowing" >
     <p class="text-end m-0">
       <button (click)="onCloseModalForm()"><fa-icon [icon]="['fas', 'window-close']" ></fa-icon></button>
     </p>
-    <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitSkill()" >
+    <form #form="ngForm" class="mx-auto form-item " (ngSubmit)="onSubmitSkill()" >
       <legend class="text-center form-legend mb-3">{{ legend }}</legend>
       <div class="mb-3">
         <div *ngIf="inputError" class="mb-1">
           <span class="text-danger input-error">{{ inputError }}</span>
         </div>
+
+        <div *ngFor="let category of categorySkills" class="radio">
+          <input type="radio" [id]="category.title"
+          [(ngModel)]="newSkill.categorySkillId" name="categoryId" [value]="category.id" >
+          <label [for]="category.title" class="ms-1 mb-2">{{ category.title| lowercase }}</label>
+        </div>
+
         <!-- <input type="text" minlength="2" maxlength="60" ************ disabled on dev  -->
         <input type="text" 
               class="form-control" 
@@ -22,7 +30,6 @@
               name="skill-title"
               placeholder="Titre de la compétence" required>
       </div>
-      
       <div class="mb-3">
         <label for="skill-description" class="form-label">Description</label>
         <textarea class="form-control" maxlength="255"

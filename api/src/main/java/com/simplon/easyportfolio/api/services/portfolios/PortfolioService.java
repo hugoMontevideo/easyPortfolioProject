@@ -15,6 +15,8 @@ import com.simplon.easyportfolio.api.repositories.projects.DocumentProjectReposi
 import com.simplon.easyportfolio.api.repositories.projects.ProjectRepository;
 import com.simplon.easyportfolio.api.repositories.projects.ProjectRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.security.OwnerRepository;
+import com.simplon.easyportfolio.api.repositories.skills.CategorySkillRepository;
+import com.simplon.easyportfolio.api.repositories.skills.CategorySkillRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepository;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestModel;
@@ -62,7 +64,8 @@ public class PortfolioService {
     ExperienceRepository experienceRepository;
     @Autowired
     SkillRepository skillRepository;
-
+    @Autowired
+    CategorySkillRepository categorySkillRepository;
     private final Slugify slug = Slugify.builder().build();
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
 
@@ -161,12 +164,6 @@ public class PortfolioService {
         }
     }
 
-
-
-    public boolean update(PortfolioServiceRequestModel portfolioServiceModel) {
- // todo ******************
-        return true;
-    }
     @Transactional
     public List<PortfolioServiceModel> findAll() {
         //ArrayList<PortfolioServiceResponseModel> portfolioServiceModels = new ArrayList<>();
@@ -383,11 +380,12 @@ public class PortfolioService {
         Optional<PortfolioRepositoryModel> portfolio =
                 portfolioRepository.findById( skillServiceRequestUpdateModel.getPortfolioId().get() );
         PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
+        // adding portfolio manually
         skillServiceRequestUpdateModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
 
         SkillRepositoryModel skill = mapper.skillServiceRequestToRepositoryModel(skillServiceRequestUpdateModel);
-        // adding portfolio manually
 
+        System.out.println(skill);
         SkillRepositoryModel addedSkill = skillRepository.save(skill);
         return mapper.skillRepositoryToResponseSvc(addedSkill);
     }
@@ -423,7 +421,6 @@ public class PortfolioService {
             return false;
         }
     }
-
 
  /** documents  ***************************************** **/
     //delete document project
@@ -543,7 +540,11 @@ public class PortfolioService {
         }
         return false;
     }
+    public List<CategorySkillRepositoryModel> getCategorySkills() {
 
+            return      categorySkillRepository.findAll();
+            //return mapper.listDocumentProjectRepoToSvc(documentProjects);
+    }
 
 
 }

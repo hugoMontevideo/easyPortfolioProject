@@ -2,14 +2,15 @@
 <app-home-nav  [isProtected]="isProtected" ></app-home-nav>
 
 <main class="d-flex main">
-  <app-left-sidebar class="left-sidebar col-1 bg-dark"
+  <app-left-sidebar class="left-sidebar col-2 col-lg-1 bg-dark"
       [portfolio]="portfolio"  
+      [allDisplay]="allDisplay"
       >
   </app-left-sidebar>
 
   <div class="portfolio-list-item flex-grow-1">
     <div class="d-flex">
-      <div class="aside col-3">
+      <div class="aside col-7 col-lg-3">
         <div class="rapp-skillow">
           <div class="col mx-auto">
             <div class="card bg-transparent">
@@ -189,7 +190,7 @@
       </div>
       <div class="display flex-grow-1">  
 
-        <section class="frame mx-auto">
+        <section class="frame mx-auto" *ngIf="!isMobile">
           <article *ngIf="boardManager.isShowingHome"> <!-- Board Home -->
             <app-board-home [portfolio]="portfolio" [portfolioId]="portfolio.id"></app-board-home>
           </article>

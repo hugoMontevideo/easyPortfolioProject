@@ -13,6 +13,8 @@ public class SkillServiceRequestUpdateModel {
     private Optional<Long> id;
     private String title;
     private String description;
+    private Long categorySkillId;
     private Optional<PortfolioServiceModel> portfolio;
     private Optional<Long> portfolioId;
+
 }

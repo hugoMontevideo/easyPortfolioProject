@@ -10,7 +10,6 @@ import { JWTTokenService } from 'src/app/services/JWTToken.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BoardManager } from './board-manager.interface';
 
-
 @Component({
   selector: 'app-portfolio-list-item',
   templateUrl: './portfolio-list-item.component.html',
@@ -21,9 +20,11 @@ export class PortfolioListItemComponent implements OnInit {
   @ViewChild('collapseTwo') collapseTwo! : ElementRef;
   @ViewChild('collapseThree') collapseThree! : ElementRef;
   @ViewChild('collapseFour') collapseFour! : ElementRef;
+  allDisplay = true; // left aside links
+  isMobile = false; // display the board ?
   inputError?: string;
   collapseOnel!: HTMLDivElement;
-  collapseTwol!: HTMLDivElement;
+  collapseTwol!: HTMLDivElement; 
   collapseThreel!: HTMLDivElement;
   collapseFourl!: HTMLDivElement;
   isProtected = true;  // dark color on secondary nav
@@ -62,6 +63,7 @@ export class PortfolioListItemComponent implements OnInit {
     ){};
 
   ngOnInit(): void {
+    this.isMobile = this.portfolioService.detectDevice();
     this.portfolio.id =  this.portfolioService.getId(this.route.snapshot.paramMap.get('id'));
     this.portfolioService.getPortfolioById( this.portfolio.id)
       .subscribe({
@@ -155,31 +157,29 @@ export class PortfolioListItemComponent implements OnInit {
  };
 
  public onSubmitPortfolio = ()=>{    
-  this.portfolioService.savePortfolio(this.portfolio)
-   .subscribe({
-     next:(data)=>{
-         this.boardManager.isPortfolioFormShowing = false;  // hide the form
-         this.portfolioService.getPortfolioById(this.portfolio.id) // refresh portfolios[]
-           .subscribe({
-               next: (data:Portfolio) => { 
-                       this.portfolio = data;
-                       console.log(data);
-                       
-                    },
-               error: (_error: Error)=>{
-                   console.log("**error Getting Portfolios**"); 
-                 }
-             });
-       },
-     error:(_error)=>{
-      console.error("**error updating Project**");
-       if(_error instanceof HttpErrorResponse ) {
-        this.inputError = _error.error.title;
-      } 
-     }
- });
-
-}
-
+    this.portfolioService.savePortfolio(this.portfolio)
+      .subscribe({
+        next:(data)=>{
+            this.boardManager.isPortfolioFormShowing = false;  // hide the form
+            this.portfolioService.getPortfolioById(this.portfolio.id) // refresh portfolios[]
+              .subscribe({
+                  next: (data:Portfolio) => { 
+                          this.portfolio = data;
+                          console.log(data);
+                          
+                        },
+                  error: (_error: Error)=>{
+                      console.log("**error Getting Portfolios**"); 
+                    }
+                });
+          },
+        error:(_error)=>{
+          console.error("**error updating Project**");
+          if(_error instanceof HttpErrorResponse ) {
+            this.inputError = _error.error.title;
+          } 
+        }
+    });
+  }
 
 }

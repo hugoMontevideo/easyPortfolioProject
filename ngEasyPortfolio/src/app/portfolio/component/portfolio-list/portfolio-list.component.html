@@ -1,13 +1,14 @@
 <app-home-nav [isProtected]="isProtected"></app-home-nav>
 
 <main class="d-flex main">
-  <app-left-sidebar class="left-sidebar col-1 bg-dark" [allDisplay]="allDisplay" >
+  <app-left-sidebar class="left-sidebar col-2 col-lg-1 bg-dark" 
+      [allDisplay]="allDisplay" >
   </app-left-sidebar>
  
   <div class="portfolio-list-item flex-grow-1">
     <div class="d-flex">
 
-      <div class="aside col-3">
+      <div class="aside col-4 col-lg-3">
         <div class="rapp-skillow">
           <div class="col mx-auto">
             <div class="bg-transparent">
@@ -103,11 +104,11 @@
         </div>
       </div>
 
-      <div class="portfolio-list display flex-grow-1 z-0 p-4">
+      <div class="portfolio-list display flex-grow-1 z-0 pt-2 m-0">
         <h1 class="text-center" >Mes Portfolios</h1>
-        <div class="row">
-          <div class="portfolio-box ">
-            <div class="card m-4 " *ngFor="let portfolio of portfolios; let i = index;">
+        
+          <div class="portfolio-box">
+            <div class="card m-lg-4" *ngFor="let portfolio of portfolios; let i = index;">
               <div class="card-body pt-0">
                 <div class="delete-modify elt-title m-0 p-0 d-flex justify-content-end">
                   <button (click)="onEditPortfolio(i)" class="elt-button" title="Modifier le portfolio" >
@@ -134,10 +135,6 @@
               </div>
             </div>
           </div>
-            
-          <!-- <div class="gradient">Essayez gratuitement !! </div> -->
-
-        </div>
 
       </div>
 
