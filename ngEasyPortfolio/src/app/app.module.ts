@@ -14,7 +14,7 @@ import { JWTTokenService } from './services/JWTToken.service';
 import { JwtInterceptorService } from './services/jwt-interceptor.service';
 import { RegisterComponent } from './register/register.component';
 import { TemplateDevComponent } from './a-online/template-dev/template-dev.component';
-
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
 @NgModule({
@@ -34,6 +34,7 @@ import { TemplateDevComponent } from './a-online/template-dev/template-dev.compo
     FormsModule,
     SharedModule,
     PortfolioModule,
+    CKEditorModule
   ],
   providers: [
     JWTTokenService,

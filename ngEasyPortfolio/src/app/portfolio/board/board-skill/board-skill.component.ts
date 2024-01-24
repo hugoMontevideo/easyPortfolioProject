@@ -12,16 +12,26 @@ export class BoardSkillComponent {
   ENV_ICONS: string = `${environment.apiIcons}/`;
   @Input() skills:Skill[]= [];
   @Input() portfolioId?:number;
+  softSkills!: Skill[];
+  languages!: Skill[]; // display purpose array
+  programsLanguages!: Skill[]; // display purpose array
+  drivingLicenceCategories!: Skill[]; // display purpose array
+  otherSkills!: Skill[];
 
   constructor(private skillService: SkillService){};
 
   ngOnChanges(changes: SimpleChanges){  
-
     this.skillService.getSkills(this.portfolioId) // refresh projects []
           .subscribe({
-              next: (data:Skill[]) => { this.skills = data },
+              next: (data:Skill[]) => { 
+                          this.softSkills = data.filter(item=>item.categorySkillId==1) ;  
+                          this.languages = data.filter(item=>item.categorySkillId==2); 
+                          this.programsLanguages = data.filter(item=>item.categorySkillId==3); 
+                          this.drivingLicenceCategories = data.filter(item=>item.categorySkillId==4);
+                          this.otherSkills = data.filter(item=>item.categorySkillId==5); 
+                        },
               error: (err:Error)=>{console.error("**error Getting Skills**");} //TODO *******
-            });    
+            });   
+            
   }
-
 }

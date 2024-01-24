@@ -131,25 +131,30 @@
             <div class="competences-perso">
                 <h3>Compétences personnelles</h3>  
                 <ul>
-                    <li *ngFor="let skill of portfolio.skills"><strong>{{ skill.title | titlecase }}</strong></li>  
+                    <div>
+
+                    </div>
+                    <li *ngFor="let soft of softSkills">
+                            <strong>{{ soft.title | titlecase }}</strong>
+                    </li>  
                 </ul>
             </div>
                 
             <div class="scrolling none">
-                <div id="langages_pro" class=" mb-3" data-text=" HTML - CSS - PHP - MySQL - JavaScript - ">
-                    Langages informatiques : <span>Java - PHP - JavaScript</span>                   
+                <div id="langages_pro" class=" mb-3" >
+                    Langages informatiques : 
+                    <span *ngFor="let item of programsLanguages">{{ item.title }} - </span>                   
                 </div>
             </div>
 
-            <div id="techno" class=" mb-3">
-                Technologies : <span>SpringBoot - Angular - Figma</span>
+            <div id="techno" class="mb-3">
+                Technologies : <span *ngFor="let item of otherSkills">{{ item.title }} - </span>
             </div>
 
             <div class="competences-languages">
                 <h3>Langues</h3>
                 <ul>
-                    <li><strong>Anglais</strong> : Niveau professionnel</li> 
-                    <li><strong>Espagnol</strong> : Bilingue</li> 
+                    <li span *ngFor="let item of languages"><strong>{{ item.title }}</strong> : {{ item.description }}</li>       
                 </ul>     
             </div>
         </div> 
@@ -208,77 +213,81 @@
               
             </div>
             <div class="about-presentation ms-5">
-                <p>
+                <ckeditor [editor]="Editor" [(ngModel)]="editorData" name="editorData"
+                        [disabled]="true" [config]="{toolbar:[]}"
+                 ></ckeditor>
+                <!-- <p>
                 "A propos de moi Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur quisquam sed enim sequi rerum iusto autem fuga! Reiciendis error, ipsum excepturi laboriosam quibusdam obcaecati porro amet eos. Laudantium cupiditate odio corrupti minus quo sunt cum porro ratione, aperiam nobis culpa aut, temporibus facilis rem earum nihil autem enim! Pariatur, dicta?  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut rem accusantium ad blanditiis eum. Ea quisquam nostrum, dolores doloribus eveniet aliquam. Nisi nihil, fugiat vero maiores expedita quo ratione repudiandae ipsum dolor facilis iste pariatur cum ipsam laboriosam ab earum perspiciatis eius est voluptates. Provident sequi sed minima quam autem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea architecto ipsam saepe exercitationem pariatur magnam voluptate vitae quaerat delectus omnis? Sapiente, dolores. Earum, reprehenderit! Doloremque, voluptatum tempora maxime neque illum officia totam provident quos corporis alias, nisi odit modi. Natus dolores magnam ab quod incidunt rem odio iste consequatur sed!
-                </p>
+                </p> -->
             </div>
         </div>
     </section>
 
-        <footer>
-            <section class="footer-layout">
-                <div class="footer-social">   
-                    <div class="github rs">
-                        <a href="">
-                            <img [src]="ENV_ICONS+'template-dev/icons8-git.svg'" alt="">
-                        </a>
-                    </div>               
-                    <div class="linkedin rs">
-                        <a href="">
-                        <img [src]="ENV_ICONS+'template-dev/icons8-in.svg'" alt="">
-        
-                        </a>
-                    </div>
-                    <div class="instagram rs">
-                        <a href="" >
-                        <img [src]="ENV_ICONS+'template-dev/icons8-insta.svg'" alt="">
-                        </a>
-                    </div>
-                    <div class="twitter rs">
-                        <a href="">
-                        <img [src]="ENV_ICONS+'template-dev/icons8-tw.svg'" alt="">
-                        </a>
-                    </div>
-                    <div class="fb rs">
-                        <a href="">
-                        <img [src]="ENV_ICONS+'template-dev/icons8-fb.svg'" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="footer-contact">
-                    <div>
-                        <h1>Contact</h1>
-                    </div>
-                    <div>
-                        <h3>{{portfolio.firstname|titlecase }} {{portfolio.name|titlecase }}</h3>
-                        <ul>
-                            <li class="email">{{portfolio.email }}</li>
-                            <li class="city">{{portfolio.city}}</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-easyPortfolio">
-                     <div>
-                        <h1>easyPortfolio</h1>
-                    </div>
-                    <div>
-                        <figure>
-                            <img src="http://localhost/upload/icons/eP.svg" alt="logo d'easyPortfolio">
-                        </figure>
-                        <ul>
-                            <li class="indefini">Application gratuite</li>
-                            <li class="indefini">Projet de classe</li>
-                            <li class="indefini">Mention spéciale</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-            <div class="copyR"><strong>Application créée par hugoMachado </strong>
-                2023
-                &copy;             
+
+<footer>
+    <section class="footer-layout">
+        <div class="footer-social">   
+            <div class="github rs">
+                <a href="">
+                    <img [src]="ENV_ICONS+'template-dev/icons8-git.svg'" alt="">
+                </a>
+            </div>               
+            <div class="linkedin rs">
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-in.svg'" alt="">
+
+                </a>
             </div>
-        </footer>
-        <!-- <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>  -->
+            <div class="instagram rs">
+                <a href="" >
+                <img [src]="ENV_ICONS+'template-dev/icons8-insta.svg'" alt="">
+                </a>
+            </div>
+            <div class="twitter rs">
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-tw.svg'" alt="">
+                </a>
+            </div>
+            <div class="fb rs">
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-fb.svg'" alt="">
+                </a>
+            </div>
+        </div>
+        <div class="footer-contact">
+            <div>
+                <h1>Contact</h1>
+            </div>
+            <div>
+                <h3>{{portfolio.firstname|titlecase }} {{portfolio.name|titlecase }}</h3>
+                <ul>
+                    <li class="email">{{portfolio.email }}</li>
+                    <li class="city">{{portfolio.city}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-easyPortfolio">
+                <div>
+                <h1>easyPortfolio</h1>
+            </div>
+            <div>
+                <figure>
+                    <img src="http://localhost/upload/icons/eP.svg" alt="logo d'easyPortfolio">
+                </figure>
+                <ul>
+                    <li class="indefini">Application gratuite</li>
+                    <li class="indefini">Projet de classe</li>
+                    <li class="indefini">Mention spéciale</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <div class="copyR"><strong>Application créée par hugoMachado </strong>
+        2023
+        &copy;             
+    </div>
+</footer>
+<!-- <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>  -->
       
         
 

@@ -198,7 +198,9 @@
             <app-board-project [projects]="portfolio.projects" [portfolioId]="portfolio.id"></app-board-project>
           </article>
           <article *ngIf="boardManager.isShowingSkills">
-            <app-board-skill [skills]="portfolio.skills" [portfolioId]="portfolio.id"></app-board-skill>
+            <app-board-skill [skills]="portfolio.skills" 
+                              [portfolioId]="portfolio.id">
+            </app-board-skill>
           </article>
           <article *ngIf="boardManager.isShowingEducs"> <!-- Board Educations -->
             <app-board-education [educations]="portfolio.educations" [portfolioId]="portfolio.id"></app-board-education>

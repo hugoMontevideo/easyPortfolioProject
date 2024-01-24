@@ -17,7 +17,6 @@ export class SkillComponent implements OnInit {
   inputError?: string;
   categorySkills: CategorySkill[] | any;
 
-  
   newSkill: Skill = {
     id:-1,
     title: "",
@@ -102,6 +101,7 @@ export class SkillComponent implements OnInit {
   }
 
   onDeleteSkill = (skillId : number, index: number):void => {
+    this.isSkillFormShowing = false;
     this.skillService.deleteSkill(skillId)
     .subscribe({
       next:( )=> {
@@ -126,9 +126,7 @@ export class SkillComponent implements OnInit {
     .subscribe({
       next:( data : CategorySkill[] )=> {
         // getting skill categories, i can use it in the form
-          this.categorySkills = data 
-          console.log(this.categorySkills);
-          
+          this.categorySkills = data ;          
         },
       error:(_error:Error)=>{ console.log("Error while getting skill categories .");
          }

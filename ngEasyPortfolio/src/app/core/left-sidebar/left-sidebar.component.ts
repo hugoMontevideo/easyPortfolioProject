@@ -1,15 +1,19 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Input, Renderer2, SimpleChanges } from '@angular/core';
 import { Portfolio } from 'src/app/portfolio/model/portfolio/portfolio.interface';
 import { PortfolioService } from 'src/app/portfolio/services/portfolio.service';
 import { environment } from 'src/environments/environment';
+import * as Editor from 'ckeditor5-custom-build/build/ckeditor';
 
 @Component({
   selector: 'app-left-sidebar',
   templateUrl: './left-sidebar.component.html',
   styleUrls: ['./left-sidebar.component.scss']
 })
-export class LeftSidebarComponent {
+export class LeftSidebarComponent implements AfterViewChecked {
+  public Editor: any = Editor;
+  editorData: string = "";
+ 
   ENV_PICT:string = `${environment.apiImg}/pictures/`;
   ENV_ICONS: string = `${environment.apiIcons}/`;
   @Input()allDisplay: boolean= false;
@@ -39,17 +43,33 @@ export class LeftSidebarComponent {
                               roles: []
                             }
                           };
-  legend: string = "Modifier 'A propos'";
+  legend: string = "A propos";
   isUserFormShowing=true;
   inputError?: string;
   isPictureFormShowing=false;
   isLinksFormShowing=false;
   selectedFile?: File ;
 
+
   // TODO : add a link property on portfolio
   links: string = "https://test-facebook";
 
-  constructor ( protected portfolioService: PortfolioService ) {}
+  constructor ( protected portfolioService: PortfolioService,
+                private renderer : Renderer2,
+                private elRef : ElementRef
+    ) {}; 
+
+  ngOnChanges( change: SimpleChanges){
+    this.editorData = this.portfolio.aboutMe;    
+  }
+
+  ngAfterViewChecked(): void {
+    const cssEditor = this.elRef.nativeElement.querySelector('.ck-content'); // ckeditor  main
+    if(cssEditor){
+      this.renderer.setStyle(cssEditor,'background-color', 'rgb(21%,21%,34%)');
+      this.renderer.setStyle(cssEditor,'border-radius', '0 0 5px 5px');
+    }
+  }
 
   public onModifyPicture = () => {
     this.legend = "Modifier la photo"
@@ -80,10 +100,13 @@ export class LeftSidebarComponent {
   }
 
   public onSubmitUser = ()=>{
+    console.log(this.editorData);
+    this.portfolio.aboutMe = this.editorData;
+    
     this.portfolioService.savePortfolio(this.portfolio)
     .subscribe({
       next:(data:Portfolio)=>{
-              this.isUserFormShowing = false;  // hide the form
+              // this.isUserFormShowing = false;  // hide the form
               this.portfolio = data;              
           },
       error:(_error : any)=>{
@@ -99,8 +122,10 @@ export class LeftSidebarComponent {
     this.portfolioService.savePicture(this.portfolio.id, this.selectedFile!)
     .subscribe({
       next:(data:Portfolio)=>{
-        console.log(data);
+
               this.isPictureFormShowing = false;  // hide the form
+              this.isUserFormShowing = true; 
+              this.legend = "Modifier 'A propos'"
               this.portfolio = data; 
           },
       error:(_error : any)=>{

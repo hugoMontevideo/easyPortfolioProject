@@ -23,6 +23,7 @@ import { UserItemComponent } from '../core/user-item/user-item.component';
 import { FooterComponent } from '../core/footer/footer.component';
 import { LeftSidebarComponent } from '../core/left-sidebar/left-sidebar.component';
 import { BoardHomeComponent } from './board/board-home/board-home.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   declarations: [
@@ -40,14 +41,14 @@ import { BoardHomeComponent } from './board/board-home/board-home.component';
     UserItemComponent,
     FooterComponent,
     LeftSidebarComponent,
-    BoardHomeComponent
-
+    BoardHomeComponent,
   ],
   imports: [
     CommonModule,
     PortfolioRoutingModule,
     FontAwesomeModule,
-    FormsModule
+    FormsModule,
+    CKEditorModule
   ],
   exports:[
     HomeNavComponent,

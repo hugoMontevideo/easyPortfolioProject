@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,6 +11,7 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 export class AppComponent {
   title = 'ngEasyPortfolio';
   faCoffe = faCoffee;
+
   
   constructor(
         private modalService: NgbModal,

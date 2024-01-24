@@ -28,6 +28,7 @@ export class PortfolioListItemComponent implements OnInit {
   collapseThreel!: HTMLDivElement;
   collapseFourl!: HTMLDivElement;
   isProtected = true;  // dark color on secondary nav
+
   portfolio: Portfolio = {
                     id: -1,
                     title: "",
@@ -68,7 +69,7 @@ export class PortfolioListItemComponent implements OnInit {
     this.portfolioService.getPortfolioById( this.portfolio.id)
       .subscribe({
         next:(response:Portfolio) => { 
-                                    this.portfolio = response;                                 
+                                    this.portfolio = response;                                                                                                          
                                   }, 
         error: (err:Error) => {
                         // TODO  manage error response

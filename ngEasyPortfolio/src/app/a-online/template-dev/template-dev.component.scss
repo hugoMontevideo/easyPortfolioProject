@@ -423,11 +423,21 @@ p em {
       color: #52CAAE;
     }
    
+  
+  
     
     
   }
+
+  // div.ck.ck-editor__top.ck-reset.all{display: none;}
+
+  :host ::ng-deep .ck-editor__editable_inline {  // ckeditor
+    min-height: 15rem;
+    background-color: transparent; // doesnt work
+  }
+
   
-  
+
   /************* FOOTER ********************/
   footer {
     background-color: rgba(10, 25, 47, 0.993);

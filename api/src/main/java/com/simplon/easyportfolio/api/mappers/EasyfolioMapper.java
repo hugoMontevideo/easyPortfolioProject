@@ -165,8 +165,8 @@ public interface EasyfolioMapper {
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     List<PortfolioServiceModel> listPortolioRepositoryToSvcModel(List<PortfolioRepositoryModel> addedPortfolio);
     List<PortfolioUpdateDTO> listPortolioSvcToUpdateDTO(List<PortfolioServiceModel> addedPortfolio);
-    List<PortfolioGetDTO> listPortolioSvcToGetDTO(List<PortfolioServiceModel> addedPortfolio);
     // portfolios => descendant
+    List<PortfolioGetDTO> listPortolioSvcToGetDTO(List<PortfolioServiceModel> addedPortfolio);
     List<PortfolioFullDTO> listPortfolioSvcToFullDTO(List<PortfolioServiceModel> portfolioServiceModels);
 
     List<ProjectServiceResponseModel> listProjectRepoToSvc (List<ProjectRepositoryModel> projectRepositoryModels);
@@ -183,6 +183,7 @@ public interface EasyfolioMapper {
 
     List<SkillServiceResponseModel> listSkillRepoToSvc(List<SkillRepositoryModel> skills);
     List<SkillGetDTO> listSkillSvcToGetDTO(List<SkillServiceResponseModel> skillsServices);
+    List<SkillGetDTO> listSkillRepoToGetDTO(List<SkillRepositoryModel> skillModels);
     /** +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                  Repository  ->  Service  -->  GetDTO
         +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ **/
@@ -203,7 +204,7 @@ public interface EasyfolioMapper {
 
     SkillServiceResponseModel skillRepositoryToResponseSvc(SkillRepositoryModel skillRepositoryModel);
     SkillGetDTO skillSvcToGetDTO(SkillServiceResponseModel skillServiceResponseModel);
-
+    SkillGetDTO skillRepoToGetDTO(SkillRepositoryModel skillRepositoryModel);
     EducationServiceResponseModel educationRepositoryToResponseSvc(EducationRepositoryModel educationRepositoryModel);
     EducationGetDTO educationSvcToGetDTO(EducationServiceResponseModel educationServiceResponseModel);
 

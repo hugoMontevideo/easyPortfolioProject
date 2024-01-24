@@ -47,6 +47,11 @@ export class PortfolioService {
         }
     }
 
+       /** getbyid portfolio ***** online ***** */ 
+       public getPortfolioByIdOnline(id:number | any): Observable<Portfolio> | any {
+        return this.http.get<Portfolio>(`${this.ENV_DEV}/portfolios/online/${id}`);  
+    }
+
     
   public add = ( newPortfolio: Portfolio ): Observable<Portfolio> => { 
     let definedId: number = (newPortfolio.user !== undefined) ? newPortfolio.user.id : 0;  

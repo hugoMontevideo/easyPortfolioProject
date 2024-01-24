@@ -1,9 +1,6 @@
-
 .item{
     border-bottom: solid 1px grey;
 }
-
-
 
 button.document, .social_link{
     background-color: transparent;
@@ -12,6 +9,7 @@ button.document, .social_link{
     border: none;
 
 }
+
 a.portfolios{
     text-decoration: none;
     color:grey;
@@ -19,8 +17,55 @@ a.portfolios{
     text-align: center;
     transition: .2s ease-in-out;
 }
+
 a:hover, button.document:hover, .social_link:hover{
     color: pink;
     transform: scale(1.1);
 }
 
+.gradient.title{
+    color: black;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {  // ckeditor
+    min-height: 15rem;
+}
+
+#offcanvas {
+    width: 85%; // offcanvas
+}
+
+.gradient.title{
+    fa-icon{
+        color: rgba(0, 0, 0, 0.76);
+    }
+}
+
+@media screen and (min-width: 750px) {
+    
+    #offcanvas {
+        width: 65%; // offcanvas
+    }
+}
+
+
+@media screen and (min-width: 1100px) {
+    
+    #offcanvas {
+        width: 45%; // offcanvas
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    
+    #offcanvas {
+        width: 35%; // offcanvas
+    }
+}
+
+@media screen and (min-width: 1700px) {
+    
+    #offcanvas {
+        width: 25%; // offcanvas
+    }
+}

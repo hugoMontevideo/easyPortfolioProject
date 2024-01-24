@@ -18,7 +18,7 @@
 
         <div *ngFor="let category of categorySkills" class="radio">
           <input type="radio" [id]="category.title"
-          [(ngModel)]="newSkill.categorySkillId" name="categoryId" [value]="category.id" >
+          [(ngModel)]="newSkill.categorySkillId" name="categoryId" [value]="category.id" required >
           <label [for]="category.title" class="ms-1 mb-2">{{ category.title| lowercase }}</label>
         </div>
 

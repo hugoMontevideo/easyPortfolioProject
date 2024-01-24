@@ -78,9 +78,27 @@ public class PortfolioController {
     @GetMapping("/{id}")  //  GET BY ID   *****
     public ResponseEntity<PortfolioFullDTO> findById(@PathVariable Long id){
         try{
+            PortfolioServiceModel serv = portfolioService.findById(id);
+
             return new ResponseEntity<>( mapper.portfolioSvcToFullDTO(portfolioService.findById(id)), HttpStatus.OK);
 
            //PortfolioGetDTO DTO =  mapper.portfolioSvcToGetDTO( portfolioService.findById(id));
+            //return new ResponseEntity<>( DTO, HttpStatus.OK);
+        }catch (PortfolioNotFoundException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getReason());
+        }
+    }
+
+    /** getById portfolio - online template **/
+    @GetMapping("/online/{id}")  //  GET BY ID   *****
+    public ResponseEntity<PortfolioFullDTO> findByIdOnline(@PathVariable Long id){
+        try{
+            System.out.println("online");
+            PortfolioServiceModel serv = portfolioService.findById(id);
+
+            return new ResponseEntity<>( mapper.portfolioSvcToFullDTO(portfolioService.findById(id)), HttpStatus.OK);
+
+            //PortfolioGetDTO DTO =  mapper.portfolioSvcToGetDTO( portfolioService.findById(id));
             //return new ResponseEntity<>( DTO, HttpStatus.OK);
         }catch (PortfolioNotFoundException ex){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getReason());

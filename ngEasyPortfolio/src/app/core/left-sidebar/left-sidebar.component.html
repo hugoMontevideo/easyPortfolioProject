@@ -1,10 +1,9 @@
 <section class="left-sidebar p-2 " >
+
   <div class="d-flex justify-content-center item pt-2 pb-2">                       
     <a routerLink="/portfolios" 
-        class="portfolios "
-        title="Ajouter liens reseaux sociaux"
-    >
-    Mes portfolios
+        class="portfolios ">
+      Mes portfolios
     </a>
   </div>
 
@@ -33,21 +32,20 @@
       Réseaux sociaux
     </button>
   </div>
-
 </section>
 
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas" aria-labelledby="offcanvasLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasLabel">{{ portfolio.name }}</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  <div class="offcanvas-header d-flex justify-content-end" >
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" title="Fermer la fenêtre"></button>
   </div>
+  <h5 class="offcanvas-title text-center" id="offcanvasLabel" >{{portfolio.firstname | titlecase}} {{ portfolio.name }}</h5>
   <div class="offcanvas-body">
     <div class="portfolio d-flex">
-      <div class="d-flex justify-content-start align-items-start" >
-        <div class="profile">
+      <div class="d-flex justify-content-start align-items-start mx-auto ps-4" >
+        <div class="profile ">
           <img *ngIf="portfolio.profileImgPath; else srcDefault" 
                 [src]="ENV_PICT+'portfolios/' + portfolio.profileImgPath" 
-                [alt]="'Photo de profil '+portfolio.firstname">  
+                [alt]="'Photo de profil ' + portfolio.firstname">  
           <ng-template #srcDefault>
             <img [src]="ENV_PICT+ 'portfolios/'+'girl-shirt-avatar.png'" 
                   [alt]="'Photo de profil '+portfolio.firstname">  
@@ -58,45 +56,26 @@
           <fa-icon class="icon" [icon]="['fas', 'pen']"></fa-icon>
         </button>
       </div>
-      <div class="flex-grow-1">
-          <h5 class="-about-me text-center" >A Propos</h5>
-          <p class="about-me">{{ portfolio.aboutMe}}
-          <button (click)="onModifyAbout()"
-                  class="modify-img-btn" title="Modifier">
-              <fa-icon class="icon" [icon]="['fas', 'pen']"></fa-icon>
-          </button>
-          </p>
-      </div>  
-        <!-- <h5>{{ user.name | uppercase }}</h5>
-        <p>{{ user.firstname | titlecase }}</p>
-        <p>{{ user.email }}</p>
-        <button class="btn btn-secondary" 
-            type="button" 
-            (click)="onEditUser()" >
-            Modifier votre profil
-        </button> -->
     </div>
       
-    <div class="gradient p-4 title" *ngIf="isUserFormShowing" >
+    <div class="gradient p-2 title" *ngIf="isUserFormShowing" >
       <p class="text-end m-0">
-        <button (click)="onCloseModalForm()"><fa-icon [icon]="['fas', 'window-close']" ></fa-icon></button>
+        <button (click)="onCloseModalForm()" title="Fermer">
+          <fa-icon [icon]="['fas', 'window-close']" ></fa-icon>
+        </button>
       </p>
       <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitUser()" >
         <legend class="text-center form-legend mb-3">{{ legend }}</legend>
-          
-        <div class="mb-3">
-          <label for="portfolio-about-me" class="form-label">A propos</label>
-          <textarea class="form-control" maxlength="255"
-                    id="portfolio-about-me"
-                    [(ngModel)]="portfolio.aboutMe"
-                    name="portfolio-about-me" 
-                    rows="3">Description</textarea>
-        </div>
-        <input class="btn btn-primary d-block mx-auto" 
+                
+        <ckeditor 
+          [editor]="Editor" 
+          [(ngModel)]="editorData" name="editorData" >
+        </ckeditor>
+
+        <input class="btn btn-primary d-block mx-auto mt-2" 
               type="submit" 
               value="Modifier">
-              <!-- [disabled]="form.invalid">***************disabled on dev  -->
-    
+              <!-- [disabled]="form.invalid">***************disabled on dev  -->    
       </form>
     </div>
       
@@ -187,9 +166,35 @@
           class="btn btn-outline-success "
           title="Ajouter liens reseaux sociaux"
           (click)="onLinks()"         
-      >
-      Modifier les links des réseaux sociaux
-    </button>
-  </div>
+        >
+        Modifier les links des réseaux sociaux
+      </button>
+    </div>
+    <!-- app.component.html -->
+
+
+
   </div> 
 </div>
+
+
+
+<!-- <div class="flex-grow-1">
+  <h5 class="-about-me text-center" >A Propos</h5>
+  <p class="about-me">{{ portfolio.aboutMe}}
+  <button (click)="onModifyAbout()"
+          class="modify-img-btn" title="Modifier">
+      <fa-icon class="icon" [icon]="['fas', 'pen']"></fa-icon>
+  </button>
+  </p>
+</div>   -->
+
+ <!-- <div class="mb-3">
+          <label for="portfolio-about-me" class="form-label">A propos</label>
+          <textarea class="form-control" maxlength="255"
+                    id="portfolio-about-me"
+                    [(ngModel)]="portfolio.aboutMe"
+                    name="portfolio-about-me" 
+                    rows="3">
+          </textarea>
+        </div> -->

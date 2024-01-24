@@ -42,6 +42,7 @@ public class SecurityConfigurer {
         http = http.authorizeHttpRequests((r) ->{
             r.requestMatchers("/auth/**").permitAll();
             r.requestMatchers("/auth/users/**").authenticated();
+            r.requestMatchers("/api/portfolios/online/**").permitAll();
             r.requestMatchers("/api/**").authenticated();
             r.anyRequest().permitAll() ;
 

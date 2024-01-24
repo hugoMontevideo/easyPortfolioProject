@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JWTTokenService } from 'src/app/services/JWTToken.service';
 import { Skill } from '../component/skill/skill.interface';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { SkillAddDto } from '../component/skill/skill-add-dto.interface';
 import { environment } from 'src/environments/environment';
 import { CategorySkill } from '../component/skill/category-skill.inteface';
@@ -28,7 +28,7 @@ export class SkillService {
 
   add = ( newSkill: Skill ): Observable<any> => { 
       let skill : SkillAddDto = {
-        title: "nouvelle compétence en cours",
+        title: "Titre",
         portfolioId: newSkill.portfolioId
     }
     return this.http.post(`${this.ENV_DEV}/skills`, skill )
@@ -36,8 +36,7 @@ export class SkillService {
   }
 
   saveSkill = ( newSkill: Skill ): Observable<any> => {      
-    console.log(newSkill);
-             
+            
     return this.http.put( `${this.ENV_DEV}/skills/${newSkill.id}`, newSkill )
       .pipe(catchError(this.handleError)); // catch validator errors
   }
@@ -67,3 +66,11 @@ export class SkillService {
 
 
 }
+
+
+ // getSoftSkills = ( portfolioId:number | any):Observable<Skill[]> => { 
+  //   return this.http.get<Skill[]>( `${this.ENV_DEV}/portfolios/${portfolioId}/skills`)
+  //   .pipe(
+  //     map(data=>data.filter(item=>item))
+  //   );
+  // }
