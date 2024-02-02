@@ -5,6 +5,8 @@ import com.simplon.easyportfolio.api.controllers.educations.EducationGetDTO;
 import com.simplon.easyportfolio.api.controllers.experiences.ExperienceGetDTO;
 import com.simplon.easyportfolio.api.controllers.projects.ProjectGetDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
+import com.simplon.easyportfolio.api.controllers.socials.SocialGetDTO;
+import com.simplon.easyportfolio.api.repositories.socials.SocialRepositoryModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,5 +31,6 @@ public class PortfolioFullDTO {
     private List<ExperienceGetDTO> experiences;
     private List<EducationGetDTO> educations;
     private List<SkillGetDTO> skills;
+    private List<SocialGetDTO> socials ;
     private UserResponseDTO user;
 }

@@ -1,4 +1,4 @@
-package com.simplon.easyportfolio.api.repositories.skills;
+package com.simplon.easyportfolio.api.repositories.socials;
 
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
 import jakarta.persistence.*;
@@ -10,20 +10,17 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="skill")
-public class SkillRepositoryModel {
+@Table(name="social")
+public class SocialRepositoryModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long Id;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "link", columnDefinition = "LONGTEXT")
+    private String link;
 
-    @Column(name = "description")
-    private String description;
-
-    @Column(name = "category_skill_id")
-    private Long categorySkillId;
+    @Column(name = "category_social_id")
+    private Long categorySocialId;
 
     @ManyToOne
     @JoinColumn(name = "portfolio_id")

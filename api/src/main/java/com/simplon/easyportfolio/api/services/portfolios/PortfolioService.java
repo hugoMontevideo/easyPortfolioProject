@@ -1,6 +1,7 @@
 package com.simplon.easyportfolio.api.services.portfolios;
 
 import com.github.slugify.Slugify;
+import com.simplon.easyportfolio.api.controllers.socials.SocialServiceRequestModel;
 import com.simplon.easyportfolio.api.domain.User;
 import com.simplon.easyportfolio.api.exceptions.*;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
@@ -19,6 +20,8 @@ import com.simplon.easyportfolio.api.repositories.skills.CategorySkillRepository
 import com.simplon.easyportfolio.api.repositories.skills.CategorySkillRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepository;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
+import com.simplon.easyportfolio.api.repositories.socials.SocialRepository;
+import com.simplon.easyportfolio.api.repositories.socials.SocialRepositoryModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
@@ -29,6 +32,7 @@ import com.simplon.easyportfolio.api.services.projects.*;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
+import com.simplon.easyportfolio.api.services.socials.SocialServiceResponseModel;
 import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +70,8 @@ public class PortfolioService {
     SkillRepository skillRepository;
     @Autowired
     CategorySkillRepository categorySkillRepository;
+    @Autowired
+    SocialRepository socialRepository;
     private final Slugify slug = Slugify.builder().build();
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
 
@@ -148,11 +154,13 @@ public class PortfolioService {
         return mapper.portfolioRepositoryToResponseSvc(portfolioRepositoryadded);
     }
 
+    // get Portfolio by Id
     public PortfolioServiceModel findById(Long id) {
         Optional<PortfolioRepositoryModel> portfolioRepositoryModel = portfolioRepository.findById(id);
         return mapper.portfolioRepositoryToServiceModel(portfolioRepositoryModel.get());
     }
 
+    // get projects by PortfolioId
     public List<ProjectServiceResponseModel> getProjectsByPortfolioId(Long id) throws PortfolioNotFoundException {
         try {
             Optional<PortfolioRepositoryModel> portfolioRepositoryModel = portfolioRepository.findById(id);
@@ -385,7 +393,6 @@ public class PortfolioService {
 
         SkillRepositoryModel skill = mapper.skillServiceRequestToRepositoryModel(skillServiceRequestUpdateModel);
 
-        System.out.println(skill);
         SkillRepositoryModel addedSkill = skillRepository.save(skill);
         return mapper.skillRepositoryToResponseSvc(addedSkill);
     }
@@ -422,7 +429,24 @@ public class PortfolioService {
         }
     }
 
- /** documents  ***************************************** **/
+    /** Table: SOCIAL  ************************************** **/
+    //  save social
+    public SocialServiceResponseModel saveSocial(SocialServiceRequestModel serviceModel) {
+        //getting the portfolioRepositoryModel
+        Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById( serviceModel.getPortfolioId().get() );
+        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
+        // adding portfolio manually
+        serviceModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
+
+        SocialRepositoryModel social = mapper.socialServiceRequestToRepositoryModelAdd(serviceModel);
+        SocialRepositoryModel addedSocial = socialRepository.save(social);
+        SocialServiceResponseModel socialResponse = mapper.socialRepositoryToResponseSvc(addedSocial);
+
+        return socialResponse;
+    }
+
+
+    /** documents  ***************************************** **/
     //delete document project
     // save document project
     public DocumentProjectServiceResponseModel saveDocumentProject(DocumentProjectServiceRequestModel documentServiceRequestModel) {
@@ -455,6 +479,7 @@ public class PortfolioService {
         DocumentProjectRepositoryModel addedDocProject = documentProjectRepository.save(documentProjectRepositoryModel);
         return mapper.documentProjectRepositoryToResponseSvc(addedDocProject);
     }
+
 
     /** ************ getting Arrays By Id  ********************** **/
     public List<DocumentProjectServiceResponseModel> getDocumentProjectsByPortfolioId(Long id) throws ProjectNotFoundException {
@@ -545,6 +570,7 @@ public class PortfolioService {
             return      categorySkillRepository.findAll();
             //return mapper.listDocumentProjectRepoToSvc(documentProjects);
     }
+
 
 
 }

@@ -18,6 +18,8 @@ import com.simplon.easyportfolio.api.controllers.projects.*;
 import com.simplon.easyportfolio.api.controllers.skills.SkillDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillUpdateDTO;
+import com.simplon.easyportfolio.api.controllers.socials.SocialGetDTO;
+import com.simplon.easyportfolio.api.controllers.socials.SocialServiceRequestModel;
 import com.simplon.easyportfolio.api.domain.User;
 import com.simplon.easyportfolio.api.repositories.educations.EducationRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepositoryModel;
@@ -25,6 +27,7 @@ import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepository
 import com.simplon.easyportfolio.api.repositories.projects.DocumentProjectRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.projects.ProjectRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
+import com.simplon.easyportfolio.api.repositories.socials.SocialRepositoryModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
@@ -39,6 +42,7 @@ import com.simplon.easyportfolio.api.services.projects.*;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.services.skills.SkillServiceResponseModel;
+import com.simplon.easyportfolio.api.services.socials.SocialServiceResponseModel;
 import com.simplon.easyportfolio.api.services.user.UserServiceModel;
 import com.simplon.easyportfolio.api.services.user.UserServiceResponseModel;
 import com.simplon.easyportfolio.api.services.user.UserServiceUpdateModel;
@@ -152,6 +156,10 @@ public interface EasyfolioMapper {
     @Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")// add
     SkillServiceRequestModel skillDtoToServiceRequestModelAdd(SkillDTO dto);
 
+// SOCIAL
+    @Mapping(source="portfolio", target="portfolio", qualifiedByName = "optionalToType")// add
+    SocialRepositoryModel socialServiceRequestToRepositoryModelAdd(SocialServiceRequestModel serviceModel);
+
  /**   @Mapping(source="id", target="id", qualifiedByName = "optionalToType")
     @Mapping(target = "portfolio", ignore = true)
     ExperienceServiceModel experienceDtoToServiceModel(ExperienceDTO experienceDTO);
@@ -184,6 +192,10 @@ public interface EasyfolioMapper {
     List<SkillServiceResponseModel> listSkillRepoToSvc(List<SkillRepositoryModel> skills);
     List<SkillGetDTO> listSkillSvcToGetDTO(List<SkillServiceResponseModel> skillsServices);
     List<SkillGetDTO> listSkillRepoToGetDTO(List<SkillRepositoryModel> skillModels);
+    List<SocialGetDTO> listSocialRepoToGetDTO(List<SocialRepositoryModel> socialModels);
+
+
+
     /** +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                  Repository  ->  Service  -->  GetDTO
         +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ **/
@@ -207,6 +219,8 @@ public interface EasyfolioMapper {
     SkillGetDTO skillRepoToGetDTO(SkillRepositoryModel skillRepositoryModel);
     EducationServiceResponseModel educationRepositoryToResponseSvc(EducationRepositoryModel educationRepositoryModel);
     EducationGetDTO educationSvcToGetDTO(EducationServiceResponseModel educationServiceResponseModel);
+    SocialServiceResponseModel socialRepositoryToResponseSvc(SocialRepositoryModel socialRepositoryModel);
+    SocialGetDTO socialSvcToGetDTO(SocialServiceResponseModel addedSocial);
 
 
     ProjectServiceModel projectRepositoryToServiceModel (ProjectRepositoryModel projectRepositoryModel);
@@ -234,6 +248,7 @@ public interface EasyfolioMapper {
     UserResponseDTO userServicResponseToFullDTO(UserServiceResponseModel serviceModel);
     UserServiceUpdateModel userServiceToServiceUpdate(UserServiceModel userServiceModel);
     UserServiceModel userRepositoryToSvcModel(User user);
+
 
 
 }

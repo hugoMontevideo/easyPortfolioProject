@@ -5,6 +5,7 @@ import com.simplon.easyportfolio.api.repositories.educations.EducationRepository
 import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.projects.ProjectRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
+import com.simplon.easyportfolio.api.repositories.socials.SocialRepositoryModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,11 +31,11 @@ public class PortfolioServiceModel {
     private List<ExperienceRepositoryModel> experiences ;
     private List<EducationRepositoryModel> educations ;
     private List<SkillRepositoryModel> skills;
-    //@OneToMany(mappedBy = "portfolio", orphanRemoval = true)
-    //private List<SocialLinkRepositoryModel> socialLinks ;
+    private List<SocialRepositoryModel> socials ;
     private User user;
 
     public PortfolioServiceModel(Long id) {
         this.id = id ;
     }
+
 }

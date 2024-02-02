@@ -46,13 +46,14 @@ public class SkillController {
         SkillServiceResponseModel addedSkill = portfolioService.saveSkill( serviceModel );
         return mapper.skillSvcToGetDTO(addedSkill);
     }
+
     /** update Skill **/
     @PutMapping("/{id}")
     public SkillGetDTO update(@RequestBody @Valid SkillUpdateDTO DTO){
+        // TODO :  rendre obligatoire la categorie
         SkillServiceRequestUpdateModel skillServiceRequestUpdModel = mapper.skillDtoToServiceRequestModel(DTO);
-        System.out.println(skillServiceRequestUpdModel);
-        SkillServiceResponseModel updatedSkill =
-                portfolioService.updateSkill( skillServiceRequestUpdModel );
+
+        SkillServiceResponseModel updatedSkill = portfolioService.updateSkill( skillServiceRequestUpdModel );
         return mapper.skillSvcToGetDTO(updatedSkill);
     }
     // delete Skill

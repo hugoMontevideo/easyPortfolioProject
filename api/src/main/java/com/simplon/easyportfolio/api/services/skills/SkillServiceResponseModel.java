@@ -1,6 +1,5 @@
 package com.simplon.easyportfolio.api.services.skills;
 
-import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceResponseModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,5 +14,5 @@ public class SkillServiceResponseModel {
     private String title;
     private String description;
     private Long categorySkillId;
-    
+
 }

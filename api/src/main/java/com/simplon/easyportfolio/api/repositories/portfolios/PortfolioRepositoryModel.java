@@ -5,6 +5,7 @@ import com.simplon.easyportfolio.api.repositories.educations.EducationRepository
 import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.projects.ProjectRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.skills.SkillRepositoryModel;
+import com.simplon.easyportfolio.api.repositories.socials.SocialRepositoryModel;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,7 +37,7 @@ public class PortfolioRepositoryModel {
     private String city;
     @Column(name="profile_img_path")
     private String profileImgPath;
-    @Column(name="about_me")
+    @Column(name="about_me", columnDefinition = "LONGTEXT")
     private String aboutMe;
     @OneToMany(mappedBy = "portfolio")
     private List<ProjectRepositoryModel> projects ;
@@ -46,6 +47,8 @@ public class PortfolioRepositoryModel {
     private List<EducationRepositoryModel> educations ;
     @OneToMany(mappedBy = "portfolio")
     private List<SkillRepositoryModel> skills;
+    @OneToMany(mappedBy = "portfolio")
+    private List<SocialRepositoryModel> socials;
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;

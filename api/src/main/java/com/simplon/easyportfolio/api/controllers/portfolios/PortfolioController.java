@@ -78,7 +78,7 @@ public class PortfolioController {
     @GetMapping("/{id}")  //  GET BY ID   *****
     public ResponseEntity<PortfolioFullDTO> findById(@PathVariable Long id){
         try{
-            PortfolioServiceModel serv = portfolioService.findById(id);
+            //PortfolioServiceModel serviceModel = portfolioService.findById(id);
 
             return new ResponseEntity<>( mapper.portfolioSvcToFullDTO(portfolioService.findById(id)), HttpStatus.OK);
 
