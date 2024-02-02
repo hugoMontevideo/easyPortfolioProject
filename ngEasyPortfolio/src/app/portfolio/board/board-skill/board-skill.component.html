@@ -1,0 +1,68 @@
+<div class="header_layout">
+    <header class="topmenu header_layout">
+        <div class="topmenu_layout">
+            <div id="logo_container">
+                <a href="#home" id="svg3" >      
+                    H
+                    <!-- <div class="letter1"><? // substr($_SESSION['user']['firstname'],0,1) ; ?> </div> -->
+                    <!-- <div class="letter2">X</div> -->      
+                </a> 
+            </div>
+
+            <div class="header_last_details">
+                <div class="svg_burger " id="burgerMenu">
+                    <img [src]="ENV_ICONS+'template-dev/i8Burgergreen.svg' " alt="Burger menu">
+                </div>
+  <!-- 
+                <div class="svg_burger" id="burgerMenuX" (click)="onBurger()" *ngIf="burger">
+                    <img [src]="ENV_ICONS+'template-dev/i8XBurgergreen.svg '"
+                    alt="Symbole X">
+                </div> -->
+            </div><!-- end .header_last_details -->
+        </div>          
+    </header>
+  </div>
+
+
+
+<div class="board">
+    <section id="online-skills" class="content_example skills page3" >
+        <div class="skills-presentation">
+            <h1>Hard &<br> Soft skills</h1>
+            <p>
+                "Je me considère comme une personne très reactive, à l'écoute et
+                capable de traduire les besoins du client.<br>
+                J'ai une large expérience professionnelle dans beaucoup de domaines
+                que je pourrai mettrai à profit dans le développement web.<br>
+                N'hésitez pas à visiter mon profil Linkedin pour me connaitre
+                un peu plus..." <em>Vous pouvez changer ce texte dans 'Compétences'</em>
+            
+            </p>
+        </div>
+        <div class="skills-box competences">
+            <div class="competences-perso">
+                <h3>Compétences personnelles</h3>  
+                <ul>
+                    <li *ngFor="let soft of softSkills"><strong>{{ soft.title | titlecase }}</strong></li>  
+                </ul>
+            </div>
+
+            <div class="scrolling none">
+                <div id="langages_pro" class=" mb-3">
+                    Langages informatiques : <span *ngFor="let item of programsLanguages">{{ item.title }} - </span>                   
+                </div>
+            </div>
+
+            <div id="techno" class="mb-3">
+                Technologies : <span *ngFor="let item of otherSkills">{{ item.title }} - </span>
+            </div>
+            
+            <div class="competences-languages">
+                <h3>Langues</h3>
+                <ul>
+                    <li span *ngFor="let item of languages"><strong>{{ item.title }}</strong> : {{ item.description }}</li>  
+                </ul>     
+            </div>
+        </div> 
+    </section>
+</div>

@@ -1,77 +1,86 @@
-<h6 class="d-flex justify-content-between title">
-    Ajouter un projet
-    <button (click)="onAddProject()">
-      <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
-    </button>
-    <div *ngIf="isProjectFormShowing" class="gradient p-4">
-      <div class="text-end m-0">
-        <button (click)="onCloseModalForm()"
-              class="close-btn">
+<h6 class="d-flex justify-content-between title z-3">
+  Ajouter un projet
+  <button (click)="onAddProject()">
+    <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
+  </button>
+  <div *ngIf="isProjectFormShowing" class="gradient p-4">
+    <div class="text-end m-0">
+      <button (click)="onCloseModalForm()"
+            class="close-btn">
+        <fa-icon [icon]="['fas', 'window-close']"></fa-icon>
+        <span class="info-text">Fermer le formulaire</span>
+      </button>
+    </div>
+    <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitProject()" enctype="multipart/form-data">
+      <legend class="text-center form-legend mb-3">{{ legend }}</legend>
+      <div class="mb-3">
+        <div *ngIf="inputError" class="mb-1">
+          <span class="text-danger input-error">{{ inputError }}</span>
+        </div>
+        <!-- <input type="text" minlength="2" maxlength="60" ************ disabled on dev  -->
+        <input type="text" 
+              class="form-control" 
+              id="project-title" 
+              [(ngModel)]="newProject.title"
+              name="project-title"
+              placeholder="Titre du projet">
+      </div>
+      <div class="mb-3">
+        <label for="project-description" class="form-label">Description du projet</label>
+        <textarea class="form-control" 
+                  id="project-description"
+                  [(ngModel)]="newProject.description"
+                  name="project-description" 
+                  rows="3"></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="project-languages" class="form-label">Langages informatiques</label>
+        <input type="text" 
+              class="form-control" 
+              id="project-languages" 
+              [(ngModel)]="newProject.languages"
+              name="project-languages"
+              placeholder="Langages informatiques">
+      </div>
+      <div class="mb-3">
+        <label for="project-date" class="form-label">Date</label>
+        <input type="date" 
+              class="form-control" 
+              id="project-date" 
+              [(ngModel)]="newProject.date"
+              name="project-date"
+              [value]="newProject.date" >
+      </div>
+      
+      <div class="mb-3">
+        <label for="project-file" class="form-label">Choisir une image</label>
+        <input 
+          class="project-control" 
+          type="file" id="project-file" 
+          name="selected-file"
+          (change)="onSelectedFile($event)"
+          >
+      </div>
+      <input class="btn btn-primary d-block mx-auto" 
+          type="submit" 
+          value="Valider">
+          <!-- [disabled]="form.invalid">***************disabled on dev  -->
+
+    </form>
+    <div *ngFor="let doc of newProject.documents; let j = index">    
+      <div class="d-flex justify-content-end align-items-start" *ngIf="doc.filename" >
+        <div class="preview">
+          <img [src]="projectService.ENV_PICT + doc.filename" alt="">  
+        </div>
+        <button (click)="onDeletePicture(j, doc.id )"
+              class="delete-img-btn">
           <fa-icon [icon]="['fas', 'window-close']"></fa-icon>
-          <span class="info-text">Fermer le formulaire</span>
+          <div class="info-text-">Supprimer la photo</div>
         </button>
       </div>
-      <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitProject()" enctype="multipart/form-data">
-        <legend class="text-center form-legend mb-3">{{ legend }}</legend>
-        <div class="mb-3">
-          <div *ngIf="inputError" class="mb-1">
-            <span class="text-danger input-error">{{ inputError }}</span>
-          </div>
-          <!-- <input type="text" minlength="2" maxlength="60" ************ disabled on dev  -->
-          <input type="text" 
-                class="form-control" 
-                id="project-title" 
-                [(ngModel)]="newProject.title"
-                name="project-title"
-                placeholder="Titre du projet">
-        </div>
-        <div class="mb-3">
-          <label for="project-description" class="form-label">Description du projet</label>
-          <textarea class="form-control" 
-                    id="project-description"
-                    [(ngModel)]="newProject.description"
-                    name="project-description" 
-                    rows="3"></textarea>
-        </div>
-        <div class="mb-3">
-          <label for="project-date" class="form-label">Date</label>
-          <input type="date" 
-                class="form-control" 
-                id="project-date" 
-                [(ngModel)]="newProject.date"
-                name="project-date"
-                [value]="newProject.date" >
-        </div>
-       
-        <div class="mb-3">
-          <label for="project" class="form-label">Choisir une image</label>
-          <input 
-            class="project-control" 
-            type="file" id="project-file" 
-            name="selected-file"
-            (change)="onSelectedFile($event)"
-            >
-        </div>
-        <div *ngFor="let doc of newProject.documents; let j = index">    
-          <div class="d-flex justify-content-end align-items-start" *ngIf="doc.filename" >
-            <div class="preview">
-              <img [src]="projectService.ENV_PICT + doc.filename" alt="">  
-            </div>
-            <button (click)="onDeletePicture(j, doc.id )"
-                  class="delete-img-btn">
-              <fa-icon [icon]="['fas', 'window-close']"></fa-icon>
-              <div class="info-text-">Supprimer la photo</div>
-            </button>
-          </div>
 
-        </div>
-        <input class="btn btn-primary d-block mx-auto" 
-            type="submit" 
-            value="Valider">
-            <!-- [disabled]="form.invalid">***************disabled on dev  -->
-
-      </form>
     </div>
+  </div>
 </h6>
 
 <div *ngFor="let project of projects; let iv = index">
@@ -79,15 +88,15 @@
     <div class="card-body">
         <div class="d-flex justify-content-between elt-title">
             {{project.title}}
-            <div>
-              <button (click)="onEditProject(iv)" class="elt-button" >
-                <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
-              </button> 
-              <button (click)="onDeleteProject(project.id, iv)" class="elt-button" >
-                  <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
-              </button>
-            </div>
+          <div>
+            <button (click)="onEditProject(iv)" class="elt-button" title="modifier">
+              <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
+            </button> 
+            <button (click)="onDeleteProject(project.id, iv)" class="elt-button-red" title="supprimer" >
+                <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
+            </button>
           </div>
+        </div>
     </div>
   </div>
 </div> 

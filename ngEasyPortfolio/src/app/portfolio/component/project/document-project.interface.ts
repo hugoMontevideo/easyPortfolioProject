@@ -2,6 +2,6 @@ export interface DocumentProject {
     id: number,
     title: string,
     mime: string,
-    fileName: string,
+    filename: string,
     projectId: number
 }

@@ -17,4 +17,10 @@ public class SkillServiceRequestModel {
     private String description;
     private Optional<PortfolioServiceModel> portfolio;
     private Optional<Long> portfolioId;
+
+    public SkillServiceRequestModel(String title, Long portfolioId) {
+        this.title = title;
+        this.portfolioId= Optional.ofNullable(portfolioId);
+    }
+
 }

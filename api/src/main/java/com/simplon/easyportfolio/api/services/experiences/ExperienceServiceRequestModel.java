@@ -24,4 +24,9 @@ public class ExperienceServiceRequestModel {
     private Optional<PortfolioServiceModel> portfolio;
     private Optional<Long> portfolioId;
 
+    public ExperienceServiceRequestModel(String title, Long portfolioId) {
+        this.title = title;
+        this.portfolioId= Optional.ofNullable(portfolioId);
+    }
+
 }

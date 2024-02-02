@@ -1,11 +1,12 @@
-import { DocumentProjectModel } from "./document-project-model"
+import { DocumentProject } from "./document-project.interface"
 
 export interface Project {
     id: number,
     title: string,
     description: string,
+    languages: string,
     date: Date,
     fileName: string,
-    documents: DocumentProjectModel[],
-    portfolioId: number
+    documents: DocumentProject[],
+    portfolioId?: number
 }

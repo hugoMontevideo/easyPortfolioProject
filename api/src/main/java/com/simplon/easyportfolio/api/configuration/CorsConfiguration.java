@@ -13,7 +13,7 @@ public class CorsConfiguration {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4200") //l'URL du frontend Angular
+                        .allowedOrigins("http://localhost:4200", "http://projet.cda.hugo.dece5725.odns.fr") //l'URL du frontend Angular
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*");
             }

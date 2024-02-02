@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @AllArgsConstructor
 public class AuthResponseDto {
 
-    private UserDetails user;
+    // private UserDetails user;
     private String token;
 
 }

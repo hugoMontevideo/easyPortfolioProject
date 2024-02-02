@@ -2,7 +2,8 @@
     position: relative;
     .gradient{  // *** test replacing forms ****
         position: absolute;
-        right: -270px;
+        box-shadow: 8px 7px 19px #0000006b;
+        right: -120px;
         top: -100px;
         background: rgba(217, 171, 224, 0.849);
         background: linear-gradient(225deg, rgba(217, 171, 224, 0.877) 0%, rgba(186, 134, 241, 0.842) 50%, rgba(166,112,251,1) 100%);
@@ -22,8 +23,26 @@
                 font-size: .9rem;
 
             }
+            .radio{
+                color: black;
+                font-weight: 400;
+            }
+            
         }
+        
     
+    }
+
+}
+
+@media screen and (min-width: 1100px) {
+    .title{
+        .gradient{
+            
+            right: -270px;
+            
+        }
+
     }
 
 }

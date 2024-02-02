@@ -4,18 +4,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './home/home.component';
-
-import { UserComponent } from './user/user.component';
+import { UserComponent } from './core/user/user.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
 import { PortfolioModule } from './portfolio/portfolio.module';
-import { ConnectionComponent } from './connection/connection.component';
 import { JWTTokenService } from './services/JWTToken.service';
 import { JwtInterceptorService } from './services/jwt-interceptor.service';
-import { HomeNavComponent } from './core/home-nav/home-nav.component';
-import { FooterComponent } from './core/footer/footer.component';
+import { RegisterComponent } from './register/register.component';
+import { TemplateDevComponent } from './a-online/template-dev/template-dev.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
 
 @NgModule({
   declarations: [
@@ -23,9 +23,8 @@ import { FooterComponent } from './core/footer/footer.component';
     HomeComponent,
     UserComponent,
     LoginComponent,
-    ConnectionComponent,
-    HomeNavComponent,
-    FooterComponent
+    RegisterComponent,
+    TemplateDevComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,7 +33,8 @@ import { FooterComponent } from './core/footer/footer.component';
     HttpClientModule,
     FormsModule,
     SharedModule,
-    PortfolioModule
+    PortfolioModule,
+    CKEditorModule
   ],
   providers: [
     JWTTokenService,

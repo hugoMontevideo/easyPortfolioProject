@@ -2,5 +2,6 @@ export interface Skill {
     id: number,
     title: string,
     description: string,
-    portfolioId: number,
+    categorySkillId:number,
+    portfolioId: number
 }

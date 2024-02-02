@@ -1,8 +1,9 @@
+<app-home-nav></app-home-nav> 
 
 <div class=" content_layout home">
-    <section class=" container home-content row mx-auto">
-        <div class=" home-content-create col-lg-7 pb-2"> 
-            <div>       
+    <section class="container home-content row mx-auto">
+        <div class=" home-content-create col-lg-6 pb-2 pb-lg-0"> 
+            <div class="text-center">       
                 <p class="create">Créez votre portfolio en ligne</p>
                 <h1><img src="./assets/resources/easyPfl.svg" alt="logo"></h1>
                 <h3>Votre projet achevé en quelques clics.</h3>
@@ -16,58 +17,72 @@
                 class="consultation btn btn-primary btn-lg mx-auto mt-2">           
                 Démarrez la version gratuite
             </a>
-            <!-- <a href="?action=controller_portfolios/insert">Démarrez la version gratuite</a> -->
         </div>
-        <div class="home-content-consult col-lg-5 pb2">
+        <div class="home-content-consult col-lg-6 ps-lg-4 pe-lg-4">
             <div class="home-content-consult-div">
                 <img src="./assets/resources/img1.jpg" alt="developpeur d'applications, dessin">
             </div>
             <a 
-                href="https://www.easyportfolio.hugo-machado.com/public/index.php?action=controller_portfolios/online&p_id=21"
+                href=""
                 type="button" 
                 class="consultation btn btn-outline-primary btn-lg mx-auto mt-2">
                 Consultez quelques exemples
             </a>
-                <!-- <a href="https://www.easyportfolio.hugo-machado.com/public/index.php?action=controller_portfolios/online&p_id=21"
-                type="button" 
-                class="consultation btn btn-lg">
-                Consultez quelques exemples
-            </a> -->
         </div>
     </section><!-- end .home -->
 
     <section class="try">
-        <div class="try-layout container">
-            <div class="try-layout-txt">
+        <div class="try-layout container d-lg-flex">
+            <div class="try-layout-txt col-lg-6">
                 <h1><img src="./assets/resources/easyPfl.svg"  alt="logo"></h1>
                 <h3>Decouvrez easyPortfolio et gagnez en rapidité et visibilité.</h3>
                 <p>Accédez à toutes les fonctionnalités avancées gratuitement.<br>
-                Quid ait Aristoteles reliquique Platonis alumni? At certe gravius. Sed nimis multa. Is es profecto tu. 
+                    Créez des portfolios remarquables en un clin d'oeil et renforcez votre visibilité en ligne sans frais  
                 </p>                
             </div><!-- end .try_txt -->
-            <div class="try-layout-picture">
+            <div class="try-layout-picture col-lg-6 ">
                 <div class="try-layout-picture-div">
                     <img src="./assets/resources/ordinateur.png"  alt="Photo d'ordinateur">
                 </div>
-                <a  routerLink="/user"
-                    routerLinkActive="active"
-                    [routerLinkActiveOptions]="{exact: true}">
-                    Essayez gratuitement
-                </a>
             </div>
+        
         </div>
+        <a  routerLink=""
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}"
+            class="consultation btn btn-outline-primary btn-lg mx-auto mt-5">
+            Essayez gratuitement
+        </a>
     </section>
 
-    <section class="testimony">
-        <h3>Ceux qui en parlent le mieux</h3>
-        <figure>
+    <section class="container testimony">
+        <h3 class="text-center fs-1">Ceux qui nous ont fait <span>confiance</span></h3>
+        <div class="figure">
             <img src="./assets/resources/temoignage2.jpg"  alt="Femme devant ordinateur">
-        </figure>
+        </div>
         <article>
-            <h4>Catherine M.</h4>
-            <p class="testimony_p1">Etudiante à Sciences Po - Aix-en-Provence</p>
-            <p>Aliter enim nosmet ipsos nosse non possumus. Utram tandem linguam nescio? Quo studio Aristophanem putamus aetatem in litteris duxisse? Immo videri fortasse.</p>
+            
+            <div class="testimony-div fst-italic mt-2 p-4 rounded fs-3">
+                <div class="stars">
+                    <fa-icon [icon]="['fas','star']"></fa-icon><fa-icon [icon]="['fas','star']"></fa-icon><fa-icon [icon]="['fas','star']"></fa-icon><fa-icon [icon]="['fas','star']"></fa-icon><fa-icon [icon]="['fas','star']"></fa-icon>
+                    
+                </div>
+                "J'avais besoin d'un portfolio en ligne et grâce à <strong>easyPortfolio</strong>, j'ai pu créer le mien très simplement. Mettre mes œuvres en ligne est désormais extrêmement facile. <br>Je pensais devoir investir plusieurs jours, mais en réalité, en seulement 10 minutes, mon portfolio en ligne était prêt. De plus, son esthétique, un aspect crucial pour moi, est très satisfaisante. Je recommande vivement <strong>easyPortfolio</strong>."
+                <h4 class="pt-4">Catherine M.</h4>
+                <p class="testimony_p1 fs-5">Etudiante aux Beaux-arts - Aix-en-Provence
+                </p>
+               
+            </div>
         </article>
+        <a  routerLink=""
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}"
+        class="consultation btn btn-outline-primary btn-lg mx-auto mt-2 mt-5">
+        Essayez gratuitement
+    </a>
     </section>
 
 </div><!-- end .content_layout -->
+
+<app-footer></app-footer>
+

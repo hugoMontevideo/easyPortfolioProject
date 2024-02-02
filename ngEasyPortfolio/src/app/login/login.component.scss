@@ -1,0 +1,21 @@
+div.login{
+    min-height: 80vh;
+    .transparent{
+        background-color: transparent;
+    }
+
+}
+
+div.picture{
+    bottom: 0;
+    width: 40%;
+    img{
+        width: 100%;
+    }
+}
+
+.register{
+    a{
+        text-decoration: none; 
+    }
+}
