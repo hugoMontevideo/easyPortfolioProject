@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PortfolioService } from '../portfolio/services/portfolio.service';
 import { User } from '../core/user/user.interface';
 import { JWTTokenService } from '../services/JWTToken.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +10,8 @@ import { JWTTokenService } from '../services/JWTToken.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+
+  ENV_ICONS: string = `${environment.apiIcons}/`;
 
   user: User = {
     id: -1,

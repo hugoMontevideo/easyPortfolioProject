@@ -20,6 +20,8 @@ import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillUpdateDTO;
 import com.simplon.easyportfolio.api.controllers.socials.SocialGetDTO;
 import com.simplon.easyportfolio.api.controllers.socials.SocialServiceRequestModel;
+import com.simplon.easyportfolio.api.controllers.socials.SocialServiceRequestUpdateModel;
+import com.simplon.easyportfolio.api.controllers.socials.SocialUpdateDTO;
 import com.simplon.easyportfolio.api.domain.User;
 import com.simplon.easyportfolio.api.repositories.educations.EducationRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepositoryModel;
@@ -61,6 +63,7 @@ public interface EasyfolioMapper {
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //            DTO  ->  Service  -->  Repository
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    @Mapping(target = "user", ignore = true)
     @Mapping(source="userId", target="userId", qualifiedByName = "typeToOptional")  //update
     PortfolioServiceRequestModel portfolioDtoToServiceRequestModel (PortfolioDTO portfolioDTO);
     PortfolioServiceRequestUpdateModel portfolioDtoToServiceRequestUpdateModel(PortfolioUpdateDTO dto);
@@ -159,6 +162,11 @@ public interface EasyfolioMapper {
 // SOCIAL
     @Mapping(source="portfolio", target="portfolio", qualifiedByName = "optionalToType")// add
     SocialRepositoryModel socialServiceRequestToRepositoryModelAdd(SocialServiceRequestModel serviceModel);
+    @Mapping(source="portfolioId", target="portfolioId", qualifiedByName = "typeToOptional")//update
+    SocialServiceRequestUpdateModel socialGetDtoToServiceRequestModel(SocialUpdateDTO dto);
+    @Mapping(source="id", target="id", qualifiedByName = "optionalToType")// updateSocial
+    @Mapping(source="portfolio", target="portfolio", qualifiedByName = "optionalToType")
+    SocialRepositoryModel socialServiceRequestToRepositoryModel(SocialServiceRequestUpdateModel requestUpdModel);
 
  /**   @Mapping(source="id", target="id", qualifiedByName = "optionalToType")
     @Mapping(target = "portfolio", ignore = true)

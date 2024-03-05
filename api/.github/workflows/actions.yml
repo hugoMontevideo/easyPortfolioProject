@@ -1,0 +1,44 @@
+name: Build and deploy web application
+
+on:
+  push:
+    branches: [ dev ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install required dependencies (if not already installed)
+        run: |
+          if ! which mvn; then
+            echo "Maven is not installed. Installing..."
+            sudo apt update -y && sudo apt install maven -y
+          fi
+
+      - name: Generate WAR
+        run: mvn clean install -DskipTests ${MAVEN_OPTS}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v3  # Fetch the repository again to ensure the key is present
+        with:
+          persist-credentials: false  # Avoid prompting for password on subsequent runs
+
+      - name: Set up SSH key (if not already set up)
+        uses: actions/checkout@v3  # Fetch the repository again to ensure the key is present
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          persist-credentials: false  # Avoid prompting for password on subsequent runs
+
+      - name: Synchronize files to server
+        run: |
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" "${{APP}}" "sudo ${{SERVEUR}}:${{PATH}}"
+
+env:
+  APP: "./target/easyportfolio.war"
+  SERVEUR: "belen@86.198.204.181"  # Securely store server details using GitHub secrets
+  PATH: "/opt/java/tomcat/tomcat10/webapps/"  # Securely store path using GitHub secrets

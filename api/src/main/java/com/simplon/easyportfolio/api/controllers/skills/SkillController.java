@@ -56,6 +56,7 @@ public class SkillController {
         SkillServiceResponseModel updatedSkill = portfolioService.updateSkill( skillServiceRequestUpdModel );
         return mapper.skillSvcToGetDTO(updatedSkill);
     }
+
     // delete Skill
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id){

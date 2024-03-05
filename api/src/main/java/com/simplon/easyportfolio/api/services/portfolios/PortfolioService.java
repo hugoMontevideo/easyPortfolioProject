@@ -2,6 +2,7 @@ package com.simplon.easyportfolio.api.services.portfolios;
 
 import com.github.slugify.Slugify;
 import com.simplon.easyportfolio.api.controllers.socials.SocialServiceRequestModel;
+import com.simplon.easyportfolio.api.controllers.socials.SocialServiceRequestUpdateModel;
 import com.simplon.easyportfolio.api.domain.User;
 import com.simplon.easyportfolio.api.exceptions.*;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
@@ -443,6 +444,21 @@ public class PortfolioService {
         SocialServiceResponseModel socialResponse = mapper.socialRepositoryToResponseSvc(addedSocial);
 
         return socialResponse;
+    }
+
+    public SocialServiceResponseModel updateSocial(SocialServiceRequestUpdateModel requestUpdModel) {
+        //getting the portfolioRepositoryModel
+        Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById( requestUpdModel.getPortfolioId().get() );
+        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
+        // adding portfolio manually
+        requestUpdModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
+        System.out.println(requestUpdModel);
+
+        SocialRepositoryModel social = mapper.socialServiceRequestToRepositoryModel(requestUpdModel);
+
+        SocialRepositoryModel updatedSocial = socialRepository.save(social);
+        return mapper.socialRepositoryToResponseSvc(updatedSocial);
+
     }
 
 

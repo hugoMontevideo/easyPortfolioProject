@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { environment } from "src/environments/environment";
 
 
 @Injectable({
@@ -12,7 +13,7 @@ export class HttpService {
     constructor ( private http: HttpClient ) {}
 
     add( table: string, data: JSON ): Observable<any> {
-        return this.http.post(`http://localhost/easyportfolio/${table}`,data, {responseType: "json"} );
+        return this.http.post(`${environment.baseUrl}/easyportfolio/${table}`,data, {responseType: "json"} );
     }
 
     getData( table: string, id: number ): Observable<any> {
@@ -20,7 +21,7 @@ export class HttpService {
         // let headers = new HttpHeaders();
         // headers = headers.set("Authorization", "Bearer ");
             
-        return this.http.get(`http://localhost/easyportfolio/${table}`, {responseType: "json"} );
+        return this.http.get(`${environment.baseUrl}/easyportfolio/${table}`, {responseType: "json"} );
         // return this.http.get(`http://localhost/angular/ngEasyPortfolio/src/app/services/api/token/login.php?action=read&id=${id}`, {responseType: "json"} );
     }
 
@@ -39,7 +40,7 @@ export class HttpService {
           
         }
             
-        return this.http.get(`http://localhost/angular/ngEasyPortfolio/src/app/services/api/${table}.php?action=readAll&id=${userId}`, {headers:headers, responseType: "json"});
+        return this.http.get(`${environment.baseUrl}/angular/ngEasyPortfolio/src/app/services/api/${table}.php?action=readAll&id=${userId}`, {headers:headers, responseType: "json"});
         // .pipe(map(data => {
         //     if(user){
         //       console.log(user);
@@ -68,7 +69,7 @@ export class HttpService {
     }
 
     getUserById(table: string, userId:number){
-        return this.http.get<any>(`http://localhost/${table}/${userId}`, {responseType: "json"});
+        return this.http.get<any>(`${environment.baseUrl}/${table}/${userId}`, {responseType: "json"});
     }
 
 
