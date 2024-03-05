@@ -39,6 +39,6 @@ jobs:
           rsync -avz -e "ssh -o StrictHostKeyChecking=no" "${{APP}}" "sudo ${{SERVEUR}}:${{PATH}}"
 
 env:
-  APP: "./target/easyportfolio.war"
+  APP: "./api/target/easyportfolio.war"
   SERVEUR: "belen@86.198.204.181"  # Securely store server details using GitHub secrets
   PATH: "/opt/java/tomcat/tomcat10/webapps/"  # Securely store path using GitHub secrets
