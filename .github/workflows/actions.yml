@@ -9,16 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: mvn -B package --file api/pom.xml
+  
+      # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
+      - name: Update dependency graph
+        uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
 
-      - name: Install required dependencies (if not already installed)
-        run: |
-          if ! which mvn; then
-            echo "Maven is not installed. Installing..."
-            sudo apt update -y && sudo apt install maven -y
-          fi
-
-      - name: Generate WAR
-        run: mvn clean install -DskipTests ${MAVEN_OPTS}
 
   deploy:
     runs-on: ubuntu-latest
@@ -36,7 +39,7 @@ jobs:
 
       - name: Synchronize files to server
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" $APP "sudo " $SERVEUR:$PATH
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" $APP "sudo" $SERVEUR:$PATH
 
 env:
   APP: "./api/target/easyportfolio.war"
