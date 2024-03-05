@@ -29,9 +29,10 @@ public class JwtUserServiceImpl implements JwtUserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     private final String signingKey;
+
     public JwtUserServiceImpl(@Value("${jwt.signing.key}") String signingKey ){
-        this.signingKey = signingKey;
-    }
+     this.signingKey = signingKey;
+   }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

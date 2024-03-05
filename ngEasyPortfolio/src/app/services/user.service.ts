@@ -17,19 +17,19 @@ export class UserService {
     constructor ( private http: HttpClient ) {};
 
     getUserByEmail = (email:string): Observable<any> => {        
-        return this.http.get<any>(`http://localhost/auth/users/${email}`);
+        return this.http.get<any>(`${environment.baseUrl}/auth/users/${email}`);
     }
 
     savePicture = ( userId:number, selectedFile: File ): Observable<any> => { 
         let formData = new FormData;
         formData.append('file', selectedFile as File);
 
-        return this.http.put(`http://localhost/auth/users/${userId}/profile_picture`, formData )
+        return this.http.put(`${environment.baseUrl}/auth/users/${userId}/profile_picture`, formData )
             .pipe(catchError(this.handleError)); // catch validator errors
     }
     
     saveUser = ( user: User ): Observable<any> => {             
-        return this.http.put(`http://localhost/auth/users/${user.id}`, user )
+        return this.http.put(`${environment.baseUrl}/auth/users/${user.id}`, user )
           .pipe(catchError(this.handleError)); // catch validator errors
     }
 
@@ -41,5 +41,6 @@ export class UserService {
     getId = (id : string | any ): number => {
         return parseInt(id) ?? 0;
     }
+    
 
 }  

@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { JWTTokenService } from 'src/app/services/JWTToken.service';
 import { User } from '../user/user.interface';
 import { UserService } from 'src/app/services/user.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home-nav',
@@ -10,6 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 
 export class HomeNavComponent  {
+  ENV_ICONS: string = `${environment.apiIcons}/`;
   @Input() isProtected: boolean = false;
 
   currentUser: User = {

@@ -84,8 +84,10 @@ export class PortfolioService {
 
     getUserByEmail = (): Observable<any> | any => {    
       if(  this.jwtTokenService.getUser() != null) {
+        console.log('user ok ?');
+        
           let email = this.jwtTokenService.getUser();
-          return this.http.get<any>(`http://localhost/auth/users/${email}`);
+          return this.http.get<any>(`${environment.baseUrl}/auth/users/${email}`);
       }
   }
 
