@@ -36,7 +36,7 @@ jobs:
 
       - name: Synchronize files to server
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" $APP "sudo ${{SERVEUR}}:${{PATH}}"
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" $APP "sudo " $SERVEUR:$PATH
 
 env:
   APP: "./api/target/easyportfolio.war"
