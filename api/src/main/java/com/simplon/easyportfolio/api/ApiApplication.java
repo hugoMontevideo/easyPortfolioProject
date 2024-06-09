@@ -15,7 +15,7 @@ public class ApiApplication extends SpringBootServletInitializer implements Appl
 	}
 
 	public void run(ApplicationArguments args) throws Exception {
-		System.out.println("L'api a d\u00e9marr\u00e9 avec succ\u00e8s!");
+		System.out.println("L'api a démarré avec succès!");
 	}
 
 	@Override
