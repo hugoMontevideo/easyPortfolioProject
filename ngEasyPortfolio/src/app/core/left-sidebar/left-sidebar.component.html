@@ -65,8 +65,7 @@
         </button>
       </p>
       <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitUser()" >
-        <legend class="text-center form-legend mb-3">{{ legend }}</legend>
-                
+        <legend class="text-center form-legend mb-3">{{ legend }}</legend>     
         <ckeditor 
           [editor]="Editor" 
           [(ngModel)]="editorData" name="editorData" >
@@ -126,7 +125,7 @@
                 class="form-control" 
                 id="linkedin" 
                 [(ngModel)]="links"
-                name="education-degree"
+                name="linkedin"
                 placeholder="Diplôme, niveau d'études obtenu">
         </div>
         <div class="mb-3">
@@ -142,7 +141,7 @@
                 class="form-control" 
                 id="twitter" 
                 [(ngModel)]="links"
-                name="instagram"
+                name="twitter"
                 placeholder="Diplôme, niveau d'études obtenu">
         </div>
         <div class="mb-3">
