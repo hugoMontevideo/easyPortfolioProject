@@ -1,30 +1,222 @@
 
-<div class="rapp-skillow">
-    <div class="col-sm-6 mx-auto">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{portfolio.title | uppercase }}</h5>
-          <p class="card-text">{{portfolio.name | titlecase }}</p>
-          <!-- <p class="card-text">{{portfolio.city | titlecase }}</p> -->
-          <small>{{portfolio.id}}</small>
-          <div class="skills">
-            <!-- <app-skill *ngFor="let skill of skills" [skill]="skills"></app-skill> -->
+<app-home-nav  [isProtected]="isProtected" ></app-home-nav>
+
+<main class="d-flex main">
+  <app-left-sidebar class="left-sidebar col-2 col-lg-1 bg-dark"
+      [portfolio]="portfolio"  
+      [allDisplay]="allDisplay"
+      >
+  </app-left-sidebar>
+
+  <div class="portfolio-list-item flex-grow-1">
+    <div class="d-flex">
+      <div class="aside col-7 col-lg-3">
+        <div class="rapp-skillow">
+          <div class="col mx-auto">
+            <div class="card bg-transparent">
+              <div class="card-body ">
+                <h5 class="card-title title d-flex justify-content-around ">
+                  {{portfolio.title | uppercase }}
+                  <div class="delete-modify elt-title m-0 p-0 d-flex justify-content-end">
+                    <button (click)="onEditPortfolio()" class="elt-button" title="Modifier le portfolio" >
+                      <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
+                    </button>
+                    <button (click)="onDeletePortfolio()" class="elt-button-red" title="Effacer le portfolio" >
+                      <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
+                    </button>
+                  </div>
+                  
+                  <div *ngIf="boardManager.isPortfolioFormShowing" class="gradient p-4 z-2">
+                    <div class="text-end m-0">
+                      <button (click)="onCloseModalForm()"
+                            class="close-btn">
+                        <fa-icon [icon]="['fas', 'window-close']"></fa-icon>
+                        <span class="info-text">Fermer le formulaire</span>
+                      </button>
+                    </div>
+                    <form #form="ngForm" class="mx-auto form-item " (ngSubmit)="onSubmitPortfolio()" enctype="multipart/form-data">
+                      <legend class="text-center form-legend mb-3">Modifier le portfolio</legend>
+                      <div class="mb-3">
+                        <div *ngIf="inputError" class="mb-1">
+                          <span class="text-danger input-error">{{ inputError }}</span>
+                        </div>
+                        <label for="portfolio-title" class="form-label">Titre du portfolio</label>
+                        <!-- <input type="text" minlength="2" maxlength="60" ************ disabled on dev  -->
+                        <input type="text" 
+                              class="form-control" 
+                              id="portfolio-title" 
+                              [(ngModel)]="portfolio.title"
+                              name="portfolio-title"
+                              placeholder="Titre du portfolio">
+                      </div>
+                      <div class="mb-3">
+                        <label for="portfolio-description" class="form-label">Description du portfolio</label>
+                        <textarea class="form-control" 
+                                  id="portfolio-description"
+                                  [(ngModel)]="portfolio.description"
+                                  name="portfolio-description" 
+                                  rows="3"></textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label for="portfolio-name" class="form-label">Nom</label>
+                        <input type="text" 
+                              class="form-control" 
+                              id="portfolio-name" 
+                              [(ngModel)]="portfolio.name"
+                              name="portfolio-name"
+                              placeholder="Nom">
+                      </div>
+                      <div class="mb-3">
+                        <label for="portfolio-firstname" class="form-label">Prénom</label>
+                        <input type="text" 
+                              class="form-control" 
+                              id="portfolio-firstname" 
+                              [(ngModel)]="portfolio.firstname"
+                              name="portfolio-firstname"
+                              placeholder="Prénom">
+                      </div>
+                      <div class="mb-3">
+                        <label for="portfolio-email" class="form-label">Email</label>
+                        <input type="email" 
+                              class="form-control" 
+                              id="portfolio-email" 
+                              [(ngModel)]="portfolio.email"
+                              name="portfolio-email"
+                              placeholder="Email">
+                      </div>
+                      <div class="mb-3">
+                        <label for="portfolio-city" class="form-label">Ville</label>
+                        <input type="text" 
+                              class="form-control" 
+                              id="portfolio-city" 
+                              [(ngModel)]="portfolio.city"
+                              name="portfolio-city"
+                              placeholder="Ville">
+                      </div>
+                      
+                      <input class="btn btn-primary d-block mx-auto" 
+                          type="submit" 
+                          value="Valider">
+                          <!-- [disabled]="form.invalid">***************disabled on dev  -->
+                    </form>
+                  </div>
+                </h5>
+                <a [href]="'/item/'+ portfolio.id" class="btn btn-outline-success mx-auto d-block  online" >
+                  Voir online
+                </a>
+              </div>
+            </div>
           </div>
-  
-          <button class="btn btn-info"
-                    (click)="onEditClick($event)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editModal">
-                Modifier
-          </button>
-          <button class="btn btn-warning"
-                    (click)="onDeleteClick($event)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteModal">
-                Supprimer
-            </button>
         </div>
+        
+        <div class="accordion bg-transparent " id="accordionExample">
+        
+          <div class="accordion-item bg-transparent custom-accordion  ">
+            <h2 class="accordion-header bg-transparent">
+              <button class="accordion-button bg-transparent" type="button" data-bs-toggle="collapse" 
+                  data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
+                  (click)="onProjectButton()" >
+                Projets
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse bg-transparent" data-bs-parent="#accordionExample" #collapseOne>
+              <div class="accordion-body projects bg-transparent">       
+                <app-project [projects]="portfolio.projects" 
+                      [portfolioId]="portfolio.id" 
+                      (projectsChanged)="handleProjectsChanged($event)">
+                </app-project>        
+              </div>
+            </div>
+          </div>
+          
+          <div class="accordion-item bg-transparent custom-accordion ">
+            <h2 class="accordion-header bg-transparent">
+              <button class="accordion-button collapsed bg-transparent" type="button" 
+                    data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" 
+                    aria-controls="collapseTwo"
+                    (click)="onSkillButton()" >
+                Compétences
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse bg-transparent" data-bs-parent="#accordionExample" #collapseTwo>
+              <div class="accordion-body skills bg-transparent">   
+                <app-skill [skills]="portfolio.skills" 
+                      [portfolioId]="portfolio.id"
+                      (skillsChanged)="handleSkillsChanged($event)">
+                </app-skill>
+              </div>
+            </div>
+          </div>
+            
+          <div class="accordion-item bg-transparent custom-accordion ">
+            <h2 class="accordion-header bg-transparent">
+              <button class="accordion-button collapsed bg-transparent" type="button" data-bs-toggle="collapse" 
+                  data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"
+                  (click)="onEducationButton()">
+                Etudes et formations
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse bg-transparent" data-bs-parent="#accordionExample" #collapseThree>
+              <div class="accordion-body educations bg-transparent">
+                <app-education [educations]="portfolio.educations" 
+                          [portfolioId]="portfolio.id"
+                          (educationsChanged)="handleEducationsChanged($event)">
+                </app-education>       
+              </div>
+            </div>
+          </div>
+          
+          <div class="accordion-item bg-transparent custom-accordion ">
+            <h2 class="accordion-header bg-transparent">
+              <button class="accordion-button collapsed bg-transparent" type="button" data-bs-toggle="collapse" 
+                  data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree"
+                  (click)="onExperienceButton()" >
+                Expérience professionnelle
+              </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse bg-transparent" data-bs-parent="#accordionExample" #collapseFour>
+              <div class="accordion-body experiences bg-transparent">
+                <app-experience [experiences]="portfolio.experiences" 
+                          [portfolioId]="portfolio.id"
+                          (experiencesChanged)="handleExperiencesChanged($event)" >
+                </app-experience>      
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="gradient">Essayez gratuitement !! </div> -->
+
+      </div>
+      <div class="display flex-grow-1">  
+
+        <section class="frame mx-auto" *ngIf="!isMobile">
+          <article *ngIf="boardManager.isShowingHome"> <!-- Board Home -->
+            <app-board-home [portfolio]="portfolio" [portfolioId]="portfolio.id"></app-board-home>
+          </article>
+          <article *ngIf="boardManager.isShowingProjects"> <!-- Board Projects -->
+            <app-board-project [projects]="portfolio.projects" [portfolioId]="portfolio.id"></app-board-project>
+          </article>
+          <article *ngIf="boardManager.isShowingSkills">
+            <app-board-skill [skills]="portfolio.skills" 
+                              [portfolioId]="portfolio.id">
+            </app-board-skill>
+          </article>
+          <article *ngIf="boardManager.isShowingEducs"> <!-- Board Educations -->
+            <app-board-education [educations]="portfolio.educations" [portfolioId]="portfolio.id"></app-board-education>
+          </article>
+          <article *ngIf="boardManager.isShowingExpers">
+            <app-board-experience [experiences]="portfolio.experiences" [portfolioId]="portfolio.id"></app-board-experience>
+          </article>
+          
+        </section>
+        
       </div>
     </div>
+  </div>
+</main>
 
-</div>
+<app-footer></app-footer>
+
+
+

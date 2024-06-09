@@ -1,0 +1,56 @@
+<div class="board">
+
+  <div class="header_layout">
+    <header class="topmenu header_layout">
+        <div class="topmenu_layout">
+            <div id="logo_container">
+                <a href="#home" id="svg3" >      
+                    H
+                    <!-- <div class="letter1"><? // substr($_SESSION['user']['firstname'],0,1) ; ?> </div> -->
+                    <!-- <div class="letter2">X</div> -->      
+                </a> 
+            </div>
+
+            <div class="header_last_details">
+                <div class="svg_burger " id="burgerMenu">
+                    <img [src]="ENV_ICONS+'template-dev/i8Burgergreen.svg' " alt="Burger menu">
+                </div>
+  <!-- 
+                <div class="svg_burger" id="burgerMenuX" (click)="onBurger()" *ngIf="burger">
+                    <img [src]="ENV_ICONS+'template-dev/i8XBurgergreen.svg '"
+                    alt="Symbole X">
+                </div> -->
+            </div><!-- end .header_last_details -->
+        </div>          
+    </header>
+  </div>
+
+  <section id="online-projects" class="content_example page2" >
+    <div id="realisations-div" class="realisations-div">
+        
+      <h1>Réalisations</h1>
+      <div class="realisations-box" *ngIf="projects.length > 0">
+          <div class="realisations-box-card" *ngFor="let project of projects">
+
+            <a href="https://www.easyportfolio.hugo-machado.com/public/index.php"
+                title="Aller sur le projet">
+                <div *ngIf="project.documents[0]">  
+                  <img [src]="ENV_PICT + project.documents[0].filename" alt="Image du projet"> 
+                </div>   
+            </a>
+            <h3>{{ project.title }}</h3>
+            <p>{{project.description }}</p>
+              
+            <p class="p_skills_list">
+            <strong>
+              {{ project.languages }}
+            </strong>
+            </p>
+          </div>
+                    
+              
+        </div>
+    </div>     
+  </section><!-- end .exemple project -->
+
+</div>

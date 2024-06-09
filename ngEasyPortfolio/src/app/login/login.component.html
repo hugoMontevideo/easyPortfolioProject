@@ -1,17 +1,19 @@
-<form>
-    <div class="row">
-        <div class="w-75">
-            <div class="card mt-3">
-                <h5 class="card-header">Login</h5>
+<app-home-nav></app-home-nav>
 
-                <div class="card-body">
+<div class="login position-relative ">
+    <form class="col-10  mx-auto mt-5">
+        <div class="col-lg-8 mx-auto ">
+            <div class="card mt-3 bg-transparent">
+                <h5 class="card-header text-center">Connexion</h5>
+                <span class="text-danger">{{ loginError }}</span>
+                <div class="card-body bg-transparent">
                     <div class="form-group form-row">
                         <label for="email" class="col-md-4 col-form-label">Email</label>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="email"
-                                    name="email"
+                                    name="username"
                                     id="email"
-                                    [(ngModel)]="loginViewModel.email"
+                                    [(ngModel)]="loginEmailPwd.email"
                                     class="form-control"
                                     placeholder="email"
                                     autofocus="autofocus">
@@ -19,26 +21,34 @@
                     </div>
                     <div class="form-group form-row">
                         <label for="password" class="col-md-4 col-form-label">Mot de passe</label>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <input type="password"
                                     name="password"
-                                    [(ngModel)]="loginViewModel.password"
+                                    [(ngModel)]="loginEmailPwd.password"
                                     id="password"
                                     class="form-control"
                                     placeholder="nom"
-                                    autofocus="autofocus">
+                                    >
                         </div>
                     </div>
-                  
-                  <a class="btn btn-primary" (click)="onLoginClick($event)">Connexion</a>
+                    <div class="text-center">
+                        <a class="btn btn-primary mt-1" (click)="onLoginClick($event)">Connexion</a>
+                    </div>
                 </div>
-                <div class="card-footer text-right">
-                    <span class="text-danger">{{ loginError }}</span>
-                </div>
+                
             </div>
         </div>
-    </div>
-
     
+        <div class="picture position-absolute  bottom-0 z-n1">
+            <img [src]="ENV_ICONS + 'people-login.jpg'" alt="Dessin d'un groupe de gens">
+        </div>
+    </form>
+    <div class="register">
+        <a href=""
+            class="text-center d-block mt-5 ">
+            Vous n'avez pas de compte ? Enregistrez-vous.
+        </a>
+    </div>
+</div>
 
-</form>
+<app-footer></app-footer>

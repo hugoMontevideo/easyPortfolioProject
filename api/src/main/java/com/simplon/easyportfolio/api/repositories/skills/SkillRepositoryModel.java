@@ -22,6 +22,9 @@ public class SkillRepositoryModel {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "category_skill_id")
+    private Long categorySkillId;
+
     @ManyToOne
     @JoinColumn(name = "portfolio_id")
     private PortfolioRepositoryModel portfolio;

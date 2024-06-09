@@ -1,0 +1,45 @@
+<div class="board">
+
+    <div class="header_layout">
+        <header class="topmenu header_layout">
+            <div class="topmenu_layout">
+                <div id="logo_container">
+                    <a href="#home" id="svg3" >      
+                        H
+                        <!-- <div class="letter1"><? // substr($_SESSION['user']['firstname'],0,1) ; ?> </div> -->
+                        <!-- <div class="letter2">X</div> -->      
+                    </a> 
+                </div>
+                <div class="header_last_details">
+                    <div class="svg_burger " id="burgerMenu">
+                        <img [src]="ENV_ICONS+'template-dev/i8Burgergreen.svg' " alt="Burger menu">
+                    </div>
+    <!-- 
+                    <div class="svg_burger" id="burgerMenuX" (click)="onBurger()" *ngIf="burger">
+                        <img [src]="ENV_ICONS+'template-dev/i8XBurgergreen.svg '"
+                        alt="Symbole X">
+                    </div> -->
+                </div><!-- end .header_last_details -->
+            </div>          
+        </header>
+    </div>
+    <section id="online-educations" class="content_example page4" >
+        <div id="educations-div" class="educations-div">         
+            <h1 id="h1_educ" class="mb-4" >Formations</h1>
+            <div class="educations-box">
+                <div class="education">
+                    <ul class="" >
+                        <li *ngFor="let education of educations" class="d-flex justify-content-between" >
+                            <div class="educ1 d-flex justify-content-center" >{{education.startDate| date:'dd/MM/yyyy'}}</div> - 
+                            <div class="educ2 d-flex justify-content-center">{{education.endDate | date:'dd/MM/yyyy'}}</div> :
+                            <div class="educ3 ms-2 "> {{ education.training }} </div>
+                            <div class="educ4 ps-2"> {{ education.school | titlecase }}</div>
+                            <div class="educ5 text-center"> {{ education.degree !=null ?education.degree :'-' }}</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>     
+    </section><!-- end .exemple educations -->
+</div>
+

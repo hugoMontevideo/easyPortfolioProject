@@ -18,6 +18,6 @@ export class SharedModule {
   
   constructor(library: FaIconLibrary){
     library.addIconPacks(fas);
-    // library.addIconPacks(faCoffee);
+  
   }
  }

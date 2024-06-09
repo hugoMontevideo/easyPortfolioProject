@@ -4,7 +4,6 @@ section{
 }
 
 .home{
-
     &-content{
         &-create,&-consult{
             display: flex;
@@ -22,11 +21,20 @@ section{
         display: block;
         width: 20rem;
     }
+    p.create{
+        font-size: 1.3rem;
+    }
 }
 
 .try{
     background: #fe8e78;
     background: linear-gradient(180deg, #fe8e78 0%, #fe6c58 43%, #f91305 100%);
+    h3{
+        font-size: 1.8rem;
+    }
+    p{
+        font-size: 1.2rem;
+    }
     &-layout-picture-div{
         width: 100%;
         img{
@@ -36,3 +44,43 @@ section{
 
 
 }
+
+.testimony{
+    width: 90%;
+    max-width: 900px;
+
+    h3{ 
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+    .figure{
+        width: 100%;
+        img{
+            width: 100%;
+        }
+    }
+    
+    &-div{
+        background-color: rgba(32, 81, 214, 0.308);
+        fa-icon{
+            color: rgb(228, 176, 6);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+// @media screen and (min-width: 110px) {
+//     .try{
+    //         .try-layout{
+//            max-width: 900px; 
+//         }
+//     }
+
+// }

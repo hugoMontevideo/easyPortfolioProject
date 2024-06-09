@@ -1,0 +1,293 @@
+
+ <!-- 0 **************************************************** -->
+ <div class="header_layout">
+    <header class="topmenu header_layout">
+        <div class="topmenu_layout">
+            <div id="logo_container">
+                <a [routerLink]="['/item/1']" (click)="scrollToSection('online-home')" id="svg3" title="Accueil" >      
+                    H
+                    <!-- <div class="letter1"><? // substr($_SESSION['user']['firstname'],0,1) ; ?> </div> -->
+                    <!-- <div class="letter2">X</div> -->      
+                </a> 
+            </div>
+
+            <div class="header_last_details">
+                <div class="svg_burger " id="burgerMenu" *ngIf="!burger">
+                    <img [src]="ENV_ICONS+'template-dev/i8Burgergreen.svg' " alt="Burger menu" (click)="onBurger()">
+                </div>
+
+                <div class="svg_burger" id="burgerMenuX" (click)="onBurger()" *ngIf="burger">
+                    <img [src]="ENV_ICONS+'template-dev/i8XBurgergreen.svg '"
+                    alt="Symbole X">
+                </div>
+            </div><!-- end .header_last_details -->
+        </div>
+        <!-- menu qui apparaît lors du clic sur le burger -->
+         <nav class="burger" *ngIf="burger" >
+            <a [routerLink]="['/item/1']" (click)="scrollToSection('online-home')">Accueil</a>
+            <a [routerLink]="['/item/1']"  fragment="projects" 
+                    (click)="scrollToSection('online-projects')" 
+                    *ngIf="portfolio.projects.length > 0">
+                Réalisations
+            </a>
+            <a [routerLink]="['/item/1']" (click)="scrollToSection('online-skills')" >Compétences</a>
+            <a [routerLink]="['/item/1']" (click)="scrollToSection('online-educations')" >Formations et études</a>
+            <a [routerLink]="['/item/1']" (click)="scrollToSection('online-experiences')" >Experiences professionnelles</a>
+            <a [routerLink]="['/item/1']" (click)="scrollToSection('online-about')" >A propos</a>
+            <a href="" >easyPortfolio - Accueil</a>
+        </nav> 
+    </header>
+</div>
+    <!-- <section class="example admin portfolios"> -->
+
+    <!-- *************  accueil    ******************** -->
+    <section id="online-home" class="content_example page1" >    
+        <article class="networks">
+            <div class="github">
+                <a href="" title="Mon github">
+                    <img [src]="ENV_ICONS+'template-dev/icons8-git.svg'" alt="">
+                </a>
+            </div>               
+            <div class="linkedin" title="Mon Linkedin" >
+                <a href="" title="Mon instagram" >
+                <img [src]="ENV_ICONS+'template-dev/icons8-in.svg'" alt="">
+
+                </a>
+            </div>
+            <div class="instagram">
+                <a href="" title="Mon twitter" >
+                <img [src]="ENV_ICONS+'template-dev/icons8-insta.svg'" alt="">
+                </a>
+            </div>
+            <div class="twitter">
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-tw.svg'" alt="">
+                </a>
+            </div>
+            <div class="fb" title="Mon fb" >
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-fb.svg'" alt="">
+                </a>
+            </div>
+        </article><!-- end .networks -->    
+        
+        <article class="content_page portfolios page1">
+            <p class="hi">Bonjour tout le monde!</p>
+            <p class="high-light">Je suis </p>
+            <h1>{{portfolio.firstname|titlecase}} {{portfolio.name|uppercase}}</h1>
+            <h3>{{ portfolio.title |titlecase}}</h3>
+            <p class="city">{{portfolio.city}}</p> 
+            <div class="achievements">
+                <a [routerLink]="['/item/1']" class="add achievement"
+                    (click)="scrollToSection('online-projects')" 
+                    *ngIf="portfolio.projects.length > 0">
+                    Projets réalisés
+            </a>
+            </div>
+         
+        </article><!-- end .content_page -->
+        
+        <article class="mail">
+            <p>{{portfolio.email}}</p>
+        </article>  
+    </section><!-- end .exemple_content -->
+        
+     <!-- *** end section *** -->
+    <section id="online-projects" class="content_example page2" *ngIf="portfolio.projects.length > 0" >
+        <div id="realisations-div" class="realisations-div">         
+            <h1>Réalisations</h1>
+            <div class="realisations-box" >
+                <div class="realisations-box-card" *ngFor="let project of portfolio.projects">
+                   
+                    <a href="https://www.easyportfolio.hugo-machado.com/public/index.php"
+                        title="Aller sur le projet">
+                        <div *ngIf="project.documents[0]">  
+                         <img [src]="ENV_PICT + project.documents[0].filename" alt="Image du projet"> 
+                        </div>   
+                    </a>
+                    <h3>{{ project.title }}</h3>
+                    <p>{{project.description }}</p>
+                    <p class="p_skills_list">
+                        <strong>{{ project.languages }}</strong>
+                    </p>
+                </div>
+            </div>
+        </div>     
+    </section><!-- end .exemple project -->
+    <!-- *** end section *** -->
+    <section id="online-skills" class="content_example skills page3" >
+        <div class="skills-presentation">
+            <h1>Hard &<br> Soft skills</h1>
+            <p>
+                "Je me considère comme une personne très reactive, à l'écoute et
+                capable de traduire les besoins du client.<br>
+                J'ai une large expérience professionnelle dans beaucoup de domaines
+                que je pourrai mettrai à profit dans le développement web.<br>
+                N'hésitez pas à visiter mon profil Linkedin pour me connaitre
+                un peu plus..." <em>Vous pouvez changer ce texte dans 'Compétences'</em>   
+            </p>
+        </div>
+        <div class="skills-box competences">
+            <div class="competences-perso">
+                <h3>Compétences personnelles</h3>  
+                <ul>
+                    <div>
+
+                    </div>
+                    <li *ngFor="let soft of softSkills">
+                            <strong>{{ soft.title | titlecase }}</strong>
+                    </li>  
+                </ul>
+            </div>
+                
+            <div class="scrolling none">
+                <div id="langages_pro" class=" mb-3" >
+                    Langages informatiques : 
+                    <span *ngFor="let item of programsLanguages">{{ item.title }} - </span>                   
+                </div>
+            </div>
+
+            <div id="techno" class="mb-3">
+                Technologies : <span *ngFor="let item of otherSkills">{{ item.title }} - </span>
+            </div>
+
+            <div class="competences-languages">
+                <h3>Langues</h3>
+                <ul>
+                    <li span *ngFor="let item of languages"><strong>{{ item.title }}</strong> : {{ item.description }}</li>       
+                </ul>     
+            </div>
+        </div> 
+    </section>
+
+    <section id="online-educations" class="content_example page4" >
+        <div id="educations-div" class="educations-div">         
+            <h1 id="h1_educ" class="mb-4" >Formations</h1>
+            <div class="educations-box" *ngIf="portfolio.educations.length > 0">
+                <div class="education">
+                    <ul class="" >
+                        <li *ngFor="let education of portfolio.educations" class="d-flex justify-content-between" >
+                            <div class="educ1 d-flex justify-content-center" >{{education.startDate| date:'dd/MM/yyyy'}}</div> - 
+                            <div class="educ2 d-flex justify-content-center">{{education.endDate | date:'dd/MM/yyyy'}}</div> :
+                            <div class="educ3 ms-2"> {{ education.training }} </div>
+                            <div class="educ4"> {{ education.school }}</div>
+                            <div class="educ5 text-center"> {{ education.degree !=null ?education.degree :'-' }}</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>     
+    </section><!-- end .exemple educations -->
+
+    <section id="online-experiences" class="content_example page5" >
+        <div id="experiences-div" class="experiences-div">         
+            <h1 id="h1_exp" class="mb-4 text-center" >Experiences professionnelles</h1>
+            <div class="experiences-box" *ngIf="portfolio.experiences.length > 0">
+                <div class="experience">
+                    <ul class="" >
+                        <li *ngFor="let experience of portfolio.experiences" class="d-flex justify-content-between" >
+                            <div class="exper1 d-flex justify-content-center" >{{experience.startDate| date:'dd/MM/yyyy'}}</div> - 
+                            <div class="exper2 d-flex justify-content-center">{{experience.endDate| date:'dd/MM/yyyy'}}</div> :
+                            <div class="exper3 ms-2"> {{ experience.title }} </div>
+                            <div class="exper4"> {{ experience.company }}</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>     
+    </section><!-- end .exemple experiences -->
+
+    <section id="online-about" class="about page6 pb-6">
+        <h1 class="text-center mb-4 pt-4">A propos</h1>
+        <div class="page6-box d-flex">
+            <div >         
+              
+                <img *ngIf="portfolio.profileImgPath; else srcDefault" 
+                        [src]="ENV_PICT+'portfolios/' + portfolio.profileImgPath" 
+                        [alt]="'Photo de profil '+portfolio.firstname"
+                        class="about-img">  
+                <ng-template #srcDefault>
+                    <img [src]="ENV_ICONS + 'girl-shirt-avatar.png'" [alt]="'developpeur : '+portfolio.firstname"
+                    class="about-img">  
+                </ng-template>
+              
+            </div>
+            <div class="about-presentation ms-5">
+                <ckeditor [editor]="Editor" [(ngModel)]="editorData" name="editorData"
+                        [disabled]="true" [config]="{toolbar:[]}"
+                 ></ckeditor>
+                <!-- <p>
+                "A propos de moi Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur quisquam sed enim sequi rerum iusto autem fuga! Reiciendis error, ipsum excepturi laboriosam quibusdam obcaecati porro amet eos. Laudantium cupiditate odio corrupti minus quo sunt cum porro ratione, aperiam nobis culpa aut, temporibus facilis rem earum nihil autem enim! Pariatur, dicta?  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut rem accusantium ad blanditiis eum. Ea quisquam nostrum, dolores doloribus eveniet aliquam. Nisi nihil, fugiat vero maiores expedita quo ratione repudiandae ipsum dolor facilis iste pariatur cum ipsam laboriosam ab earum perspiciatis eius est voluptates. Provident sequi sed minima quam autem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea architecto ipsam saepe exercitationem pariatur magnam voluptate vitae quaerat delectus omnis? Sapiente, dolores. Earum, reprehenderit! Doloremque, voluptatum tempora maxime neque illum officia totam provident quos corporis alias, nisi odit modi. Natus dolores magnam ab quod incidunt rem odio iste consequatur sed!
+                </p> -->
+            </div>
+        </div>
+    </section>
+
+
+<footer>
+    <section class="footer-layout">
+        <div class="footer-social">   
+            <div class="github rs">
+                <a href="">
+                    <img [src]="ENV_ICONS+'template-dev/icons8-git.svg'" alt="">
+                </a>
+            </div>               
+            <div class="linkedin rs">
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-in.svg'" alt="">
+
+                </a>
+            </div>
+            <div class="instagram rs">
+                <a href="" >
+                <img [src]="ENV_ICONS+'template-dev/icons8-insta.svg'" alt="">
+                </a>
+            </div>
+            <div class="twitter rs">
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-tw.svg'" alt="">
+                </a>
+            </div>
+            <div class="fb rs">
+                <a href="">
+                <img [src]="ENV_ICONS+'template-dev/icons8-fb.svg'" alt="">
+                </a>
+            </div>
+        </div>
+        <div class="footer-contact">
+            <div>
+                <h1>Contact</h1>
+            </div>
+            <div>
+                <h3>{{portfolio.firstname|titlecase }} {{portfolio.name|titlecase }}</h3>
+                <ul>
+                    <li class="email">{{portfolio.email }}</li>
+                    <li class="city">{{portfolio.city}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-easyPortfolio">
+                <div>
+                <h1>easyPortfolio</h1>
+            </div>
+            <div>
+                <figure>
+                    <img [src]="ENV_ICONS + 'eP.svg'" alt="logo d'easyPortfolio">
+                </figure>
+                <ul>
+                    <li class="indefini">Application gratuite</li>
+                    <li class="indefini">Projet de classe</li>
+                    <li class="indefini">Mention spéciale</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <div class="copyR"><strong>Application créée par hugoMachado </strong>
+        2023
+        &copy;             
+    </div>
+</footer>
+<!-- <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>  -->
+      
+        
+

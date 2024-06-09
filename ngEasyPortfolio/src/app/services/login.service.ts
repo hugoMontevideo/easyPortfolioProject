@@ -1,34 +1,52 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginViewModel } from '../model/login-view-model';
 import { Observable, map } from 'rxjs';
-import { User } from '../utils/models/user.interface';
+import { environment } from 'src/environments/environment';
+import { LoginEmailPwd } from '../login/login-email-pwd.interface';
+import { JWTTokenService } from './JWTToken.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
+  ENV_BASE :string = environment.baseUrl;
+  ENV_DEV : string = environment.apiUrl;
+  
+  httpClient!: HttpClient; // de cette façon on évite l'interceptor (middleware)
 
-  currentUserEmail: string = '';
+  constructor(
+        private router : Router,
+        private httpBackend: HttpBackend,
+        private jwtToken: JWTTokenService
+      ) { };
 
-  constructor(private httpClient: HttpClient) { };
+  public login( loginEmailPwd : LoginEmailPwd ): Observable<any> {
+    // on fait une instance de httpClient et on empeche l'ajout de middleware
+    this.httpClient = new HttpClient(this.httpBackend);
 
-  public login( loginViewModel : LoginViewModel ): Observable<User> {
-    return this.httpClient.post<User>(`http://localhost/angular/ngEasyPortfolio/src/app/services/api/token/login.php?action=login`, JSON.stringify(loginViewModel), {responseType: "json"})
-    .pipe(map(user => {
-      if(user){
-        this.currentUserEmail = user.email ;
-        sessionStorage.setItem('currentUser', JSON.stringify(user)); 
-        
-      }
-      return user ;
-    }))
+    return this.httpClient.post<any>(`${this.ENV_BASE}/auth/authorize`, loginEmailPwd )
+      .pipe(map(data => {
+        if(data){
+          this.jwtToken.setToken(data.token);        
+        }
+        return data ;
+      }))
   }
 
-  public logout(){
-    this.currentUserEmail = '';
-    sessionStorage.removeItem('currentUser');
+  public logout = ():void => {
+    this.jwtToken.removeToken();
   }
+
+  // verify if user is logged then logout
+  onLogin = ():void => {
+    if( this.jwtToken.isLogged() ){
+      this.logout();
+      this.router.navigateByUrl("/");
+    }
+  }
+
+  
 
 
 

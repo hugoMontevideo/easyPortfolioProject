@@ -1,0 +1,45 @@
+<div class="board">
+    <div class="header_layout">
+        <header class="topmenu header_layout">
+            <div class="topmenu_layout">
+                <div id="logo_container">
+                    <a href="#home" id="svg3" >      
+                        H
+                        <!-- <div class="letter1"><? // substr($_SESSION['user']['firstname'],0,1) ; ?> </div> -->
+                        <!-- <div class="letter2">X</div> -->      
+                    </a> 
+                </div>
+    
+                <div class="header_last_details">
+                    <div class="svg_burger " id="burgerMenu">
+                        <img [src]="ENV_ICONS+'template-dev/i8Burgergreen.svg' " alt="Burger menu">
+                    </div>
+      <!-- 
+                    <div class="svg_burger" id="burgerMenuX" (click)="onBurger()" *ngIf="burger">
+                        <img [src]="ENV_ICONS+'template-dev/i8XBurgergreen.svg '"
+                        alt="Symbole X">
+                    </div> -->
+                </div><!-- end .header_last_details -->
+            </div>          
+        </header>
+    </div>
+   
+    <section id="online-experiences" class="content_example page4" >
+        <div id="experiences-div" class="experiences-div">         
+            <h1 class="mb-4" >Experiences professionnelles</h1>
+            <div class="experiences-box" >
+                <div class="experience">
+                    <ul class="" >
+                        <li *ngFor="let experience of experiences" class="d-flex justify-content-between" >
+                            <div class="exper1 d-flex justify-content-center" >{{experience.startDate| date:'dd/MM/yyyy'}}</div> - 
+                            <div class="exper2 d-flex justify-content-center">{{experience.endDate| date:'dd/MM/yyyy'}}</div> :
+                            <div class="exper3 ms-2"> {{ experience.title }} </div>
+                            <div class="exper4"> {{ experience.company }}</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>     
+    </section><!-- end .exemple experiences -->
+</div>
+

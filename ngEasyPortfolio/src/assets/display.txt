@@ -1,0 +1,127 @@
+  public void deleteProfilePicture(String profileImgPath) throws Exception {
+        try{
+            String pictureName = profileImgPath;
+            Path picturePath = Paths.get(".", "/public/upload/pictures/portfolios", pictureName);
+            if(Files.exists(picturePath)){
+                // deleting file on public folder
+                Files.delete(picturePath);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+      public PortfolioServiceResponseModel updateProfileImgPath(Long id, MultipartFile file) throws Exception {
+        Optional<PortfolioRepositoryModel> repoModel = portfolioRepository.findById(id);
+        /* deleting file on folder **/
+        deleteProfilePicture(repoModel.get().getProfileImgPath());
+
+        long timestamp = System.currentTimeMillis();
+        String pictureName = "aboutMeImg-" + timestamp ;
+        /** file saved on server **/
+        String pictureName2 = uploadPicture(file , pictureName);
+        /** filling userRepositoryModel manually **/
+        repoModel.get().setProfileImgPath(pictureName2);
+        /** updatedUser in db    *** User **/
+        PortfolioRepositoryModel savedPortfolio = portfolioRepository.save(repoModel.get());
+
+
+        return new PortfolioServiceResponseModel();
+    }
+
+
+
+
+public ProjectServiceResponseModel addProject(@NotNull ProjectServiceRequestModel projectServiceRequestModel ) {
+       // find portfolio by id and ...
+        Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
+        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
+        // adding portfolio manually
+        projectServiceRequestModel.setPortfolio( Optional.ofNullable(portfolioServiceModel));
+        Optional<LocalDate> noDate = Optional.empty();
+        projectServiceRequestModel.setDate(noDate);
+    
+        ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModelAdd(projectServiceRequestModel);
+        ProjectRepositoryModel addedProject = projectRepository.save(project);  //
+    
+        return mapper.projectRepositoryToResponseSvc(addedProject);
+    }
+
+       PortfolioRepositoryModel.builder()
+                         .title(portfolioServiceModel.getTitle())
+                        .build();
+
+
+
+    public Optional<Long> id;
+    @Pattern(regexp = ".{2,60}", message = "Le titre doit avoir entre 2 et 60 caractères")
+    private String title;
+    private String description;
+    private String name;
+    private String firstname;
+    private String email;
+    private String city;
+    private String profileImgPath;
+    private String aboutMe;
+    private Integer userId;
+
+    .octogone {
+  width: 100px; /* Ajustez la largeur selon vos besoins */
+  height: 100px; /* Ajustez la hauteur selon vos besoins */
+  background-color: #3498db; /* Couleur de fond */
+  position: relative;
+  transform: rotate(45deg);
+}
+
+.octogone:before,
+.octogone:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+}
+
+.octogone:before {
+  top: -50%;
+}
+
+.octogone:after {
+  bottom: -50%;
+}
+
+/* Pour démo seulement : centrer l'octogone */
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+<div class="octogone"></div>
+
+
+ public boolean deleteProfilePicture(String profileImgPath) throws IOException {
+        try{
+            String pictureName = profileImgPath;
+            Path picturePath = Paths.get(".", "/public/upload/pictures/users", pictureName);
+            if(Files.exists(picturePath)){
+                // deleting file on public folder
+                Files.delete(picturePath);
+                return true;
+            }
+        } catch (IOException e) {
+            throw new IOException("Error deleting profile picture", e);
+        }
+        return false;
+    }
+
+
+
+
+    if (StringUtils.isBlank(portfolioRepoModel.get().getProfileImgPath())){
+            deleteProfileImgPath(portfolioRepoModel.get().getProfileImgPath(), uploadDirectory);
+         };

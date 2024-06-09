@@ -1,11 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Portfolio} from '../../model/portfolio/portfolio.interface';
 import { ActivatedRoute } from '@angular/router';
-
-import { Observable } from 'rxjs';
-import { Skill } from '../../model/skill/skill.interface';
-import { User } from 'src/app/utils/models/user.interface';
 import { PortfolioService } from '../../services/portfolio.service';
+import { Project } from '../project/project.interface';
+import { Skill } from '../skill/skill.interface';
+import { Education } from '../education/education.interface';
+import { Experience } from '../experience/experience.interface';
+import { JWTTokenService } from 'src/app/services/JWTToken.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { BoardManager } from './board-manager.interface';
 
 @Component({
   selector: 'app-portfolio-list-item',
@@ -13,70 +16,171 @@ import { PortfolioService } from '../../services/portfolio.service';
   styleUrls: ['./portfolio-list-item.component.scss']
 })
 export class PortfolioListItemComponent implements OnInit {
-  table: string = 'portfolios';
-  id: number|any;
-  currentUser!: User;
-  portfolio!: Portfolio;
-  skills!: Skill[];
+  @ViewChild('collapseOne') collapseOne! : ElementRef;
+  @ViewChild('collapseTwo') collapseTwo! : ElementRef;
+  @ViewChild('collapseThree') collapseThree! : ElementRef;
+  @ViewChild('collapseFour') collapseFour! : ElementRef;
+  allDisplay = true; // left aside links
+  isMobile = false; // display the board ?
+  inputError?: string;
+  collapseOnel!: HTMLDivElement;
+  collapseTwol!: HTMLDivElement; 
+  collapseThreel!: HTMLDivElement;
+  collapseFourl!: HTMLDivElement;
+  isProtected = true;  // dark color on secondary nav
 
-
+  portfolio: Portfolio = {
+                    id: -1,
+                    title: "",
+                    description: "",
+                    name: "",
+                    firstname: "",
+                    email:"",
+                    city: "",
+                    profileImgPath: "",
+                    aboutMe: "",
+                    projects: [],
+                    educations:[],
+                    experiences:[],
+                    skills: [],
+                    user: {
+                      id: 0,
+                      name: "",
+                      firstname: "",
+                      email: "",
+                      password: "",
+                      dateInscription: new Date("1970-01-01"),
+                      dateConnect: new Date("1970-01-01"),
+                      profileImgPath: "",
+                      roles: []
+                    }
+                  };
+                
   constructor(
       private route: ActivatedRoute,
-      private portfolioService: PortfolioService
+      private portfolioService: PortfolioService,
+      private jwtService: JWTTokenService,
+      private renderer: Renderer2
     ){};
 
-  
   ngOnInit(): void {
-    let anything: any = sessionStorage.getItem("currentUser");
-    // je dois passer par une variable intermediaire pour pouvoir recup currentUser
-    // if( anything != null){
-    //   this.currentUser = JSON.parse(anything);
-    //   this.id = this.route.snapshot.paramMap.get('id');
-  
-    //   if(this.id != null){
-    //     this.http.getById(this.table, this.currentUser.id, this.id)
-    //     .subscribe({
-    //       next:(response:Portfolio)=>{ this.portfolio = response},
-    //       error:(err:Error)=>{console.log(err);
-    //       },
-    //       complete:()=>{}
-    //     })
-    //   }
-    // }
-    this.getPortfolioById(this.table, 1);
-  }
-
-  getPortfolioById(table:string, id:number){
-    this.portfolioService.getPortfolioById(table, id)
-    .subscribe({
-      next:(response:Portfolio)=> this.portfolio = response,
-      error: (err:Error)=>console.log("Error portfolioById"),
-      complete: ()=> console.log(this.portfolio.title)
-    })
-  }
-
-  onEditClick(event: any) {
-    // console.log (this.projects[index].dateStart.slice(0,10));  **  formater date pour affichage html
-    // console.log(index);
+    this.isMobile = this.portfolioService.detectDevice();
+    this.portfolio.id =  this.portfolioService.getId(this.route.snapshot.paramMap.get('id'));
+    this.portfolioService.getPortfolioById( this.portfolio.id)
+      .subscribe({
+        next:(response:Portfolio) => { 
+                                    this.portfolio = response;                                                                                                          
+                                  }, 
+        error: (err:Error) => {
+                        // TODO  manage error response
+                        console.error("Error portfolioById")
+                    }
+    });
     
-    // this.currentUser.id= this.users[index].id;
-    // this.editProject.name= this.projects[index].name;
-    // this.editProject.dateStart= this.projects[index].dateStart.slice(0,10);
-    // this.editProject.teamSize= this.projects[index].teamSize;
-
-    // this.getUsers(this.table, this.currentUser.id);
-
- 
-    // this.currentIndex=index;
+  }
+  ngAfterViewInit(){    
+    this.collapseOnel = this.collapseOne.nativeElement; 
+    this.collapseTwol = this.collapseTwo.nativeElement; 
+    this.collapseThreel = this.collapseThree.nativeElement; 
+    this.collapseFourl = this.collapseFour.nativeElement; 
+  }
+  
+  boardManager: BoardManager = {
+    isShowingHome:true,
+    isShowingProjects : false,
+    isShowingSkills : false,
+    isShowingEducs : false,
+    isShowingExpers : false,
+    isPortfolioFormShowing : false
   }
 
-  onDeleteClick(event:any){
-    // this.deleteIndex = index;
-    // this.deleteProject.id= this.projects[index].id;
-    // this.deleteProject.name= this.projects[index].name;
-    // this.deleteProject.dateStart= this.projects[index].dateStart.slice(0,10);
-    // this.deleteProject.teamSize= this.projects[index].teamSize;
+  onProjectButton =():void => {
+    this.boardManager = this.portfolioService.resetBoardManager();
+    this.boardManager.isShowingProjects = true;
   }
 
+  onSkillButton = ():void => {
+    this.boardManager = this.portfolioService.resetBoardManager();
+    this.boardManager.isShowingSkills = true;
+  }
+  onEducationButton = () => {
+    this.boardManager = this.portfolioService.resetBoardManager();
+    this.boardManager.isShowingEducs = true;
+  }
+  onExperienceButton(){
+    this.boardManager = this.portfolioService.resetBoardManager();
+    this.boardManager.isShowingExpers = true;
+  }
+  public onEditPortfolio = () => {
+    this.boardManager = this.portfolioService.resetBoardManager();
+    this.boardManager.isPortfolioFormShowing = true;
+    this.renderer.removeClass(this.collapseOnel, 'show');  // bs class on accordion
+    this.renderer.removeClass(this.collapseTwol, 'show');
+    this.renderer.removeClass(this.collapseThreel, 'show');
+    this.renderer.removeClass(this.collapseFourl, 'show');
+    this.boardManager.isShowingHome=true; 
+  }
+
+  handleProjectsChanged = (updatedProjects:Project[]) => {  // EventEmitter
+    this.portfolio.projects = updatedProjects;
+  }
+  handleSkillsChanged = (updatedSkills:Skill[]) => {  // EventEmitter
+    this.portfolio.skills = updatedSkills;
+  }
+  handleEducationsChanged = (updatedEducations:Education[]) => {  // EventEmitter
+    this.portfolio.educations = updatedEducations;
+  }
+  handleExperiencesChanged = (updatedExperiences:Experience[]) => {  // EventEmitter
+    this.portfolio.experiences = updatedExperiences;
+  }
+
+  public onCloseModalForm = () => {
+    this.boardManager.isPortfolioFormShowing = false;
+  }
+
+  onDeletePortfolio = () :void => {
+    this.portfolioService.deletePortfolio( this.portfolio.id )
+      .subscribe({
+       next:( )=> {
+           this.portfolioService.getPortfolioById(this.portfolio.id) // refresh projects[]
+              .subscribe({
+                   next: (data:Portfolio) => { 
+                           this.portfolio = data;
+                         },
+                   error: (_error: Error)=>{
+                       console.log("**error Getting Projects**"); 
+                     }
+               });
+       },
+      error:(err:Error)=>{ console.log("Error while deleting education.");
+         }
+      }) 
+ };
+
+ public onSubmitPortfolio = ()=>{    
+    this.portfolioService.savePortfolio(this.portfolio)
+      .subscribe({
+        next:(data)=>{
+            this.boardManager.isPortfolioFormShowing = false;  // hide the form
+            this.portfolioService.getPortfolioById(this.portfolio.id) // refresh portfolios[]
+              .subscribe({
+                  next: (data:Portfolio) => { 
+                          this.portfolio = data;
+                          console.log(data);
+                          
+                        },
+                  error: (_error: Error)=>{
+                      console.log("**error Getting Portfolios**"); 
+                    }
+                });
+          },
+        error:(_error)=>{
+          console.error("**error updating Project**");
+          if(_error instanceof HttpErrorResponse ) {
+            this.inputError = _error.error.title;
+          } 
+        }
+    });
+  }
 
 }

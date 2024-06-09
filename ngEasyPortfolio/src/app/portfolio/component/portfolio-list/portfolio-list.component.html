@@ -1,31 +1,146 @@
-<!-- <div class="row">
-    <div class="col-8 mx-auto">
-        <app-portfolio-list-item *ngFor="let portfolio of portfolios" [portfolio]="portfolio"></app-portfolio-list-item>
-    </div>
-</div> -->
+<app-home-nav [isProtected]="isProtected"></app-home-nav>
 
-<div class="row">
-    <div class="col-sm-6">
-      <div class="card" *ngFor="let portfolio of portfolios">
-        <div class="card-body">
-          <h5 class="card-title">{{portfolio.title | uppercase }}</h5>
-          <p class="card-text">{{portfolio.name | titlecase }}</p>
-          <!-- <p class="card-text">{{portfolio.city | titlecase }}</p> -->
-          <small>{{portfolio.id}}</small>
-          <!-- <button class="btn btn-info"
-                    (click)="onEditClick($event)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editModal">
-                Modifier
-          </button> -->
-          <!-- <button class="btn btn-warning"
-                    (click)="onDeleteClick($event)"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteModal">
-                Supprimer
-            </button> -->
+<main class="d-flex main">
+  <app-left-sidebar class="left-sidebar col-2 col-lg-1 bg-dark" 
+      [allDisplay]="allDisplay" >
+  </app-left-sidebar>
+ 
+  <div class="portfolio-list-item flex-grow-1">
+    <div class="d-flex">
+
+      <div class="aside col-4 col-lg-3">
+        <div class="rapp-skillow">
+          <div class="col mx-auto">
+            <div class="bg-transparent">
+              <div class="pt-5 px-3">
+                <h4 class="d-flex justify-content-around mb-5 title " >
+                  Ajouter un portfolio
+                  <button (click)="onAddPortfolio()" title="Ajouter un portfolio">
+                    <fa-icon [icon]="['fas', 'plus']" ></fa-icon>
+                  </button> 
+
+                  <div *ngIf="isPortfolioFormShowing" class="gradient p-4 z-2">
+                    <div class="text-end m-0">
+                      <button (click)="onCloseModalForm()"
+                            class="close-btn">
+                        <fa-icon [icon]="['fas', 'window-close']"></fa-icon>
+                        <span class="info-text">Fermer le formulaire</span>
+                      </button>
+                    </div>
+                    <form #form="ngForm" class="mx-auto form-item " (ngSubmit)="onSubmitPortfolio()" enctype="multipart/form-data">
+                      <legend class="text-center form-legend mb-3">{{ legend }}</legend>
+                      <div class="mb-3">
+                        <div *ngIf="inputError" class="mb-1">
+                          <span class="text-danger input-error">{{ inputError }}</span>
+                        </div>
+                        <label for="portfolio-title" class="form-label">Titre du portfolio</label>
+                        <!-- <input type="text" minlength="2" maxlength="60" ************ disabled on dev  -->
+                        <input type="text" 
+                              class="form-control" 
+                              id="portfolio-title" 
+                              [(ngModel)]="newPortfolio.title"
+                              name="portfolio-title"
+                              placeholder="Titre du portfolio">
+                      </div>
+                      <div class="mb-3">
+                        <label for="portfolio-description" class="form-label">Description du portfolio</label>
+                        <textarea class="form-control" 
+                                  id="portfolio-description"
+                                  [(ngModel)]="newPortfolio.description"
+                                  name="portfolio-description" 
+                                  rows="3"></textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label for="portfolio-name" class="form-label">Nom</label>
+                        <input type="text" 
+                              class="form-control" 
+                              id="portfolio-name" 
+                              [(ngModel)]="newPortfolio.name"
+                              name="portfolio-name"
+                              placeholder="Nom">
+                      </div>
+                      <div class="mb-3">
+                        <label for="portfolio-firstname" class="form-label">Prénom</label>
+                        <input type="text" 
+                              class="form-control" 
+                              id="portfolio-firstname" 
+                              [(ngModel)]="newPortfolio.firstname"
+                              name="portfolio-firstname"
+                              placeholder="Prénom">
+                      </div>
+                      <div class="mb-3">
+                        <label for="portfolio-email" class="form-label">Email</label>
+                        <input type="email" 
+                              class="form-control" 
+                              id="portfolio-email" 
+                              [(ngModel)]="newPortfolio.email"
+                              name="portfolio-email"
+                              placeholder="Email">
+                      </div>
+                      <div class="mb-3">
+                        <label for="portfolio-city" class="form-label">Ville</label>
+                        <input type="text" 
+                              class="form-control" 
+                              id="portfolio-city" 
+                              [(ngModel)]="newPortfolio.city"
+                              name="portfolio-city"
+                              placeholder="Ville">
+                      </div>
+                      
+                      <input class="btn btn-primary d-block mx-auto" 
+                          type="submit" 
+                          value="Valider">
+                          <!-- [disabled]="form.invalid">***************disabled on dev  -->
+                
+                    </form>
+                  </div>
+                </h4>
+                <div class="card-title title d-flex justify-content-between ">
+                  Commencez ou modifiez un portfolio. 
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-</div>
+      <div class="portfolio-list display flex-grow-1 z-0 pt-2 m-0">
+        <h1 class="text-center" >Mes Portfolios</h1>
+        
+          <div class="portfolio-box">
+            <div class="card m-lg-4" *ngFor="let portfolio of portfolios; let i = index;">
+              <div class="card-body pt-0">
+                <div class="delete-modify elt-title m-0 p-0 d-flex justify-content-end">
+                  <button (click)="onEditPortfolio(i)" class="elt-button" title="Modifier le portfolio" >
+                    <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
+                  </button>
+                  <button (click)="onDeletePortfolio(portfolio.id)" class="elt-button-red" title="Effacer le portfolio" >
+                    <fa-icon class="icon" [icon]="['fas', 'x']" ></fa-icon>
+                  </button>
+                </div>
+                <h5 class="card-title elt-title text-center ">
+                  {{portfolio.title | titlecase }} 
+                </h5>
+                <p class="card-text text-center" >{{ portfolio.firstname | titlecase }}{{portfolio.name | titlecase }}</p>
+                <p class="card-text text text-center ">{{portfolio.city | titlecase }}</p> 
+                <div class="actions d-flex justify-content-center">       
+                  <a [href]="'/portfolios/' + portfolio.id"
+                      class="btn btn-secondary">
+                    Voir
+                  </a>
+                  <a [href]="'/item/'+ portfolio.id" class="btn btn-outline-success login ms-1" >
+                    Voir online
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<app-footer></app-footer>

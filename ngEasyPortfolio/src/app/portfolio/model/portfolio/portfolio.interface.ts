@@ -1,13 +1,22 @@
-export interface Portfolio {
-    
+import { User } from "src/app/core/user/user.interface";
+import { Education } from "../../component/education/education.interface";
+import { Experience } from "../../component/experience/experience.interface";
+import { Project } from "../../component/project/project.interface";
+import { Skill } from "../../component/skill/skill.interface";
+
+export interface Portfolio {  
     id: number,
     title: string,
-    // description!: string;
+    description: string,
     name: string,
     firstname: string,
     email:string,
-    // city!: string;
-    // descriptionSkills!: string;
-    // u_id!: number;
-
+    city: string,
+    profileImgPath:string,
+    aboutMe: string,
+    projects: Project[],
+    educations: Education[],
+    experiences: Experience[],
+    skills: Skill[],
+    user?: User
 }

@@ -1,6 +1,6 @@
 package com.simplon.easyportfolio.api.services.impl;
 
-import com.simplon.easyportfolio.api.domain.Owner;
+import com.simplon.easyportfolio.api.domain.User;
 import com.simplon.easyportfolio.api.exceptions.AccountExistsException;
 import com.simplon.easyportfolio.api.repositories.security.OwnerRepository;
 import com.simplon.easyportfolio.api.services.jwt.JwtUserService;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,20 +29,22 @@ public class JwtUserServiceImpl implements JwtUserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     private final String signingKey;
-     public JwtUserServiceImpl(@Value("${jwt.signing.key}") String signingKey ){
-         this.signingKey = signingKey;
-     }
 
-     @Override
+    public JwtUserServiceImpl(@Value("${jwt.signing.key}") String signingKey ){
+     this.signingKey = signingKey;
+   }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-         Owner owner = ownerRepository.findByLogin(username);
-         if(owner == null) {
-             throw new UsernameNotFoundException("The owner could not be found. HM");
-         }
-         return owner;
-     }
+        User user = ownerRepository.findByEmail(username);
 
-     // USED FOR REGISTRATION
+        if(user == null) {
+            throw new UsernameNotFoundException("The owner could not be found. HM");
+        }
+        return user;
+    }
+
+    // USED FOR REGISTRATION
     @Override
     public Authentication authenticate(String username, String password) throws Exception {
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, password);
@@ -52,15 +53,15 @@ public class JwtUserServiceImpl implements JwtUserService {
 
     @Override
     public UserDetails save(String username, String password) throws AccountExistsException {
-        UserDetails existingUser = ownerRepository.findByLogin(username);
+        UserDetails existingUser = ownerRepository.findByEmail(username);
         if (existingUser != null) {
             throw new AccountExistsException();
         }
-        Owner owner = new Owner();
-        owner.setLogin(username);
-        owner.setPassword(passwordEncoder.encode(password));
-        ownerRepository.save(owner);
-        return owner;
+        User user = new User();
+        user.setEmail(username);
+        user.setPassword(passwordEncoder.encode(password));
+        ownerRepository.save(user);
+        return user;
     }
 
 
@@ -73,9 +74,11 @@ public class JwtUserServiceImpl implements JwtUserService {
 
 
     private String getUsernameFromToken(String token) {
-        System.out.println(signingKey);
         Claims claims =
-                Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token).getBody();
+                Jwts.parser()
+                    .setSigningKey(signingKey)
+                    .parseClaimsJws(token)
+                    .getBody();
         return claims.getSubject();
     }
 
@@ -93,27 +96,3 @@ public class JwtUserServiceImpl implements JwtUserService {
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

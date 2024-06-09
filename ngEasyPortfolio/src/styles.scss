@@ -1,1 +1,130 @@
-/* You can add global styles to this file, and also import other style files */
+
+.title{  // add a portfolio, skill, etc
+    border-radius: 4px;
+    padding: .4rem;
+    color: rgba(156, 247, 120, 0.651);
+    button{
+        color: white;
+        border: none;
+        padding: .2rem .3rem;
+        border-radius: 5px;
+        background-color: transparent;
+    }
+    button:hover{
+        background-color: rgba(0, 255, 255, 0.137);
+    }
+}
+.title:hover{
+    background-color: rgba(255, 228, 196, 0.303);
+}
+
+.elt-title{ // text and buttons in the aside cards (skills, portfolios,etc)
+    padding: .4rem;
+    .elt-button, .elt-button-red{
+        border: none;
+        padding: .2rem .3rem;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background-color: transparent;
+        .icon{
+            font-size: .7rem;
+            color: rgba(0, 0, 0, 0.322);
+        }
+    }
+    .elt-button:hover{
+        background-color: rgba(0, 255, 255, 0.137);
+        .icon{
+            color: black;
+        }
+    }
+    .elt-button-red:hover{
+        background-color: rgba(255, 0, 162, 0.137);
+        .icon{
+            color: black;
+        }
+    }
+}
+
+.form-item{  //forms
+    .input-error{
+        font-size: .9rem;
+        font-weight: 400;
+    }
+    
+}
+.preview,.profile{ 
+    margin: 0 0 1rem ;
+    overflow: hidden;
+    img{
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit:cover;
+    }
+}
+.close-btn{// onCloseModalForm ()
+    position: relative;
+    .info-text{
+        font-size: 0;
+    }
+}
+.close-btn:hover .info-text{
+    cursor: pointer;
+    display: block;
+    position:absolute;
+    left: 50%;
+    top: -100%;
+    transform: translate(20%);
+    font-size: .8rem;
+    background-color: rgba(127, 255, 212, 0.801);
+    padding: .3rem;
+    border-radius: 3px;
+    font-size: .8rem;
+}
+
+.delete-img-btn{  // onDeletePicture ()
+    position: relative;
+    .info-text-{
+        position: absolute;
+        font-size: 0;
+    }
+    fa-icon{
+        color: rgb(143, 10, 10);
+    }
+}
+.delete-img-btn:hover .info-text-{
+    cursor: pointer;
+    display: block;
+    left: 50%;
+    top: -100%;
+    transform: translate(20%);
+    font-size: .8rem;
+    background-color: rgba(127, 255, 212, 0.801);
+    padding: .3rem;
+    border-radius: 3px;
+}
+
+.modify-img-btn{  // onDeletePicture ()
+    position: relative;
+    border: none;
+    padding: .2rem .3rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: transparent;
+    .icon{
+        font-size: .7rem;
+        color: rgba(0, 0, 0, 0.322);
+    }
+    fa-icon{
+        color: rgb(138, 131, 131);
+    }
+
+}
+.modify-img-btn:hover{
+    background-color: rgba(0, 255, 255, 0.137);
+    .icon{
+        color: black;
+    }
+}

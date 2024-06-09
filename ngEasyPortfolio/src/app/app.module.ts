@@ -4,16 +4,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './home/home.component';
-
-import { UserComponent } from './user/user.component';
-import { HttpClientModule } from '@angular/common/http';
+import { UserComponent } from './core/user/user.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
-import { ProjectComponent } from './project/project.component';
-import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { PortfolioModule } from './portfolio/portfolio.module';
-import { ConnectionComponent } from './connection/connection.component';
+import { JWTTokenService } from './services/JWTToken.service';
+import { JwtInterceptorService } from './services/jwt-interceptor.service';
+import { RegisterComponent } from './register/register.component';
+import { TemplateDevComponent } from './a-online/template-dev/template-dev.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
 
 @NgModule({
   declarations: [
@@ -21,8 +23,8 @@ import { ConnectionComponent } from './connection/connection.component';
     HomeComponent,
     UserComponent,
     LoginComponent,
-    ProjectComponent,
-    ConnectionComponent,
+    RegisterComponent,
+    TemplateDevComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,11 +32,18 @@ import { ConnectionComponent } from './connection/connection.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    CoreModule,
     SharedModule,
-    PortfolioModule
+    PortfolioModule,
+    CKEditorModule
   ],
-  providers: [],
+  providers: [
+    JWTTokenService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -12,6 +12,5 @@ public class SkillGetDTO {
     private Long id;
     private String title;
     private String description;
-    private PortfolioGetDTO portfolio;
-
+    private Long categorySkillId;
 }
