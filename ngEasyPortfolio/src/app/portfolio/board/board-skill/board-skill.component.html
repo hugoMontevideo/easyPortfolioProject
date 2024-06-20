@@ -29,16 +29,21 @@
     <section id="online-skills" class="content_example skills page3" >
         <div class="skills-presentation">
             <h1>Hard &<br> Soft skills</h1>
-            <p>
-                "Je me considère comme une personne très reactive, à l'écoute et
-                capable de traduire les besoins du client.<br>
-                J'ai une large expérience professionnelle dans beaucoup de domaines
-                que je pourrai mettrai à profit dans le développement web.<br>
-                N'hésitez pas à visiter mon profil Linkedin pour me connaitre
-                un peu plus..."<br> 
-                <em>Vous pouvez changer ce texte dans 'A propos'</em>
-            
-            </p>
+            <!-- <div *ngIf="textSkill; else noText" class="text">
+                {{textSkill.description}}
+            </div>
+            <ng-template #noText class="text">
+                <div class="text">
+                    "Je me considère comme une personne très reactive, à l'écoute et
+                    capable de traduire les besoins du client.<br>
+                    J'ai une large expérience professionnelle dans beaucoup de domaines
+                    que je pourrai mettrai à profit dans le développement web.<br>
+                    N'hésitez pas à visiter mon profil Linkedin pour me connaitre
+                    un peu plus..."
+                </div>
+            </ng-template> -->
+            <div class="text">{{ textMessage }}</div>
+
         </div>
         <div class="skills-box competences">
             <div class="competences-perso">

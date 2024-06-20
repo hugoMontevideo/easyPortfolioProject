@@ -76,14 +76,13 @@ export class LeftSidebarComponent implements AfterViewChecked {
     this.isPictureFormShowing = true;
     this.isUserFormShowing = false;
     this.isLinksFormShowing=false
-
   }
+
   public onModifyAbout = () => {
     this.legend = "Modifier 'A propos'"
     this.isUserFormShowing = true;
     this.isPictureFormShowing = false;
     this.isLinksFormShowing=false;
-
   }
   
   onLinks = ():void => {
@@ -100,7 +99,6 @@ export class LeftSidebarComponent implements AfterViewChecked {
   }
 
   public onSubmitUser = ()=>{
-    console.log(this.editorData);
     this.portfolio.aboutMe = this.editorData;
     
     this.portfolioService.savePortfolio(this.portfolio)
