@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/skills")
@@ -37,15 +38,26 @@ public class SkillController {
         }
     }
 
-    // addSkill
+    /** addSkill **/
     @PostMapping
     public SkillGetDTO add(@RequestBody @Valid SkillAddDTO DTO){
+        System.out.println(DTO);
+        SkillServiceRequestModel serviceModel = new SkillServiceRequestModel(DTO.getTitle(),
+                DTO.getCategorySkillId(), DTO.getPortfolioId());
+
+        SkillServiceResponseModel addedSkill = portfolioService.saveSkill( serviceModel );
+
+        return mapper.skillSvcToGetDTO(addedSkill);
+    }
+
+   /** @PostMapping
+    public SkillGetDTO addSkill6(@RequestBody @Valid SkillAddDTO DTO){
         SkillServiceRequestModel serviceModel = new SkillServiceRequestModel(DTO.getTitle(),
                 DTO.getPortfolioId());
 
         SkillServiceResponseModel addedSkill = portfolioService.saveSkill( serviceModel );
         return mapper.skillSvcToGetDTO(addedSkill);
-    }
+    } **/
 
     /** update Skill **/
     @PutMapping("/{id}")

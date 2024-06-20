@@ -135,6 +135,7 @@ public class PortfolioService {
     }
 
     //add portfolio
+    /**
     public boolean add(@NotNull PortfolioServiceRequestModel portfolioServiceModel) {
         PortfolioRepositoryModel portfolioRepositoryModel =
                 new PortfolioRepositoryModel(portfolioServiceModel.getTitle(),
@@ -144,6 +145,7 @@ public class PortfolioService {
 
          return portfolioRepositoryReturn != null;
     }
+     */
     public PortfolioServiceResponseModel addPortfolio(PortfolioServiceRequestModel serviceModel) {
         Optional<User> user = ownerRepository.findById(serviceModel.getUserId().get());
 
@@ -152,6 +154,7 @@ public class PortfolioService {
                 .user(user.get())
                 .build();
         PortfolioRepositoryModel portfolioRepositoryadded = portfolioRepository.save(repositoryModel);
+
         return mapper.portfolioRepositoryToResponseSvc(portfolioRepositoryadded);
     }
 
@@ -404,8 +407,8 @@ public class PortfolioService {
         PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
         // adding portfolio manually
         skillServiceRequestModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
-
         SkillRepositoryModel skill = mapper.skillServiceRequestToRepositoryModelAdd(skillServiceRequestModel);
+        System.out.println(skill);
         SkillRepositoryModel addedSkill = skillRepository.save(skill);
         return mapper.skillRepositoryToResponseSvc(addedSkill);
     }

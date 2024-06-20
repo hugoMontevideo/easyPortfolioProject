@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SkillAddDTO {
     private String title;
-    private Long categorySocialId;
+    private Long categorySkillId;
     private Long portfolioId;
 }

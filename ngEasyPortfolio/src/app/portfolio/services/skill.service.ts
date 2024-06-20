@@ -27,16 +27,17 @@ export class SkillService {
   }
 
   add = ( newSkill: Skill ): Observable<any> => { 
-      let skill : SkillAddDto = {
-        title: "Titre",
-        portfolioId: newSkill.portfolioId
+    let skill : SkillAddDto = {
+      title: newSkill.title,
+      categorySkillId: newSkill.categorySkillId,
+      portfolioId: newSkill.portfolioId
     }
+
     return this.http.post(`${this.ENV_DEV}/skills`, skill )
       .pipe(catchError(this.handleError)); // catch validator error
   }
 
-  saveSkill = ( newSkill: Skill ): Observable<any> => {      
-            
+  saveSkill = ( newSkill: Skill ): Observable<any> => {             
     return this.http.put( `${this.ENV_DEV}/skills/${newSkill.id}`, newSkill )
       .pipe(catchError(this.handleError)); // catch validator errors
   }

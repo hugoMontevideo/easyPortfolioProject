@@ -15,12 +15,15 @@ import java.util.Optional;
 public class SkillServiceRequestModel {
     private String title;
     private String description;
+    private Long categorySkillId;
     private Optional<PortfolioServiceModel> portfolio;
     private Optional<Long> portfolioId;
 
-    public SkillServiceRequestModel(String title, Long portfolioId) {
+    public SkillServiceRequestModel(String title, Long  categorySkillId, Long portfolioId) {
         this.title = title;
+        this.categorySkillId=categorySkillId;
         this.portfolioId= Optional.ofNullable(portfolioId);
     }
+
 
 }

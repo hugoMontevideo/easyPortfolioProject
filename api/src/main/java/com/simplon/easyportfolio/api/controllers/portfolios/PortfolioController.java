@@ -70,7 +70,7 @@ public class PortfolioController {
         PortfolioServiceRequestModel serviceModel = new PortfolioServiceRequestModel(DTO.getTitle(), DTO.getUserId());
 
         PortfolioServiceResponseModel addedPortfolio = portfolioService.addPortfolio(serviceModel);
-        System.out.println(addedPortfolio);
+        // System.out.println(addedPortfolio);
         return mapper.portfolioSvcResponseToFullDTO( addedPortfolio );
     }
 
