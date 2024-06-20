@@ -52,7 +52,7 @@ export class PortfolioService {
         return this.http.get<Portfolio>(`${this.ENV_DEV}/portfolios/online/${id}`);  
     }
 
-    
+  /** adding a portfolio */ 
   public add = ( newPortfolio: Portfolio ): Observable<Portfolio> => { 
     let definedId: number = (newPortfolio.user !== undefined) ? newPortfolio.user.id : 0;  
     let portfolioAdd : PortfolioAddDto = {

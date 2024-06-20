@@ -35,12 +35,30 @@
 
 }
 
+.elt-title{
+    padding: 0.4rem 0 0.3rem 1rem;
+}
+.card-body{
+    padding: 0;
+}
+
+
+.form-skill{
+    padding: 0 0.1rem .3rem 0.1rem;
+    background-color: rgba(255, 192, 203, 0.303);
+    border-radius: 5px;
+    &-legend{
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 1rem 0 .3rem 0;
+    }
+}
+.form-skill:hover{background-color:rgba(255, 192, 203, 0.63) ;}
+
 @media screen and (min-width: 1100px) {
     .title{
         .gradient{
-            
             right: -270px;
-            
         }
 
     }

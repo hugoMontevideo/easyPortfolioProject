@@ -17,6 +17,8 @@ export class BoardSkillComponent {
   programsLanguages!: Skill[]; // display purpose array
   drivingLicenceCategories!: Skill[]; // display purpose array
   otherSkills!: Skill[];
+  textSkill!: Skill|undefined;
+  textMessage!: string;
 
   constructor(private skillService: SkillService){};
 
@@ -29,6 +31,10 @@ export class BoardSkillComponent {
                           this.programsLanguages = data.filter(item=>item.categorySkillId==3); 
                           this.drivingLicenceCategories = data.filter(item=>item.categorySkillId==4);
                           this.otherSkills = data.filter(item=>item.categorySkillId==5); 
+                          this.textSkill = data.find(item=>item.categorySkillId==6);
+                          this.textMessage=(this.textSkill) ?this.textSkill.description :`Je me considère comme une personne très reactive, à l'écoute et
+                                                  capable de traduire les besoins du client ... `;
+                          
                         },
               error: (err:Error)=>{console.error("**error Getting Skills**");} //TODO *******
             });   
