@@ -111,12 +111,12 @@ export class SkillComponent implements OnInit,AfterViewChecked {
           this.newSkill = this.skillService.resetNewSkill(this.portfolioId);
           this.skillService.getSkills(this.newSkill.portfolioId) // refresh projects[]
             .subscribe({
-                next: (data:Skill[]) => { 
-                        this.skills = data;
-                        this.skillsChanged.emit(this.skills);
-                      },
-                error: (_error:Error)=>{console.error("**error Getting skills[]**");} //TODO *******
-              });
+              next: (data:Skill[]) => { 
+                      this.skills = data;
+                      this.skillsChanged.emit(this.skills);
+                    },
+              error: (_error:Error)=>{console.error("**error Getting skills[]**");} //TODO *******
+            });
         },
       error:(_error)=>{
         console.error("**error updating Skill**");
@@ -199,15 +199,20 @@ export class SkillComponent implements OnInit,AfterViewChecked {
       });
     }
     this.skill6.description=this.editorData;
-    this.skill6.portfolioId=this.portfolioId
-
-    console.log(this.skill6);    
+    this.skill6.portfolioId=this.portfolioId  
     this.skillService.saveSkill(this.skill6)
     .subscribe({
       next:(data)=>{
-            console.log("skill6 modify ",data);
-                           
-          },
+        this.skillService.getSkills(this.skill6?.portfolioId) // refresh projects[]
+            .subscribe({
+              next: (data:Skill[]) => { 
+                      this.skills = data;
+                      console.log(this.skills);
+                      this.skillsChanged.emit(this.skills);
+                    },
+              error: (_error:Error)=>{console.error("**error Getting skills[]**");} //TODO *******
+            });                  
+        },
       error:(_error : any)=>{
         console.error("**error updating skill6.description**");
         if(_error instanceof HttpErrorResponse ) {

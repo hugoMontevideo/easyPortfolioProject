@@ -42,7 +42,12 @@
                     un peu plus..."
                 </div>
             </ng-template> -->
-            <div class="text">{{ textMessage }}</div>
+            <div class="text">
+                
+                <ckeditor [editor]="Editor" [(ngModel)]="editorData" name="editorData"
+                        [disabled]="true" [config]="{toolbar:[]}"
+                 ></ckeditor>
+            </div>
 
         </div>
         <div class="skills-box competences">

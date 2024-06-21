@@ -54,24 +54,23 @@ export class TemplateDevComponent implements OnInit, AfterViewChecked {
 
   ngOnInit(): void {
  
-    
     // this.renderer.setStyle(cssEditor, 'background-color', 'transparent');
     this.portfolio.id = this.portfolioService.getId(this.route.snapshot.paramMap.get('id'));
     this.portfolioService.getPortfolioByIdOnline(this.portfolio.id)
       .subscribe({
         next:(response:Portfolio) => { 
-                                    this.portfolio = response;
-                                    this.softSkills = this.portfolio.skills.filter(item=>item.categorySkillId==1); 
-                                    this.languages = this.portfolio.skills.filter(item=>item.categorySkillId==2); 
-                                    this.programsLanguages = this.portfolio.skills.filter(item=>item.categorySkillId==3); 
-                                    this.drivingLicenceCategories = this.portfolio.skills.filter(item=>item.categorySkillId==4);
-                                    this.otherSkills = this.portfolio.skills.filter(item=>item.categorySkillId==5); 
-                                    this.editorData = this.portfolio.aboutMe;                                                                                                   
-                        }, 
+                this.portfolio = response;
+                this.softSkills = this.portfolio.skills.filter(item=>item.categorySkillId==1); 
+                this.languages = this.portfolio.skills.filter(item=>item.categorySkillId==2); 
+                this.programsLanguages = this.portfolio.skills.filter(item=>item.categorySkillId==3); 
+                this.drivingLicenceCategories = this.portfolio.skills.filter(item=>item.categorySkillId==4);
+                this.otherSkills = this.portfolio.skills.filter(item=>item.categorySkillId==5); 
+                this.editorData = this.portfolio.aboutMe;                                                                                                   
+              }, 
         error: (err:Error) => {
-                        // TODO  manage error response
-                        console.error("Error portfolioById")
-                    }
+                  // TODO  manage error response
+                  console.error("Error portfolioById")
+              }
     });
   }
 
@@ -93,7 +92,5 @@ export class TemplateDevComponent implements OnInit, AfterViewChecked {
     this.viewportScroller.scrollToAnchor(sectionId);
     this.burger=false;
   }
-
-
 
 }
