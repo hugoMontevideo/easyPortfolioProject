@@ -53,12 +53,11 @@ export class SkillComponent implements OnInit,AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    const cssEditor1 = this.elRef.nativeElement.querySelector('.ck-content'); // ckeditor  main
-    if(cssEditor1){
-      this.renderer.setStyle(cssEditor1,'background-color', 'rgb(21%,21%,34%)');
-      this.renderer.setStyle(cssEditor1,'border-radius', '0 0 5px 5px');
-      this.renderer.setStyle(cssEditor1,'color', 'rgb(100%,100%,100%)');
-    }
+    const cssEditorSkill = this.elRef.nativeElement.querySelector('#editorSkill .ck-content'); // ckeditor  main
+      
+    this.renderer.setStyle(cssEditorSkill,'background-color', 'rgb(21%,21%,34%)');
+    this.renderer.setStyle(cssEditorSkill,'border-radius', '0 0 5px 5px');
+    this.renderer.setStyle(cssEditorSkill,'color', 'rgb(100%,100%,100%)');
   }
 
   public onCloseModalForm = () => {

@@ -85,9 +85,8 @@
 
   <form #form="ngForm" class="mx-auto form-skill" (ngSubmit)="onSubmitSkillTxt()" >
     <legend class="text-center form-skill-legend">Texte dans compétences</legend>     
-    <ckeditor 
-      [editor]="Editor" 
-      [(ngModel)]="editorData" name="editorData" >
+    <ckeditor [editor]="Editor" [id]="'editorSkill'"
+          [(ngModel)]="editorData" name="editorData" >
     </ckeditor>
 
     <input class="btn btn-primary d-block mx-auto" 

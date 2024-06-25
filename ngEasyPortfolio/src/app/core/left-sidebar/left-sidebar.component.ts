@@ -64,12 +64,12 @@ export class LeftSidebarComponent implements AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    const cssEditor = this.elRef.nativeElement.querySelector('.ck-content'); // ckeditor  main
-    if(cssEditor){
-      this.renderer.setStyle(cssEditor,'background-color', 'rgb(21%,21%,34%)');
-      this.renderer.setStyle(cssEditor,'border-radius', '0 0 5px 5px');
-    }
-  }
+    const cssEditorLeftSidebar = this.elRef.nativeElement.querySelector('#editorLeftSidebar .ck-content'); // ckeditor  main
+  
+    this.renderer.setStyle(cssEditorLeftSidebar,'background-color', 'rgb(21%,21%,34%)');
+    this.renderer.setStyle(cssEditorLeftSidebar,'border-radius', '0 0 5px 5px');
+    
+  } 
 
   public onModifyPicture = () => {
     this.legend = "Modifier la photo"

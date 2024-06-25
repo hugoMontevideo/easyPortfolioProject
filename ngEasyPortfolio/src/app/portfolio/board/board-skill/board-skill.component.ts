@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, Renderer2, SimpleChanges } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Input, OnChanges, Renderer2, SimpleChanges } from '@angular/core';
 import { Skill } from '../../component/skill/skill.interface';
 import { SkillService } from '../../services/skill.service';
 import { environment } from 'src/environments/environment';
@@ -9,7 +9,8 @@ import  * as  Editor from 'ckeditor5-custom-build/build/ckeditor';
   templateUrl: './board-skill.component.html',
   styleUrls: ['./board-skill.component.scss']
 })
-export class BoardSkillComponent {
+
+export class BoardSkillComponent implements OnChanges, AfterViewChecked {
   ENV_ICONS: string = `${environment.apiIcons}/`;
   @Input() skills:Skill[]= [];
   @Input() portfolioId?:number;
@@ -24,7 +25,6 @@ export class BoardSkillComponent {
   textMessage!: string;
   editorData: string="";
 
-  
   constructor( private skillService: SkillService,
     private renderer : Renderer2,
     private elRef : ElementRef
@@ -45,19 +45,16 @@ export class BoardSkillComponent {
                           this.editorData = this.textMessage
                       },
               error: (err:Error)=>{console.error("**error Getting Skills**");} //TODO *******
-            });         
+          });         
   }
 
   ngAfterViewChecked(): void {
-    const cssEditorBoardSkill = this.elRef.nativeElement.querySelector('.ck-content'); // ckeditor  main
-    const cssEditorTopBoardSkill = this.elRef.nativeElement.querySelector('.ck-editor__top'); // ckeditor  top
-    if(cssEditorBoardSkill){
-      this.renderer.setStyle(cssEditorBoardSkill,'background-color', 'transparent');
-      this.renderer.setStyle(cssEditorBoardSkill,'border', 'none');
-      this.renderer.setStyle(cssEditorTopBoardSkill,'display', 'none');
-    }
+    const cssEditorBoardSkill = this.elRef.nativeElement.querySelector('#editorBoardSkill .ck-content'); // ckeditor  main
+    const cssEditorTopBoardSkill = this.elRef.nativeElement.querySelector('#editorBoardSkill .ck-editor__top'); // ckeditor  top
+  
+    this.renderer.setStyle(cssEditorBoardSkill,'background-color', 'transparent');
+    this.renderer.setStyle(cssEditorBoardSkill,'border', 'none');
+    this.renderer.setStyle(cssEditorTopBoardSkill,'display', 'none');
   }
-
-
 
 }

@@ -67,7 +67,7 @@
       <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitUser()" >
         <legend class="text-center form-legend mb-3">{{ legend }}</legend>     
         <ckeditor 
-          [editor]="Editor" 
+          [editor]="Editor" [id]="'editorLeftSidebar'"
           [(ngModel)]="editorData" name="editorData" >
         </ckeditor>
 

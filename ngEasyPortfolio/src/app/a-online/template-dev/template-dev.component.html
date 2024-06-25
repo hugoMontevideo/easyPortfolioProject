@@ -116,50 +116,10 @@
     </section><!-- end .exemple project -->
     <!-- *** end section *** -->
     <section id="online-skills" class="content_example skills page3" >
-        <div class="skills-presentation">
-            <h1>Hard &<br> Soft skills</h1>
-            <p>
-                "Je me considère comme une personne très reactive, à l'écoute et
-                capable de traduire les besoins du client.<br>
-                J'ai une large expérience professionnelle dans beaucoup de domaines
-                que je pourrai mettrai à profit dans le développement web.<br>
-                N'hésitez pas à visiter mon profil Linkedin pour me connaitre
-                un peu plus..." <em>Vous pouvez changer ce texte dans 'Compétences'</em>   
-            </p>
-        </div>
-        <div class="skills-box competences">
-            <div class="competences-perso">
-                <h3>Compétences personnelles</h3>  
-                <ul>
-                    <div>
-
-                    </div>
-                    <li *ngFor="let soft of softSkills">
-                            <strong>{{ soft.title | titlecase }}</strong>
-                    </li>  
-                </ul>
-            </div>
-                
-            <div class="scrolling none">
-                <div id="langages_pro" class=" mb-3" >
-                    Langages informatiques : 
-                    <span *ngFor="let item of programsLanguages">{{ item.title }} - </span>                   
-                </div>
-            </div>
-
-            <div id="techno" class="mb-3">
-                Technologies : <span *ngFor="let item of otherSkills">{{ item.title }} - </span>
-            </div>
-
-            <div class="competences-languages">
-                <h3>Langues</h3>
-                <ul>
-                    <li span *ngFor="let item of languages"><strong>{{ item.title }}</strong> : {{ item.description }}</li>       
-                </ul>     
-            </div>
-        </div> 
-    </section>
-
+        <app-template-dev-skills [skills]="portfolio.skills" [portfolioId]="portfolio.id">
+        </app-template-dev-skills>
+    </section><!-- end .exemple skills -->
+   
     <section id="online-educations" class="content_example page4" >
         <div id="educations-div" class="educations-div">         
             <h1 id="h1_educ" class="mb-4" >Formations</h1>
@@ -213,8 +173,9 @@
               
             </div>
             <div class="about-presentation ms-5">
-                <ckeditor [editor]="Editor" [(ngModel)]="editorData" name="editorData"
-                        [disabled]="true" [config]="{toolbar:[]}"
+                <ckeditor [editor]="Editor2" [id]="'editor2'" 
+                    [(ngModel)]="editorData" name="editorData"
+                    [disabled]="true" [config]="{toolbar:[]}" 
                  ></ckeditor>
             </div>
         </div>
@@ -283,7 +244,11 @@
         &copy;             
     </div>
 </footer>
+
+
 <!-- <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>  -->
+
+
       
         
 

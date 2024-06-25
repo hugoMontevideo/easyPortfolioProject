@@ -44,7 +44,8 @@
             </ng-template> -->
             <div class="text">
                 
-                <ckeditor [editor]="Editor" [(ngModel)]="editorData" name="editorData"
+                <ckeditor [editor]="Editor" [id]="'editorBoardSkill'" 
+                        [(ngModel)]="editorData" name="editorData"
                         [disabled]="true" [config]="{toolbar:[]}"
                  ></ckeditor>
             </div>

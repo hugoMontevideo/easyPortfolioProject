@@ -41,47 +41,40 @@ export class TemplateDevComponent implements OnInit, AfterViewChecked {
         skills: [],
   }
   
-  public Editor: any = Editor;
+  public Editor2: any = Editor;
   editorData: string = "";
+  // editorDataSkills: string = "hello";
 
   constructor(
     private route: ActivatedRoute,
     private portfolioService: PortfolioService,
     private viewportScroller : ViewportScroller,
-    private renderer : Renderer2,
-    private elRef : ElementRef
+    private renderer2 : Renderer2,
+    private elRef2 : ElementRef
   ){};
 
   ngOnInit(): void {
- 
-    // this.renderer.setStyle(cssEditor, 'background-color', 'transparent');
     this.portfolio.id = this.portfolioService.getId(this.route.snapshot.paramMap.get('id'));
     this.portfolioService.getPortfolioByIdOnline(this.portfolio.id)
       .subscribe({
         next:(response:Portfolio) => { 
                 this.portfolio = response;
-                this.softSkills = this.portfolio.skills.filter(item=>item.categorySkillId==1); 
-                this.languages = this.portfolio.skills.filter(item=>item.categorySkillId==2); 
-                this.programsLanguages = this.portfolio.skills.filter(item=>item.categorySkillId==3); 
-                this.drivingLicenceCategories = this.portfolio.skills.filter(item=>item.categorySkillId==4);
-                this.otherSkills = this.portfolio.skills.filter(item=>item.categorySkillId==5); 
                 this.editorData = this.portfolio.aboutMe;                                                                                                   
               }, 
         error: (err:Error) => {
                   // TODO  manage error response
                   console.error("Error portfolioById")
               }
-    });
+      });
   }
 
   ngAfterViewChecked(): void {
-    const cssEditor = this.elRef.nativeElement.querySelector('.ck-content'); // ckeditor  main
-    const cssEditorTop = this.elRef.nativeElement.querySelector('.ck-editor__top'); // ckeditor  top
-    if(cssEditor){
-      this.renderer.setStyle(cssEditor,'background-color', 'transparent');
-      this.renderer.setStyle(cssEditor,'border', 'none');
-      this.renderer.setStyle(cssEditorTop,'display', 'none');
-    }
+    const cssEditor2 = this.elRef2.nativeElement.querySelector('#editor2 .ck-content'); // ckeditor  main
+    const cssEditorTop = this.elRef2.nativeElement.querySelector('#editor2 .ck-editor__top'); // ckeditor  top
+
+    this.renderer2.setStyle(cssEditor2,'background-color', 'transparent');
+    this.renderer2.setStyle(cssEditor2,'border', 'none');
+    this.renderer2.setStyle(cssEditorTop,'display', 'none');
   }
 
   onBurger = ()=>{
