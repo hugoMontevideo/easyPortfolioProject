@@ -1,0 +1,10 @@
+<div #modal class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="decline()">&times;</span>
+      <p>Effacer cet élément ?</p>
+      <div class="buttons d-flex justify-content-between">
+        <button (click)="decline()" class="btn decline">Non</button>
+        <button (click)="confirm()" class="btn confirm">Oui</button>
+      </div>
+    </div>
+</div>

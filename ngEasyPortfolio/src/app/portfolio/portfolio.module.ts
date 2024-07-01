@@ -24,24 +24,29 @@ import { FooterComponent } from '../core/footer/footer.component';
 import { LeftSidebarComponent } from '../core/left-sidebar/left-sidebar.component';
 import { BoardHomeComponent } from './board/board-home/board-home.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { SocialComponent } from './component/social/social.component';
+import { SocialService } from './services/social.service';
+import { ConfirmationModalComponent } from '../core/confirmation-modal/confirmation-modal.component';
 
 @NgModule({
   declarations: [
+    BoardProjectComponent,
+    BoardSkillComponent,
+    BoardEducationComponent,
+    BoardExperienceComponent,
     EducationComponent,
     ExperienceComponent,
     PortfolioListComponent,
     PortfolioListItemComponent,
     ProjectComponent,
     SkillComponent,
-    BoardProjectComponent,
-    BoardSkillComponent,
-    BoardEducationComponent,
-    BoardExperienceComponent,
     HomeNavComponent,
     UserItemComponent,
     FooterComponent,
     LeftSidebarComponent,
     BoardHomeComponent,
+    SocialComponent,
+    ConfirmationModalComponent,
   ],
   imports: [
     CommonModule,
@@ -58,6 +63,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
   providers: [
     PortfolioService, 
     SkillService,
+    SocialService,
     ProjectService,
     EducationService,
     ExperienceService,

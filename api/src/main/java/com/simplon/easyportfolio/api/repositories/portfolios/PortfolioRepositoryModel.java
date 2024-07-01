@@ -49,6 +49,7 @@ public class PortfolioRepositoryModel {
     private List<SkillRepositoryModel> skills;
     @OneToMany(mappedBy = "portfolio")
     private List<SocialRepositoryModel> socials;
+
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;

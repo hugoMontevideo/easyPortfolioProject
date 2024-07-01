@@ -20,20 +20,20 @@ public class SocialController {
     PortfolioService portfolioService;
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
 
-    // add Social
+    /** add Social */
     @PostMapping
     public SocialGetDTO add(@RequestBody @Valid SocialAddDTO DTO){
-        SocialServiceRequestModel serviceModel = new SocialServiceRequestModel(DTO.getLink(), DTO.getCategorySocialId(), Optional.of( DTO.getPortfolioId()));
+        SocialServiceRequestModel serviceModel = new SocialServiceRequestModel(DTO.getLink(), DTO.getCategorySocialId(), DTO.getPortfolioId());
 
         SocialServiceResponseModel addedSocial = portfolioService.saveSocial( serviceModel );
         return mapper.socialSvcToGetDTO(addedSocial);
     }
 
-    /** update Social **/
+    /** update Social */
     @PutMapping("/{id}")
     public SocialGetDTO update(@RequestBody @Valid SocialUpdateDTO DTO){
-        DTO.setId(Optional.of(1L));
-        // TODO :  rendre obligatoire la categorie
+        //DTO.setId(Optional.of(1L));
+
         SocialServiceRequestUpdateModel requestUpdModel = mapper.socialGetDtoToServiceRequestModel(DTO);
 
         SocialServiceResponseModel updatedSocial = portfolioService.updateSocial( requestUpdModel );

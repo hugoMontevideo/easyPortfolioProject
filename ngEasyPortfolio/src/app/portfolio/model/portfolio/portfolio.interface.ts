@@ -3,6 +3,7 @@ import { Education } from "../../component/education/education.interface";
 import { Experience } from "../../component/experience/experience.interface";
 import { Project } from "../../component/project/project.interface";
 import { Skill } from "../../component/skill/skill.interface";
+import { Social } from "../../component/social/social.interface";
 
 export interface Portfolio {  
     id: number,
@@ -18,5 +19,6 @@ export interface Portfolio {
     educations: Education[],
     experiences: Experience[],
     skills: Skill[],
+    socials: Social[],
     user?: User
 }

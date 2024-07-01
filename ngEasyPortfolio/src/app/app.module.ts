@@ -17,7 +17,6 @@ import { TemplateDevComponent } from './a-online/template-dev/template-dev.compo
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { TemplateDevSkillsComponent } from './a-online/template-dev/template-dev-skills/template-dev-skills.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

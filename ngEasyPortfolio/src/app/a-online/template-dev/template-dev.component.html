@@ -44,28 +44,28 @@
     <section id="online-home" class="content_example page1" >    
         <article class="networks">
             <div class="github">
-                <a href="" title="Mon github">
+                <a [href]="socialGithub.link" title="Mon github">
                     <img [src]="ENV_ICONS+'template-dev/icons8-git.svg'" alt="">
                 </a>
             </div>               
-            <div class="linkedin" title="Mon Linkedin" >
-                <a href="" title="Mon instagram" >
+            <div class="linkedin" >
+                <a [href]="socialLinkedin.link" title="Mon Linkedin" >
                 <img [src]="ENV_ICONS+'template-dev/icons8-in.svg'" alt="">
 
                 </a>
             </div>
             <div class="instagram">
-                <a href="" title="Mon twitter" >
+                <a [href]="socialInstagram.link" title="Mon instagram" >
                 <img [src]="ENV_ICONS+'template-dev/icons8-insta.svg'" alt="">
                 </a>
             </div>
             <div class="twitter">
-                <a href="">
+                <a [href]="socialX.link" title="Mon compte X">
                 <img [src]="ENV_ICONS+'template-dev/icons8-tw.svg'" alt="">
                 </a>
             </div>
-            <div class="fb" title="Mon fb" >
-                <a href="">
+            <div class="fb" >
+                <a [href]="socialFacebook.link" title="Mon facebook">
                 <img [src]="ENV_ICONS+'template-dev/icons8-fb.svg'" alt="">
                 </a>
             </div>

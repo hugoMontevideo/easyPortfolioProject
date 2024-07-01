@@ -43,6 +43,7 @@ export class PortfolioListItemComponent implements OnInit {
                     educations:[],
                     experiences:[],
                     skills: [],
+                    socials: [],
                     user: {
                       id: 0,
                       name: "",
@@ -76,8 +77,8 @@ export class PortfolioListItemComponent implements OnInit {
                         console.error("Error portfolioById")
                     }
     });
-    
   }
+  
   ngAfterViewInit(){    
     this.collapseOnel = this.collapseOne.nativeElement; 
     this.collapseTwol = this.collapseTwo.nativeElement; 
@@ -184,3 +185,11 @@ export class PortfolioListItemComponent implements OnInit {
   }
 
 }
+
+
+
+// For the moment we do this manually while waiting to automate it
+
+// getCategoriesSocials = ():Observable<CategorySkill[]> => {
+//   return this.http.get<Skill[]>( `${this.ENV_DEV}/skills/categories`);
+// }

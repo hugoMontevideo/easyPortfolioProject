@@ -32,6 +32,7 @@ export class PortfolioListComponent implements OnInit {
     educations:[],
     experiences:[],
     skills: [],
+    socials: [],
     user: {
       id: -1,
       name: "",
