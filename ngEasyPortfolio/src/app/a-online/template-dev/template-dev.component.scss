@@ -76,7 +76,7 @@
 
 }
   
-.content_example {
+.content_example {  // home page
   display: flex;
   justify-content: space-between;
   font-family: Helvetica, Arial, sans-serif;
@@ -170,9 +170,7 @@
     }
 
 
-  
-
-}
+}  // *** end content_example
   
 
   
@@ -180,127 +178,79 @@
   width: 100%;
   background-color: rgba(3, 1, 19, 0.918);
   padding: 0 0 4em 0;
-}
+  .realisations-div {
+    width: 90%;
+    margin: 0 auto;
+    padding: 2em;
+    color: white;
 
-.realisations-div {
-  width: 90%;
-  margin: 0 auto;
-  padding: 2em;
-  color: white;
-
-  h1 {
-    color: #52caae;
-    font-size: 2.8em;
-    font-weight: 700;
-    letter-spacing: 0px;
-    text-align: center;
-  }
-  
-  .realisations-box {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+    h1 {
+      color: #52caae;
+      font-size: 2.8em;
+      font-weight: 700;
+      letter-spacing: 0px;
+      text-align: center;
+    }
     
-    .realisations-box-card {
-      background-color: rgba(255, 255, 255, 0.174);
-      padding: 10px 5px;
-      width: 40%;
-      overflow: hidden;
-      margin: 10px 4rem;
-      border-radius: 6px;
-      a {
-        color: antiquewhite;
-        text-decoration: none;
-        font-size: .8em;
-        img {
-          width: 100%;
-          height: 150px;
-          object-fit: cover;
-          border-radius: 4px;
-          border: #52caae solid 4px;
-          transition: .3s ease-in-out;
+    .realisations-box {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+      
+      .realisations-box-card {
+        background-color: rgba(255, 255, 255, 0.174);
+        padding: 10px 5px;
+        width: 40%;
+        overflow: hidden;
+        margin: 10px 4rem;
+        border-radius: 6px;
+        a {
+          color: antiquewhite;
+          text-decoration: none;
+          font-size: .8em;
+          img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: #52caae solid 4px;
+            transition: .3s ease-in-out;
+          }
+        }
+        a img:hover {
+          transform: scale(1.05);
+        }
+
+        h3 {
+          font-size: 1.2rem;
+          margin-top: 10px;
+          text-align: center;
+        }
+        p {
+          margin-top: 8px;
+          font-size: .8em;
+        }
+        .p_skills_list {
+          margin-top: 12px;
+          font-size: .7em;
+          font-weight:300;
+          color: #4fc0a6;
         }
       }
-      a img:hover {
-        transform: scale(1.05);
-      }
-
-      h3 {
-        font-size: 1.2rem;
-        margin-top: 10px;
-        text-align: center;
-      }
-      p {
-        margin-top: 8px;
-        font-size: .8em;
-      }
-      .p_skills_list {
-        margin-top: 12px;
+      .realisations-box .technos {
         font-size: .7em;
-        font-weight:300;
-        color: #4fc0a6;
+        font-weight: 700;
       }
-    }
-    .realisations-box .technos {
-      font-size: .7em;
-      font-weight: 700;
-    }
 
-}
-
-.content_example.page3 {
-  flex-direction: column;
-  background: rgb(23,21,38);
-  background: linear-gradient(45deg, rgba(23,21,38,1) 0%, rgba(36,56,69,1) 26%, rgba(36,56,69,1) 67%, rgba(23,21,38,1) 100%);
-}
-.skills-presentation {
-  width: 90%;
-  margin: 0 auto;
-  h1 {
-    color: #52caae;
-    font-size: 3.8em;
-    font-weight: 700;
-    letter-spacing: 0px;
   }
 }
-#langages_pro span {
-    color: #52caae;
-}
-p em {
-  color: #52CAAE;
-}
-.skills-box {
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-  margin: 0 auto;
-  padding: 2em 0;
-}
-.competences ul {
-  padding: 0 0 0 1em;
-  li {
-    font-size: .9em;
-    strong {
-      font-size: 1.1em;
-      color: #52caaea5;
-    }
+
+.content_example.skills.page3{
+  app-template-dev-skills{
+    width: 100%;
   }
 }
-.skills-box .competences-pro, .skills-box .competences-perso, .skills-box .competences-languages {
-  margin: 0 0 2em;
-}
-
-.skills-box .competences-pro h3, .skills-box .competences-perso h3, .skills-box .competences-languages h3 {
-  margin: 0 0 .7em;
-}
-
-.skills-box .competences-pro #langages_pro, .skills-box .competences-perso #langages_pro, .skills-box .competences-languages #langages_pro {
-  color: #52caae;
-  margin: 1em 0 0;
-}
-
-
 
 .content_example.page4 {
   width: 100%;
@@ -573,27 +523,7 @@ p em {
    .content_example.page2 .realisations-div .realisations-box-card p {
       margin: 1em 1em 1.5em;
     }
-    .content_example.page3 {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-orient: horizontal;
-      -webkit-box-direction: normal;
-          -ms-flex-direction: row;
-              flex-direction: row;
-      padding: 2em 2.5em;
-    }
-    .content_example.page3 .skills-presentation {
-      width: 80%;
-      padding: 0 1em 0 0;
-    }
-    .content_example.page3 .skills-box {
-      width: 70%;
-      margin: 0 auto;
-    }
-    .content_example.page3 .skills-box h3 {
-      font-size: 1.3em;
-    }
+    
     .content_example.page4 {
       padding: 0 0 5em;
     }
@@ -672,31 +602,8 @@ p em {
       margin-top: 12px;
       font-size: .8em;
     }
-    .content_example.page3 {
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-orient: horizontal;
-      -webkit-box-direction: normal;
-          -ms-flex-direction: row;
-              flex-direction: row;
-      -webkit-box-pack: justify;
-          -ms-flex-pack: justify;
-              justify-content: space-between;
-      padding: 2% 15%;
-    }
-    .content_example.page3 .skills-presentation {
-      width: 45%;
-      margin: 0;
-    }
-    .content_example.page3 .skills-box {
-      width: 35%;
-      margin: 0;
-    }
-    .content_example.page3 .skills-box .competences-pro h3, .content_example.page3 .skills-box .competences-perso h3, .content_example.page3 .skills-box .competences-languages h3 {
-      font-size: 1.6em;
-      margin: 0 0 1em;
-    }
+   
+    
     .content_example.page4 {
       padding: 2.5em 0 5em;
     }

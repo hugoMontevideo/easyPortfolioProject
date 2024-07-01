@@ -15,10 +15,10 @@ public class SocialServiceRequestModel {
     private Optional<PortfolioServiceModel> portfolio;
     private Optional<Long> portfolioId;
 
-    public SocialServiceRequestModel(String link, Long categorySocialId, Optional<Long> portfolioId) {
+    public SocialServiceRequestModel(String link, Long categorySocialId, Long portfolioId) {
         this.link = link;
         this.categorySocialId = categorySocialId;
-        this.portfolioId = portfolioId;
+        this.portfolioId = Optional.ofNullable(portfolioId);
     }
 
 

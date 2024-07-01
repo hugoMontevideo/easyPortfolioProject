@@ -26,6 +26,7 @@ export class BoardHomeComponent {
                                   educations:[],
                                   experiences:[],
                                   skills: [],
+                                  socials: [],
                                   user: {
                                     id: 0,
                                     name: "",

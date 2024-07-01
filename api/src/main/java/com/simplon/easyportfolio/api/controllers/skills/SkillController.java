@@ -41,28 +41,18 @@ public class SkillController {
     /** addSkill **/
     @PostMapping
     public SkillGetDTO add(@RequestBody @Valid SkillAddDTO DTO){
-        System.out.println(DTO);
         SkillServiceRequestModel serviceModel = new SkillServiceRequestModel(DTO.getTitle(),
-                DTO.getCategorySkillId(), DTO.getPortfolioId());
+                                            DTO.getCategorySkillId(), DTO.getPortfolioId());
 
         SkillServiceResponseModel addedSkill = portfolioService.saveSkill( serviceModel );
 
         return mapper.skillSvcToGetDTO(addedSkill);
     }
 
-   /** @PostMapping
-    public SkillGetDTO addSkill6(@RequestBody @Valid SkillAddDTO DTO){
-        SkillServiceRequestModel serviceModel = new SkillServiceRequestModel(DTO.getTitle(),
-                DTO.getPortfolioId());
-
-        SkillServiceResponseModel addedSkill = portfolioService.saveSkill( serviceModel );
-        return mapper.skillSvcToGetDTO(addedSkill);
-    } **/
-
     /** update Skill **/
     @PutMapping("/{id}")
     public SkillGetDTO update(@RequestBody @Valid SkillUpdateDTO DTO){
-        // TODO :  rendre obligatoire la categorie
+        // TODO :  rendre obligatoire la categorie  ?? deja fait avec validators?
         SkillServiceRequestUpdateModel skillServiceRequestUpdModel = mapper.skillDtoToServiceRequestModel(DTO);
 
         SkillServiceResponseModel updatedSkill = portfolioService.updateSkill( skillServiceRequestUpdModel );
@@ -85,7 +75,7 @@ public class SkillController {
     }
 
 
-    @GetMapping("/categories")  //  GET BY ID   *****
+    @GetMapping("/categories")  //  GET categories   *****
     public ResponseEntity<List<CategorySkillRepositoryModel>> findAllCategorySkills() {
         return new ResponseEntity<>( portfolioService.getCategorySkills(), HttpStatus.OK);
     }

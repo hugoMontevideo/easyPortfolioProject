@@ -67,7 +67,7 @@
       <form #form="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitUser()" >
         <legend class="text-center form-legend mb-3">{{ legend }}</legend>     
         <ckeditor 
-          [editor]="Editor" 
+          [editor]="Editor" [id]="'editorLeftSidebar'"
           [(ngModel)]="editorData" name="editorData" >
         </ckeditor>
 
@@ -110,55 +110,97 @@
           <fa-icon [icon]="['fas', 'window-close']" ></fa-icon>
         </button>
       </p>
-      <form #form2="ngForm" class="mx-auto form-item" (ngSubmit)="onSubmitLinks()" >
-        <legend class="text-center form-legend mb-3">{{ legend }}</legend>
-        <div class="mb-3">
-          <input type="text" 
-                class="form-control" 
-                id="github" 
-                [(ngModel)]="links"
-                name="educationEdit-school"
-                placeholder="Ecole">
-        </div>
-        <div class="mb-3">
-          <input type="text" 
-                class="form-control" 
-                id="linkedin" 
-                [(ngModel)]="links"
-                name="linkedin"
-                placeholder="Diplôme, niveau d'études obtenu">
-        </div>
-        <div class="mb-3">
-          <input type="text" 
-                class="form-control" 
-                id="instagram" 
-                [(ngModel)]="links"
-                name="instagram"
-                placeholder="Diplôme, niveau d'études obtenu">
-        </div>
-        <div class="mb-3">
-          <input type="text" 
-                class="form-control" 
-                id="twitter" 
-                [(ngModel)]="links"
-                name="twitter"
-                placeholder="Diplôme, niveau d'études obtenu">
-        </div>
-        <div class="mb-3">
-          <input type="text" 
-                class="form-control" 
-                id="facebook" 
-                [(ngModel)]="links"
-                name="facebook"
-                placeholder="Diplôme, niveau d'études obtenu">
-        </div>
+
+      <div class="socials">
         
-        <input class="btn btn-primary d-block mx-auto" 
-              type="submit" 
-              value="Valider">
-              <!-- [disabled]="form.invalid">***************disabled on dev  -->
-    
-      </form>
+        <div class="text-center form-legend mb-3">{{ legend }}</div>
+        <form #form1="ngForm" class="mx-auto form-item mb-1" (ngSubmit)="onSubmitLinks(socialGithub)" >
+          <div class="social_link_input">
+            <input type="text" 
+                  class="form-control" 
+                  id="github" 
+                  [(ngModel)]="socialGithub.link"
+                  name="social-link"
+                  placeholder="Coller le lien github" >
+          </div>
+          
+          <input class="btn btn-primary d-block mx-auto" 
+                [ngClass]="{'green': githubButton === 'Modifier'}" 
+                type="submit" 
+                [value]="githubButton">
+                <!-- [disabled]="form.invalid">***************disabled on dev  -->
+        </form>
+
+        <form #form2="ngForm" class="mx-auto form-item mb-1" (ngSubmit)="onSubmitLinks(socialLinkedin)" >
+          <div class="social_link_input">
+            <input type="text" 
+                  class="form-control" 
+                  id="linkedin" 
+                  [(ngModel)]="socialLinkedin.link"
+                  name="social-link"
+                  placeholder="Coller le lien linkedin ">
+          </div>            
+          <input class="btn btn-primary d-block mx-auto"
+                type="submit"
+                [ngClass]="{'green': linkedinButton === 'Modifier'}"  
+                [value]="linkedinButton"
+                >
+                <!-- [disabled]="form.invalid">***************disabled on dev  -->
+      
+        </form>
+
+        <form #form3="ngForm" class="mx-auto form-item mb-1" (ngSubmit)="onSubmitLinks(socialInstagram)" >
+          <div class="social_link_input">
+            <input type="text" 
+                  class="form-control" 
+                  id="instagram" 
+                  [(ngModel)]="socialInstagram.link"
+                  name="social-link"
+                  placeholder="Coller le lien instagram" >
+          </div>
+          
+          <input class="btn btn-primary d-block mx-auto" 
+                [ngClass]="{'green': instagramButton === 'Modifier'}" 
+                type="submit" 
+                [value]="instagramButton">
+                <!-- [disabled]="form.invalid">***************disabled on dev  -->
+        </form>
+
+        <form #form4="ngForm" class="mx-auto form-item mb-1" (ngSubmit)="onSubmitLinks(socialX)" >
+          <div class="social_link_input">
+            <input type="text" 
+                  class="form-control" 
+                  id="xsocial" 
+                  [(ngModel)]="socialX.link"
+                  name="social-link"
+                  placeholder="Coller le lien X" >
+          </div>
+          
+          <input class="btn d-block mx-auto" 
+                [ngClass]="{'green': xButton === 'Modifier'}" 
+                type="submit" 
+                [value]="xButton">
+                <!-- [disabled]="form.invalid">***************disabled on dev  -->
+        </form>
+
+        <form #form5="ngForm" class="mx-auto form-item mb-1" (ngSubmit)="onSubmitLinks(socialFacebook)" >
+          <div class="social_link_input">
+            <input type="text" 
+                  class="form-control" 
+                  id="facebooksocial" 
+                  [(ngModel)]="socialFacebook.link"
+                  name="social-link"
+                  placeholder="Coller le lien facebook" >
+          </div>
+          
+          <input class="btn btn-primary d-block mx-auto" 
+                [ngClass]="{'green': facebookButton === 'Modifier'}" 
+                type="submit" 
+                [value]="facebookButton">
+                <!-- [disabled]="form.invalid">***************disabled on dev  -->
+        </form>
+      </div><!-- end .socials-->
+
     </div>
     <div class="d-flex justify-content-center pt-2 pb-2">                       
       <button

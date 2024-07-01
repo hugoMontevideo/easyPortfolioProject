@@ -2,6 +2,7 @@ package com.simplon.easyportfolio.api.controllers.socials;
 
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +12,9 @@ import java.util.Optional;
 @NoArgsConstructor
 public class SocialUpdateDTO {
     private Optional<Long> id;
-    @Pattern(regexp = ".{2,500}", message = "Le titre doit avoir entre 2 et 500 caractères")
+    @Pattern(regexp = "^https://.*", message = "Le lien doit commencer par 'https://'")
+    @Size(min = 10, max = 255, message = "Le lien doit comporter entre 10 et 255 caractères")
     private String link;
-    @Positive(message="Vous devez choisir une catégorie")
     private Long categorySocialId;
     private Long portfolioId;
 }

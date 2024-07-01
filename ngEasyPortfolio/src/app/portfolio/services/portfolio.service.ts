@@ -122,6 +122,7 @@ export class PortfolioService {
             educations:[],
             experiences:[],
             skills: [],
+            socials: [],
             user: {
               id: definedId,
               name: "",

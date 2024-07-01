@@ -408,7 +408,7 @@ public class PortfolioService {
         // adding portfolio manually
         skillServiceRequestModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
         SkillRepositoryModel skill = mapper.skillServiceRequestToRepositoryModelAdd(skillServiceRequestModel);
-        System.out.println(skill);
+
         SkillRepositoryModel addedSkill = skillRepository.save(skill);
         return mapper.skillRepositoryToResponseSvc(addedSkill);
     }
@@ -443,9 +443,9 @@ public class PortfolioService {
         serviceModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
 
         SocialRepositoryModel social = mapper.socialServiceRequestToRepositoryModelAdd(serviceModel);
+        System.out.println(social);
         SocialRepositoryModel addedSocial = socialRepository.save(social);
         SocialServiceResponseModel socialResponse = mapper.socialRepositoryToResponseSvc(addedSocial);
-
         return socialResponse;
     }
 

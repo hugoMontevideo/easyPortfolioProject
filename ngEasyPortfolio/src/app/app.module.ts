@@ -15,7 +15,7 @@ import { JwtInterceptorService } from './services/jwt-interceptor.service';
 import { RegisterComponent } from './register/register.component';
 import { TemplateDevComponent } from './a-online/template-dev/template-dev.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-
+import { TemplateDevSkillsComponent } from './a-online/template-dev/template-dev-skills/template-dev-skills.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +25,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     LoginComponent,
     RegisterComponent,
     TemplateDevComponent,
+    TemplateDevSkillsComponent,
   ],
   imports: [
     BrowserModule,

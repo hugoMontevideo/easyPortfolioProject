@@ -41,6 +41,30 @@ a:hover, button.document:hover, .social_link:hover{
     }
 }
 
+.socials{
+    form{
+        display: flex;
+        .social_link_input{
+            width: 100%;
+        }
+        .btn{
+            width: 5.5rem;
+            font-size: .7rem;
+            background-color: rgba(0, 0, 255, 0.444);
+            color: white;
+            border: none;
+        }
+        .btn:hover{ background-color: rgba(0, 0, 255, 0.827);}
+
+        .btn.green{
+            background-color: rgba(0, 128, 0, 0.611);
+        }
+        .btn.green:hover{ background-color: rgba(0, 128, 0, 0.827);}
+
+
+    }
+}
+
 @media screen and (min-width: 750px) {
     
     #offcanvas {

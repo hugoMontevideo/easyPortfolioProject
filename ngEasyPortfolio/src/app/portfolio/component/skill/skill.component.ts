@@ -1,9 +1,11 @@
-import { AfterViewChecked, Component, EventEmitter, Input,Renderer2, ElementRef, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AfterViewChecked, Component, EventEmitter, Input,Renderer2, ElementRef, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Skill } from './skill.interface';
 import { SkillService } from '../../services/skill.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CategorySkill } from './category-skill.inteface';
 import * as Editor from 'ckeditor5-custom-build/build/ckeditor';
+import { ConfirmationModalService } from 'src/app/services/confirmation-modal.service';
+import { ConfirmationModalComponent } from 'src/app/core/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-skill',
@@ -11,6 +13,8 @@ import * as Editor from 'ckeditor5-custom-build/build/ckeditor';
   styleUrls: ['./skill.component.scss']
 })
 export class SkillComponent implements OnInit,AfterViewChecked {
+  @ViewChild(ConfirmationModalComponent) confirmationModal!: ConfirmationModalComponent;
+
   @Input() skills:Skill[] = [];
   @Input() portfolioId!: number;
   @Output() skillsChanged = new EventEmitter<Skill[]>();
@@ -18,6 +22,9 @@ export class SkillComponent implements OnInit,AfterViewChecked {
   inputError?: string;
   categorySkills!: CategorySkill[];
   catSkillsWithout6!: CategorySkill[] ;
+
+  selectedId!:number;
+  selectedIndex!:number;
 
   skillsWithout6: Skill[] = [] ;
   skill6!: Skill|undefined ; // the text that describes the user's skills
@@ -35,11 +42,13 @@ export class SkillComponent implements OnInit,AfterViewChecked {
   };
   
   isSkillFormShowing: boolean = false; // display or hide form
+  isConfirmationModal: boolean = false; // display or hide confirmation modal
 
   constructor( private skillService: SkillService,
                 private renderer : Renderer2,
-                private elRef : ElementRef
-   ){}
+                private elRef : ElementRef,
+                private confirmationModalService: ConfirmationModalService
+              ){}
 
   ngOnInit(): void {
     this.getCategorySkills();
@@ -53,12 +62,11 @@ export class SkillComponent implements OnInit,AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    const cssEditor1 = this.elRef.nativeElement.querySelector('.ck-content'); // ckeditor  main
-    if(cssEditor1){
-      this.renderer.setStyle(cssEditor1,'background-color', 'rgb(21%,21%,34%)');
-      this.renderer.setStyle(cssEditor1,'border-radius', '0 0 5px 5px');
-      this.renderer.setStyle(cssEditor1,'color', 'rgb(100%,100%,100%)');
-    }
+    const cssEditorSkill = this.elRef.nativeElement.querySelector('#editorSkill .ck-content'); // ckeditor  main
+      
+    this.renderer.setStyle(cssEditorSkill,'background-color', 'rgb(21%,21%,34%)');
+    this.renderer.setStyle(cssEditorSkill,'border-radius', '0 0 5px 5px');
+    this.renderer.setStyle(cssEditorSkill,'color', 'rgb(100%,100%,100%)');
   }
 
   public onCloseModalForm = () => {
@@ -77,7 +85,7 @@ export class SkillComponent implements OnInit,AfterViewChecked {
     this.legend = "Ajouter une compétence"
     this.isSkillFormShowing = true;
     this.newSkill.title="Titre";
-    this.newSkill.categorySkillId=5;
+    this.newSkill.categorySkillId=5; // skill category = autres
     this.skillService.add(this.newSkill)
     .subscribe({
       next:(data)=>{
@@ -111,12 +119,12 @@ export class SkillComponent implements OnInit,AfterViewChecked {
           this.newSkill = this.skillService.resetNewSkill(this.portfolioId);
           this.skillService.getSkills(this.newSkill.portfolioId) // refresh projects[]
             .subscribe({
-                next: (data:Skill[]) => { 
-                        this.skills = data;
-                        this.skillsChanged.emit(this.skills);
-                      },
-                error: (_error:Error)=>{console.error("**error Getting skills[]**");} //TODO *******
-              });
+              next: (data:Skill[]) => { 
+                      this.skills = data;
+                      this.skillsChanged.emit(this.skills);
+                    },
+              error: (_error:Error)=>{console.error("**error Getting skills[]**");} //TODO *******
+            });
         },
       error:(_error)=>{
         console.error("**error updating Skill**");
@@ -127,7 +135,7 @@ export class SkillComponent implements OnInit,AfterViewChecked {
     });
   }
 
-  onDeleteSkill = (skillId : number, index: number):void => {
+  private onDeleteSkill = (skillId : number, index: number):void => {
     this.isSkillFormShowing = false;
     this.skillService.deleteSkill(skillId)
     .subscribe({
@@ -199,15 +207,20 @@ export class SkillComponent implements OnInit,AfterViewChecked {
       });
     }
     this.skill6.description=this.editorData;
-    this.skill6.portfolioId=this.portfolioId
-
-    console.log(this.skill6);    
+    this.skill6.portfolioId=this.portfolioId  
     this.skillService.saveSkill(this.skill6)
     .subscribe({
       next:(data)=>{
-            console.log("skill6 modify ",data);
-                           
-          },
+        this.skillService.getSkills(this.skill6?.portfolioId) // refresh projects[]
+            .subscribe({
+              next: (data:Skill[]) => { 
+                      this.skills = data;
+                      console.log(this.skills);
+                      this.skillsChanged.emit(this.skills);
+                    },
+              error: (_error:Error)=>{console.error("**error Getting skills[]**");} //TODO *******
+            });                  
+        },
       error:(_error : any)=>{
         console.error("**error updating skill6.description**");
         if(_error instanceof HttpErrorResponse ) {
@@ -215,6 +228,25 @@ export class SkillComponent implements OnInit,AfterViewChecked {
         } 
       }
     }); 
+  }
+
+  openConfirmationModal(skillId : number, index: number) {
+    this.selectedId=skillId;
+    this.selectedIndex=index;
+    this.isConfirmationModal=true; // open the modal
+    // this.confirmationModal.openModal();
+  }
+
+  onConfirmed(result: boolean) {
+    this.isConfirmationModal=false; // close the modal
+    if (result) {
+      this.onDeleteSkill( this.selectedId, this.selectedIndex);
+    }
+  }
+
+  private deleteItem() {
+    // Logique de suppression de l'élément
+    console.log('Item deleted');
   }
 
 

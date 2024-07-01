@@ -1,0 +1,115 @@
+
+
+  .skills-div{
+    width: 90%;
+    margin: 0 auto;
+    padding: 2em;
+
+    .skills-presentation {
+      h1 {
+        color: #52caae;
+        font-size: 3em;
+        font-weight: 700;
+        letter-spacing: 0px;
+      }
+    }
+    .skills-text{
+      color: rgba(255, 255, 255, 0.885);
+    }
+    #langages_pro span {
+      color: #52caae;
+    }
+    .skills-box {
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      margin: 0 auto;
+      padding: 2em 0;
+      color: #c7cbcf;
+    }
+    .competences ul {
+      padding: 0 0 0 1em;
+      li {
+        font-size: .9em;
+        strong {
+          font-size: 1.1em;
+          color: #52caaea5;
+        }
+      }
+    }
+
+    .skills-box .competences-pro #langages_pro, .skills-box .competences-perso #langages_pro, .skills-box .competences-languages #langages_pro {
+      color: #52caae;
+      margin: 1em 0 0;
+    }
+  }
+
+
+@media screen and (min-width: 750px) {
+  
+  .skills-div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    .skills-presentation {
+      width: 80%;
+      padding: 0 1em 0 0;
+      h1{
+        font-size: 4em;
+      }
+    }
+    .skills-box {
+      width: 70%;
+      margin: 0 auto;
+      &.competences{
+        padding: 1em 0 1em;
+        h3 {
+          font-size: 1.3em;
+        }
+      }
+    }
+  }
+}
+
+
+  @media screen and (min-width: 990px) {
+   .skills-div{
+     max-width: 900px;
+     .skills-presentation {
+      h1{
+        font-size: 4.5em;
+      }
+    }
+    .skills-presentation {
+      width: 60%;
+      margin: 0;
+    }
+    
+    .skills-box {
+      width: 35%;
+      margin: 0;
+    }
+   }
+    
+    .content_example.page3 .skills-box .competences-pro h3, .content_example.page3 .skills-box .competences-perso h3, .content_example.page3 .skills-box .competences-languages h3 {
+      font-size: 1.6em;
+      margin: 0 0 1em;
+    }
+
+  }
+
+  @media screen and (min-width: 1300px) {
+    .skills-div{
+     max-width: 1000px;
+
+      .skills-presentation{
+        h1 {
+          font-size: 5.5em;
+        }
+      } 
+    
+
+    }
+  }
+  
