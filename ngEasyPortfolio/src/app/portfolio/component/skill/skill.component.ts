@@ -1,20 +1,16 @@
-import { AfterViewChecked, Component, EventEmitter, Input,Renderer2, ElementRef, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, EventEmitter, Input,Renderer2, ElementRef, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Skill } from './skill.interface';
 import { SkillService } from '../../services/skill.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CategorySkill } from './category-skill.inteface';
 import * as Editor from 'ckeditor5-custom-build/build/ckeditor';
-import { ConfirmationModalService } from 'src/app/services/confirmation-modal.service';
-import { ConfirmationModalComponent } from 'src/app/core/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-skill',
   templateUrl: './skill.component.html',
   styleUrls: ['./skill.component.scss']
 })
-export class SkillComponent implements OnInit,AfterViewChecked {
-  @ViewChild(ConfirmationModalComponent) confirmationModal!: ConfirmationModalComponent;
-
+export class SkillComponent implements OnInit,AfterViewChecked, OnChanges {
   @Input() skills:Skill[] = [];
   @Input() portfolioId!: number;
   @Output() skillsChanged = new EventEmitter<Skill[]>();
@@ -23,8 +19,9 @@ export class SkillComponent implements OnInit,AfterViewChecked {
   categorySkills!: CategorySkill[];
   catSkillsWithout6!: CategorySkill[] ;
 
-  selectedId!:number;
+  selectedId!:number;  // used in modal
   selectedIndex!:number;
+  isConfirmationModal: boolean = false; // display or hide confirmation modal
 
   skillsWithout6: Skill[] = [] ;
   skill6!: Skill|undefined ; // the text that describes the user's skills
@@ -42,12 +39,10 @@ export class SkillComponent implements OnInit,AfterViewChecked {
   };
   
   isSkillFormShowing: boolean = false; // display or hide form
-  isConfirmationModal: boolean = false; // display or hide confirmation modal
 
   constructor( private skillService: SkillService,
                 private renderer : Renderer2,
                 private elRef : ElementRef,
-                private confirmationModalService: ConfirmationModalService
               ){}
 
   ngOnInit(): void {
@@ -230,8 +225,8 @@ export class SkillComponent implements OnInit,AfterViewChecked {
     }); 
   }
 
-  openConfirmationModal(skillId : number, index: number) {
-    this.selectedId=skillId;
+  openConfirmationModal(itemId : number, index: number) {
+    this.selectedId=itemId;
     this.selectedIndex=index;
     this.isConfirmationModal=true; // open the modal
     // this.confirmationModal.openModal();
@@ -242,11 +237,6 @@ export class SkillComponent implements OnInit,AfterViewChecked {
     if (result) {
       this.onDeleteSkill( this.selectedId, this.selectedIndex);
     }
-  }
-
-  private deleteItem() {
-    // Logique de suppression de l'élément
-    console.log('Item deleted');
   }
 
 

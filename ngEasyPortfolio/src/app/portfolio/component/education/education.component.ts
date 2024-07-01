@@ -8,13 +8,17 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './education.component.html',
   styleUrls: ['./education.component.scss']
 })
-export class EducationComponent {
+export class EducationComponent implements OnChanges {
 
   @Input() educations:Education[] = [];
   @Input() portfolioId?: number;
   @Output() educationsChanged = new EventEmitter<Education[]>();
   legend: string = "";
   inputError?: string;
+
+  selectedId!:number;  // used in modal
+  selectedIndex!:number;
+  isConfirmationModal: boolean = false; // display or hide confirmation modal
 
   newEducation: Education = {
     id: -1,
@@ -25,7 +29,7 @@ export class EducationComponent {
     endDate: new Date("1970-01-01"),
     description: "",
     portfolioId: this.portfolioId
-};
+  };
   isEducationFormShowing: boolean = false; // display or hide form
 
   constructor( private educationService: EducationService ){}
@@ -115,6 +119,20 @@ export class EducationComponent {
        },
     error:(err:Error)=>{ console.log("Error while deleting education.");}
     }) 
+  }
+
+  openConfirmationModal(itemId : number, index: number) {
+    this.selectedId=itemId;
+    this.selectedIndex=index;
+    this.isConfirmationModal=true; // open the modal
+    // this.confirmationModal.openModal();
+  }
+
+  onConfirmed(result: boolean) {
+    this.isConfirmationModal=false; // close the modal
+    if (result) {
+      this.onDeleteEducation( this.selectedId, this.selectedIndex);
+    }
   }
 
 

@@ -77,9 +77,13 @@
               <button (click)="onEditExperience(ii)" class="elt-button" title="modifier" >
                 <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
               </button> 
-              <button (click)="onDeleteExperience(experience.id, ii)" class="elt-button-red" title="supprimer" >
+              <!-- <button (click)="onDeleteExperience(experience.id, ii)" class="elt-button-red" title="supprimer" >
                   <fa-icon class="icon" [icon]="['fas', 'trash-alt']" ></fa-icon>
-              </button>
+              </button> -->
+              <button (click)="openConfirmationModal(experience.id, ii)" class="elt-button-red" title="supprimer">
+                <fa-icon class="icon" [icon]="['fas', 'trash-alt']" ></fa-icon>
+              </button> 
+              <app-confirmation-modal (confirmed)="onConfirmed($event)" *ngIf="isConfirmationModal"></app-confirmation-modal>
             </div>
           </div>
       </div>

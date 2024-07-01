@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Project } from './project.interface';
 import { ProjectService } from '../../services/project.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -9,7 +9,7 @@ import { DocumentProject } from './document-project.interface';
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent {
+export class ProjectComponent implements OnChanges {
 
   @Input() projects:Project[] =[];
   @Input() portfolioId?: number; 
@@ -17,6 +17,10 @@ export class ProjectComponent {
   legend: string = "";
   inputError?: string;
   isProjectFormShowing: boolean = false; // display or hide form
+
+  selectedId!:number;  // used in modal
+  selectedIndex!:number;
+  isConfirmationModal: boolean = false; // display or hide confirmation modal
 
   newProject: Project = {
     id: -1,
@@ -147,6 +151,20 @@ export class ProjectComponent {
                 console.log("Error while deleting document education.");
             }
       });
+  }
+
+  openConfirmationModal(itemId : number, index: number) {
+    this.selectedId=itemId;
+    this.selectedIndex=index;
+    this.isConfirmationModal=true; // open the modal
+    // this.confirmationModal.openModal();
+  }
+
+  onConfirmed(result: boolean) {
+    this.isConfirmationModal=false; // close the modal
+    if (result) {
+      this.onDeleteProject( this.selectedId, this.selectedIndex);
+    }
   }
 
 

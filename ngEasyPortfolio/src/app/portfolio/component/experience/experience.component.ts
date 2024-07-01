@@ -8,13 +8,17 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './experience.component.html',
   styleUrls: ['./experience.component.scss']
 })
-export class ExperienceComponent {
+export class ExperienceComponent implements OnChanges {
 
   @Input() experiences:Experience[] = [];
   @Input() portfolioId?: number;
   @Output() experiencesChanged = new EventEmitter<Experience[]>();
   legend: string = "";
   inputError?: string;
+
+  selectedId!:number;  // used in modal
+  selectedIndex!:number;
+  isConfirmationModal: boolean = false; // display or hide confirmation modal
 
   newExperience: Experience = {
     id: -1,
@@ -96,7 +100,7 @@ export class ExperienceComponent {
     });
   }
 
-  onDeleteExperience = (experienceId : number, index: number):void => {
+  private onDeleteExperience = (experienceId : number, index: number):void => {
     this.experienceService.deleteExperience( experienceId )
       .subscribe({
         next:( )=> {
@@ -114,5 +118,25 @@ export class ExperienceComponent {
         error:(err:Error)=>{ console.log("Error while deleting education.");}
       });
   }
+
+  openConfirmationModal(itemId : number, index: number) {
+    this.selectedId=itemId;
+    this.selectedIndex=index;
+    this.isConfirmationModal=true; // open the modal
+    // this.confirmationModal.openModal();
+  }
+
+  onConfirmed(result: boolean) {
+    this.isConfirmationModal=false; // close the modal
+    if (result) {
+      this.onDeleteExperience( this.selectedId, this.selectedIndex);
+    }
+  }
+
+
+
+
+
+
 
 }
