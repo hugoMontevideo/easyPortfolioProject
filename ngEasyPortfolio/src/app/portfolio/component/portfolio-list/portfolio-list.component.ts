@@ -47,15 +47,13 @@ export class PortfolioListComponent implements OnInit {
   };
 
   constructor( private portfolioService: PortfolioService,
-                private jwtService: JWTTokenService
+                private jwtService: JWTTokenService,
               ){};
 
   ngOnInit(): void {
     this.jwtService.jwtToken = this.jwtService.getToken();
     this.getAllPortfolios(); 
 
-    console.log(this.jwtService.isLogged());
-    
   }
 
   public onCloseModalForm = () => {
@@ -88,23 +86,22 @@ export class PortfolioListComponent implements OnInit {
   }
 
   getAllPortfolios= () =>{
-      this.portfolioService.getUserByEmail()
-      .subscribe({
-        next:(data:User)=>{ 
-              this.newPortfolio.user = data
-              this.portfolioService.getAllPortfolios(this.newPortfolio.user.email)
-                .subscribe({
-                  next: (response:Portfolio[] ) => {
-                                  this.portfolios=response;                      
-                                },
-                  error: (_err: Error)=> { alert("Error getting portfolios")} 
-                });
-        },
-        error: (err:Error)=>console.log("Error userbyEmail")
+    this.portfolioService.getUserByEmail()
+    .subscribe({
+      next:(data:User)=>{ 
+            this.newPortfolio.user = data
+            this.portfolioService.getAllPortfolios(this.newPortfolio.user.email)
+              .subscribe({
+                next: (response:Portfolio[] ) => {
+                                this.portfolios=response;                      
+                              },
+                error: (_err: Error)=> { alert("Error getting portfolios")} 
+              });
+      },
+      error: (err:Error)=>console.log("Error userbyEmail")
     })
-    
-    
   }
+
   public onEditPortfolio = (index: number) => {
     this.legend = "Modifier le portfolio"
     this.isPortfolioFormShowing = true;
@@ -125,7 +122,7 @@ export class PortfolioListComponent implements OnInit {
                       }
                 });
         },
-       error:(err:Error)=>{ console.log("Error while deleting education.");
+       error:(err:Error)=>{ console.log("Error while deleting portfolio.");
           }
        }) 
   };

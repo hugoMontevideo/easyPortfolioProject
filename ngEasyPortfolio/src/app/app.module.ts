@@ -35,7 +35,8 @@ import { TemplateDevSkillsComponent } from './a-online/template-dev/template-dev
     FormsModule,
     SharedModule,
     PortfolioModule,
-    CKEditorModule
+    CKEditorModule,
+    // ToastNoAnimationModule.forRoot()
   ],
   providers: [
     JWTTokenService,
