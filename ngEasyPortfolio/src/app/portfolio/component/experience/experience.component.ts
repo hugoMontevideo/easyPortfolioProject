@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { Experience } from './experience.interface';
 import { ExperienceService } from '../../services/experience.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-experience',
@@ -26,6 +27,7 @@ export class ExperienceComponent implements OnChanges {
     title: "",
     company:"",
     description: "",
+    city: "",
     startDate: new Date("1970-01-01"),
     endDate: new Date("1970-01-01"),
     portfolioId: this.portfolioId
@@ -33,6 +35,7 @@ export class ExperienceComponent implements OnChanges {
   isExperienceFormShowing: boolean = false; // display or hide form
 
   constructor( private experienceService: ExperienceService,
+                private toastr: ToastrService
               ){};
   
   ngOnChanges(change: SimpleChanges ){
@@ -112,10 +115,11 @@ export class ExperienceComponent implements OnChanges {
               next: (data:Experience[]) => { 
                       this.experiences = data;
                       this.experiencesChanged.emit(this.experiences); 
-                      // this.toastr.info('Experience effacée !','deletedExperience',
-                      //   {positionClass:'toast-bottom-right', 
-                      //                   timeOut:2000 
-                      //   });     
+                      this.toastr.warning('Experience effacée !','',
+                      {
+                        toastClass:'my-toast-warning',
+                        positionClass: 'toast-bottom-left',
+                      });     
                     },
               error: (_error)=>{
                   console.log("**error Getting Projects**"); 

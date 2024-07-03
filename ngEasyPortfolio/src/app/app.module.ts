@@ -16,6 +16,8 @@ import { RegisterComponent } from './register/register.component';
 import { TemplateDevComponent } from './a-online/template-dev/template-dev.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { TemplateDevSkillsComponent } from './a-online/template-dev/template-dev-skills/template-dev-skills.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,16 @@ import { TemplateDevSkillsComponent } from './a-online/template-dev/template-dev
     SharedModule,
     PortfolioModule,
     CKEditorModule,
-    // ToastNoAnimationModule.forRoot()
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(
+      { 
+        timeOut:1500, 
+        iconClasses:{
+                      info:"",
+                      warning:"",
+                    },
+      }
+    )
   ],
   providers: [
     JWTTokenService,
