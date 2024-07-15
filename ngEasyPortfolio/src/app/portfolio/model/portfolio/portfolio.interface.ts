@@ -20,5 +20,6 @@ export interface Portfolio {
     experiences: Experience[],
     skills: Skill[],
     socials: Social[],
+    categoryPortfolioId: number,
     user?: User
 }

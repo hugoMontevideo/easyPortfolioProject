@@ -16,6 +16,7 @@ public class ExperienceUpdateDTO {
     private String title;
     private String company;
     private String description;
+    private String city;
     private LocalDate startDate;
     private LocalDate endDate;
     private Long portfolioId;

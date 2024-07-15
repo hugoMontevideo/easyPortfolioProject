@@ -10,6 +10,8 @@ import com.simplon.easyportfolio.api.repositories.educations.EducationRepository
 import com.simplon.easyportfolio.api.repositories.educations.EducationRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepository;
 import com.simplon.easyportfolio.api.repositories.experiences.ExperienceRepositoryModel;
+import com.simplon.easyportfolio.api.repositories.portfolios.CategoryPortfolioRepository;
+import com.simplon.easyportfolio.api.repositories.portfolios.CategoryPortfolioRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepository;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.projects.DocumentProjectRepository;
@@ -73,6 +75,8 @@ public class PortfolioService {
     CategorySkillRepository categorySkillRepository;
     @Autowired
     SocialRepository socialRepository;
+    @Autowired
+    CategoryPortfolioRepository categoryPortfolioRepository;
     private final Slugify slug = Slugify.builder().build();
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
 
@@ -591,7 +595,10 @@ public class PortfolioService {
     }
 
 
+    public List<CategoryPortfolioRepositoryModel> getCategoryPortfolio() {
+        return      categoryPortfolioRepository.findAll();
 
+    }
 }
 
 

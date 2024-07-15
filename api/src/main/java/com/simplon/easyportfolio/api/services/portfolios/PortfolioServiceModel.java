@@ -32,6 +32,7 @@ public class PortfolioServiceModel {
     private List<EducationRepositoryModel> educations ;
     private List<SkillRepositoryModel> skills;
     private List<SocialRepositoryModel> socials ;
+    private Long categoryPortfolioId;
     private User user;
 
     public PortfolioServiceModel(Long id) {

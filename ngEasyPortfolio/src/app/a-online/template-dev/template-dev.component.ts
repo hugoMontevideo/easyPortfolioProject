@@ -35,6 +35,7 @@ export class TemplateDevComponent implements OnInit, AfterViewChecked {
         experiences:[],
         skills: [],
         socials: [],
+        categoryPortfolioId: -1,
   }
   
   public Editor2: any = Editor;
@@ -62,6 +63,8 @@ export class TemplateDevComponent implements OnInit, AfterViewChecked {
     this.portfolioService.getPortfolioByIdOnline(this.portfolio.id)
       .subscribe({
         next:(response:Portfolio) => { 
+          console.log(response);
+          
                 this.portfolio = response;
                 this.editorData = this.portfolio.aboutMe;
                 this.getSocialGithub();

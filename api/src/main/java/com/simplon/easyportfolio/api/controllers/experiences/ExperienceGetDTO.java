@@ -15,6 +15,7 @@ public class ExperienceGetDTO {
     private String title;
     private String company;
     private String description;
+    private String city;
     private LocalDate startDate;
     private LocalDate endDate;
     //@OneToMany(mappedBy = "experience", orphanRemoval = true)

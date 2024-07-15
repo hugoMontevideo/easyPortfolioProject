@@ -4,6 +4,7 @@ import { PortfolioService } from '../../services/portfolio.service';
 import { JWTTokenService } from 'src/app/services/JWTToken.service';
 import { User } from 'src/app/core/user/user.interface';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CategoryPortfolio } from '../portfolio-list-item/category-portfolio.inteface';
 
 @Component({
   selector: 'app-portfolio-list',
@@ -13,6 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class PortfolioListComponent implements OnInit {
   portfolios: Portfolio[]=[];
   legend: string = "";
+
   inputError?: string;
   isPortfolioFormShowing: boolean = false; // display or hide form
   allDisplay=false;
@@ -33,6 +35,7 @@ export class PortfolioListComponent implements OnInit {
     experiences:[],
     skills: [],
     socials: [],
+    categoryPortfolioId: -1,
     user: {
       id: -1,
       name: "",
@@ -52,8 +55,7 @@ export class PortfolioListComponent implements OnInit {
 
   ngOnInit(): void {
     this.jwtService.jwtToken = this.jwtService.getToken();
-    this.getAllPortfolios(); 
-
+    this.getAllPortfolios();     
   }
 
   public onCloseModalForm = () => {

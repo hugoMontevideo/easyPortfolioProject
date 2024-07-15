@@ -23,7 +23,7 @@ export class SkillService {
   }
 
   getCategoriesSkills = ():Observable<CategorySkill[]> => {
-    return this.http.get<Skill[]>( `${this.ENV_DEV}/skills/categories`);
+    return this.http.get<CategorySkill[]>( `${this.ENV_DEV}/skills/categories`);
   }
 
   add = ( newSkill: Skill ): Observable<any> => { 

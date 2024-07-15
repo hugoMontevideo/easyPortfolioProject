@@ -23,5 +23,7 @@ public class PortfolioDTO {
     private String city;
     private String profileImgPath;
     private String aboutMe;
+
+    private Long categoryPortfolioId;
     private Integer userId;
 }

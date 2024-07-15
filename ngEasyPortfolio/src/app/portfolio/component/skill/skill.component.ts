@@ -155,7 +155,7 @@ export class SkillComponent implements OnInit,AfterViewChecked, OnChanges {
     this.skillService.getCategoriesSkills()
     .subscribe({
       next:( data : CategorySkill[] )=> {
-        // getting skill categories, i can use it in the form
+        // getting skill categories, i will use it in the form
           this.categorySkills = data ;
           this.getCategorySkillsWithout6();                    
         },

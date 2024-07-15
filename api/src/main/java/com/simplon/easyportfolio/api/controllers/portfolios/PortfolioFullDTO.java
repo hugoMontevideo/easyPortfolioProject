@@ -32,5 +32,6 @@ public class PortfolioFullDTO {
     private List<EducationGetDTO> educations;
     private List<SkillGetDTO> skills;
     private List<SocialGetDTO> socials ;
+    private Long categoryPortfolioId;
     private UserResponseDTO user;
 }

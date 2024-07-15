@@ -19,6 +19,8 @@ public class ExperienceServiceModel {
 
     private String description;
 
+    private String city;
+
     private LocalDate startDate;
 
     private LocalDate endDate;

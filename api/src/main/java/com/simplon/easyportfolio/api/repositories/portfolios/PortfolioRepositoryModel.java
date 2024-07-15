@@ -50,6 +50,9 @@ public class PortfolioRepositoryModel {
     @OneToMany(mappedBy = "portfolio")
     private List<SocialRepositoryModel> socials;
 
+    @Column(name = "category_portfolio_id")
+    private Long categoryPortfolioId;
+
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
@@ -74,3 +77,13 @@ public class PortfolioRepositoryModel {
         this.user = user;
     }
 }
+
+/**
+ * portfolios categories id
+ *
+ * 1  classic
+ * 2  dev
+ * 3  girly
+ * 4  fresh
+ *
+ * */

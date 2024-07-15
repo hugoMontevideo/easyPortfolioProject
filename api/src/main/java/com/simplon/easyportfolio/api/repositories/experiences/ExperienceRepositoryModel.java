@@ -27,6 +27,9 @@ public class ExperienceRepositoryModel {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "city")
+    private String city;
+
     @Column(name = "start_date")
     private LocalDate startDate;
 

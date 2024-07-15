@@ -22,7 +22,7 @@ export class ExperienceService {
   }
 
   //  add or update experience  
-  saveExperience = ( newExperience: Experience ): Observable<any> => {
+  saveExperience = ( newExperience: Experience ): Observable<any> => {    
     return this.http.put( `${this.ENV_DEV}/experiences/${newExperience.id}`, newExperience )
     .pipe(catchError(this.handleError)); // catch validator errors
   }
@@ -56,6 +56,7 @@ export class ExperienceService {
               title: "",
               company:"",
               description: "",
+              city: "",
               startDate: new Date("1970-01-01"),
               endDate: new Date("1970-01-01"),
               portfolioId: portfolioId

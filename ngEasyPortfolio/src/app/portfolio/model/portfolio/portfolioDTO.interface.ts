@@ -8,5 +8,6 @@ export interface PortfolioDTO {
     city: string,
     profileImgPath:string,
     aboutMe: string,
+    categoryPortfolioId: number,
     userId?: number
 }

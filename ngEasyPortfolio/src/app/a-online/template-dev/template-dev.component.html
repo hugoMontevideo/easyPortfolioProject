@@ -119,68 +119,75 @@
         <app-template-dev-skills [skills]="portfolio.skills" [portfolioId]="portfolio.id">
         </app-template-dev-skills>
     </section><!-- end .exemple skills -->
-   
-    <section id="online-educations" class="content_example page4" >
-        <div id="educations-div" class="educations-div">         
-            <h1 id="h1_educ" class="mb-4" >Formations</h1>
-            <div class="educations-box" *ngIf="portfolio.educations.length > 0">
-                <div class="education">
-                    <ul class="" >
-                        <li *ngFor="let education of portfolio.educations" class="d-flex justify-content-between" >
-                            <div class="educ1 d-flex justify-content-center" >{{education.startDate| date:'dd/MM/yyyy'}}</div> - 
-                            <div class="educ2 d-flex justify-content-center">{{education.endDate | date:'dd/MM/yyyy'}}</div> :
-                            <div class="educ3 ms-2"> {{ education.training }} </div>
-                            <div class="educ4"> {{ education.school }}</div>
-                            <div class="educ5 text-center"> {{ education.degree !=null ?education.degree :'-' }}</div>
+
+    <div class="formations-experiences d-flex">
+        
+        <section class="content_example page4" id="online-educations">
+            <div class="educations-div" id="educations-div">         
+                <h1 id="h1_educ" class="" >Formations et Diplômes</h1>
+                <div class="educations-box" *ngIf="portfolio.educations.length > 0">
+                    
+                    <ul>
+                        <li *ngFor="let education of portfolio.educations" class="education-li d-flex justify-content-between">
+                            <div class="dates d-flex">
+                                <div class="educ1" >{{education.startDate| date:'dd/MM/yyyy'}}</div> 
+                                <div class="educ2">{{education.endDate | date:'dd/MM/yyyy'}}</div> 
+                            </div>
+                            <div class="educ3"> {{ education.training }} </div>
+                            <div class="school-diploma d-flex">
+                                <div class="educ4"> {{ education.school }}</div>
+                                <div class="educ5"> {{ education.degree !=null ?education.degree :'-' }}</div>
+                            </div>
                         </li>
                     </ul>
+                    
                 </div>
-            </div>
-        </div>     
-    </section><!-- end .exemple educations -->
+            </div>     
+        </section><!-- end .exemple educations -->
 
-    <section id="online-experiences" class="content_example page5" >
-        <div id="experiences-div" class="experiences-div">         
-            <h1 id="h1_exp" class="mb-4 text-center" >Experiences professionnelles</h1>
-            <div class="experiences-box" *ngIf="portfolio.experiences.length > 0">
-                <div class="experience">
+        <section class="content_example page5" id="online-experiences" >
+            <div class="experiences-div" id="experiences-div">         
+                <h1 id="h1_exp" class="text-center" >Expériences professionnelles</h1>
+                <div class="experiences-box" *ngIf="portfolio.experiences.length > 0">
+                    
                     <ul class="" >
-                        <li *ngFor="let experience of portfolio.experiences" class="d-flex justify-content-between" >
-                            <div class="exper1 d-flex justify-content-center" >{{experience.startDate| date:'dd/MM/yyyy'}}</div> - 
-                            <div class="exper2 d-flex justify-content-center">{{experience.endDate| date:'dd/MM/yyyy'}}</div> :
-                            <div class="exper3 ms-2"> {{ experience.title }} </div>
+                        <li *ngFor="let experience of portfolio.experiences" class="experience-li d-flex justify-content-between" >
+                            <div class="dates d-flex">
+                                <div class="exper1" >{{experience.startDate| date:'dd/MM/yyyy'}}</div>
+                                <div class="exper2">{{experience.endDate| date:'dd/MM/yyyy'}}</div>
+                            </div>
+                            <div class="exper3"> {{ experience.title }} </div>
                             <div class="exper4"> {{ experience.company }}</div>
                         </li>
                     </ul>
+                    
                 </div>
-            </div>
-        </div>     
-    </section><!-- end .exemple experiences -->
+            </div>     
+        </section><!-- end .exemple experiences -->
+    </div>   
 
-    <section id="online-about" class="about page6 pb-6">
-        <h1 class="text-center mb-4 pt-4">A propos</h1>
-        <div class="page6-box d-flex">
-            <div >         
-              
-                <img *ngIf="portfolio.profileImgPath; else srcDefault" 
-                        [src]="ENV_PICT+'portfolios/' + portfolio.profileImgPath" 
-                        [alt]="'Photo de profil '+portfolio.firstname"
-                        class="about-img">  
-                <ng-template #srcDefault>
-                    <img [src]="ENV_ICONS + 'girl-shirt-avatar.png'" [alt]="'developpeur : '+portfolio.firstname"
+<section class="content_example about page6 pb-6" id="online-about">
+    <h1 class="text-center mb-4 pt-4">A propos</h1>
+    <div class="page6-box d-flex">
+        <div class="div-img d-flex" >         
+            <img *ngIf="portfolio.profileImgPath; else srcDefault" 
+                    [src]="ENV_PICT+'portfolios/' + portfolio.profileImgPath" 
+                    [alt]="'Photo de profil '+portfolio.firstname"
                     class="about-img">  
-                </ng-template>
-              
-            </div>
-            <div class="about-presentation ms-5">
-                <ckeditor [editor]="Editor2" [id]="'editor2'" 
-                    [(ngModel)]="editorData" name="editorData"
-                    [disabled]="true" [config]="{toolbar:[]}" 
-                 ></ckeditor>
-            </div>
+            <ng-template #srcDefault>
+                <img [src]="ENV_ICONS + 'girl-shirt-avatar.png'" [alt]="'developpeur : '+portfolio.firstname"
+                class="about-img">  
+            </ng-template>
+            <p class="about-p">{{portfolio.firstname|titlecase}} {{portfolio.name}}</p>
         </div>
-    </section>
-
+        <div class="about-presentation">
+            <ckeditor [editor]="Editor2" [id]="'editor2'" 
+                [(ngModel)]="editorData" name="editorData"
+                [disabled]="true" [config]="{toolbar:[]}" 
+                ></ckeditor>
+        </div>
+    </div>
+</section>
 <footer>
     <section class="footer-layout">
         <div class="footer-social">   

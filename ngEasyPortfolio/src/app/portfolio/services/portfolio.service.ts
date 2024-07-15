@@ -8,35 +8,37 @@ import { JWTTokenService } from "src/app/services/JWTToken.service";
 import { User } from "src/app/core/user/user.interface";
 import { PortfolioAddDto } from "../model/portfolio/portolio-add-dto.interface";
 import { BoardManager } from "../component/portfolio-list-item/board-manager.interface";
+import { CategoryPortfolio } from "../component/portfolio-list-item/category-portfolio.inteface";
 
 @Injectable()
 
 export class PortfolioService {
-    ENV_BASE :string = environment.baseUrl;
-    ENV_DEV:string = environment.apiUrl;
+  ENV_BASE :string = environment.baseUrl;
+  ENV_DEV:string = environment.apiUrl;
 
-    constructor ( 
-                private http: HttpClient,
-                private jwtTokenService : JWTTokenService, 
-         ) {};
+  constructor ( 
+              private http: HttpClient,
+              private jwtTokenService : JWTTokenService, 
+        ) {};
     
-    /** update portfolio */    
-    savePortfolio = ( portfolio: Portfolio ): Observable<Portfolio> => { 
-        const savedPortfolio :PortfolioDTO = {
-                                id: portfolio.id,
-                                title: portfolio.title,
-                                description: portfolio.description,
-                                name: portfolio.name,
-                                firstname: portfolio.firstname,
-                                email:portfolio.email,
-                                city: portfolio.city,
-                                profileImgPath:portfolio.profileImgPath,
-                                aboutMe: portfolio.aboutMe,
-                                userId: portfolio.user?.id
-                            }          
-        return this.http.put<Portfolio>(`${this.ENV_DEV}/portfolios/${portfolio.id}`, savedPortfolio )
-            .pipe(catchError(this.handleError)); // catch validator errors
-    }
+  /** update portfolio */    
+  savePortfolio = ( portfolio: Portfolio ): Observable<Portfolio> => { 
+      const savedPortfolio :PortfolioDTO = {
+                              id: portfolio.id,
+                              title: portfolio.title,
+                              description: portfolio.description,
+                              name: portfolio.name,
+                              firstname: portfolio.firstname,
+                              email:portfolio.email,
+                              city: portfolio.city,
+                              profileImgPath:portfolio.profileImgPath,
+                              aboutMe: portfolio.aboutMe,
+                              categoryPortfolioId: portfolio.categoryPortfolioId,
+                              userId: portfolio.user?.id
+                          }          
+      return this.http.put<Portfolio>(`${this.ENV_DEV}/portfolios/${portfolio.id}`, savedPortfolio )
+          .pipe(catchError(this.handleError)); // catch validator errors
+  }
 
     /** getbyid portfolio */ 
     public getPortfolioById(id:number | any): Observable<Portfolio> | any {
@@ -47,9 +49,9 @@ export class PortfolioService {
         }
     }
 
-       /** getbyid portfolio ***** online ***** */ 
-       public getPortfolioByIdOnline(id:number | any): Observable<Portfolio> | any {
-        return this.http.get<Portfolio>(`${this.ENV_DEV}/portfolios/online/${id}`);  
+    /** getbyid portfolio ***** online ***** */ 
+    public getPortfolioByIdOnline(id:number | any): Observable<Portfolio> | any {
+    return this.http.get<Portfolio>(`${this.ENV_DEV}/portfolios/online/${id}`);  
     }
 
   /** adding a portfolio */ 
@@ -63,24 +65,22 @@ export class PortfolioService {
         .pipe(catchError(this.handleError)); // catch validator error
   }
 
-    // get All
-    getAllPortfolios(userEmail: string): Observable<Portfolio[]> | any {            
-            return this.http.get<Portfolio[]>(`${this.ENV_BASE}/auth/users/${userEmail}/portfolios`);
-        
-
-    }
+  // get All
+  getAllPortfolios(userEmail: string): Observable<Portfolio[]> | any {            
+          return this.http.get<Portfolio[]>(`${this.ENV_BASE}/auth/users/${userEmail}/portfolios`);
+  }
     
-    // save picture AboutMe
-    savePicture = ( portfolioId:number, selectedFile: File ): Observable<any> => { 
-        let formData = new FormData;
-        formData.append('file', selectedFile as File);
-        return this.http.put(`${this.ENV_DEV}/portfolios/${portfolioId}/about_me_picture`, formData)
-            .pipe(catchError(this.handleError)); // catch validator errors
-    }
+  // save picture AboutMe
+  savePicture = ( portfolioId:number, selectedFile: File ): Observable<any> => { 
+      let formData = new FormData;
+      formData.append('file', selectedFile as File);
+      return this.http.put(`${this.ENV_DEV}/portfolios/${portfolioId}/about_me_picture`, formData)
+          .pipe(catchError(this.handleError)); // catch validator errors
+  }
 
-    deletePortfolio = ( portfolioId: number): Observable<any> | any => {
-        return this.http.delete(`${this.ENV_DEV}/portfolios/${portfolioId}` );  
-    }
+  deletePortfolio = ( portfolioId: number): Observable<any> | any => {
+      return this.http.delete(`${this.ENV_DEV}/portfolios/${portfolioId}` );  
+  }
 
     getUserByEmail = (): Observable<any> | any => {    
       if(  this.jwtTokenService.getUser() != null) {
@@ -123,6 +123,7 @@ export class PortfolioService {
             experiences:[],
             skills: [],
             socials: [],
+            categoryPortfolioId: -1,
             user: {
               id: definedId,
               name: "",
@@ -151,6 +152,10 @@ export class PortfolioService {
       isPortfolioFormShowing : false
     }
     return boardManager;
+  }
+
+  getCategoriesPortfolios = ():Observable<CategoryPortfolio[]> => {
+    return this.http.get<CategoryPortfolio[]>( `${this.ENV_DEV}/portfolios/categories`);
   }
 
 

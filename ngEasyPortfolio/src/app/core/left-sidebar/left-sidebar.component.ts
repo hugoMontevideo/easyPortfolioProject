@@ -34,6 +34,7 @@ export class LeftSidebarComponent implements AfterViewChecked {
                             experiences:[],
                             skills: [],
                             socials: [],
+                            categoryPortfolioId: -1,
                             user: {
                               id: 0,
                               name: "",

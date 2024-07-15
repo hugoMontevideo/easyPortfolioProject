@@ -38,6 +38,17 @@
                   name="experience-description" 
                   rows="3">Description</textarea>
       </div>
+
+      <div class="mb-3">
+        <!-- <input type="text" minlength="2" maxlength="60" ************ disabled on dev  -->
+        <input type="text" 
+              class="form-control" 
+              id="experience-city" 
+              [(ngModel)]="newExperience.city"
+              name="experience-city"
+              placeholder="Ville">
+      </div>
+
       <div class="mb-3">
         <label for="experience-startDate" class="form-label">Date de début</label>
         <input type="date" 

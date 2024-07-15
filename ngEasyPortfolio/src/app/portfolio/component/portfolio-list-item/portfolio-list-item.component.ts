@@ -9,6 +9,7 @@ import { Experience } from '../experience/experience.interface';
 import { JWTTokenService } from 'src/app/services/JWTToken.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BoardManager } from './board-manager.interface';
+import { CategoryPortfolio } from './category-portfolio.inteface';
 
 @Component({
   selector: 'app-portfolio-list-item',
@@ -44,6 +45,7 @@ export class PortfolioListItemComponent implements OnInit {
                     experiences:[],
                     skills: [],
                     socials: [],
+                    categoryPortfolioId: -1,
                     user: {
                       id: 0,
                       name: "",
@@ -77,6 +79,10 @@ export class PortfolioListItemComponent implements OnInit {
                         console.error("Error portfolioById")
                     }
     });
+
+    this.getCategoryPortfolios();
+
+
   }
   
   ngAfterViewInit(){    
@@ -182,6 +188,58 @@ export class PortfolioListItemComponent implements OnInit {
           } 
         }
     });
+  }
+
+  getCategoryPortfolios = () => {
+    this.portfolioService.getCategoriesPortfolios()
+    .subscribe({
+      next:( data : CategoryPortfolio[] )=> {
+        // getting skill categories, i will use it in the form
+          this.categoryPortfolios = data ;           
+          this.getCategoryPortfolioTitle();                  
+        },
+      error:(_error:Error)=>{ console.log("Error while getting portfolio categories .");
+         }
+    }) 
+  }
+
+  categoryPortfolios!: CategoryPortfolio[];
+  categoryPortfolio!: CategoryPortfolio|any;
+  categoryPortfolioTitle!:string;
+
+  isCategoryPortfolioFormShowing = false;
+
+  onEditCategoryPortfolio = () => {
+    this.isCategoryPortfolioFormShowing = true;
+  }
+
+  onSubmitCategoryPortfolio = () => {
+    this.portfolioService.savePortfolio(this.portfolio)
+    .subscribe({
+      next:(data)=>{ 
+        this.isCategoryPortfolioFormShowing = false; 
+        this.getCategoryPortfolioTitle();
+        console.log(data);
+        
+      }, // hide the form
+      error:(_error)=>{
+        console.error("**error updating Skill**");
+        if(_error instanceof HttpErrorResponse ) {
+          this.inputError = _error.error.title;
+        } 
+      }
+    });
+    
+  }
+
+  public onCloseModalCategoryForm = () => {
+    this.isCategoryPortfolioFormShowing = false;
+  }
+
+  getCategoryPortfolioTitle = () => {
+    this.categoryPortfolio = this.categoryPortfolios.find(item=>item.id == this.portfolio.categoryPortfolioId);
+    this.categoryPortfolioTitle = (this.categoryPortfolio) ?this.categoryPortfolio.title :`Pas de modèle choisi`;  
+
   }
 
 }

@@ -27,6 +27,8 @@ public class PortfolioServiceRequestModel {
     private String city;
     private String profileImgPath;
     private String aboutMe;
+
+    private Long categoryPortfolioId;
     private Optional<Integer> userId;
     private Optional<User> user;
 

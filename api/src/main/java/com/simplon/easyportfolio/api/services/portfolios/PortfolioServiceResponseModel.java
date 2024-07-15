@@ -29,5 +29,6 @@ public class PortfolioServiceResponseModel {
     private List<ExperienceServiceResponseModel> experiences;
     private List<EducationServiceResponseModel> educations;
     private List<SkillServiceResponseModel> skills;
+    private Long categoryPortfolioId;
     private UserServiceResponseModel user;
 }

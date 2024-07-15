@@ -6,6 +6,8 @@ import com.simplon.easyportfolio.api.controllers.projects.ProjectGetDTO;
 import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
 import com.simplon.easyportfolio.api.exceptions.PortfolioNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
+import com.simplon.easyportfolio.api.repositories.portfolios.CategoryPortfolioRepositoryModel;
+import com.simplon.easyportfolio.api.repositories.skills.CategorySkillRepositoryModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceResponseModel;
 import com.simplon.easyportfolio.api.services.portfolios.*;
@@ -182,6 +184,12 @@ public class PortfolioController {
             return ResponseEntity.notFound().build(); // Statut 404 Not Found
         }
     }
+
+    @GetMapping("/categories")  //  GET categories   *****
+    public ResponseEntity<List<CategoryPortfolioRepositoryModel>> findAllCategoryPortfolio() {
+        return new ResponseEntity<>( portfolioService.getCategoryPortfolio(), HttpStatus.OK);
+    }
+
 
 
 

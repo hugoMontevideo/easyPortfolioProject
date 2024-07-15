@@ -17,10 +17,9 @@ public class ExperienceServiceRequestUpdateModel {
     private String title;
     private String company;
     private String description;
+    private String city;
     private Optional<LocalDate> startDate;
     private Optional<LocalDate> endDate;
-    //@OneToMany(mappedBy = "experience", orphanRemoval = true)
-    //private List<DocumentExperienceRepositoryModel> skills = new ArrayList<>();
     private Optional<PortfolioServiceModel> portfolio;
     private Optional<Long> portfolioId;
 }

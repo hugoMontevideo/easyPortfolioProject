@@ -1,5 +1,6 @@
 package com.simplon.easyportfolio.api.controllers.experiences;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +17,7 @@ public class ExperienceDTO {
     private String title;
     private String company;
     private String description;
+    private String city;
     private LocalDate startDate;
     private LocalDate endDate;
     private Long portfolioId;

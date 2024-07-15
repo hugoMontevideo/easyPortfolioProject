@@ -101,9 +101,58 @@
                     </form>
                   </div>
                 </h5>
+                <div class="modify-category-portfolio">Modèle : {{categoryPortfolioTitle}}
+                  <button (click)="onEditCategoryPortfolio()" class="elt-button" title="Changer de modèle" >
+                    <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
+                  </button>
+                </div>
+                <div class="gradient" *ngIf="isCategoryPortfolioFormShowing" >
+                  <p class="text-end m-0" title="Fermer">
+                    <button (click)="onCloseModalCategoryForm()" class="button-close"><fa-icon [icon]="['fas', 'window-close']" ></fa-icon></button>
+                  </p>
+                  <form #form="ngForm" class="mx-auto form-item " (ngSubmit)="onSubmitCategoryPortfolio()" >
+                    <legend class="text-center form-legend mb-3">Choisir le modèle de portfolio</legend>
+                    <div class="mb-3">
+                      <div *ngIf="inputError" class="mb-1">
+                        <span class="text-danger input-error">{{ inputError }}</span>
+                      </div>
+              
+                      <div *ngFor="let category of categoryPortfolios" class="radio">
+                        <input type="radio" [id]="category.title"
+                        [(ngModel)]="portfolio.categoryPortfolioId" name="categoryId" [value]="category.id" required >
+                        <label [for]="category.title" class="ms-1 mb-2">{{ category.title| lowercase }}</label>
+                      </div>
+              
+                      <!-- <input type="text" minlength="2" maxlength="60" ************ disabled on dev  -->
+                      <!-- <input type="text" 
+                            class="form-control" 
+                            id="skill-title" 
+                            [(ngModel)]="newSkill.title"
+                            name="skill-title"
+                            placeholder="Titre de la compétence" required> -->
+                    </div>
+                    <!-- <div class="mb-3">
+                      <label for="skill-description" class="form-label">Description</label>
+                      <textarea class="form-control" maxlength="255"
+                                id="skill-description"
+                                [(ngModel)]="newSkill.description"
+                                name="skill-description" 
+                                rows="3">Description</textarea>
+                    </div> -->
+                    <!-- <div class="mb-3">
+                      <label for="skill-file" class="form-label">Chargez un fichier en rapport avec cette compétence (disabled)</label>
+                      <input class="form-control" type="file" id="skill-file" disabled>
+                    </div> -->
+                    <input class="btn btn-primary d-block mx-auto" 
+                          type="submit" 
+                          value="Valider">
+                          <!-- [disabled]="form.invalid">***************disabled on dev  -->
+                  </form>
+                </div>  
                 <a [href]="'/item/'+ portfolio.id" class="btn btn-outline-success mx-auto d-block  online" >
                   Voir online
                 </a>
+                
               </div>
             </div>
           </div>

@@ -76,7 +76,7 @@ public class SkillController {
 
 
     @GetMapping("/categories")  //  GET categories   *****
-    public ResponseEntity<List<CategorySkillRepositoryModel>> findAllCategorySkills() {
+    public ResponseEntity<List<CategorySkillRepositoryModel>> findAllCategorySkill() {
         return new ResponseEntity<>( portfolioService.getCategorySkills(), HttpStatus.OK);
     }
 
