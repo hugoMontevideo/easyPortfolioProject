@@ -55,9 +55,11 @@
       <div class="d-flex justify-content-between elt-title">
         {{skill.title}}
         <div>
-          <button (click)="onEditSkill(i)" class="elt-button" title="modifier" >
+          <!-- <button (click)="onEditSkill(i)" class="elt-button" title="modifier" >
             <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
-          </button> 
+          </button>  -->
+          <app-button-modify (buttonClicked)="onEditSkill(i)" title="Modifier"></app-button-modify>
+
           <!-- <button (click)="onDeleteSkill(skill.id, i)" class="elt-button-red" title="supprimer" > -->
           <button (click)="openConfirmationModal(skill.id, i)" class="elt-button-red" title="supprimer">
               <fa-icon class="icon" [icon]="['fas', 'trash-alt']" ></fa-icon>

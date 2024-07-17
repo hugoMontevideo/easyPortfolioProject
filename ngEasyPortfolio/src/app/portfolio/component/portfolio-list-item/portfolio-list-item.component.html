@@ -15,12 +15,13 @@
           <div class="col mx-auto">
             <div class="card bg-transparent">
               <div class="card-body ">
-                <h5 class="card-title title d-flex justify-content-around ">
-                  {{portfolio.title | uppercase }}
+                <h5 class="card-title title d-flex justify-content-between ">
+                  {{ portfolio.title | uppercase }}
                   <div class="delete-modify elt-title m-0 p-0 d-flex justify-content-end">
-                    <button (click)="onEditPortfolio()" class="elt-button" title="Modifier le portfolio" >
+                    <!-- <button (click)="onEditPortfolio()" class="elt-button" title="Modifier le portfolio" >
                       <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
-                    </button>
+                    </button> -->
+                    <app-button-modify (buttonClicked)="onEditPortfolio()" title="Modifier le portfolio" ></app-button-modify>
                     <button (click)="onDeletePortfolio()" class="elt-button-red" title="Effacer le portfolio" >
                       <fa-icon class="icon" [icon]="['fas', 'trash-alt']" ></fa-icon>
                     </button>
@@ -102,9 +103,10 @@
                   </div>
                 </h5>
                 <div class="modify-category-portfolio">Modèle : {{categoryPortfolioTitle}}
-                  <button (click)="onEditCategoryPortfolio()" class="elt-button" title="Changer de modèle" >
+                  <!-- <button (click)="onEditCategoryPortfolio()" class="elt-button" title="Changer de modèle" >
                     <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
-                  </button>
+                  </button> -->
+                  <app-button-modify (buttonClicked)="onEditCategoryPortfolio()" title="Modifier le modèle"></app-button-modify>
                 </div>
                 <div class="gradient" *ngIf="isCategoryPortfolioFormShowing" >
                   <p class="text-end m-0" title="Fermer">

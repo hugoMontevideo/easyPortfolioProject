@@ -8,10 +8,11 @@
         <img [src]="userService.ENV_ICONS +'default-profile-space-invaders.png'" [alt]="'Photo de profil '+user.firstname">  
       </ng-template>
     </div>
-    <button (click)="onModifyPicture()"
+    <app-button-modify (buttonClicked)="onModifyPicture()" title="Modifier l'image"></app-button-modify>
+    <!-- <button (click)="onModifyPicture()"
           class="modify-img-btn" title="Modifier photo de profil">
       <fa-icon class="icon" [icon]="['fas', 'pen']"></fa-icon>
-    </button>
+    </button> -->
   </div>
     
     <p>{{ user.firstname | titlecase }}</p>

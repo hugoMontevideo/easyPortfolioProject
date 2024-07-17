@@ -85,9 +85,10 @@
           <div class="d-flex justify-content-between elt-title">
             {{experience.title}}
             <div>
-              <button (click)="onEditExperience(ii)" class="elt-button" title="modifier" >
+              <!-- <button (click)="onEditExperience(ii)" class="elt-button" title="modifier" >
                 <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
-              </button> 
+              </button>  -->
+              <app-button-modify (buttonClicked)="onEditExperience(ii)" title="Modifier"></app-button-modify>
               <!-- <button (click)="onDeleteExperience(experience.id, ii)" class="elt-button-red" title="supprimer" >
                   <fa-icon class="icon" [icon]="['fas', 'trash-alt']" ></fa-icon>
               </button> -->

@@ -27,6 +27,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { SocialComponent } from './component/social/social.component';
 import { SocialService } from './services/social.service';
 import { ConfirmationModalComponent } from '../core/confirmation-modal/confirmation-modal.component';
+import { ButtonModifyComponent } from '../core/button-modify/button-modify.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { ConfirmationModalComponent } from '../core/confirmation-modal/confirmat
     BoardHomeComponent,
     SocialComponent,
     ConfirmationModalComponent,
+    ButtonModifyComponent
   ],
   imports: [
     CommonModule,

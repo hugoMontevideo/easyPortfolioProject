@@ -111,9 +111,11 @@
             <div class="card m-lg-4" *ngFor="let portfolio of portfolios; let i = index;">
               <div class="card-body pt-0">
                 <div class="delete-modify elt-title m-0 p-0 d-flex justify-content-end">
-                  <button (click)="onEditPortfolio(i)" class="elt-button" title="Modifier le portfolio" >
+                  <!-- <button (click)="onEditPortfolio(i)" class="elt-button" title="Modifier le portfolio" >
                     <fa-icon class="icon" [icon]="['fas', 'pen']" ></fa-icon>
-                  </button>
+                  </button> -->
+                  <app-button-modify (buttonClicked)="onEditPortfolio(i)" title="Modifier l'image"></app-button-modify>
+
                   <button (click)="onDeletePortfolio(portfolio.id)" class="elt-button-red" title="Effacer le portfolio" >
                     <fa-icon class="icon" [icon]="['fas', 'trash']" ></fa-icon>
                   </button>

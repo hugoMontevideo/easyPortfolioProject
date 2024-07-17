@@ -51,10 +51,11 @@
                   [alt]="'Photo de profil '+portfolio.firstname">  
           </ng-template>
         </div>
-        <button (click)="onModifyPicture()"
+        <!-- <button (click)="onModifyPicture()"
               class="modify-img-btn" title="Modifier l'image">
           <fa-icon class="icon" [icon]="['fas', 'pen']"></fa-icon>
-        </button>
+        </button> -->
+        <app-button-modify (buttonClicked)="onModifyPicture()" title="Modifier l'image"></app-button-modify>
       </div>
     </div>
       

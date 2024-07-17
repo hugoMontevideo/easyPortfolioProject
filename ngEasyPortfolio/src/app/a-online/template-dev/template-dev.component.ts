@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, ElementRef, AfterViewChecked} from '@angular/core';
+import { Component, OnInit, Renderer2, ElementRef, AfterViewChecked } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from 'src/app/portfolio/model/portfolio/portfolio.interface';
 import { PortfolioService } from 'src/app/portfolio/services/portfolio.service';
@@ -6,7 +6,6 @@ import { environment } from 'src/environments/environment';
 import { ViewportScroller } from '@angular/common';
 import * as Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { Social } from 'src/app/portfolio/component/social/social.interface';
-//import { Skill } from 'src/app/portfolio/component/skill/skill.interface';
 
 @Component({
   selector: 'app-template-dev',
@@ -15,28 +14,29 @@ import { Social } from 'src/app/portfolio/component/social/social.interface';
 })
 
 export class TemplateDevComponent implements OnInit, AfterViewChecked {
+
+  portfolio: Portfolio = {
+              id: -1,
+              title: "",
+              description: "",
+              name: "",
+              firstname: "hell",
+              email:"",
+              profileImgPath: "",
+              aboutMe: "",
+              city: "",
+              projects: [],
+              educations:[],
+              experiences:[],
+              skills: [],
+              socials: [],
+              categoryPortfolioId: -1,
+          }
   
   ENV_ICONS: string = `${environment.apiIcons}/`;
   ENV_PICT:string = `${environment.apiImg}/pictures/`;
   burger = false;
   
-  portfolio: Portfolio = {
-        id: -1,
-        title: "",
-        description: "",
-        name: "",
-        firstname: "",
-        email:"",
-        profileImgPath: "",
-        aboutMe: "",
-        city: "",
-        projects: [],
-        educations:[],
-        experiences:[],
-        skills: [],
-        socials: [],
-        categoryPortfolioId: -1,
-  }
   
   public Editor2: any = Editor;
   editorData: string = "";

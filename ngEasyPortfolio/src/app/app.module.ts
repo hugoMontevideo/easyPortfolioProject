@@ -18,6 +18,9 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { TemplateDevSkillsComponent } from './a-online/template-dev/template-dev-skills/template-dev-skills.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AOnlineRouterModule } from './a-online/a-online.module';
+import { OnlineRouterComponent } from './a-online/online-router/online-router.component';
+import { TemplateClassicComponent } from "./a-online/template-classic/template-classic.component";
 
 @NgModule({
   declarations: [
@@ -28,7 +31,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RegisterComponent,
     TemplateDevComponent,
     TemplateDevSkillsComponent,
-  ],
+    OnlineRouterComponent  
+  ], 
   imports: [
     BrowserModule,
     NgbModule,
@@ -39,16 +43,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PortfolioModule,
     CKEditorModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot(
-      { 
-        timeOut:1500, 
-        iconClasses:{
-                      info:"",
-                      warning:"",
-                    },
-      }
-    )
-  ],
+    AOnlineRouterModule,
+    ToastrModule.forRoot({
+        timeOut: 1500,
+        iconClasses: {
+            info: "",
+            warning: "",
+        },
+    }),
+    TemplateClassicComponent
+],
   providers: [
     JWTTokenService,
     {

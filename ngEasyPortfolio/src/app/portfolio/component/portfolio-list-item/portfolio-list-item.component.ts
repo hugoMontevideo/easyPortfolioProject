@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Portfolio} from '../../model/portfolio/portfolio.interface';
 import { ActivatedRoute } from '@angular/router';
 import { PortfolioService } from '../../services/portfolio.service';
@@ -16,7 +16,7 @@ import { CategoryPortfolio } from './category-portfolio.inteface';
   templateUrl: './portfolio-list-item.component.html',
   styleUrls: ['./portfolio-list-item.component.scss']
 })
-export class PortfolioListItemComponent implements OnInit {
+export class PortfolioListItemComponent implements OnInit, AfterViewInit{
   @ViewChild('collapseOne') collapseOne! : ElementRef;
   @ViewChild('collapseTwo') collapseTwo! : ElementRef;
   @ViewChild('collapseThree') collapseThree! : ElementRef;
@@ -72,17 +72,16 @@ export class PortfolioListItemComponent implements OnInit {
     this.portfolioService.getPortfolioById( this.portfolio.id)
       .subscribe({
         next:(response:Portfolio) => { 
-                                    this.portfolio = response;                                                                                                          
+                                    this.portfolio = response;
+                                    this.getCategoryPortfolioTitle();
+
                                   }, 
         error: (err:Error) => {
                         // TODO  manage error response
                         console.error("Error portfolioById")
                     }
     });
-
     this.getCategoryPortfolios();
-
-
   }
   
   ngAfterViewInit(){    
@@ -239,7 +238,6 @@ export class PortfolioListItemComponent implements OnInit {
   getCategoryPortfolioTitle = () => {
     this.categoryPortfolio = this.categoryPortfolios.find(item=>item.id == this.portfolio.categoryPortfolioId);
     this.categoryPortfolioTitle = (this.categoryPortfolio) ?this.categoryPortfolio.title :`Pas de modèle choisi`;  
-
   }
 
 }

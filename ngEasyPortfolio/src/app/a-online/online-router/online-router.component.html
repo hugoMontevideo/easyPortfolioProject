@@ -1,0 +1,17 @@
+<div *ngIf="portfolio.categoryPortfolioId==null">
+    <app-template-classic></app-template-classic>
+</div>
+
+<div *ngIf="portfolio.categoryPortfolioId==1">
+    <app-template-classic></app-template-classic>
+</div>
+
+<div *ngIf="portfolio.categoryPortfolioId==2">
+    <app-template-dev></app-template-dev>
+</div>
+
+<div *ngIf="portfolio.categoryPortfolioId>2">
+    Ce modèle est en construction !!
+</div>
+
+
