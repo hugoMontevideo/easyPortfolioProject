@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, Renderer2, ElementRef, AfterViewChecked, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Portfolio } from 'src/app/portfolio/model/portfolio/portfolio.interface';
 import { PortfolioService } from 'src/app/portfolio/services/portfolio.service';
@@ -15,40 +15,36 @@ import { Social } from 'src/app/portfolio/component/social/social.interface';
 
 export class TemplateDevComponent implements OnInit, AfterViewChecked {
 
-  portfolio: Portfolio = {
-              id: -1,
-              title: "",
-              description: "",
-              name: "",
-              firstname: "hell",
-              email:"",
-              profileImgPath: "",
-              aboutMe: "",
-              city: "",
-              projects: [],
-              educations:[],
-              experiences:[],
-              skills: [],
-              socials: [],
-              categoryPortfolioId: -1,
-          }
-  
   ENV_ICONS: string = `${environment.apiIcons}/`;
   ENV_PICT:string = `${environment.apiImg}/pictures/`;
   burger = false;
+
+  @Input() portfolio: Portfolio = {
+                    id: -1,
+                    title: "",
+                    description: "",
+                    name: "",
+                    firstname: "hell",
+                    email:"",
+                    profileImgPath: "",
+                    aboutMe: "",
+                    city: "",
+                    projects: [],
+                    educations:[],
+                    experiences:[],
+                    skills: [],
+                    socials: [],
+                    categoryPortfolioId: -1,
+                }
   
-  
+  @Input() socialGithub!: Social;
+  @Input() socialLinkedin!: Social;
+  @Input() socialInstagram!: Social;
+  @Input() socialX!: Social;
+  @Input() socialFacebook!: Social;
+
   public Editor2: any = Editor;
   editorData: string = "";
- 
-  socialTemp:Social|undefined;
-
-  socialGithub!: Social; 
-  socialLinkedin!: Social;
-  socialInstagram!: Social;
-  socialX!: Social;
-  socialFacebook!: Social;
-  socialOthers!: Social;
 
   constructor(
     private route: ActivatedRoute,
@@ -59,25 +55,7 @@ export class TemplateDevComponent implements OnInit, AfterViewChecked {
   ){};
 
   ngOnInit(): void {
-    this.portfolio.id = this.portfolioService.getId(this.route.snapshot.paramMap.get('id'));
-    this.portfolioService.getPortfolioByIdOnline(this.portfolio.id)
-      .subscribe({
-        next:(response:Portfolio) => { 
-          console.log(response);
-          
-                this.portfolio = response;
-                this.editorData = this.portfolio.aboutMe;
-                this.getSocialGithub();
-                this.getSocialLinkedin();
-                this.getSocialInstagram();
-                this.getSocialX();
-                this.getSocialfacebook();
-              }, 
-        error: (err:Error) => {
-                  // TODO  manage error response
-                  console.error("Error portfolioById")
-              }
-      });
+    this.editorData = this.portfolio.aboutMe;
   }
 
   ngAfterViewChecked(): void {
@@ -98,32 +76,6 @@ export class TemplateDevComponent implements OnInit, AfterViewChecked {
     this.burger=false;
   }
 
-  private getSocialGithub = () => {
-    this.socialTemp = this.portfolio.socials.find(social=>social.categorySocialId==1);
-    this.socialGithub = (this.socialTemp) ?this.socialTemp :{ id: -1,link: "",categorySocialId:1,portfolioId: -1 } ;
-  }
-  private getSocialLinkedin = () => {
-    this.socialTemp = this.portfolio.socials.find(social=>social.categorySocialId==2);
-    this.socialLinkedin = (this.socialTemp) ?this.socialTemp :{ id: -1,link: "",categorySocialId:2,portfolioId: -1 } ;
-  }
-  private getSocialInstagram = () => {
-    this.socialTemp = this.portfolio.socials.find(social=>social.categorySocialId==3);
-    this.socialInstagram = (this.socialTemp) ?this.socialTemp :{ id: -1,link: "",categorySocialId:3,portfolioId: -1 } ;
-  }
-  private getSocialX = () => {
-    this.socialTemp = this.portfolio.socials.find(social=>social.categorySocialId==4);
-    this.socialX = (this.socialTemp) ?this.socialTemp :{ id: -1,link: "",categorySocialId:4,portfolioId: -1 } ;
-  }
-  private getSocialfacebook = () => {
-    this.socialTemp = this.portfolio.socials.find(social=>social.categorySocialId==5);
-    this.socialFacebook = (this.socialTemp) ?this.socialTemp :{ id: -1,link: "",categorySocialId:5,portfolioId: -1 } ;
-  }
 
 }
 
-
-// softSkills!: Skill[]; // display purpose array
-  // languages!: Skill[]; // display purpose array
-  // programsLanguages!: Skill[]; // display purpose array
-  // drivingLicenceCategories!: Skill[]; // display purpose array
-  // otherSkills!: Skill[];

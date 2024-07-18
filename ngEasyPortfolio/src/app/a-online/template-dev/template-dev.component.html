@@ -40,131 +40,132 @@
 </div>
     <!-- <section class="example admin portfolios"> -->
 
-    <!-- *************  accueil    ******************** -->
-    <section id="online-home" class="content_example page1" >    
-        <article class="networks">
-            <div class="github">
-                <a [href]="socialGithub.link" title="Mon github">
-                    <img [src]="ENV_ICONS+'template-dev/icons8-git.svg'" alt="">
-                </a>
-            </div>               
-            <div class="linkedin" >
-                <a [href]="socialLinkedin.link" title="Mon Linkedin" >
-                <img [src]="ENV_ICONS+'template-dev/icons8-in.svg'" alt="">
-
-                </a>
-            </div>
-            <div class="instagram">
-                <a [href]="socialInstagram.link" title="Mon instagram" >
-                <img [src]="ENV_ICONS+'template-dev/icons8-insta.svg'" alt="">
-                </a>
-            </div>
-            <div class="twitter">
-                <a [href]="socialX.link" title="Mon compte X">
-                <img [src]="ENV_ICONS+'template-dev/icons8-tw.svg'" alt="">
-                </a>
-            </div>
-            <div class="fb" >
-                <a [href]="socialFacebook.link" title="Mon facebook">
-                <img [src]="ENV_ICONS+'template-dev/icons8-fb.svg'" alt="">
-                </a>
-            </div>
-        </article><!-- end .networks -->    
-        
-        <article class="content_page portfolios page1">
-            <p class="hi">Bonjour tout le monde!</p>
-            <p class="high-light">Je suis </p>
-            <h1>{{portfolio.firstname|titlecase}} {{portfolio.name|uppercase}}</h1>
-            <h3>{{ portfolio.title |titlecase}}</h3>
-            <p class="city">{{portfolio.city}}</p> 
-            <div class="achievements">
-                <a [routerLink]="['/item/1']" class="add achievement"
-                    (click)="scrollToSection('online-projects')" 
-                    *ngIf="portfolio.projects.length > 0">
-                    Projets réalisés
+<!-- *************  accueil    ******************** -->
+<section id="online-home" class="content_example page1" >    
+    <article class="networks">
+        <div class="github">
+            <a [href]="socialGithub.link" title="Mon github">
+                <img [src]="ENV_ICONS+'template-dev/icons8-git.svg'" alt="">
             </a>
-            </div>
-         
-        </article><!-- end .content_page -->
+        </div>               
+        <div class="linkedin" >
+            <a [href]="socialLinkedin.link" title="Mon Linkedin" >
+            <img [src]="ENV_ICONS+'template-dev/icons8-in.svg'" alt="">
+
+            </a>
+        </div>
+        <div class="instagram">
+            <a [href]="socialInstagram.link" title="Mon instagram" >
+            <img [src]="ENV_ICONS+'template-dev/icons8-insta.svg'" alt="">
+            </a>
+        </div>
+        <div class="twitter">
+            <a [href]="socialX.link" title="Mon compte X">
+            <img [src]="ENV_ICONS+'template-dev/icons8-tw.svg'" alt="">
+            </a>
+        </div>
+        <div class="fb" >
+            <a [href]="socialFacebook.link" title="Mon facebook">
+            <img [src]="ENV_ICONS+'template-dev/icons8-fb.svg'" alt="">
+            </a>
+        </div>
+    </article><!-- end .networks -->    
+    
+    <article class="content_page portfolios page1">
+        <p class="hi">Bonjour tout le monde!</p>
+        <p class="high-light">Je suis </p>
+        <h1>{{portfolio.firstname|titlecase}} {{portfolio.name|uppercase}}</h1>
+        <h3>{{ portfolio.title |titlecase}}</h3>
+        <p class="city">{{portfolio.city}}</p> 
+        <div class="achievements">
+            <a [routerLink]="['/item/1']" class="add achievement"
+                (click)="scrollToSection('online-projects')" 
+                *ngIf="portfolio.projects.length > 0">
+                Projets réalisés
+        </a>
+        </div>
         
-        <article class="mail">
-            <p>{{portfolio.email}}</p>
-        </article>  
-    </section><!-- end .exemple_content -->
-        
+    </article><!-- end .content_page -->
+    
+    <article class="mail">
+        <p>{{portfolio.email}}</p>
+    </article>  
+</section><!-- end .exemple_content -->     
      <!-- *** end section *** -->
-    <section id="online-projects" class="content_example page2" *ngIf="portfolio.projects.length > 0" >
-        <div id="realisations-div" class="realisations-div">         
-            <h1>Réalisations</h1>
-            <div class="realisations-box" >
-                <div class="realisations-box-card" *ngFor="let project of portfolio.projects">
-                   
-                    <a href="https://www.easyportfolio.hugo-machado.com/public/index.php"
-                        title="Aller sur le projet">
-                        <div *ngIf="project.documents[0]">  
-                         <img [src]="ENV_PICT + project.documents[0].filename" alt="Image du projet"> 
-                        </div>   
-                    </a>
-                    <h3>{{ project.title }}</h3>
-                    <p>{{project.description }}</p>
-                    <p class="p_skills_list">
-                        <strong>{{ project.languages }}</strong>
-                    </p>
-                </div>
+
+<section id="online-projects" class="content_example page2" *ngIf="portfolio.projects.length > 0" >
+    <div id="realisations-div" class="realisations-div">         
+        <h1>Réalisations</h1>
+        <div class="realisations-box" >
+            <div class="realisations-box-card" *ngFor="let project of portfolio.projects">
+                
+                <a href="https://www.easyportfolio.hugo-machado.com/public/index.php"
+                    title="Aller sur le projet">
+                    <div *ngIf="project.documents[0]">  
+                        <img [src]="ENV_PICT + project.documents[0].filename" alt="Image du projet"> 
+                    </div>   
+                </a>
+                <h3>{{ project.title }}</h3>
+                <p>{{project.description }}</p>
+                <p class="p_skills_list">
+                    <strong>{{ project.languages }}</strong>
+                </p>
+            </div>
+        </div>
+    </div>     
+</section><!-- end .exemple project -->
+<!-- *** end section *** -->
+
+<section id="online-skills" class="content_example skills page3" >
+    <app-template-dev-skills [skills]="portfolio.skills" [portfolioId]="portfolio.id">
+    </app-template-dev-skills>
+</section><!-- end .exemple skills -->
+
+<div class="formations-experiences d-flex">
+    
+    <section class="content_example page4" id="online-educations">
+        <div class="educations-div" id="educations-div">         
+            <h1 id="h1_educ" class="" >Formations et Diplômes</h1>
+            <div class="educations-box" *ngIf="portfolio.educations.length > 0">
+                
+                <ul>
+                    <li *ngFor="let education of portfolio.educations" class="education-li d-flex justify-content-between">
+                        <div class="dates d-flex">
+                            <div class="educ1" >{{education.startDate| date:'dd/MM/yyyy'}}</div> 
+                            <div class="educ2">{{education.endDate | date:'dd/MM/yyyy'}}</div> 
+                        </div>
+                        <div class="educ3"> {{ education.training }} </div>
+                        <div class="school-diploma d-flex">
+                            <div class="educ4"> {{ education.school }}</div>
+                            <div class="educ5"> {{ education.degree !=null ?education.degree :'-' }}</div>
+                        </div>
+                    </li>
+                </ul>
+                
             </div>
         </div>     
-    </section><!-- end .exemple project -->
-    <!-- *** end section *** -->
-    <section id="online-skills" class="content_example skills page3" >
-        <app-template-dev-skills [skills]="portfolio.skills" [portfolioId]="portfolio.id">
-        </app-template-dev-skills>
-    </section><!-- end .exemple skills -->
+    </section><!-- end .exemple educations -->
 
-    <div class="formations-experiences d-flex">
-        
-        <section class="content_example page4" id="online-educations">
-            <div class="educations-div" id="educations-div">         
-                <h1 id="h1_educ" class="" >Formations et Diplômes</h1>
-                <div class="educations-box" *ngIf="portfolio.educations.length > 0">
-                    
-                    <ul>
-                        <li *ngFor="let education of portfolio.educations" class="education-li d-flex justify-content-between">
-                            <div class="dates d-flex">
-                                <div class="educ1" >{{education.startDate| date:'dd/MM/yyyy'}}</div> 
-                                <div class="educ2">{{education.endDate | date:'dd/MM/yyyy'}}</div> 
-                            </div>
-                            <div class="educ3"> {{ education.training }} </div>
-                            <div class="school-diploma d-flex">
-                                <div class="educ4"> {{ education.school }}</div>
-                                <div class="educ5"> {{ education.degree !=null ?education.degree :'-' }}</div>
-                            </div>
-                        </li>
-                    </ul>
-                    
-                </div>
-            </div>     
-        </section><!-- end .exemple educations -->
-
-        <section class="content_example page5" id="online-experiences" >
-            <div class="experiences-div" id="experiences-div">         
-                <h1 id="h1_exp" class="text-center" >Expériences professionnelles</h1>
-                <div class="experiences-box" *ngIf="portfolio.experiences.length > 0">
-                    
-                    <ul class="" >
-                        <li *ngFor="let experience of portfolio.experiences" class="experience-li d-flex justify-content-between" >
-                            <div class="dates d-flex">
-                                <div class="exper1" >{{experience.startDate| date:'dd/MM/yyyy'}}</div>
-                                <div class="exper2">{{experience.endDate| date:'dd/MM/yyyy'}}</div>
-                            </div>
-                            <div class="exper3"> {{ experience.title }} </div>
-                            <div class="exper4"> {{ experience.company }}</div>
-                        </li>
-                    </ul>
-                    
-                </div>
-            </div>     
-        </section><!-- end .exemple experiences -->
-    </div>   
+    <section class="content_example page5" id="online-experiences" >
+        <div class="experiences-div" id="experiences-div">         
+            <h1 id="h1_exp" class="text-center" >Expériences professionnelles</h1>
+            <div class="experiences-box" *ngIf="portfolio.experiences.length > 0">
+                
+                <ul class="" >
+                    <li *ngFor="let experience of portfolio.experiences" class="experience-li d-flex justify-content-between" >
+                        <div class="dates d-flex">
+                            <div class="exper1" >{{experience.startDate| date:'dd/MM/yyyy'}}</div>
+                            <div class="exper2">{{experience.endDate| date:'dd/MM/yyyy'}}</div>
+                        </div>
+                        <div class="exper3"> {{ experience.title }} </div>
+                        <div class="exper4"> {{ experience.company }}</div>
+                    </li>
+                </ul>
+                
+            </div>
+        </div>     
+    </section><!-- end .exemple experiences -->
+</div>   
 
 <section class="content_example about page6 pb-6" id="online-about">
     <h1 class="text-center mb-4 pt-4">A propos</h1>

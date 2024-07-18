@@ -3,11 +3,28 @@
 </div>
 
 <div *ngIf="portfolio.categoryPortfolioId==1">
-    <app-template-classic></app-template-classic>
+    <app-template-classic 
+        [portfolio]="portfolio"
+        [socialGithub]="socialGithub"
+        [socialLinkedin]="socialLinkedin"
+        [socialInstagram]="socialInstagram"
+        [socialX]="socialX"
+        [socialFacebook]="socialFacebook"
+        
+    >
+    </app-template-classic>
 </div>
 
 <div *ngIf="portfolio.categoryPortfolioId==2">
-    <app-template-dev></app-template-dev>
+    <app-template-dev
+        [portfolio]="portfolio"
+        [socialGithub]="socialGithub"
+        [socialLinkedin]="socialLinkedin"
+        [socialInstagram]="socialInstagram"
+        [socialX]="socialX"
+        [socialFacebook]="socialFacebook"
+    
+    ></app-template-dev>
 </div>
 
 <div *ngIf="portfolio.categoryPortfolioId>2">

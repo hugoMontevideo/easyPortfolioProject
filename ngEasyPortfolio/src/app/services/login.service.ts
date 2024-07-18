@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginService {
   ENV_BASE :string = environment.baseUrl;
-  ENV_DEV : string = environment.apiUrl;
+  // ENV_DEV : string = environment.apiUrl;
   
   httpClient!: HttpClient; // de cette façon on évite l'interceptor (middleware)
 

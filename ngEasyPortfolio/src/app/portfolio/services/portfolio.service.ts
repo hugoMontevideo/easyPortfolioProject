@@ -40,14 +40,14 @@ export class PortfolioService {
           .pipe(catchError(this.handleError)); // catch validator errors
   }
 
-    /** getbyid portfolio */ 
-    public getPortfolioById(id:number | any): Observable<Portfolio> | any {
-        // get the token
-        this.jwtTokenService.setToken(this.jwtTokenService.getToken());
-        if(this.jwtTokenService.isLogged()){
-            return this.http.get<Portfolio>(`${this.ENV_DEV}/portfolios/${id}`);
-        }
-    }
+  /** getbyid portfolio */ 
+  public getPortfolioById(id:number | any): Observable<Portfolio> | any {
+      // get the token
+      this.jwtTokenService.setToken(this.jwtTokenService.getToken());
+      if(this.jwtTokenService.isLogged()){
+          return this.http.get<Portfolio>(`${this.ENV_DEV}/portfolios/${id}`);
+      }
+  }
 
     /** getbyid portfolio ***** online ***** */ 
     public getPortfolioByIdOnline(id:number | any): Observable<Portfolio> | any {

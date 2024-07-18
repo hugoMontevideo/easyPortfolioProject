@@ -9,12 +9,14 @@ import { OnlineRouterComponent } from './a-online/online-router/online-router.co
 const routes: Routes = [
   { path: "", component: HomeComponent},
   { path: "login", component: LoginComponent},
-  { path: "user/:id", component: UserComponent},
   { path: "register", component: RegisterComponent},
+  
+  { path: "user/:id", component: UserComponent},
+  { path: "item/:id", component: OnlineRouterComponent},
+  // { path: "item", component: OnlineRouterComponent},
 
   { path: "portfolios", loadChildren:()=>import("./portfolio/portfolio.module").then(m=>m.PortfolioModule)},
   // exemples, modeles, templates
-  { path: "item/:id", component: OnlineRouterComponent},
 
   { path: "**", redirectTo:""},
 ];
