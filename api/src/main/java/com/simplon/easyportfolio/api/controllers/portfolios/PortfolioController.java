@@ -92,6 +92,7 @@ public class PortfolioController {
     }
 
     /** getById portfolio - online template **/
+    /**
     @GetMapping("/online/{id}")  //  GET BY ID   *****
     public ResponseEntity<PortfolioFullDTO> findByIdOnline(@PathVariable Long id){
         try{
@@ -105,7 +106,7 @@ public class PortfolioController {
         }catch (PortfolioNotFoundException ex){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getReason());
         }
-    }
+    } **/
     @GetMapping("/{id}/projects")  //  GET PROJECTS BY ID PORTFOLIO  *****
     public List<ProjectGetDTO> getProjectsByPortfolioId(@PathVariable Long id){
         try{

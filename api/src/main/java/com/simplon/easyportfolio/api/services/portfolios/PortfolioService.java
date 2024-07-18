@@ -165,6 +165,7 @@ public class PortfolioService {
     // get Portfolio by Id
     public PortfolioServiceModel findById(Long id) {
         Optional<PortfolioRepositoryModel> portfolioRepositoryModel = portfolioRepository.findById(id);
+
         return mapper.portfolioRepositoryToServiceModel(portfolioRepositoryModel.get());
     }
 
@@ -447,7 +448,7 @@ public class PortfolioService {
         serviceModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
 
         SocialRepositoryModel social = mapper.socialServiceRequestToRepositoryModelAdd(serviceModel);
-        System.out.println(social);
+
         SocialRepositoryModel addedSocial = socialRepository.save(social);
         SocialServiceResponseModel socialResponse = mapper.socialRepositoryToResponseSvc(addedSocial);
         return socialResponse;
@@ -459,7 +460,6 @@ public class PortfolioService {
         PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
         // adding portfolio manually
         requestUpdModel.setPortfolio(Optional.ofNullable(portfolioServiceModel));
-        System.out.println(requestUpdModel);
 
         SocialRepositoryModel social = mapper.socialServiceRequestToRepositoryModel(requestUpdModel);
 
@@ -495,7 +495,7 @@ public class PortfolioService {
                 mapper.documentProjectServiceRequestToRepositoryModelAdd(documentRequestModel);
         Optional<ProjectRepositoryModel> project =
                 projectRepository.findById(documentRequestModel.getProjectId().get());
-        System.out.println(project);
+
         //adding project manually
         documentProjectRepositoryModel.setProject(project.get());
 
