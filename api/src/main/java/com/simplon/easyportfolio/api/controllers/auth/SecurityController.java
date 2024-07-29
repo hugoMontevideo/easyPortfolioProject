@@ -3,7 +3,12 @@ package com.simplon.easyportfolio.api.controllers.auth;
 import com.simplon.easyportfolio.api.controllers.portfolios.PortfolioFullDTO;
 import com.simplon.easyportfolio.api.exceptions.AccountExistsException;
 import com.simplon.easyportfolio.api.exceptions.UnauthorizedException;
+import com.simplon.easyportfolio.api.exceptions.UserNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
+import com.simplon.easyportfolio.api.security.ValidationRepositoryModel;
+import com.simplon.easyportfolio.api.security.ValidationResponseDTO;
+import com.simplon.easyportfolio.api.security.VerifyCodeDTO;
+import com.simplon.easyportfolio.api.services.Validation.ValidationService;
 import com.simplon.easyportfolio.api.services.jwt.JwtUserService;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceModel;
 import com.simplon.easyportfolio.api.services.user.UserAppService;
@@ -31,9 +36,10 @@ public class SecurityController {
     private JwtUserService userService;
     @Autowired
     private UserAppService userAppService;
+
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
 
-    //Remarque : ajouter un nouvel utilisateur et génère un JWT à la volée
+    //Remarque : ajoute un nouvel utilisateur et génère un JWT à la volée
     @PostMapping("/register")
     public ResponseEntity<AuthResponseDto> register(@RequestBody AuthRequestDto Dto) throws AccountExistsException {
         // user registration
@@ -55,6 +61,7 @@ public class SecurityController {
         try {
             authentication = userService.authenticate(requestDto.getEmail(),
                     requestDto.getPassword());
+            System.out.println("hello");
             SecurityContextHolder.getContext().setAuthentication(authentication);
             // Token generation
             UserDetails user = (UserDetails) authentication.getPrincipal();
@@ -72,6 +79,35 @@ public class SecurityController {
             throw new RuntimeException(e);
         }
     }
+
+    /** password change request **/
+    @GetMapping("/reset-password-request/{email}")
+    public ResponseEntity<ValidationResponseDTO>resetPasswordRequest(@PathVariable String email) {
+            /** no DTO mapping to service */
+            ValidationResponseDTO DTO = userAppService.requestUserByEmail(email);
+
+            return ResponseEntity.ok(DTO); // code envoyé par mail a @
+    }
+
+    @PostMapping("/verify-code")
+    public ResponseEntity<VerifyCodeDTO>resetPasswordRequestCode(@RequestBody UserUpdatePasswordDTO passwordDTO) {
+        /** no DTO mapping to service */
+        VerifyCodeDTO verifyCodeDTO = userAppService.verifyCodePassword(passwordDTO);
+
+        return ResponseEntity.ok(verifyCodeDTO);
+    }
+
+    /** update password's user **/
+    @PutMapping("/reset-password")
+    public ResponseEntity<LoginResponseDTO>updatePassword(@RequestBody UserUpdatePasswordDTO DTO) {
+            /** no DTO mapping to service */
+            UserServiceModel updatedUser = userAppService.updatePassword(DTO);
+
+            //UserResponseUpdateDTO responseDTO =  mapper.userServiceToUpdateDTO(updatedUser);
+
+            return ResponseEntity.ok(new LoginResponseDTO("Changement de password : ok"));
+    }
+
     @GetMapping("/users/{email}/portfolios")
     public ResponseEntity<List<PortfolioFullDTO>> getPortfoliosByUserEmail(@PathVariable String email) throws ResponseStatusException {
         try {
@@ -86,6 +122,7 @@ public class SecurityController {
             throw new RuntimeException(e);
         }
     }
+
     //Remarque: authentifie le principal (le user) à partir du JWT.
     @GetMapping("/users/{email}")
     public ResponseEntity<UserResponseUpdateDTO> getUserByEmail(@PathVariable String email) throws ResponseStatusException {
@@ -132,8 +169,6 @@ public class SecurityController {
             throw new RuntimeException(e);
         }
     }
-
-
 
 
 

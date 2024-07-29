@@ -21,6 +21,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AOnlineRouterModule } from './a-online/a-online.module';
 import { OnlineRouterComponent } from './a-online/online-router/online-router.component';
 import { TemplateClassicComponent } from "./a-online/template-classic/template-classic.component";
+import { TemplateDevFooterComponent } from './a-online/template-dev/template-dev-footer/template-dev-footer.component';
+import { LoginResetComponent } from './login-reset/login-reset.component';
 
 @NgModule({
   declarations: [
@@ -28,9 +30,11 @@ import { TemplateClassicComponent } from "./a-online/template-classic/template-c
     HomeComponent,
     UserComponent,
     LoginComponent,
+    LoginResetComponent,
     RegisterComponent,
     TemplateDevComponent,
     TemplateDevSkillsComponent,
+    TemplateDevFooterComponent,
     OnlineRouterComponent  
   ], 
   imports: [

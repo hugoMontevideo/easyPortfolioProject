@@ -1,0 +1,62 @@
+<footer>
+    <section class="footer-layout">
+        <div class="footer-social">   
+            <div class="github rs">
+                <a [href]="socialGithub.link" title="Mon github">
+                    <img [src]="ENV_ICONS+'template-dev/icons8-git.svg'" alt="">
+                </a>
+            </div>               
+            <div class="linkedin rs">
+                <a [href]="socialLinkedin.link" title="Mon Linkedin" >
+                    <img [src]="ENV_ICONS+'template-dev/icons8-in.svg'" alt="">
+                </a>
+            </div>
+            <div class="instagram rs">
+                <a [href]="socialInstagram.link" title="Mon instagram" >
+                    <img [src]="ENV_ICONS+'template-dev/icons8-insta.svg'" alt="">
+                </a>
+            </div>
+            <div class="twitter rs">
+                <a [href]="socialX.link" title="Mon compte X">
+                    <img [src]="ENV_ICONS+'template-dev/icons8-tw.svg'" alt="">
+                </a>
+            </div>
+            <div class="fb rs">
+                <a [href]="socialFacebook.link" title="Mon facebook">
+                    <img [src]="ENV_ICONS+'template-dev/icons8-fb.svg'" alt="">
+                </a>
+            </div>
+        </div>
+        <div class="footer-contact">
+            <div>
+                <h1>Contact</h1>
+            </div>
+            <div>
+                <h3>{{portfolio.firstname|titlecase }} {{portfolio.name|titlecase }}</h3>
+                <ul>
+                    <li class="email">{{portfolio.email }}</li>
+                    <li class="city">{{portfolio.city}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-easyPortfolio">
+                <div>
+                <h1>easyPortfolio</h1>
+            </div>
+            <div>
+                <figure>
+                    <img [src]="ENV_ICONS + 'eP.svg'" alt="logo d'easyPortfolio">
+                </figure>
+                <ul>
+                    <li class="indefini">Application gratuite</li>
+                    <li class="indefini">Projet de classe</li>
+                    <li class="indefini">Mention spéciale</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <div class="copyR"><strong>Application créée par hugoMachado </strong>
+        2023
+        &copy;             
+    </div>
+</footer>

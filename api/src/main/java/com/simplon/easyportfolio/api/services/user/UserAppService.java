@@ -1,17 +1,24 @@
 package com.simplon.easyportfolio.api.services.user;
 
 import com.github.slugify.Slugify;
+import com.simplon.easyportfolio.api.controllers.auth.UserUpdatePasswordDTO;
 import com.simplon.easyportfolio.api.domain.User;
+import com.simplon.easyportfolio.api.email.EmailService;
 import com.simplon.easyportfolio.api.exceptions.ProjectNotFoundException;
 import com.simplon.easyportfolio.api.exceptions.UserNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
 import com.simplon.easyportfolio.api.repositories.portfolios.PortfolioRepositoryModel;
 import com.simplon.easyportfolio.api.repositories.security.OwnerRepository;
+import com.simplon.easyportfolio.api.security.ValidationRepositoryModel;
+import com.simplon.easyportfolio.api.security.ValidationResponseDTO;
+import com.simplon.easyportfolio.api.security.VerifyCodeDTO;
+import com.simplon.easyportfolio.api.services.Validation.ValidationService;
 import com.simplon.easyportfolio.api.services.portfolios.PortfolioServiceModel;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,13 +28,22 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class UserAppService {
     @Autowired
     OwnerRepository ownerRepository;
+    @Autowired
+    ValidationService validationService;
+    @Autowired
+    EmailService emailService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
     private final Slugify slug = Slugify.builder().build();
 
@@ -46,6 +62,66 @@ public class UserAppService {
         return mapper.listPortolioRepositoryToSvcModel(portfolioRepositoryModels);
     }
 
+   // change password
+    public ValidationResponseDTO requestUserByEmail(String email) throws UserNotFoundException {
+        try {
+            User user = ownerRepository.findByEmail(email);
+
+            Optional<ValidationRepositoryModel> validationModel = validationService.findValidationByEmail(email);
+            validationModel.ifPresent(validationRepositoryModel -> validationService.delete(validationRepositoryModel));
+
+            ValidationRepositoryModel validation = validationService.saveCode(email);
+            ValidationResponseDTO DTO = ValidationResponseDTO.builder()
+                    .expires(validation.getExpires())
+                    .email(validation.getEmail())
+                    .build();
+            // envoi d'un email mailtrap en dev
+            // todo faire un template de mail
+            emailService.sendEmail(
+                    "test@example.com",
+                    "Code pour renouvellement du mot de passe",
+                    "Le code pour renouveler le mot de passe est "+validation.getCode());
+            return DTO;
+        }catch(Exception exception){
+            throw new UserNotFoundException("Il n'y a pas d'utilisateur avec cet email : " + email);
+        }
+    }
+
+    public VerifyCodeDTO verifyCodePassword(UserUpdatePasswordDTO passwordDTO) {
+        VerifyCodeDTO verifyCodeDTO = VerifyCodeDTO.builder()
+                .code(false)
+                .expires(true)
+                .build();
+        // todo gerer le cas ou on ne trouve pas validation by email
+        Optional<ValidationRepositoryModel> validationModel = validationService.findValidationByEmail(passwordDTO.getEmail());
+        System.out.println(validationModel.get().getCode());
+        if (validationModel.isPresent()){
+            if ( validationModel.get().getExpires().isAfter(Instant.now()) ) {
+                verifyCodeDTO.setExpires(false);
+                if( Objects.equals(passwordDTO.getCode(), validationModel.get().getCode()) ){
+                    verifyCodeDTO.setCode(true);
+                }
+            }
+        }
+        return verifyCodeDTO;
+    }
+
+    /** update password's user (using email) **/
+    public UserServiceModel updatePassword(UserUpdatePasswordDTO dto) throws UserNotFoundException {
+        try {
+            User userByEmail = ownerRepository.findByEmail(dto.getEmail());
+            String encodedPassword = passwordEncoder.encode(dto.getPassword());
+            userByEmail.setPassword(encodedPassword);
+            User user = ownerRepository.save(userByEmail);
+
+            return mapper.userToServiceModel(user);
+
+        }catch(Exception exception){
+            throw new UserNotFoundException("Il n'y a pas d'utilisateur avec cet email : " + dto.getEmail());
+        }
+    }
+
+
     public UserServiceModel findByEmail(String email) {
         User user = ownerRepository.findByEmail(email);
 
@@ -54,6 +130,7 @@ public class UserAppService {
         );
         return userModel;
     }
+    // todo verifier cette methode : possible probleme de mapping
     public UserServiceModel updateUser(@NotNull UserServiceUpdateModel serviceModel) {
         User userByEmail = ownerRepository.findByEmail(serviceModel.getEmail());
         serviceModel.setPassword(userByEmail.getPassword());
@@ -61,6 +138,8 @@ public class UserAppService {
 
         return mapper.userToServiceModel(ownerRepository.save(user));
     }
+
+
 
     public UserServiceModel updateUserPicture(Integer id, MultipartFile file) throws Exception  {
         try {
@@ -130,6 +209,7 @@ public class UserAppService {
         }
         return false;
     }
+
 
 
 }

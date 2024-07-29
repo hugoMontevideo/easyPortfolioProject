@@ -216,35 +216,36 @@ public class PortfolioService {
         return mapper.projectRepositoryToResponseSvc(addedProject);
     }
     public ProjectServiceResponseModel updateProject( ProjectServiceRequestUpdateModel projectServiceRequestModel ) {
-    Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
-    PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
-    // adding portfolio manually
-    projectServiceRequestModel.setPortfolio( Optional.ofNullable(portfolioServiceModel));
-    // verifing date - if date == 1970 01 01 we set it to empty ** projectModel
-    if(!isValidDate(projectServiceRequestModel.getDate().get())){
-        Optional<LocalDate> noDate = Optional.empty();
-        projectServiceRequestModel.setDate(noDate);
-    }
-    ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModel(projectServiceRequestModel);
+        Optional<PortfolioRepositoryModel> portfolio = portfolioRepository.findById(projectServiceRequestModel.getPortfolioId().get());
+        PortfolioServiceModel portfolioServiceModel = mapper.portfolioRepositoryToServiceModel(portfolio.get());
+        // adding portfolio manually
+        projectServiceRequestModel.setPortfolio( Optional.ofNullable(portfolioServiceModel));
+        // verifing date - if date == 1970 01 01 we set it to empty ** projectModel
+        if(!isValidDate(projectServiceRequestModel.getDate().get())){
+            Optional<LocalDate> noDate = Optional.empty();
+            projectServiceRequestModel.setDate(noDate);
+        }
+        ProjectRepositoryModel project = mapper.projectServiceRequestToRepositoryModel(projectServiceRequestModel);
 
-    if(!projectServiceRequestModel.getFile().isEmpty()){
-        String uploadDirectory = "/public/upload/pictures"; // pictures upload folder
-        // naming pictures : in project = project_ + projectName + (timeInMilli)
-        long timestamp = System.currentTimeMillis();
-        String pictureName = "project " + projectServiceRequestModel.getTitle() + "-" +timestamp ;
-        /** picture saved on server **/
-        String pictureName2 = uploadPicture(projectServiceRequestModel.getFile().get(), pictureName, uploadDirectory);
-        // filling documentModel manually
-        DocumentProjectRepositoryModel document = new DocumentProjectRepositoryModel();
-        document.setFilename(pictureName2);
-        document.setProject(project);
-        /** saving documentProjectModel in db    *** documentProjectModel **/
-        documentProjectRepository.save(document);
-    }
-    ProjectRepositoryModel addedProject = projectRepository.save(project);
+        if(!projectServiceRequestModel.getFile().isEmpty()){
+            String uploadDirectory = "/public/upload/pictures"; // pictures upload folder
+            // naming pictures : in project = project_ + projectName + (timeInMilli)
+            long timestamp = System.currentTimeMillis();
+            String pictureName = "project " + projectServiceRequestModel.getTitle() + "-" +timestamp ;
+            /** picture saved on server **/
+            String pictureName2 = uploadPicture(projectServiceRequestModel.getFile().get(), pictureName, uploadDirectory);
+            // filling documentModel manually
+            DocumentProjectRepositoryModel document = new DocumentProjectRepositoryModel();
+            document.setFilename(pictureName2);
+            document.setProject(project);
+            /** saving documentProjectModel in db    *** documentProjectModel **/
+            documentProjectRepository.save(document);
+        }
+        ProjectRepositoryModel addedProject = projectRepository.save(project);
 
-    return mapper.projectRepositoryToResponseSvc(addedProject);
-}
+        return mapper.projectRepositoryToResponseSvc(addedProject);
+    }
+
 
     // find by id project
     public ProjectServiceResponseModel findProjectById(Long id) throws ProjectNotFoundException {
@@ -255,6 +256,8 @@ public class PortfolioService {
             throw new ProjectNotFoundException("Project not found with id : " + id);
         }
     }
+
+
     // delete Project
     public boolean deleteProject(Long id) {
         try{

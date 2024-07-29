@@ -5,10 +5,12 @@ import { UserComponent } from './core/user/user.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { OnlineRouterComponent } from './a-online/online-router/online-router.component';
+import { LoginResetComponent } from './login-reset/login-reset.component';
 
 const routes: Routes = [
   { path: "", component: HomeComponent},
   { path: "login", component: LoginComponent},
+  { path: "reset", component: LoginResetComponent},
   { path: "register", component: RegisterComponent},
   
   { path: "user/:id", component: UserComponent},

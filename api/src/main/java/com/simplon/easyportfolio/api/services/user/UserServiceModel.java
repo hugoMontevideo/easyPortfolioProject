@@ -17,7 +17,7 @@ import java.util.List;
 public class UserServiceModel {
     private int id;
     private String email;
-    private  String password;
+    private String password;
     private String name;
     private String firstname;
     private LocalDate inscriptionDate;

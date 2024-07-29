@@ -1,0 +1,128 @@
+footer {
+    background-color: rgba(10, 25, 47, 0.993);
+    .footer-layout {
+        border-bottom: solid 1px rgba(255, 255, 255, 0.511);
+        width: 95%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        color: rgba(255, 255, 255, 0.708);
+        padding: 2em .5em;
+        h1 {
+          font-size: 1.4em;
+          font-weight: 400;
+          margin: 0 0 .8em;
+          color: #52CAAE;
+        }
+    
+        ul {
+          list-style-type: none;
+          margin: 1em 0;
+          font-size: .8em;
+          padding: 0;
+        }
+    
+        .footer-social {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          a {
+            width: 20px;
+            display: block;
+          }
+          img {
+            width: 100%;
+          }
+        }
+        
+        .footer-contact {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          width: 140px;
+          text-align: center;
+          overflow-wrap: break-word;
+          h3 {
+            font-size: 1.2em;
+            margin: 0 0 .7em;
+          }
+          li {
+            margin: 0 0 .5em;
+          }
+    
+        }
+        
+        .footer-easyPortfolio {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          text-align: center;
+          figure {
+            margin: 0 auto;
+            width: 50px;
+            img {
+              width: 100%;
+              opacity: .5;
+            }   
+          }
+          li { margin: 0 0 .5em;}
+        }
+    }
+
+    .copyR {
+        color: rgba(255, 255, 255, 0.854);
+        padding: .8em;
+        text-align: end;
+        strong {
+          font-weight: 300;
+          font-size: .9em;
+        }
+    }
+
+
+}
+
+@media screen and (min-width: 750px) {
+ 
+  footer {
+    .footer-layout{
+      .footer-social a {
+        width: 30px;
+      }
+      .footer-contact, .footer-easyPortfolio {
+        width: 200px;
+        h1 {
+          font-size: 1.8em;
+        }
+        ul {
+          font-size: 1.1em;
+        }
+      }
+
+
+
+    } 
+
+  }
+}
+
+@media screen and (min-width: 990px) {
+  footer{
+
+    .footer-layout {
+      .footer-social{
+        a {
+          width: 35px;
+        }
+
+      }
+      .footer-contact {
+        width: 250px;
+      }
+
+    }
+
+  }
+  
+
+}

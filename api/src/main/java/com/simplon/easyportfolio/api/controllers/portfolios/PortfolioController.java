@@ -7,7 +7,6 @@ import com.simplon.easyportfolio.api.controllers.skills.SkillGetDTO;
 import com.simplon.easyportfolio.api.exceptions.PortfolioNotFoundException;
 import com.simplon.easyportfolio.api.mappers.EasyfolioMapper;
 import com.simplon.easyportfolio.api.repositories.portfolios.CategoryPortfolioRepositoryModel;
-import com.simplon.easyportfolio.api.repositories.skills.CategorySkillRepositoryModel;
 import com.simplon.easyportfolio.api.services.educations.EducationServiceResponseModel;
 import com.simplon.easyportfolio.api.services.experiences.ExperienceServiceResponseModel;
 import com.simplon.easyportfolio.api.services.portfolios.*;
@@ -30,6 +29,7 @@ public class PortfolioController {
     @Autowired
     PortfolioService portfolioService;
     private final EasyfolioMapper mapper = EasyfolioMapper.INSTANCE;
+
 
     /** update PORTFOLIO **/
     @PutMapping("/{id}")

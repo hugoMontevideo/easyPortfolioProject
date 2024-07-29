@@ -72,7 +72,6 @@ public class JwtUserServiceImpl implements JwtUserService {
         return loadUserByUsername(username);
     }
 
-
     private String getUsernameFromToken(String token) {
         Claims claims =
                 Jwts.parser()

@@ -570,50 +570,16 @@
     // }
     .content_example{
 
-
       &.page6{
         &-box{
           flex-direction: row;
         }
-        
-
-
       }
 
-
-
-
     }
 
 
 
-
-
-
-
-
-
-   footer .footer-layout .footer-social a {
-      width: 30px;
-    }
-    footer .footer-layout .footer-contact {
-      width: 200px;
-    }
-    footer .footer-layout .footer-contact h1 {
-      font-size: 1.8em;
-    }
-    footer .footer-layout .footer-contact ul {
-      font-size: 1.1em;
-    }
-    footer .footer-layout .footer-easyPortfolio {
-      width: 200px;
-    }
-    footer .footer-layout .footer-easyPortfolio h1 {
-      font-size: 1.8em;
-    }
-    footer .footer-layout .footer-easyPortfolio ul {
-      font-size: 1.1em;
-    }
   }
   
   @media screen and (min-width: 990px) {
@@ -677,12 +643,7 @@
     .content_example.page4 .about-presentation p {
       font-size: 1.2em;
     }
-    footer .footer-layout .footer-social a {
-      width: 35px;
-    }
-    footer .footer-layout .footer-contact {
-        width: 250px;
-   }
+    
 
   }
   
