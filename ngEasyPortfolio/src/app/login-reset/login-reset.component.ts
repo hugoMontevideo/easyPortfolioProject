@@ -20,8 +20,8 @@ export class LoginResetComponent {
                   email: "", 
                   password: ""
                 } ;
-  loginError!: string;
-  loginInfo!: string;
+  loginError: string="";
+  loginInfo: string="";
   userFound: boolean = false;
   verifyCode: boolean = false;
 
@@ -45,15 +45,14 @@ export class LoginResetComponent {
         console.log(data);
         
         this.loginInfo=`Le code a été envoyé à : ${data.email}`;
+        this.loginError=``;
         this.userFound=true;
-        
       },    
       error: (err:Error) => {
                 console.log(err)
                 
                 let message: string|any = err;
-                this.loginError=message;
-                
+                this.loginError=message;      
       }
     })
   }
@@ -100,7 +99,7 @@ export class LoginResetComponent {
             email: this.loginEmailPwdCode.email, 
             password: this.loginEmailPwdCode.password
           } ; 
-                 
+          this.loginError=``;       
           this.loginInfo=`Votre mot de passe a bien été modifié.`;
           setTimeout(() => {
             this.loginService.login(this.loginEmailPwd)

@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     this.loginService.onLogin();
   }
 
-  onLoginClick(event:any){
+  onLoginClick(){
     this.loginService.login(this.loginEmailPwd)
     .subscribe({
       next:(user) => {                                      

@@ -66,22 +66,27 @@ public class UserAppService {
     public ValidationResponseDTO requestUserByEmail(String email) throws UserNotFoundException {
         try {
             User user = ownerRepository.findByEmail(email);
+            System.out.println(user);
+            if(user != null ){
+                Optional<ValidationRepositoryModel> validationModel = validationService.findValidationByEmail(email);
+                validationModel.ifPresent(validationRepositoryModel -> validationService.delete(validationRepositoryModel));
 
-            Optional<ValidationRepositoryModel> validationModel = validationService.findValidationByEmail(email);
-            validationModel.ifPresent(validationRepositoryModel -> validationService.delete(validationRepositoryModel));
+                ValidationRepositoryModel validation = validationService.saveCode(email);
+                ValidationResponseDTO DTO = ValidationResponseDTO.builder()
+                        .expires(validation.getExpires())
+                        .email(validation.getEmail())
+                        .build();
+                // envoi d'un email mailtrap en dev
+                // todo faire un template de mail
+                emailService.sendEmail(
+                        "test@example.com",
+                        "Code pour renouvellement du mot de passe",
+                        "Le code pour renouveler le mot de passe est "+validation.getCode());
+                return DTO;
+            }else{
+                throw new UserNotFoundException("");
+            }
 
-            ValidationRepositoryModel validation = validationService.saveCode(email);
-            ValidationResponseDTO DTO = ValidationResponseDTO.builder()
-                    .expires(validation.getExpires())
-                    .email(validation.getEmail())
-                    .build();
-            // envoi d'un email mailtrap en dev
-            // todo faire un template de mail
-            emailService.sendEmail(
-                    "test@example.com",
-                    "Code pour renouvellement du mot de passe",
-                    "Le code pour renouveler le mot de passe est "+validation.getCode());
-            return DTO;
         }catch(Exception exception){
             throw new UserNotFoundException("Il n'y a pas d'utilisateur avec cet email : " + email);
         }
@@ -94,7 +99,6 @@ public class UserAppService {
                 .build();
         // todo gerer le cas ou on ne trouve pas validation by email
         Optional<ValidationRepositoryModel> validationModel = validationService.findValidationByEmail(passwordDTO.getEmail());
-        System.out.println(validationModel.get().getCode());
         if (validationModel.isPresent()){
             if ( validationModel.get().getExpires().isAfter(Instant.now()) ) {
                 verifyCodeDTO.setExpires(false);
@@ -110,11 +114,15 @@ public class UserAppService {
     public UserServiceModel updatePassword(UserUpdatePasswordDTO dto) throws UserNotFoundException {
         try {
             User userByEmail = ownerRepository.findByEmail(dto.getEmail());
-            String encodedPassword = passwordEncoder.encode(dto.getPassword());
-            userByEmail.setPassword(encodedPassword);
-            User user = ownerRepository.save(userByEmail);
+            if(userByEmail != null ){
+                String encodedPassword = passwordEncoder.encode(dto.getPassword());
+                userByEmail.setPassword(encodedPassword);
+                User user = ownerRepository.save(userByEmail);
 
-            return mapper.userToServiceModel(user);
+                return mapper.userToServiceModel(user);
+            }else{
+                throw new UserNotFoundException("");
+            }
 
         }catch(Exception exception){
             throw new UserNotFoundException("Il n'y a pas d'utilisateur avec cet email : " + dto.getEmail());

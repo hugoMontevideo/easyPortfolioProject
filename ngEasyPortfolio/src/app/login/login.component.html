@@ -1,11 +1,11 @@
 <app-home-nav></app-home-nav>
 
 <div class="login position-relative ">
-    <form class="col-10  mx-auto mt-5">
+    <form #form="ngForm" class="col-10  mx-auto mt-5" (ngSubmit)="onLoginClick()">
         <div class="col-lg-8 mx-auto ">
             <div class="card mt-3 bg-transparent">
                 <h5 class="card-header text-center">Connexion</h5>
-                <span class="text-danger">{{ loginError }}</span>
+                <span *ngIf="loginError!=''" class="error">{{ loginError }}</span>
                 <div class="card-body bg-transparent">
                     <div class="form-group form-row">
                         <label for="email" class="col-md-4 col-form-label">Email</label>
@@ -32,7 +32,9 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <a class="btn btn-primary mt-1" (click)="onLoginClick($event)">Connexion</a>
+                        <button class="btn btn-primary mt-2" type="submit">
+                        Connexion
+                        </button>
                     </div>
                 </div>
                 

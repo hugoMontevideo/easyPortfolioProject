@@ -8,14 +8,12 @@ import { Router } from '@angular/router';
 import { LoginResetDto } from '../login-reset/login-reset-dto.interface';
 import { LoginEmailPwdCode } from '../login-reset/login-email-pwd-code.interface';
 import { LoginVerifyCodeDto } from '../login-reset/login-verify-code-dto.interface';
-import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
   ENV_BASE :string = environment.baseUrl;
-  // ENV_DEV : string = environment.apiUrl;
   
   httpClient!: HttpClient; // de cette façon on évite l'interceptor (middleware)
 
@@ -58,7 +56,7 @@ export class LoginService {
    return this.httpClient.post<LoginVerifyCodeDto>(`${this.ENV_BASE}/auth/verify-code`, loginEmailPwdCode )
    .pipe(catchError(this.handleError)); // catch validator error
 
- }
+  }
 
 
   resetPassword = ( loginEmailPwdCode : LoginEmailPwdCode ):Observable<any> => {
@@ -68,26 +66,25 @@ export class LoginService {
    return this.httpClient.put<any>(`${this.ENV_BASE}/auth/reset-password`, loginEmailPwdCode)
    .pipe(catchError(this.handleError)); // catch validator error
 
- }
-
-
-  public logout = ():void => {
-    this.jwtToken.removeToken();
   }
 
+
+ 
   // verify if user is logged then logout
   onLogin = ():void => {
-    if( this.jwtToken.isLogged() ){
-      this.logout();
-      this.router.navigateByUrl("/");
+   if( this.jwtToken.isLogged() ){
+     this.logout();
+     this.router.navigateByUrl("/");
     }
   }
-
+  
   private handleError = (error: HttpErrorResponse):Observable<never> => {
-    
     this.errorMsg= error.error.message;
     return throwError(()=>this.errorMsg);
   }
-
+  
+  private logout = ():void => {
+    this.jwtToken.removeToken();
+  }
 
 }
